@@ -50,3 +50,15 @@ Workspaces, документы/ID, npm-метаданные и tarball/consumer 
 [#52](https://github.com/antonsmolko/gost-spec/issues/52), самостоятельная гигиена
 репозитория — [#53](https://github.com/antonsmolko/gost-spec/issues/53); будущие PR
 разделяются по этим результатам. Carrier #51 и его критерии не расширяются.
+
+## Исходный skill подключения fc/shell
+
+Одобренный [OpenSpec change](../../../openspec/changes/integrate-svelte-spa-state-foundation/proposal.md)
+реализуется в [#54](https://github.com/antonsmolko/gost-spec/issues/54): один
+переносимый skill подключения основы к существующему Svelte 5 SPA, с независимым
+synthetic consumer и поведенческой проверкой. Tasks/evidence находятся в change,
+отдельный дублирующий план не создаётся. Это не dependency первого нормативного
+выпуска пяти пакетов и не реализация их отложенных CLI/config API.
+
+Упаковка и независимое версионирование skill до распространения, применение в
+потребителе и план миграции его фич остаются отдельными согласуемыми работами.
