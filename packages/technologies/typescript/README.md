@@ -13,8 +13,8 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 ## Standards (proposed)
 
 - [TS-TYPES-001 — Validate external values](docs/runtime-boundaries.md)
-- [TS-COMMON-001 — Reuse common types and runtime guards](docs/common-types-and-guards.md)
 - [TS-TYPES-002 — Use type aliases for authored types](docs/type-aliases.md)
+- [TS-COMMON-001 — Reuse common types and runtime guards](docs/common-types-and-guards.md)
 - [TS-FUNCTIONS-001 — Prefer const-bound arrow functions](docs/arrow-functions.md)
 - [TS-CONFIG-001 — Strict compiler checking](docs/strict-checking.md)
 
