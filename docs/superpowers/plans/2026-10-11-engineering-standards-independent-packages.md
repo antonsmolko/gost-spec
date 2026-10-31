@@ -53,12 +53,16 @@ Workspaces, документы/ID, npm-метаданные и tarball/consumer 
 
 ## Исходный skill подключения fc/shell
 
-Одобренный [OpenSpec change](../../../openspec/changes/integrate-svelte-spa-state-foundation/proposal.md)
-реализуется в [#54](https://github.com/antonsmolko/gost-spec/issues/54): один
+Одобренный [OpenSpec change](../../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/proposal.md)
+реализован в [#54](https://github.com/antonsmolko/gost-spec/issues/54): один
 переносимый skill подключения основы к существующему Svelte 5 SPA, с независимым
 synthetic consumer и поведенческой проверкой. Tasks/evidence находятся в change,
 отдельный дублирующий план не создаётся. Это не dependency первого нормативного
 выпуска пяти пакетов и не реализация их отложенных CLI/config API.
+
+Change архивирован 2026-10-31; основной
+[контракт возможности](../../../openspec/specs/svelte-spa-state-foundation/spec.md)
+содержит согласованные требования и сценарии без изменения текста.
 
 Упаковка и независимое версионирование skill до распространения, применение в
 потребителе и план миграции его фич остаются отдельными согласуемыми работами.

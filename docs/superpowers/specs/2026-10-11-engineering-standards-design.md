@@ -18,8 +18,11 @@ shared-library policy. Организация типов по файлам ос�
 ## Исходные skills
 
 Отдельное согласованное развитие — исходный Agent Skill подключения fc/shell к
-существующему Svelte 5 SPA, [change](../../../openspec/changes/integrate-svelte-spa-state-foundation/proposal.md),
+существующему Svelte 5 SPA, [change](../../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/proposal.md),
 implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
+После завершения change актуальный
+[контракт возможности](../../../openspec/specs/svelte-spa-state-foundation/spec.md)
+хранится в основных OpenSpec specs, а план и evidence — в архиве change.
 Он хранится в `skills/`, отдельно от пяти документальных workspaces. Это инструкция
 явного подключения runtime-библиотек агентом, а не побочный эффект установки
 стандартов. Нового распространяемого пакета или общей версии здесь нет; его

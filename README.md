@@ -18,6 +18,8 @@ validation uses local tarballs.
 guides an agent through adding gost-kit fc/shell to an existing Svelte 5 SPA.
 It preserves existing business logic and verifies the connection with synthetic
 probes. Its Public API recipe records the tested development artifacts and limits.
+The [capability specification](openspec/specs/svelte-spa-state-foundation/spec.md)
+records its current requirements and scenarios.
 
 Skill sources are separate from the five document workspaces. This source skill
 has no published package or release version yet; packaging and independent
