@@ -41,7 +41,7 @@ Workspaces, документы/ID, npm-метаданные и tarball/consumer 
 
 ## Общие TypeScript helpers
 
-Новый proposed TS-COMMON-001 описан в [change](../../../openspec/changes/reuse-common-types-and-guards/proposal.md).
+Новый proposed TS-COMMON-001 описан в [change](../../../openspec/changes/archive/2026-10-31-reuse-common-types-and-guards/proposal.md).
 Это самостоятельное дополнение содержания: переиспользование @gost-kit/common
 для явно выбравших эту policy проектов, эквивалентные guard checks и единые
 импорты. Организация типов по файлам не навязывается потребителю; Local-only и
@@ -50,3 +50,7 @@ Workspaces, документы/ID, npm-метаданные и tarball/consumer 
 [#52](https://github.com/antonsmolko/gost-spec/issues/52), самостоятельная гигиена
 репозитория — [#53](https://github.com/antonsmolko/gost-spec/issues/53); будущие PR
 разделяются по этим результатам. Carrier #51 и его критерии не расширяются.
+
+Change #52 архивирован 2026-10-31 с выполненными 6/6 задачами документации и
+ревью. Это завершение предложения, а не content acceptance: TS-COMMON-001
+остаётся proposed/Pending; OpenSpec-дельт для синхронизации нет.
