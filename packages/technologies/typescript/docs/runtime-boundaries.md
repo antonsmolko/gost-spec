@@ -22,9 +22,12 @@ or cast may make the compiler accept a value without making that value safe.
 
 TypeScript programs consuming data outside their trusted runtime boundary.
 Validation may use a schema, decoder or tested type guard; no particular library
-or named guard API is required. Data already checked at a documented boundary
-need not be parsed again at every internal call. Validate only constraints used
-by the application, not unrelated transport metadata.
+or named guard API is required by this validation requirement.
+[TS-COMMON-001](common-types-and-guards.md) separately proposes common helper
+and guard usage when their semantics match; it does not weaken validation.
+Data already checked at a documented boundary need not be parsed again at every
+internal call. Validate only constraints used by the application, not unrelated
+transport metadata.
 
 ## Verification
 

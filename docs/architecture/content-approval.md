@@ -23,6 +23,7 @@ release-process tests may use synthetic accepted requirements. They do not chang
 | standards-frontend   | FRONTEND-ARCH-002   | Pending        | Proposed text; no content approval recorded |
 | standards-typescript | TS-TYPES-002        | Pending        | Proposed text; no content approval recorded |
 | standards-typescript | TS-FUNCTIONS-001    | Pending        | Proposed text; no content approval recorded |
+| standards-typescript | TS-COMMON-001 | Pending | Proposed text; no content approval recorded |
 
 The initial core, TypeScript and Svelte SPA rows are candidates for the first accepted-content set, not
 predetermined decisions. Its content gate is defined under

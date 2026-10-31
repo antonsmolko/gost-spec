@@ -38,3 +38,15 @@ Workspaces, документы/ID, npm-метаданные и tarball/consumer 
 ## История
 
 [Прежний подробный план](https://github.com/antonsmolko/engineering-standards/blob/d483438/docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md), review-response документы и [план выполненного check](2026-10-13-workspace-checks.md) — исторические свидетельства. Старые номера Tasks и release-engine APIs не задают текущую реализацию.
+
+## Общие TypeScript helpers
+
+Новый proposed TS-COMMON-001 описан в [change](../../../openspec/changes/reuse-common-types-and-guards/proposal.md).
+Это самостоятельное дополнение содержания: переиспользование @gost-kit/common
+для явно выбравших эту policy проектов, эквивалентные guard checks и единые
+импорты. Организация типов по файлам не навязывается потребителю; Local-only и
+прежнее rationale в inventory сохраняются. Нынешний текст pending,
+не меняет #20/#26, версии и разрешения выпуска. Review-исправления —
+[#52](https://github.com/antonsmolko/gost-spec/issues/52), самостоятельная гигиена
+репозитория — [#53](https://github.com/antonsmolko/gost-spec/issues/53); будущие PR
+разделяются по этим результатам. Carrier #51 и его критерии не расширяются.
