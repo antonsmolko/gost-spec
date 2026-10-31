@@ -4,3 +4,10 @@ node_modules/
 *.tgz
 .env*
 .DS_Store
+
+# Local IDE, agent configuration and private review notes.
+/.idea/
+/.claude/
+/.agents/
+/docs-review/
+/herdr.md
