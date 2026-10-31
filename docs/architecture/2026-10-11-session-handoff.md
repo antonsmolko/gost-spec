@@ -77,10 +77,14 @@ OpenSpec нет, синхронизация не выполнялась. TS-COMM
 ## Skill подключения fc/shell — #54
 
 После согласования плана владелец явно вызвал apply для
-[integrate-svelte-spa-state-foundation](../../openspec/changes/integrate-svelte-spa-state-foundation/proposal.md).
+[integrate-svelte-spa-state-foundation](../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/proposal.md).
 Implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54), ветка
 `feature/gost-spec-54-state-foundation-skill`, база `15d5630`; это отдельный outcome
 поверх ранее сохранённых #51/#52/#53, их criteria/closure не расширяются.
+
+Change перенесён в архив 2026-10-31 после выполнения всех 12 задач. Актуальный
+контракт — [svelte-spa-state-foundation](../../openspec/specs/svelte-spa-state-foundation/spec.md):
+8 требований и 8 сценариев; их текст и Purpose сохранены из согласованной дельты.
 
 Исходный [skill](../../skills/gost-svelte-spa-state/SKILL.md) подключает пустую
 основу к существующему Svelte 5 SPA; [API recipe](../../skills/gost-svelte-spa-state/references/foundation.md)
@@ -95,7 +99,7 @@ asc-admin или копирования его материалов.
 завершился явным incomplete без изменения файлов. Full check — 48/48 на Node
 26.0.0 и 26.11.1; внешний target/probe прошли check/build/Chromium. Независимое
 review полного результата завершено без actionable findings; evidence и
-ограничения — в [design ledger](../../openspec/changes/integrate-svelte-spa-state-foundation/design.md).
+ограничения — в [design ledger](../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/design.md).
 
 Skill пока не отдельный публикуемый пакет и не часть пяти npm workspaces.
 Его упаковка/независимая версия, применение в реальном потребителе и миграция

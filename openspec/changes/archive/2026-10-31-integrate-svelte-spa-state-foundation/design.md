@@ -126,7 +126,7 @@ Svelte `^5.57.2`; the fixture pins `5.57.2`, Vite `8.3.5`, Svelte Vite plugin
 
 ### Existing SPA baseline
 
-The reusable synthetic input is [the fixture](../../../fixtures/svelte-spa-state-foundation/README.md).
+The reusable synthetic input is [the fixture](../../../../fixtures/svelte-spa-state-foundation/README.md).
 It follows the maintained Vite/Svelte template and official Svelte testing
 guidance linked there. It contains an existing greeting and no fc/shell. Initial
 type/Svelte checks have zero diagnostics; the production build and one Chromium
@@ -290,7 +290,7 @@ not a new product capability or release gate.
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Owner comment 1 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54), [Playwright webServer contract](https://playwright.dev/docs/api/class-testconfig#test-config-web-server) | Missing explicit reuseExistingServer: false could allow an orphaned server to substitute for the target | Fixture Playwright config, fixture instructions, verification evidence; #54 | Premise corrected; explicit policy added | Installed 1.64.1 checks the option truthiness and already refuses a responding server when omitted. Controlled before-change run returned exit 1 with `4187 is already used`, before cases ran. Explicit false makes the same policy visible; after-change check is recorded below |
-| Owner comment 2 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54), [repository rules](../../../AGENTS.md) | Current implementation omitted the new source directories | Root README | Fixed | Current implementation now lists skills/ and fixtures/ separately from the five npm document workspaces |
+| Owner comment 2 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54), [repository rules](../../../../AGENTS.md) | Current implementation omitted the new source directories | Root README | Fixed | Current implementation now lists skills/ and fixtures/ separately from the five npm document workspaces |
 | Owner comment 3 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54) | API reference/recipe naming differed | Root README; existing recipe/design/handoff | Wording aligned | README now uses Public API recipe, matching the reference title and existing recipe terminology; no API contract changed |
 | Owner comment 4 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54) | Newer #54 roadmap section appeared before #52 | Implementation roadmap | Fixed | Moved the source-skill section after common helpers so the newer addition is last; section contents/dependencies unchanged |
 | Owner comment 5 (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54) | vendor/ ignore entry has no workflow | Fixture .gitignore | Fixed | Removed only vendor/; tarballs remain external inputs and generated dependency/build/browser outputs remain ignored |
@@ -357,3 +357,57 @@ prefix instruction, while the implementation remains tracked by #54 on
 `feature/gost-spec-54-state-foundation-skill`. Issue #54 records this prefix and
 transport authorization; its criteria and closure are unchanged. This request
 does not authorize merge, package publication or real-consumer application.
+
+## Archive execution — 2026-10-31
+
+The owner explicitly invoked archive and selected "sync and archive" after the
+combined assessment. All four planning artifacts were complete; CLI task counts
+were exactly 12/12. One capability required sync: svelte-spa-state-foundation,
+with only ADDED operations and no existing main spec or sync blocker.
+
+The archive workflow fetched the specs instructions once and passed that snapshot
+to the inline sync; there were no additional artifact rules or operation guidance.
+The [main specification](../../../specs/svelte-spa-state-foundation/spec.md) now
+contains the canonical title, Purpose copied verbatim and all eight requirement
+blocks/scenarios copied unchanged under Requirements. Delta operation headings
+remain only in the archived delta. The post-sync comparison showed no changes
+left to apply before this directory was moved.
+
+Archive path: `openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation`.
+The metadata and completed task file are unchanged from the committed active
+change. Incoming links in handoff/design/roadmap and root-relative links inside
+this design were adjusted to their new location. README and current product docs
+link to the main spec and distinguish the archived history from the current
+contract. Historic commands and review verdicts above remain dated evidence.
+
+Separate comparison against committed input confirms exact Purpose, requirement,
+scenario, metadata and task preservation. Strict main-spec validation passes;
+54 relative links/anchors across nine affected Markdown files resolve before
+this archive-evidence paragraph is added. No skill, fixture, runtime package,
+dependency version or content/release gate is changed by archiving.
+
+Final validation after archive evidence: 55 relative links/anchors across nine
+Markdown files resolve; the selected change is absent from the active CLI list
+and the main spec inventory reports eight requirements. Fresh full suites on
+Node 26.11.1 and 26.0.0 each passed 48/48 tests, including real document
+tarballs/external consumers. These are distinct from the earlier implementation
+and follow-up verification rounds.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent archive review (private input, not a public basis); [#54](https://github.com/antonsmolko/gost-spec/issues/54), owner-selected archive/sync workflow | Preservation of approved contracts, history and references across sync/move | Main spec, archive, README/handoff/design/roadmap, #51/#54 | No actionable findings | Reviewer compared HEAD d66776c with main/archive: only canonical main headings changed, proposal/delta/metadata/tasks byte-identical, 12 tasks completed, design link repairs/evidence only; all 55 links, active/spec inventories and strict validation checked |
+
+The reviewer also checked current issue bodies and unchanged content/approval
+rules, preserving previous closures. It did not rerun suites, external/browser
+tests or agent sessions, or reconstruct GitHub edit history; fresh suite evidence
+above belongs to the author. Archive completes with no incomplete-artifact/task
+warnings and no open archive-review finding. Changes remain local until a
+separate commit/push request.
+
+### GitHub issue edits — archive
+
+Updated #51 and #54 to replace the active-change path with the archive path and
+record the current main-spec path, unchanged eight requirements/scenarios and
+12/12 completion. Existing issue criteria, dependencies and closure conditions
+are unchanged. No issue is closed; commit/push, PR, merge and publication are
+separate actions from this archive request.
