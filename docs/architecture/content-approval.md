@@ -15,6 +15,11 @@ release-process tests may use synthetic accepted requirements. They do not chang
 
 ## Content decisions
 
+This table records the initial release candidates and individual content-review
+work, not a complete inventory of proposed IDs. A Pending row records no owner
+acceptance; absence of a row also grants no approval. Other draft IDs enter the
+table when their content review starts, not merely because they exist in a package.
+
 | Package              | Requirement ID      | Owner decision | Reviewed revision / decision link           |
 | -------------------- | ------------------- | -------------- | ------------------------------------------- |
 | standards-core       | CORE-ARCH-001       | Pending        | No content approval recorded                |
@@ -22,8 +27,8 @@ release-process tests may use synthetic accepted requirements. They do not chang
 | standards-svelte-spa | SVELTE-SPA-ARCH-001 | Pending        | No content approval recorded                |
 | standards-frontend   | FRONTEND-ARCH-002   | Pending        | Proposed text; no content approval recorded |
 | standards-typescript | TS-TYPES-002        | Pending        | Proposed text; no content approval recorded |
+| standards-typescript | TS-COMMON-001       | Pending        | Proposed text; no content approval recorded |
 | standards-typescript | TS-FUNCTIONS-001    | Pending        | Proposed text; no content approval recorded |
-| standards-typescript | TS-COMMON-001 | Pending | Proposed text; no content approval recorded |
 
 The initial core, TypeScript and Svelte SPA rows are candidates for the first accepted-content set, not
 predetermined decisions. Its content gate is defined under

@@ -162,3 +162,44 @@ Issue #52 records the archive path and completed 6/6 work while explicitly
 preserving proposed/Pending and separate owner acceptance. No criteria,
 dependencies or issue closure change; #20/#26 and carrier #51 remain unaffected.
 Commit/push, PR, merge and publication are separate from this archive operation.
+
+## Review round — 2026-11-01
+
+The owner's complete supplied review summary is private input, not a public
+basis. Public actionable sources are [#52](https://github.com/antonsmolko/gost-spec/issues/52),
+the existing [content-review criteria in #20](https://github.com/antonsmolko/gost-spec/issues/20)
+and the linked current documents. Prior confirmed closures remain closed;
+historical archive hashes/check results above describe the archive-time snapshot.
+
+Source | Finding | Affected files/issues | Disposition | Evidence
+--- | --- | --- | --- | ---
+Owner review R2 (private input, not a public basis); [#20](https://github.com/antonsmolko/gost-spec/issues/20) | Approval table has seven rows for thirteen proposed IDs | content-approval.md; #52 | Complete inventory requirement declined with rationale; wording clarified | #20 requires a row for every reviewed ID, not every existing draft. Existing table includes initial candidates and individual review work. Clarified that absence and Pending grant no approval; six unreviewed IDs are not fabricated as reviewed. No owner/content decision changed
+Owner review R3 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52) | TS-COMMON-001 appears in different TypeScript orders | TypeScript README, inventory, approval table | Fixed | Relative TypeScript order is TS-TYPES-001, TS-TYPES-002, TS-COMMON-001, TS-FUNCTIONS-001, with TS-CONFIG-001 only where already indexed. Approval remains a partial decision log
+Owner review R4 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52) | New table cells are not aligned | TypeScript inventory table, approval table | Fixed | Aligned all columns in the two affected tables; inventory cell contents and Pending values unchanged
+
+### GitHub issue edits — review 2026-11-01
+
+Issue #52 records R2 rationale/clarification and R3/R4 fixes; its criteria,
+dependencies, carrier and closure remain unchanged. The separate URI-containment
+clarification belongs to #55 and its `package-state-foundation-plugin/design.md` ledger.
+No normative text, ID/status, package version, Local-only disposition or
+release/content gate changed. Existing empty common changeset records the
+no-release decision for the README-only package edit.
+
+### Verification — review 2026-11-01
+
+Full `npm run check` passed 48/48 on both Node 26.11.1 and 26.0.0, including
+real packed artifacts and external consumers. Separate document audit checked
+29 relative links/anchors in the seven affected documents. Parsed inventory
+cells and all seven decision-row values match the before snapshot; only row
+order/format and the decision-log explanation changed. All thirteen standards
+remain proposed. Full current-review diff and relevant unchanged contracts
+were inspected separately from runtime tests. No new behavior or text-mirroring
+tests were added. Main was fast-forwarded to origin/main without switching
+the carrier branch; HEAD and the pre-existing index were retained.
+
+Independent fresh-context review of the complete correction round found no
+actionable findings, including the partial decision-log rationale, ordering,
+table alignment, unchanged contracts and cross-ledger links. This agent review
+is private input, not a public basis; #52/#20 and the documents above remain the
+public actionable sources. The reviewer did not edit files or rerun tests.
