@@ -53,7 +53,7 @@ PR #50/#49 добавил [TS-FUNCTIONS-001](../../packages/technologies/typescr
 feature/gost-spec-common-utilities создана от origin/main. Добавлен proposed
 TS-COMMON-001, required: @gost-kit/common helpers/guards при точной эквивалентности
 для проектов, явно выбравших эту policy; объединённые value/type imports. См.
-[change](../../openspec/changes/reuse-common-types-and-guards/proposal.md).
+[change](../../openspec/changes/archive/2026-10-31-reuse-common-types-and-guards/proposal.md).
 Прежнее Local-only положение guard и его rationale сохранены; pending предложение
 их не заменяет. Правило «один публичный тип — один файл» остаётся конвенцией
 gost-kit, не обязанностью потребителя. Принято 0 требований.
@@ -68,8 +68,11 @@ gost-kit, не обязанностью потребителя. Принято 0
 `feature/gost-spec-51-state-foundation-plan`, retained prefix `[gost-spec-52]`;
 критерии и закрытие #51 не меняются. Результаты не объединяются в один будущий
 implementation PR. Критерии #20/#26, версии пакетов и approval gates сохранены.
-Канонический [review ledger](../../openspec/changes/reuse-common-types-and-guards/review.md)
+Канонический [review ledger](../../openspec/changes/archive/2026-10-31-reuse-common-types-and-guards/review.md)
 содержит новые findings и сохраняет историю предыдущего раунда.
+Change #52 архивирован 2026-10-31 после 6/6 задач. `skip_specs: true`: дельт
+OpenSpec нет, синхронизация не выполнялась. TS-COMMON-001 остаётся proposed,
+решение владельца — Pending; прежние Local-only и rationale сохранены.
 
 ## Skill подключения fc/shell — #54
 

@@ -11,7 +11,7 @@ Source | Finding | Affected files/issues | Disposition | Evidence
 --- | --- | --- | --- | ---
 Owner request in working conversation (private input, not a public basis); current actionable scope is [#52](https://github.com/antonsmolko/gost-spec/issues/52) | Reuse common types/guard, combine mixed imports and separate public types | TS-COMMON-001 and gost-kit authored code; no issue edited at that time | Implemented locally | Self-contained proposed standard and examples; runtime library remains in separate [gost-kit](https://github.com/antonsmolko/gost-kit), not private consumer material
 Independent reviewer, first pass (private input, not a public basis); current scope clarification [#52](https://github.com/antonsmolko/gost-spec/issues/52) | Domain exports still shared one source file while local instructions require separate files | gost-kit example src/types.ts and RootStore | Fixed in the historical gost-kit review; closure retained | Domain exports moved to individual types/*.ts files; RootStore moved to types/root-store.ts; all imports updated. Historical extension of this convention to every public consumer type is narrowed in R2 below; this does not reopen the file moves
-Independent reviewer, final pass (private input, not a public basis); public gate [content approval](../../../docs/architecture/content-approval.md) | No substantive findings remained in that pass | Historical changes in both repositories | Historical review retained | Type equivalence and imports checked; relative TypeScript imports resolve; 46 relative documentation links checked; content/release gates preserved; reviewer did not rerun full runtime suites
+Independent reviewer, final pass (private input, not a public basis); public gate [content approval](../../../../docs/architecture/content-approval.md) | No substantive findings remained in that pass | Historical changes in both repositories | Historical review retained | Type equivalence and imports checked; relative TypeScript imports resolve; 46 relative documentation links checked; content/release gates preserved; reviewer did not rerun full runtime suites
 Local workflow audit | Branch lacks issue number | feature/gost-spec-common-utilities | Integration limitation recorded | No public messages, issue creation, issue edits, PR, commit, merge or publication performed; associate an issue-scoped branch before integration
 
 ## Verification
@@ -51,9 +51,9 @@ Source | Finding | Affected files/issues | Disposition | Evidence
 --- | --- | --- | --- | ---
 Owner review R1 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52), [gost-kit source](https://github.com/antonsmolko/gost-kit) | Active common standard and supporting documents name the earlier package | TS-COMMON-001, README, inventory, design/plan/handoff, OpenSpec proposal/design; #52 | Fixed locally; verification recorded below | Active policy now targets `@gost-kit/common`. Local release-preparation metadata is distinguished from public main and any registry release; consumers verify actual artifacts. Historical fc/shell snapshot mentioning the former names is retained as dated evidence
 Owner review R2 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52) | Library file-layout convention became a universal consumer MUST | TS-COMMON-001, OpenSpec proposal/design, handoff, general design/plan; #52 | Fixed locally; historical gost-kit closure retained | Removed consumer MUST; type organization follows consumer conventions. Applicability explicitly requires adoption of the shared-library policy
-Owner review R3 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52), [content gate](../../../docs/architecture/content-approval.md) | Pending standard replaced Local-only disposition and deleted its reason | requirements-inventory.md and active descriptions; #52 | Fixed locally | Exact Local-only row and original rationale restored from HEAD; pending proposal is recorded separately without supersession. Status remains proposed/pending
-Owner review R4 (private input, not a public basis); [#53](https://github.com/antonsmolko/gost-spec/issues/53), [distribution rule](../../../packages/core/security/published-materials.md) | Local review/IDE/agent files could be added with git add . | .gitignore; #53 | Preventive fix; no publication incident demonstrated | Root-only ignore entries added for the five named paths; files are not deleted. Ignore/index checks and existing packed-artifact checks are required; ignore rules do not replace a content audit
-Owner review R5 (private input, not a public basis); [AGENTS.md](../../../AGENTS.md), [#52](https://github.com/antonsmolko/gost-spec/issues/52), [#53](https://github.com/antonsmolko/gost-spec/issues/53) | Original common-utilities work had no issue linkage | carrier #51, additions #52/#53, proposal/design/handoff | Corrected current linkage; historical limitation retained | Current branch already had carrier #51. Added separate issues and request/prefix records; independent outcomes remain separate future PRs. No retroactive claim that the original branch had an issue
+Owner review R3 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52), [content gate](../../../../docs/architecture/content-approval.md) | Pending standard replaced Local-only disposition and deleted its reason | requirements-inventory.md and active descriptions; #52 | Fixed locally | Exact Local-only row and original rationale restored from HEAD; pending proposal is recorded separately without supersession. Status remains proposed/pending
+Owner review R4 (private input, not a public basis); [#53](https://github.com/antonsmolko/gost-spec/issues/53), [distribution rule](../../../../packages/core/security/published-materials.md) | Local review/IDE/agent files could be added with git add . | .gitignore; #53 | Preventive fix; no publication incident demonstrated | Root-only ignore entries added for the five named paths; files are not deleted. Ignore/index checks and existing packed-artifact checks are required; ignore rules do not replace a content audit
+Owner review R5 (private input, not a public basis); [AGENTS.md](../../../../AGENTS.md), [#52](https://github.com/antonsmolko/gost-spec/issues/52), [#53](https://github.com/antonsmolko/gost-spec/issues/53) | Original common-utilities work had no issue linkage | carrier #51, additions #52/#53, proposal/design/handoff | Corrected current linkage; historical limitation retained | Current branch already had carrier #51. Added separate issues and request/prefix records; independent outcomes remain separate future PRs. No retroactive claim that the original branch had an issue
 Owner review R6 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52) | Long unwrapped sentence after the new cross-link | runtime-boundaries.md; #52 | Fixed locally | Paragraph reflowed without changing TS-TYPES-001 boundary-validation semantics
 
 ### Sources and consistency audit
@@ -121,3 +121,44 @@ remains proposed/pending, with no content acceptance or release approval.
 - Existing #1/#20/#26 criteria, dependencies and release gates are unchanged.
   The owner authorized local commits of the corrections. No PR, push, merge,
   content acceptance or publication is authorized by these corrections.
+
+## Archive execution — 2026-10-31
+
+The owner explicitly invoked `$openspec-archive-change reuse-common-types-and-guards`.
+The resolved root is this repository, schema spec-driven. Proposal/design/tasks
+are complete; specs is deliberately skipped under the original `skip_specs: true`.
+CLI task lookup returned exactly one selected entry with 6/6 completed tasks.
+`artifactPaths.specs.existingOutputPaths` was empty, so the archive performed no
+sync and created no additional main capability. Existing fc/shell main spec is
+unchanged.
+
+Archive: `openspec/changes/archive/2026-10-31-reuse-common-types-and-guards`.
+Metadata and task bytes are preserved; the target did not previously exist.
+Incoming links in handoff/roadmap and root-relative links in this ledger were
+updated. Earlier review-confirmed closures remain intact. Archiving documents
+completion of this proposal/review work; it does not approve normative content.
+
+Before the move the author recorded SHA-256 values for the actual standard,
+content-approval table, inventory and existing main spec. They remain identical:
+TS-COMMON-001 is proposed, its owner decision Pending, and the original Local-only
+row/rationale is unchanged. No package metadata, runtime, dependency or release
+gate is modified.
+
+Archive checks confirmed exact committed bytes for proposal, design, metadata
+and six completed tasks. This ledger changed only for relative-link rebasing and
+archive evidence. All 35 local links/anchors across the six affected Markdown
+files resolve (the final count includes this archive note's existing links).
+CLI lists neither this change nor the previously archived fc/shell change as
+active; the main spec inventory still contains only svelte-spa-state-foundation
+with eight requirements. No new main spec was synthesized for this document-only
+change. Full checks on Node 26.11.1 and 26.0.0 each passed 48/48, including actual
+packed documents/external consumers. This archive-only move and link/wording
+maintenance changes no contract; previous independent-review closures remain
+the review basis.
+
+### GitHub issue edits — archive
+
+Issue #52 records the archive path and completed 6/6 work while explicitly
+preserving proposed/Pending and separate owner acceptance. No criteria,
+dependencies or issue closure change; #20/#26 and carrier #51 remain unaffected.
+Commit/push, PR, merge and publication are separate from this archive operation.
