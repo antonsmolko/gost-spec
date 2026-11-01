@@ -1,0 +1,19 @@
+{
+  "name": "gost",
+  "plugins": [
+    {
+      "name": "gost-svelte-spa-state",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/antonsmolko/gost-spec.git",
+        "path": "plugins/gost-svelte-spa-state",
+        "sha": "385a0bce81febdad67013f59bc6623a60021cddb"
+      },
+      "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA."
+    }
+  ],
+  "owner": {
+    "name": "Anton Smolko"
+  },
+  "description": "GOST development skills."
+}

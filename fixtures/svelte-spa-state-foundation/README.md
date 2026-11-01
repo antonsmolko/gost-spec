@@ -5,6 +5,9 @@ application starter. It intentionally contains no fc/shell integration. The
 greeting is an existing function whose source and behavior must survive skill
 application. All data is synthetic.
 
+The [plugin skill](../../plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/SKILL.md)
+is shared by Codex and Claude Code; keep this fixture outside the installed plugin.
+
 Baseline: the maintained [Vite Svelte TypeScript template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-svelte-ts)
 for `mount`, the Svelte Vite plugin and SPA build; browser checks follow
 [Svelte testing guidance](https://svelte.dev/docs/svelte/testing#End-to-end-tests-with-Playwright).

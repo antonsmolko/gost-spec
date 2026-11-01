@@ -1,0 +1,20 @@
+{
+  "name": "gost",
+  "plugins": [
+    {
+      "name": "gost-svelte-spa-state",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gost-svelte-spa-state"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ],
+  "interface": {
+    "displayName": "GOST"
+  }
+}

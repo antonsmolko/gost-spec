@@ -68,5 +68,19 @@ Change архивирован 2026-10-31; основной
 [контракт возможности](../../../openspec/specs/svelte-spa-state-foundation/spec.md)
 содержит согласованные требования и сценарии без изменения текста.
 
-Упаковка и независимое версионирование skill до распространения, применение в
+Упаковка и независимое версионирование выделены в #55 ниже. Применение в
 потребителе и план миграции его фич остаются отдельными согласуемыми работами.
+
+
+## Общий plugin и два маркетплейса — #55
+
+[Change](../../../openspec/changes/package-state-foundation-plugin/proposal.md)
+и [issue #55](https://github.com/antonsmolko/gost-spec/issues/55) поставляют
+существующий skill в одном plugin root с независимыми version/changelog и двумя
+нативными каталогами. Claude source.sha закрепляет подготовленный content commit;
+Codex выбирает catalog commit с идентичным plugin tree. Проверки включают native
+install/discovery, повтор, update/rollback и отказы неверного pin в disposable
+профилях. План, прогресс и evidence — в change; дублирующий план не создаётся.
+Это отдельный outcome carrier #54 с retained prefix [gost-spec-52]; criteria и
+closure #54, пять npm-версий и gates #20/#26 не расширяются. Реализация не означает
+публикацию, release tags или применение skill к asc-admin.

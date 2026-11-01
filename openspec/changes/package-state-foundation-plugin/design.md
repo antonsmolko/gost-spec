@@ -35,6 +35,10 @@ Private root содержит ровно пять документальных n
 - [Claude marketplace source reference](https://code.claude.com/docs/en/plugins/marketplace-reference):
   у Git marketplace source есть `ref`, вход CLI — `owner/repo#ref` или
   Git URL с `#ref`; plugin source `sha` — отдельное поле другого контракта.
+- [Maintained Claude catalog example](https://github.com/anthropics/claude-plugins-official/blob/a7ba5b93db0c7c8d17f3f1d25853adca79598a1a/.claude-plugin/marketplace.json):
+  запись `42crunch-api-security-testing` использует `git-subdir` с
+  `url/path/ref/sha`. Это baseline source-формата; доступность нашего pin и
+  обе native установки должны подтверждаться отдельными проверками.
 - [Anthropic maintained example](https://github.com/anthropics/claude-plugins-official/tree/a7ba5b93db0c7c8d17f3f1d25853adca79598a1a/plugins/claude-md-management):
   прочитаны дерево и manifest; один plugin root с metadata и skills.
 
@@ -73,6 +77,7 @@ plugins/gost-svelte-spa-state/
   README.md
   LICENSE
   CHANGELOG.md
+  assets/icon.png
 ```
 
 Перенести skill в plugin root без изменения его поведения. Удалить прежнюю
@@ -84,8 +89,9 @@ evidence и факты запусков не переписываются. Refer
 
 Оба native manifests имеют name `gost-svelte-spa-state` и одну логическую
 version. Codex manifest явно указывает `skills`; Claude использует стандартную
-структуру. Каталоги с именем `gost` ссылаются на этот же plugin root штатными
-source-полями. Названия и размещение — проектное предложение, а не уже
+структуру. Каталоги с именем `gost` доставляют это же дерево через разные нативные
+source-поля: Codex — относительный local path выбранной Git-ревизии каталога,
+Claude — `git-subdir` с `url`, `path` и полным `sha` подготовленного содержимого. Названия и размещение — проектное предложение, а не уже
 существующие опубликованные интерфейсы. Два манифеста необходимы для нативных
 форматов; их общие name/version проверяются на равенство, содержимое skill
 не дублируется. Root portable manifest и генератор адаптеров здесь избыточны.
@@ -123,12 +129,19 @@ Changesets пяти npm-пакетов не расширяется: Git plugin �
 Для испытаний использовать только созданные проектом disposable поставки.
 
 Read-only repository check проверяет SemVer, равенство identity/version,
-совпадение двух catalog targets, существование локальных skill/references и их файловый containment,
+соответствие источников двух каталогов общей поставке, существование локальных
+skill/references и их файловый containment,
 разрешённый состав plugin root и отсутствие symlinks. JSON parse/missing file,
 невалидный путь и несоответствие дают nonzero с конкретным файлом/причиной.
 При ошибке metadata не объявлять installable. Проверка внутренней согласованности
 не подменяет проверки нативных CLI. Нужен узкий check в существующем `npm run check`,
 а не новый installer/manifest framework.
+
+CLI принимает необязательный единственный `repository-root`, по умолчанию cwd;
+лишние аргументы дают usage/nonzero, а переданный путь не игнорируется.
+`npm run check` запускает gate текущего checkout один раз до suite; тесты
+validator используют общий disposable fixture factory и отдельные изменения
+внешних inputs, без повторной валидации всего текущего checkout.
 
 Внешние HTTP(S) URI документации отделяются от файловых ссылок: они не обязаны
 существовать внутри plugin root и не вызывают containment-отказ. Проверка
@@ -136,6 +149,11 @@ Read-only repository check проверяет SemVer, равенство identit
 включая `file:` URI, percent-encoded пути и реальные targets после разрешения
 ссылок, проверяются на существование и нахождение внутри plugin root.
 URI-схема `file:` не является исключением из файлового containment.
+Та же классификация применяется к другим внешним URI со схемой, включая
+`mailto:` и `ftp:`: они не являются локальными путями. Это только разделение
+URI/файловых ссылок, без проверки доступности или исполнения URI. JSON metadata
+обязана быть объектом; `null`, массив и scalar дают диагностику с путём файла,
+не прерывая независимые проверки остальных metadata/files.
 Положительный случай — имеющаяся HTTPS-ссылка recipe на gost-kit; отрицательные —
 выход файлового пути/`file:` URI за plugin root и отсутствующий локальный reference.
 
@@ -160,24 +178,71 @@ profile/config/cache и внешний synthetic SPA с начальными has
 штатной командой, если она показывает загруженный skill и references; иначе
 нужна новая изолированная сессия с явным чтением установленного skill/recipe.
 
-Codex baseline: `codex plugin marketplace add <source> --ref <sha>`, затем
-`codex plugin add gost-svelte-spa-state@gost`; Claude baseline:
-`claude plugin marketplace add '<git-source>#<sha>'`, затем
-`claude plugin install gost-svelte-spa-state@gost`. Проверить синтаксис выбора
-Git SHA native round trip до включения команд в consumer README;
-у Claude CLI нет Codex-флага `--ref`. В обоих случаях установка должна
-пройти через marketplace, а не только `--plugin-dir`. Для локального Git
-источника использовать поддерживаемый Git source, а не path-only режим,
-который может читать рабочее дерево вместо выбранного commit.
+Codex baseline остаётся `codex plugin marketplace add <source> --ref <catalog-SHA>`,
+затем `codex plugin add gost-svelte-spa-state@gost`. Для Claude использовать
+`claude plugin marketplace add <git-source>` и
+`claude plugin install gost-svelte-spa-state@gost`; каталог выбирает plugin SHA.
+`#SHA` при добавлении Claude marketplace не используется. Установка проходит
+через native marketplace, без `--plugin-dir`, ручного копирования или локального
+checkout у пользователя. Синтаксис и discovery подтверждаются в будущем apply.
+
+### Claude source pin and two-stage catalog preparation
+
+Владелец явно запросил `source.sha` в каталоге. Для monorepo запись Claude имеет
+`source: { source: "git-subdir", url: <repository>, path: "plugins/gost-svelte-spa-state", sha: <full-SHA> }`.
+Production URL — `https://github.com/antonsmolko/gost-spec.git`; в изолированных
+испытаниях допустим только специально созданный локальный Git source вместо
+этого URL. `sha` — полный lowercase 40-символьный commit ID, не имя ветки,
+не placeholder и не сокращение. `path` не выходит за repository root.
+
+Подготовка имеет два шага: сначала зафиксировать готовое plugin tree в commit P;
+затем подготовить каталог C с `source.sha = P`. Каталог не ссылается на свой
+собственный ещё неизвестный hash. Codex в C использует относительный plugin root,
+bytes которого должны совпадать с этим деревом в P. Сопровождающий выбирает
+поставку для Claude; обычный пользователь добавляет удалённый каталог и
+использует native install/update, не выбирая произвольную SHA CLI-флагом.
+
+Read-only validation проверяет формат/source type, repository URL/path, разрешение
+P и равенство manifests, версии и всех plugin files между P и поставкой Codex.
+Использовать штатное чтение Git tree, без собственного resolver/installer.
+Проверка не объявляет pin доступным, если источник нельзя прочитать. Ошибки
+сети/доступа, отсутствующий commit, неправильный path, расхождение bytes/версии
+или невалидный pin означают incomplete; запрещена подстановка HEAD или ветки.
+Offline проверка Git tree из имеющейся истории не доказывает доступность SHA
+на публичном remote. До отдельного разрешения публикации native evidence
+получают только на disposable Git source; незапушенный source commit не
+объявляется доступным пользователям через GitHub.
+
+В temporary Git repository подготовить пары P0/C0 и P1/C1: commit plugin content
+и следующий commit catalog, который на него ссылается. Catalog commit содержит
+соответствующее plugin tree для Codex. Никаких release tags/push в публичный
+репозиторий. Для обновления подготовить новую пару и выполнить штатное refresh/
+update; для отката каталог снова выбирает ранее проверенную поставку. При
+откате Codex получает соответствующий catalog commit, а Claude — catalog entry
+с прежним plugin SHA. Проверить сам native downgrade и установленные bytes;
+это не обещание, что любой харнес принимает произвольный version selector.
+
+### Discovery proof preserves installed configuration
+
+Создание профиля и первоначального config выполняется один раз до установки.
+Helper imports и inventory checks не должны создавать/перезаписывать config,
+registry или marketplace registrations. Сохранить config сразу после native
+install и проверить неизменность на этапе discovery. Прежний отрицательный
+результат Codex не является доказательством дефекта харнеса: helper имел
+побочную запись config при импорте. Повторить fresh-process inventory без этой
+записи и подтвердить, что найден ровно skill установленного plugin path с
+ожидаемым recipe, а не одноимённый исходник из авторского checkout.
+Native inventory и чтение именно установленного reference остаются обязательны;
+если inventory не подтверждает загрузку, нужна новая изолированная сессия.
 
 Для каждого харнеса фиксировать команды, version, выбранную SHA, установленную
 plugin version, место загрузки и hashes skill/recipe. Повторить установку:
 один логический plugin/skill; затем выбрать вторую SHA штатным способом
 обновления/перерегистрации каталога и проверить после restart новую version и
 изменённые bytes. Отдельно проверить отказ для недоступного source и project
-check negatives. Инструкция отката использует тот же механизм выбора старой
-SHA; его поддержку подтвердить native round trip, не обещать SemVer-selector
-или независимый per-plugin Git pin, если харнес предоставляет только pin каталога.
+check negatives. Инструкция отката использует соответствующий catalog commit для Codex и
+прежний plugin pin в каталоге Claude. Подтвердить native round trip; не обещать
+пользовательский SemVer/SHA-selector, которого нет у конкретного харнеса.
 
 Установка, повтор и обновление сохраняют hashes synthetic SPA; skill не
 запускается автоматически. Сравнение source/installed bytes и сохранение
@@ -187,9 +252,11 @@ fc/shell. Это проверка доставки, не реальная миг
 ## Risks / Trade-offs
 
 - [Два формата metadata] → проверка name/version/targets и обе native установки.
-- [Git SHA фиксирует весь marketplace] → явно документировать granularity pin;
-  логические версии будущих плагинов остаются независимыми. Это не обещание
-  независимого выбора всех версий одним харнесом.
+- [Разные уровни pinning] → отдельно записывать Codex catalog SHA и Claude
+  plugin SHA; native user workflow остаётся разным. Равенство версии без
+  совпадения дерева не подтверждает общую поставку.
+- [Каталог подготовлен раньше commit содержимого] → сначала P, затем C;
+  отсутствие P или публичной доступности не заменять неподтверждённой SHA.
 - [Меняющиеся возможности харнесов] → записать проверенные версии и источник
   команд; несовместимость означает incomplete, а не фиктивный успех.
 - [Ослабление ignore] → allowlist одного public catalog, negative checks
@@ -212,7 +279,8 @@ fc/shell. Это проверка доставки, не реальная миг
 Во время планирования эти документы не объявляют реализацию уже существующей;
 их правки входят в apply. После независимого review и согласования владельца
 допустим отдельный merge/release процесс. Отмена до выпуска — возврат patch;
-откат установленного плагина — проверенный выбор предыдущей SHA.
+откат установленного плагина — проверенный возврат соответствующей поставки
+через native механизм каждого харнеса.
 
 ## Review and evidence
 
@@ -223,7 +291,7 @@ input, not a public basis; публичное actionable основание —
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| #55; official Codex packaging | Публичный Codex catalog расположен внутри ignored `.agents/` | `.gitignore`, catalog, tests | Planned: узкое исключение и проверки приватных путей | Наблюдаемые root ignore rules; baseline в Context |
+| #55; official Codex packaging | Публичный Codex catalog расположен внутри ignored `.agents/` | `.gitignore`, catalog, tests | Implemented locally during apply | Узкое исключение открывает только `.agents/plugins/marketplace.json`; он один показан `git ls-files .agents`, private sentinels и `.agents/skills/` остаются ignored |
 | [#55](https://github.com/antonsmolko/gost-spec/issues/55); independent agent review (private input, not a public basis) | Полнота/согласованность нового плана и preservation gates | Все пять файлов change, #54/#55, существующие skill/spec/docs | Reviewed: actionable findings отсутствуют | Отдельный агент без рабочего разговора автора прочитал весь change, source/recipe, ignore/check configuration, затронутые docs, issue bodies/comments, official docs, pinned examples и native CLI help; runtime работа ещё не выполнена |
 
 ### GitHub issue edits
@@ -294,3 +362,403 @@ source/recipe/main spec; package versions, runtime и нормативный т�
 разделение, partial approval log, порядок/формат таблиц и preservation gates.
 Review — private input, not a public basis; публичное основание — #55/#52/#20
 и документы выше. Проверяющий не менял файлы и не заявлял native install evidence.
+
+## Apply evidence — 2026-11-01, paused at native verification (historical snapshot)
+
+Владелец явно вызвал `$openspec-apply-change package-state-foundation-plugin`.
+База implementation diff — `3a52702`; carrier и prefix сохранены. Предыдущие
+архивы уже закоммичены отдельно, исходное дерево было чистым. Выполнено 6/13
+задач (1.1–1.4, 2.1–2.2); дальнейшие пункты не засчитываются частично.
+
+### Completed work and checks
+
+- До реализации сохранены hashes skill/recipe и всех файлов пяти пакетов.
+  Три structure tests упали из-за отсутствующих plugin root, catalogs и
+  локального reference. Затем negative validator tests упали на пустом stub;
+  после реализации все 16 distribution tests проходят. Диагностика malformed
+  JSON дополнительно уточнена до конкретного metadata path.
+- Одно дерево skill перенесено в `plugins/gost-svelte-spa-state/skills/` без
+  изменения bytes; оба manifests версии 0.1.0, README/LICENSE/CHANGELOG и
+  оригинальная PNG-иконка находятся внутри plugin root. `claude plugin validate`
+  принял плагин и каталог без warnings; отдельно выдаёт advice добавить install
+  line в README, который будет завершён после подтверждения native workflow.
+- Read-only `check-plugin-distribution.ts` включён в `npm run check`: проверяет
+  identity/version, catalog targets, required/allowed files, symlinks,
+  changelog и локальные Markdown-ссылки. Внешние HTTP(S) documentation URI
+  разрешены без сетевой проверки; локальные пути и `file:` URI подчинены
+  containment. Synthetic 0.1.1 принят только с согласованными manifests/changelog.
+- README и fixture ссылаются на новое размещение; прежние прямые Markdown
+  ссылки обнаружены в root README и handoff. Исторические упоминания прежнего
+  пути как датированного snapshot не переписывались. Проверены 42 локальные
+  ссылки в текущем затронутом наборе — отсутствующих targets нет.
+- Full check на Node 26.11.1 и 26.0.0: по 64/64, включая реальные packed
+  document artifacts/external consumers. Native installation tests этим
+  suite не заменяются; итоговое review реализации ещё не выполнено.
+
+### Native experiment and blockers
+
+Изолированный temporary Git source содержит только оба catalogs и восемь
+plugin files. Две synthetic ревизии: 0.1.0 —
+`ab8662029c788d713c770b0b3d183de40d94ad7f`, 0.1.1 —
+`98006f3bc9d88abc96f55fd4b823001cd1c09004`. Для clone использован локальный
+loopback HTTP Git source; tags/push/publish не выполнялись. Profiles заданы
+штатными `CODEX_HOME` и `CLAUDE_CONFIG_DIR`; системный HOME не менялся,
+credentials не копировались. Источники:
+[Codex state locations](https://learn.chatgpt.com/docs/config-file/config-advanced#config-and-state-locations)
+и [Claude configuration directory](https://code.claude.com/docs/en/env-vars).
+Перед/после проверены hashes шести личных config/registry paths и всех 13
+файлов synthetic SPA — изменений нет. Это проверка указанных файлов, не
+доказательство отсутствия любых иных обращений харнесов к системным defaults.
+
+Codex CLI 0.166.0: `plugin marketplace add <git-source> --ref <SHA> --json`
+и `plugin add gost-svelte-spa-state@gost --json` прошли. Установлены восемь
+файлов версии 0.1.0; hashes skill/recipe совпадают с исходниками:
+`c6580ecec5dc4ae55939bd91b48f9611bdd6541ba5eecb341ee7ebfb42b0698d` и
+`30e97531684243b931c18a714c89dfbf5ceb8f621c1785f2c228dd68cfd22f8a`.
+Новый native app-server ответил на `skills/list` без ошибок, но список не
+содержал skill этого плагина. Установка подтверждена, discovery ещё нет;
+на этом этапе причина не была установлена, завершение 3.2 не заявлялось.
+Последующее расследование обнаружило перезапись config в helper; см. уточнение
+ниже. Этот отрицательный результат не считается доказательством дефекта Codex.
+
+Claude Code 2.1.308: `plugin marketplace add '<git-source>#<SHA>' --json`
+отказал при clone: `fatal: Remote branch ab8662029c788d713c770b0b3d183de40d94ad7f not found in upstream origin`.
+Реальный CLI использовал SHA как имя remote branch. Поэтому запланированное
+pinning marketplace по произвольной SHA для этого CLI не подтверждено.
+Официальный `sha` в [plugin source reference](https://code.claude.com/docs/en/plugins/marketplace-reference)
+относится к source конкретного плагина, а не к marketplace `ref`; возможное
+изменение механизма требует согласованного обновления design/tasks и проверки,
+а не молчаливого перехода на плавающую ветку, создания release tags или
+ручного копирования skill. Claude plugin install не выполнялся после отказа.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Native CLI result; [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Marketplace `#SHA` не работает как произвольный commit pin в Claude 2.1.308 | Design native workflow, tasks 3.1/3.3/3.4 | Superseded plan mechanism; native source.sha verification pending | Фактический clone отказал с Remote branch SHA not found; 3.3/3.4 не выполнены |
+| Native app-server result; [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Установленный Codex plugin ещё не подтверждён в skills inventory | Task 3.2 | Prior negative invalidated by helper side effect; fresh verification pending | Install JSON и восемь cache files присутствуют; новый `skills/list` не содержит skill; результат нельзя засчитать как discovery |
+
+### Evidence location and issue edits
+
+Временные logs/snapshots:
+`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-plugin-55-c8llyrs6`.
+RED/GREEN/full-check logs также сохранены с prefix `/tmp/gost-plugin-55-`.
+В #55 записан явный apply-запрос, 6/13 и оба незакрытых пункта проверки;
+в #54 сохранена ссылка на отдельный outcome без расширения criteria/closure.
+Реализация не закоммичена, merge и выпуск не выполнялись. Следующий шаг —
+уточнить механизм native pinning/доставки и обновить план по решению владельца.
+
+
+## Plan revision — Claude source pin and discovery, 2026-11-01
+
+Владелец явно вызвал `$openspec-update-change package-state-foundation-plugin`
+с запросом закрепить Claude через `source.sha` и скорректировать установку/
+discovery. Это подтверждение правки существующих proposal/spec/design/tasks;
+реализация и настройки харнесов в текущем update не меняются.
+
+### Reconciled decisions and progress
+
+Для Claude выбран native `git-subdir` в том же репозитории с полными URL/path/SHA;
+source commit P подготавливается раньше catalog commit C. Для Codex остаётся
+catalog Git pin и local plugin source. Поставки сопоставляются по полному tree,
+а не по совпадению source-строк или одной версии. Пользователь Claude ставит
+выбранную сопровождающим каталога поставку штатно. Main spec fc/shell не меняется.
+
+Повторно открыты 1.3 и 2.1, потому что текущий каталог/validator реализуют прежний
+relative-path контракт. Прогресс теперь 4/13; уже полученное evidence для
+1.1/1.2/1.4/2.2 сохранено. Никакая native проверка не засчитана заочно. Все
+остальные pending пункты и отдельность content/release approval сохранены.
+
+### Correction to the Codex experiment
+
+Read-only inspection временного helper показал unconditional
+`config.toml.write_text(...)` на уровне импортируемого модуля. Discovery probe
+импортировал этот модуль после установки. В результате config изолированного
+Codex profile содержал только initial credential-store setting, а не настройки
+после install. Это ошибка author test harness, не доказанная проблема Codex.
+Проверить гипотезу повторным native install/discovery с config fingerprints и
+без повторной инициализации обязан следующий apply; успех пока не заявляется.
+Личный profile не перезаписывался. Прежние logs сохраняются с этим ограничением.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Owner request (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55); official Claude source reference | Pin относился к неправильному уровню source | Proposal, spec, design, tasks 1.3/2.1/3.1–3.4 | Planning corrected; implementation pending | Native plugin source.sha заменяет marketplace #SHA; P/C и совпадение tree описаны, current runtime/catalog не менялись |
+| Author probe source; [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Helper портил config перед discovery | Design evidence, tasks 3.1/3.2 | Prior negative withdrawn; retest required | Import-time write обнаружен read-only inspection; новый protocol сохраняет послеустановочный config и проверяет installed path |
+
+### GitHub issue edits — plan revision
+
+В #55 отражены source-контракт, 4/13 и ненадёжность прежнего отрицательного
+inventory Codex. Carrier #54 получает ссылку на revised plan и сохранённый
+отдельный outcome; criteria/closure #54 и gates #20/#26 не расширяются.
+Обновление затрагивает только existing planning artifacts и issue tracking.
+
+### Revision verification and independent review
+
+Строгая валидация `openspec validate package-state-foundation-plugin --strict`
+прошла; CLI подтверждает 4/13. Все шесть относительных ссылок/якорей в четырёх
+плановых артефактах разрешаются. Hash-снимок 17 implementation/config/consumer-doc
+files совпал до/после update, включая skill/recipe, catalogs, scripts и tests:
+runtime не редактировался и full suite заново не запускался. Полный planning
+revision diff сопоставлен с существующими source/checker/docs/CI отдельно от
+тестов; текущая реализация старого source-контракта явно остаётся pending.
+
+Независимый reviewer без рабочего разговора автора прочитал весь revised change,
+его diff, исходные требования, relevant unchanged contracts и official docs.
+Содержательных замечаний к плану не найдено. Первоначальное замечание об отставших
+issue bodies закрыто после повторного чтения актуальных #55/#54.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55), [#54](https://github.com/antonsmolko/gost-spec/issues/54) | Во время review issue tracking ещё показывал прежний прогресс | Issue bodies, design tracking note | Fixed and reviewer-confirmed closed | Обе issue синхронизированы с source.sha/P/C, 4/13 и обязательным native retest; reviewer перечитал их и подтвердил отсутствие оставшихся actionable findings |
+
+Новые planning files не создавались; `.openspec.yaml` и main spec сохранены.
+Native pinning, discovery, update/rollback остаются непроверенными после правки
+плана, а прежние успешные runtime checks описывают только старую реализацию.
+Следующий шаг — отдельный `$openspec-apply-change package-state-foundation-plugin`.
+
+## Checker review — 2026-11-01
+
+Прочитан полный supplied summary семи находок (private input, not a public basis),
+текущий diff/checker/tests/catalogs и предыдущий plan-update ledger. Публичное
+actionable основание — [#55](https://github.com/antonsmolko/gost-spec/issues/55),
+включая согласованный новый контракт и явно открытые tasks 1.3/2.1. Отдельного
+public review thread/file не предоставлено. Предыдущие reviewer-confirmed
+closures не переоткрываются без новой причины.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Owner R1 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Текущий green checker не реализует новый source.sha MUST | Catalog/checker/tests, tasks 1.3/2.1 | Confirmed open implementation gap, retained in the owner-requested revised plan | Прогресс остаётся 4/13; задачи заново открыты именно по этой причине. Нового apply после update ещё не было. Green ниже относится к старой реализации и не подтверждает новый контракт. Контракт не ослабляется; требуется продолжение apply и настоящее содержимое source commit |
+| Owner R2 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Неполный index мог дать MODULE_NOT_FOUND/сломанные ссылки после commit | Full #55 diff, staged snapshot | Physical staging fixed; no commit readiness claim for R1 | Явно staged весь согласованный набор, включая script/tests/plugin files/catalogs и удаления старого skill. Проверяется экспорт полного Git index в disposable дерево; коммит не выполняется, пока новое source.sha требование остаётся открытым |
+| Owner R3 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | mailto:/ftp: ошибочно считались local paths | Checker, tests, design | Fixed with RED/GREEN | URI со схемой классифицируются отдельно, file: остаётся под containment; test использует реальные mailto/ftp ссылки и пустой список filesystem diagnostics |
+| Owner R4 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | JSON null вызывал TypeError без filename и останавливал независимые проверки | Checker JSON reader, tests | Fixed with RED/GREEN | Проверяется JSON object; null/array/scalar дают filename/reason. Тест с null и одновременно отсутствующим recipe подтверждает обе диагностики без TypeError |
+| Owner R5 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Layout design не перечислял обязательную icon.png | Design layout | Fixed | В дерево добавлен assets/icon.png; bytes существующей оригинальной иконки не менялись |
+| Owner R6 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | CLI молча игнорировал root argument | Checker CLI, tests, design | Fixed with RED/GREEN | CLI принимает один optional root; тест запускает его из здорового cwd с повреждённым отдельным root и получает нужную ошибку reference; лишние аргументы дают usage/exit 2 |
+| Owner R7 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Дублирование fixture setup и повторный scan текущего checkout | Tests, design | Fixed | Общий factory используется всеми mutation tests; standalone npm check gate сканирует checkout один раз, дублирующий whole-checkout test удалён. Тесты отдельных disposable изменений сохранены |
+
+### Review verification and tracking
+
+Три regression tests сначала упали по ожидаемым причинам; после исправлений
+проходят. После consolidation — 18 distribution tests; suite/gate остаются
+проверкой текущей частичной реализации. Результаты экспортированного index,
+полного suite и независимого review записываются ниже отдельно. Это review
+исправления текущего чекера, а не завершение source.sha/native installation.
+В #55 отражены все семь dispositions и явное сохранение R1; issue criteria,
+carrier prefix, ownership и approval gates не меняются.
+
+Проверен экспорт полного staged tree `41ef8bde0d3e21c9633cb2bb293aff2ebc9656e1`
+в независимую temporary папку без исходного checkout; только tooling dependencies
+подключены отдельно. Full check этого снимка прошёл 66/66 на Node 26.11.1 и
+26.0.0, включая настоящие document tarballs/external consumers. Это проверка
+целостности staged files и старой runtime-реализации, не выполнение R1.
+Отдельно проверены 46 локальных ссылок/якорей, отсутствие private agent files
+в index и точные bytes skill/recipe относительно HEAD. Строгая OpenSpec
+валидация прошла; source.sha implementation tasks остаются открытыми.
+
+Независимый fresh-context reviewer прочитал полный текущий diff, код/тесты,
+документы и live #55: новых actionable findings по исправлениям R2–R7 нет.
+Reviewer отдельно подтвердил, что R1 остаётся открытым и green checks не
+означают его выполнение. Review — private input, not a public basis;
+публичное основание — #55 и текущие документы. После этого index обновлён
+только итоговым ledger; проверенный runtime-набор не менялся. Коммит, push,
+публикация и подтверждение завершения change не выполнялись.
+
+## Apply continuation — source pin and native verification, 2026-11-01
+
+Владелец повторно вызвал apply и продолжение; это реализация утверждённого
+source.sha плана. Предыдущие датированные запуски и ограничения выше сохранены
+как история. Текущий R1 закрыт реализацией, а не прежним зелёным check.
+
+### Source contract and regression evidence
+
+Подготовлен настоящий локальный content commit P
+`385a0bce81febdad67013f59bc6623a60021cddb`. Перед его созданием экспортирован
+content-only tree `94bd3e9681389259ac74989e8b027be0323289b2`: полный check
+прошёл на Node 26.11.1. Этот промежуточный commit сохраняет прежний check и
+источник skill; он не объявляется завершённым outcome #55. Следующий catalog
+commit C удаляет старую копию и закрепляет P. P является предком C; публичная
+доступность P до push/release не заявляется.
+
+Claude source — git-subdir с canonical GitHub URL, точным plugin path и полным
+lowercase SHA. Read-only gate использует только локальные Git cat-file/ls-tree/
+show; проверяет commit object, восемь путей, file modes и bytes. Нет fetch или
+fallback к HEAD. Для disposable native source допускается HTTP loopback URL,
+только совпадающий с Git origin этого fixture; production URL фиксирован.
+Git root должен совпадать с переданным repository-root. CI уже получает полную
+историю (`fetch-depth: 0`); экспорт без Git history не является valid fixture.
+
+Новые тесты сначала дали RED: каталог оставался relative source, а старый checker
+отклонял даже корректный git-subdir fixture. Четыре падения — native catalog,
+patch fixture, URI fixture и positive pinned-tree case; отрицательные проверки
+не считаются отдельным RED-доказательством. После реализации GREEN
+сохраняет прежние JSON/URI/containment/privacy проверки. Нынешний suite — 72
+теста, из них 24 distribution tests. Logs RED:
+`/tmp/gost-plugin-pin-red.log`; GREEN: `/tmp/gost-plugin-final-check.log`.
+Native `claude plugin validate` прошёл для manifest/plugin и marketplace.
+Tracked .agents содержит только публичный catalog; private sentinels ignored.
+SKILL/recipe bytes и пять npm-пакетов не менялись относительно исходной базы.
+
+### Native commands and content evidence
+
+Временный run:
+`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-plugin-55-v2-ag8k6q7v`.
+Git smart HTTP работает только на loopback через upstream git-http-backend;
+передача в disposable bare repository не является push в публичный origin.
+Начальный experiment tree содержит только два каталога и восемь plugin files.
+
+| Version | Plugin content P | Catalog C |
+| --- | --- | --- |
+| 0.1.0 probe | db56fa1fa37e36b4a030e59f9003bb756314dd3d | 3d94867ccda1d2215def3a4f5c8ac07a0571ea3f |
+| 0.1.1 synthetic patch | 973aaff400a2804e1754f3043cf160b9a222ce9c | 78b9b817046f7cfa09cd90e95416c580d50626bd |
+| Final 0.1.0 | 385a0bce81febdad67013f59bc6623a60021cddb | 009aeb0d91ef2a443aaa11ee0bc6830212f12c84 |
+
+Probe 0.1.1 меняет только metadata/changelog и synthetic description comment,
+не обязательную основу fc/shell. Final README уточняет namespaced invocation;
+поэтому окончательные восемь bytes-путей дополнительно установлены и проверены
+в новых профилях, а не засчитаны по прежнему cache версии 0.1.0.
+
+Codex 0.166.0: `plugin marketplace add <loopback-url> --ref <C> --json`,
+`plugin add gost-svelte-spa-state@gost --json`. Claude 2.1.308:
+`plugin marketplace add <loopback-url> --json`, затем
+`plugin install gost-svelte-spa-state@gost --json`; registry содержит P,
+а не C. Полный SHA передаётся через plugin source, без marketplace #SHA.
+
+Изоляция — отдельные CODEX_HOME/CLAUDE_CONFIG_DIR, credentials не копировались,
+HOME не менялся. Config создаётся один раз перед install; imports read-only.
+Новый Codex app-server после initialize получает skills/list(forceReload):
+ровно один enabled skill `gost-svelte-spa-state:gost-svelte-spa-state`, scope
+user, pluginId gost-svelte-spa-state@gost, path внутри установленного plugin
+cache версии. Hash config до/после inventory совпал. Native имена имеют namespace;
+первый фильтр только по ненamespaced имени был исправлен, сырой inventory сохранён.
+Claude `plugin details gost-svelte-spa-state` показывает Skills (1), Agents/
+Hooks/MCP/LSP (0). `--json` у details не поддерживается; использован plain output.
+Сравнены именно восемь installed files обоих cache с Git tree P, включая чтение
+recipe; все bytes равны. Native inventory не требует model authentication.
+
+Повторный install в обоих профилях сохранил один logical plugin/skill. Update
+0.1.0 → 0.1.1: Codex remove/re-add marketplace с C1 и plugin add; Claude
+marketplace update gost и plugin update gost-svelte-spa-state@gost. Rollback:
+Codex C0, Claude catalog с прежним P0 и те же update-команды. После новых
+процессов подтверждены version и все восемь files на каждом этапе, включая
+настоящий downgrade Claude 0.1.1 → 0.1.0. Evidence: verification-initial,
+verification-repeated, verification-updated, verification-rollback и
+verification-final JSON, versions-experiment.json и versions.json в run.
+
+В отдельных новых Claude profiles unavailable f…f SHA, malformed `main` и
+wrong-path отвергнуты с exit 1 и конкретной причиной; replacement на HEAD нет.
+Codex недоступный Git source также дал exit 1. Logs negative-*.json в run.
+Перед/после совпали hashes всех 13 synthetic consumer files и шести личных
+config/registry paths. Это сохранность проверенных путей, не обещание полной
+OS-изоляции: Codex также видит глобальные standalone skills. В evidence засчитан
+только skill установленного plugin cache. asc-admin source не читался/не менялся.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Owner R1 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Старый catalog/checker противоречили source.sha MUST | Catalog, checker, tests, tasks 1.3/2.1 | Fixed with RED/GREEN and native proof | Реальный P, exact tree check, invalid pin regressions; обе final cache совпадают с P |
+| Author native probes; [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Codex discovery ранее не подтверждён | Tasks 3.1/3.2 | Fresh verification complete; old negative remains withdrawn | Новый процесс, preserved config, ровно один namespaced skill из installed cache; recipe bytes прочитаны |
+| Native CLI result; [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Claude marketplace #SHA не работает как нужный pin | Task 3.3 | Superseded mechanism replaced and verified | Native git-subdir source.sha install/update/downgrade и три отказа без fallback |
+
+### Affected representations and GitHub issue edits
+
+Обновлены product design, roadmap (новый #55 после #54), handoff и plugin README;
+основной контракт подключения сохранён. Root/fixture README и ссылки исторических
+артефактов отражают перенос. Пять npm-версий, approval #20/#26 и criteria/closure
+#54 сохранены. Для будущего implementation PR нужен отдельный diff outcome #55
+от базы 3a52702; предыдущие archives/common review outcomes не включать.
+
+Попытки прочитать live issues #55/#54 через gh GraphQL, gh REST и curl завершились
+TLS handshake timeout. Issue edits этого apply пока НЕ выполнены; задача 4.1
+остаётся открытой до восстановления доступа, read-before-write и проверки
+итогового issue body. Предыдущие успешные issue edits выше — история, а не
+подтверждение текущей синхронизации. Коммит P локальный, push/merge/release tags
+и публикация не выполнялись.
+
+### Final verification and independent review
+
+Свежий полный check после уточнения pin regression assertions прошёл на Node
+26.0.0 и 26.11.1: по 72/72, включая настоящие npm tarballs и external consumers.
+Negative pin tests сначала подтверждают valid fixture, затем требуют конкретную
+source.sha/url/path диагностику; blanket rejection не засчитывается. Полный
+staged tree `86c78f0723d12fcdaf47ef4e35565ac8b9683166` экспортирован в отдельный
+Git checkout с доступным P; его full check также прошёл 72/72 на Node 26.11.1.
+Последующие правки касаются только tracking/evidence, runtime snapshot сохранён.
+
+Отдельная сверка полного outcome diff от 3a52702: 65 относительных ссылок/якорей
+в 13 изменённых Markdown files разрешаются; packages, package-lock, Changesets
+и main fc/shell spec неизменны. Проверены dependencies, allowlist/private files,
+исходные hashes и source/tree равенство независимо от runtime suite.
+
+Fresh-context reviewer прочитал весь diff, требования, relevant unchanged docs
+и retained native logs; самостоятельно запустил gate и 24 distribution tests.
+Runtime findings нет; подтверждены original bytes, pin и installed cache trees.
+Reviewer не повторял native installs/full suite/lower bound. Live GitHub недоступен.
+Единственная low-severity находка: текущие proposal/tasks ещё описывали plan-only
+update и будущий первый apply. Формулировки исправлены под возобновлённый apply.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Текущий proposal/tasks требовал уже выполненный apply | Proposal, tasks intro/workflow | Fixed and reviewer-confirmed closed | Указаны текущий apply и оставшаяся синхронизация issues, исторические секции ledger сохранены |
+
+Task 4.3 остаётся pending до согласованности issue representations: независимая
+проверка локального результата выполнена, но task требует также завершённого
+tracking. Это не согласованное deferred исключение и не полное завершение change.
+
+Reviewer повторно прочитал исправленные proposal/tasks и ledger, подтвердил
+закрытие находки без новых actionable замечаний. После отрицательных native
+проб final installed bytes и consumer/personal hashes проверены ещё раз;
+временный loopback Git server остановлен. Итоговый прогресс — 11/13: открыты
+4.1 и 4.3 только в части live issue synchronization/её итоговой сверки.
+При восстановлении GitHub продолжить apply, прочитать все актуальные страницы
+issue/PR discussion, согласовать #55/#54 и подтвердить representations перед
+закрытием задач. Остальной результат подготовлен в index, catalog commit ещё
+не создан; source commit P сохранён отдельно.
+
+## Completion reconciliation — GitHub restored, 2026-11-01
+
+Владелец подтвердил восстановление GitHub MCP и запросил продолжение apply.
+Прочитаны актуальные тела #55/#54, все страницы comments (обе выдачи пустые) и
+все PR для carrier branch (пусто). Новых review threads/summary нет; прежние
+reviewer-confirmed closures сохраняются. Живое состояние совпадает с локальной
+веткой `feature/gost-spec-54-state-foundation-skill`, source P — `385a0bc`;
+публичная доступность этого локального commit не заявляется.
+
+### GitHub issue edits — completion reconciliation
+
+- [#55](https://github.com/antonsmolko/gost-spec/issues/55): добавлен текущий
+  implementation/native evidence summary, настоящий P и отсутствие catalog C,
+  R1–R7 dispositions, отдельные runtime/link checks и ограничения. Workflow
+  обновлён под возобновлённый apply; прежние planning/partial progress sections
+  помечены historical без удаления evidence. Итоговая tracking review pending.
+- [#54](https://github.com/antonsmolko/gost-spec/issues/54): прежние #55 updates
+  помечены historical; добавлено актуальное отдельное carrier addition с новым
+  canonical path и результатами. Исходный критерий с skills/ сохранён как #54
+  baseline, path mapping дан отдельно. Criteria/closure и release gates прежние.
+- Обе записи выполнены через GitHub MCP после read-before-write. State обеих
+  issues остаётся open; PR отсутствует, внешних review replies не требуется.
+  Префикс [gost-spec-52] и отдельный outcome будущего PR сохранены.
+
+Ни контракт поставки, ни runtime после предыдущего независимого review не
+менялись. Полный diff относительно 3a52702 и все связанные representations
+сверяются повторно; завершение 4.3 требует независимого чтения уже обновлённых
+live issues. Исторические TLS blockers выше теперь устранены, а не отложены.
+
+### Completion review and final state
+
+Новый fresh-context reviewer независимо прочитал полный diff от 3a52702,
+требования, relevant unchanged contracts, retained native evidence и live
+#55/#54 со всеми comments/PR listings. Actionable findings нет; прежнее
+reviewer-confirmed closure сохранено. Отдельно reviewer подтвердил gate и
+24 distribution tests, exact восемь installed-file hashes, исходные bytes и
+unchanged npm/main-spec boundaries. Full suite/native installs он не повторял;
+проверены свежие full-check logs автора (72/72 на обоих Node).
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55), [#54](https://github.com/antonsmolko/gost-spec/issues/54) | Требовалась независимая сверка восстановленного live tracking с полным результатом | Task 4.3, issue representations, final diff | Complete; no actionable findings | Live issues, empty comments/PR lists, preserved closures, exact plugin caches и самостоятельные gate/24 tests подтверждены |
+
+Задача 4.3 выполнена; CLI подтверждает 13/13 и all_done. В issues итоговая
+формулировка заменяет pending tracking review на completion без изменения
+критериев, state или release authorization. Runtime не менялся. Итоговые свежие
+full-check logs: /tmp/gost-plugin-completion-check.log и
+/tmp/gost-plugin-completion-check-node26.0.log — по 72/72; links/anchors — 65/65.
+Все affected representations согласованы; historical incomplete записи выше
+сохранены как датированные этапы, а не текущие blockers. Source commit P остаётся
+локальным; catalog commit C, archive/main-spec synchronization, push/merge,
+release tags, publication и consumer application не выполнялись этим apply.
