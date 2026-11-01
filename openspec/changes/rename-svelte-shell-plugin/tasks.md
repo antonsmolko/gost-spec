@@ -27,6 +27,6 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 ## Workflow follow-up
 
-- Сохранить подготовленный catalog commit C отдельно от predecessor archive c9b1fed; source P9007936 уже подготовлен.
+- Content P9007936 и catalog Ce781b2e сохранены и запушены отдельно от predecessor archive c9b1fed; доставку отслеживает PR #66 на базе PR #65.
 - После реализации/проверок архивировать change с синхронизацией modified distribution contract.
 - Merge, выпуск, release tags и применение к asc-admin — отдельные разрешаемые действия.

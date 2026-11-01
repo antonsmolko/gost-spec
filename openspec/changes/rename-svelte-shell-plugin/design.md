@@ -132,6 +132,14 @@ closure предыдущих outcomes не менялись. Новые файл
 
 ## Apply evidence — 2026-11-01
 
+Ниже сохранены результаты этапов apply; статусы подготовки относятся к моменту
+проверок до создания PR. Актуальная доставка: content P `9007936e0d4e4732d9271de8e0222c5b96c418ea`
+и catalog C `e781b2ecfe1c9a881c152524061838ce41de2f8f` закоммичены и запушены
+в [PR #66](https://github.com/antonsmolko/gost-spec/pull/66). Archive predecessor
+`c9b1fed` также запушен; обновлённая база `d22e77c` из PR #65 включена merge
+`9cfe80f`. Это не merge в main и не публикация. Native evidence ниже получен
+через disposable loopback source до push; установка из публичного GitHub не перепроверялась.
+
 Владелец явно вызвал apply. Выполнен отдельный predecessor commit `c9b1fed`
 (archive/spec sync #55 с исправлениями review), локальный ref
 `feature/gost-spec-55-plugin-archive` сохраняет базу rename outcome. Перед commit
@@ -156,7 +164,8 @@ validate нового root прошёл. P временно добавляет �
 удаляет прежний, меняет только gate name/identity expectations и catalogs.
 Рабочий Claude source.sha закрепляет P, полный tree match gate проходит.
 Все 24 distribution tests теперь GREEN; дополнительные проверки подтверждают
-new frontmatter name и отсутствие старого дерева. C ещё не закоммичен.
+new frontmatter name и отсутствие старого дерева. На момент этой проверки C
+ещё не был закоммичен; последующая доставка указана в начале Apply evidence.
 
 Новый README version/migration/display/changelog включены в P. SKILL description
 и Markdown body прежние, меняется только frontmatter name. Recipe bytes совпадают
@@ -172,7 +181,7 @@ archive/sync: accepted delta этого active change описывает нов�
 Run: `/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-rename-64-tst32rut`.
 Использован собственный loopback Git smart HTTP (upstream git-http-backend),
 после проверок server остановлен. Публичный GitHub source не заменялся и не
-публиковался; actual P локальный. Временные catalog revisions отдельно от P:
+публиковался; на момент native проверок actual P был локальным. Временные catalog revisions отдельно от P:
 
 | Delivery | Content P | Disposable catalog |
 | --- | --- | --- |
@@ -248,7 +257,79 @@ Archive commit c9b1fed остаётся отдельной базой; посл�
 использовать её и не включать archive outcome. Основной distribution spec будет
 синхронизирован штатным archive/sync rename change, не скрыто в реализации.
 
-После закрытия review task4.1 отмечается complete и issue tracking обновляется
-на 9/9. Новый C ещё не закоммичен, source P и archive commit локальные. Push,
-merge, release tags, публикация и application в asc-admin не выполнялись. Текущая
-двухверсионная Node policy сохранена; её возможное упрощение не входит в rename.
+По завершении implementation review task4.1 отмечен complete и issue tracking
+обновлён на 9/9. На том этапе C ещё не был закоммичен, P и archive commit были
+локальными; последующий commit/push по запросу владельца зафиксирован в начале
+Apply evidence. Merge в main, release tags, публикация и application в asc-admin
+не выполнялись. Текущая двухверсионная Node policy сохранена; её возможное
+упрощение не входит в rename.
+
+## PR 66 review follow-up — 2026-11-02
+
+Прочитаны все четыре inline threads (pagination завершена), четыре summary
+reviews без дополнительного текста и PR comments (пусто). Предыдущее
+reviewer-confirmed закрытие architecture path сохраняется: новых оснований
+открывать его нет. Canonical ledger этого раунда — следующие записи.
+
+### PR66-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR66 inline R1](https://github.com/antonsmolko/gost-spec/pull/66#discussion_r4437271989) | Подготовительный статус C/P/archive читается как текущий | design.md, tasks.md; handoff; #64 | Fixed | Apply evidence явно отделяет исторические статусы от pushed P9007936/Ce781b2e и archive base d22e77c; workflow follow-up больше не предлагает уже выполненный commit. Handoff уже исправлен в 9cfe80f и повторно сверен с PR #65/#66. #64 синхронизируется с тем же статусом; merge/release не заявлены |
+
+### PR66-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR66 inline R2](https://github.com/antonsmolko/gost-spec/pull/66#discussion_r4437272040) | Дельта не закрепляет уже описанный и проверенный rollback | delta spec; design/tasks; #64 | Fixed | Migration requirement теперь требует инструкцию явного возврата; отдельный scenario задаёт прежний catalog/content pin, удаление новой установки при её наличии, native reinstall/restart, единственный old skill/recipe и unchanged consumer. Это существующий design Migration step4 и task3.3, без новой реализации. Native records прежнего раунда подтверждают old=1/new=0 и все восемь old files в обоих харнесах; hidden fallback не разрешён. Main spec меняется только при отдельном archive/sync |
+
+### PR66-R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR66 inline R3](https://github.com/antonsmolko/gost-spec/pull/66#discussion_r4437272069) | Отсутствие нового top-level skill не доказывает удаление прежнего | tests/integration/plugin-distribution.test.ts | Fixed | Удалён избыточный assertion для skills/gost-svelte-shell/SKILL.md. Проверка отсутствия plugins/gost-svelte-spa-state в working tree сохранена; frontmatter и оба manifests проверяют новый ID. Новый запрет на произвольное содержимое top-level skills не вводится |
+
+### PR66-R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR66 inline R4](https://github.com/antonsmolko/gost-spec/pull/66#discussion_r4437272117) | Диагностика смешивает working tree с pinned delivery P | tests/integration/plugin-distribution.test.ts; design | Fixed | Assertion теперь прямо называет current repository working tree. P9007936 намеренно сохраняет старый root рядом с новым до catalog C; проверка относится к текущему checkout, а не к целому репозиторию на P или installed profile |
+
+### GitHub issue reconciliation
+
+#64: критерии явной миграции дополняются уже проверенным возвратом, текущий
+статус P/archive меняется с «committed locally» на pushed PR delivery; добавляется
+ссылка на этот ledger. #55/#54 сверены как исторические исходные outcomes и
+носители addition #64: критерии/closure/dependencies и prefix [gost-spec-52]
+сохраняются; новый outcome не вводится. PR #66 получает итог и ссылку на ledger.
+В каждой публичной inline thread ответ даётся со ссылкой на свою запись.
+
+### Verification of this round
+
+Runtime и восемь plugin files не менялись, P/C остаются прежними. Изменение
+спеки закрепляет существующее проверенное поведение; новые native install
+experiments не требуются для этих документационных/test-assertion исправлений.
+Независимое review полного результата обязательно, поскольку R2 меняет
+нормативный контракт; wording-only исключение не применяется.
+
+Свежий `npm run check`: 72/72 на Node 26.11.1 и 26.0.0, включая реальные
+packed artifacts/external consumers. Logs: /tmp/gost-pr66-review-check.log и
+/tmp/gost-pr66-review-check-node26.0.log. Runtime changes нет, новый RED для
+неизменённого runtime не заявляется; исправлены только spec/tracking и assertions.
+`openspec validate rename-svelte-shell-plugin --strict` и `git diff --check`
+успешны. Отдельно от runtime tests проверены весь 22-file итоговый diff на базе
+d22e77c, relevant unchanged contracts/issue bodies и 105 tracked Markdown files:
+169 relative links/anchors, 0 errors. Восемь plugin files/source.sha не менялись;
+записанные rollback snapshots обоих харнесов повторно прочитаны: active old ID,
+P385a0bc, все восемь hashes, consumer/settings unchanged. Native experiments
+не повторялись. CI PR #66 до перевода на main не запускается по текущему workflow;
+локальный GREEN не называется CI результатом. PR #65 остаётся prerequisite.
+
+Независимый fresh-context reviewer проверил весь итоговый 22-file diff, все
+публичные review sources, #64/#55/#54 и unchanged contracts; actionable findings
+нет, dispositions R1–R4 подтверждены. Самостоятельно выполнил 24/24 distribution
+tests, gate, strict validation, diff check и 105-file/169-target audit. Сверены
+16 native records и 80 Git blob SHA256, включая оба rollback. Полный suite и
+native experiments reviewer не повторял, прочитал свежие full-check logs автора.
+Review — private input, not a public basis; actionable public sources — четыре
+inline links выше и #64. Предыдущие reviewer-confirmed closures сохранены.

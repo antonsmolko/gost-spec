@@ -47,9 +47,8 @@ test("both harness manifests expose the same independently versioned skill", asy
   const recipe = await readFile(join(root, "skills/gost-svelte-shell/references/foundation.md"), "utf8");
   assert.match(skill, /references\/foundation\.md/);
   assert.match(skill, /^name: gost-svelte-shell$/m);
-  assert.equal(existsSync(join(repository, "plugins/gost-svelte-spa-state")), false, "old plugin tree must be removed from the renamed delivery");
+  assert.equal(existsSync(join(repository, "plugins/gost-svelte-spa-state")), false, "old plugin tree must be absent from the current repository working tree");
   assert.match(recipe, /# Public API recipe/);
-  assert.equal(existsSync(join(repository, "skills/gost-svelte-shell/SKILL.md")), false);
 });
 
 test("native marketplace catalogs select the same plugin directory", async () => {
