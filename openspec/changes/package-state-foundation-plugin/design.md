@@ -762,3 +762,49 @@ full-check logs: /tmp/gost-plugin-completion-check.log и
 сохранены как датированные этапы, а не текущие blockers. Source commit P остаётся
 локальным; catalog commit C, archive/main-spec synchronization, push/merge,
 release tags, publication и consumer application не выполнялись этим apply.
+
+
+## Integration preparation — 2026-11-01
+
+После commit/push владелец запросил PR, затем явно подтвердил интеграцию
+предыдущих outcomes и #56. Это разрешение merge, без publication/release tags,
+нормативного принятия или применения к потребителю. Новых runtime contracts нет.
+
+### Scope separation, review and GitHub issue edits
+
+Отдельный disposable checkout восстановил последовательность изолированных PR:
+[#57](https://github.com/antonsmolko/gost-spec/pull/57) plan51 →
+[#58](https://github.com/antonsmolko/gost-spec/pull/58) privacy53 →
+[#59](https://github.com/antonsmolko/gost-spec/pull/59) common52 →
+[#60](https://github.com/antonsmolko/gost-spec/pull/60) skill54 →
+[#61](https://github.com/antonsmolko/gost-spec/pull/61) plugin plan55 →
+[#56](https://github.com/antonsmolko/gost-spec/pull/56) plugin implementation55.
+Common review/archive объединены со своим исходным proposal; skill — со своим
+archive/main-spec sync. Все пять промежуточных snapshots прошли full check
+48/48 на Node 26.0.0 и 26.11.1 с настоящими packed/external-consumer tests.
+Разрешены только конфликты handoff/roadmap; исходные skill/recipe bytes прежние.
+
+Финальное дерево prerequisite base равно исходному 3a52702, tree
+`1632e0b037e225e70de19d149dc544c44dfade6c`. Обычный no-ff merge записывает
+исходную ancestry без изменения дерева; P385a0bc и Cd48b9bd не переписываются.
+При retarget каждого PR на main merge актуального main в его head запускает
+CI workflow: простое изменение base не запускает default pull_request events.
+Merge разрешён только после зелёных проверок обоих Node и сверки отсутствия
+новых review input; состояние merges/checks — по live PR, а не по этому снимку.
+
+Независимый fresh-context reviewer прочитал все adjacent diffs, live issues
+51–55 и старые ledgers, проверил scope/tree/ancestry и локальные ссылки. Один
+finding исправлен, reviewer повторно подтвердил closure; иных замечаний нет.
+Исторические записи common ledger о более позднем skill отражают прежнюю
+carrier chronology, не наличие этих файлов в common-only integration snapshot.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent integration reviewer (private input, not a public basis); [#59](https://github.com/antonsmolko/gost-spec/pull/59), [#60](https://github.com/antonsmolko/gost-spec/pull/60) | Common-only handoff преждевременно объявлял завершение skill | Common/skill integration refs, handoff | Fixed and reviewer-confirmed closed | 7870430 убирает ранний header, 83cd89a добавляет его на skill-ступени; d116877 сохраняет полное исходное дерево базы |
+
+В live issues #51/#52/#53/#54/#55 добавлены owner integration request, порядок
+PR/dependencies, review disposition и сохранение criteria/closure, prefix и
+approval gates. PR descriptions содержат integration-specific ledger; подробные
+исходные domain evidence остаются в прежних committed design/review files.
+Это дополнение заменяет прежние текущие утверждения о локальном P, отсутствии C
+или PR: P/C запушены, #56 открыт; прошлые этапы сохранены как история.

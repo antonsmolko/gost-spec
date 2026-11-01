@@ -126,8 +126,8 @@ LICENSE/README/icon и собственный changelog. Каталоги нах
 
 Подготовленный content commit — `385a0bce81febdad67013f59bc6623a60021cddb`;
 Claude source.sha закрепляет его. Следующий catalog commit должен содержать
-идентичное plugin tree для Codex. Commit содержимого локальный: доступность
-через GitHub и публичный выпуск не подтверждены. Native install/discovery,
+идентичное plugin tree для Codex. Content commit и catalog commit `d48b9bd` запушены в feature-ветку.
+Отдельный выпуск и native установка из публичного GitHub source не подтверждены. Native install/discovery,
 повтор, patch update и rollback проверены на loopback Git source в disposable
 профилях Codex 0.166.0 и Claude 2.1.308; оба поставляют один skill с namespace
 `gost-svelte-spa-state:gost-svelte-spa-state`. Ошибочный старый отрицательный
@@ -137,14 +137,32 @@ Read-only gate проверяет полное Git tree pin, metadata и фай�
 полный suite включает реальные document tarballs/external consumers. Актуальные
 результаты, ограничения, issue edits и review — в [design ledger](../../openspec/changes/package-state-foundation-plugin/design.md).
 Пять npm-пакетов и контракт fc/shell не менялись. asc-admin не подключён,
-миграция фич не выполнялась. Следующие шаги определяются оставшимися tasks change;
+миграция фич не выполнялась. Apply завершён: 13/13; дальнейший шаг — archive change;
 архивирование, merge и публикация автоматически не выполняются.
 
 
 Дополнение после восстановления GitHub MCP: live #55/#54 синхронизированы с
 реализованным source.sha контрактом, native evidence и новым canonical path;
-ранние 4/13 и 6/13 записи помечены historical. Обе issues открыты, PR отсутствует.
+ранние 4/13 и 6/13 записи помечены historical. Обе issues открыты;
+implementation [PR #56](https://github.com/antonsmolko/gost-spec/pull/56) выделен отдельно.
 Локальный outcome завершён: 13/13, финальное независимое review без actionable
 findings. Свежий full check — 72/72 на Node 26.0.0 и 26.11.1; подробности —
-tasks/design текущего change. Следующий шаг — commit C каталогов/проверок, затем
-отдельный archive с синхронизацией distribution spec.
+tasks/design текущего change. Commit C каталогов/проверок — `d48b9bd`;
+после интеграции — отдельный archive с синхронизацией distribution spec.
+
+
+## Интеграция outcomes — 2026-11-01
+
+Владелец явно запросил интеграцию после создания PR #56. Исходные outcomes
+разделены в [#57](https://github.com/antonsmolko/gost-spec/pull/57) (план #51),
+[#58](https://github.com/antonsmolko/gost-spec/pull/58) (гигиена #53),
+[#59](https://github.com/antonsmolko/gost-spec/pull/59) (common #52),
+[#60](https://github.com/antonsmolko/gost-spec/pull/60) (skill #54) и
+[#61](https://github.com/antonsmolko/gost-spec/pull/61) (план plugin #55).
+Текущее состояние merges/CI проверять по этим PR и #56. Дерево собранной базы
+побайтово совпадает с 3a52702; обычный merge сохраняет исходную carrier history
+и неизменяемый source.sha P. После каждой ступени следующий PR переводится на
+main и проверяется относительно актуальной базы. Разделение независимо
+проверено; одна ошибка раннего handoff исправлена и reviewer-confirmed closed.
+Разрешение merge этих outcomes не принимает proposed стандарты и не разрешает
+публикацию, release tags или применение skill к asc-admin.
