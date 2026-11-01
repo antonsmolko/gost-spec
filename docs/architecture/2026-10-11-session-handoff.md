@@ -1,7 +1,8 @@
 # Передача контекста разработки gost-spec
 
-Текущее дополнение — завершённый исходный skill fc/shell в #54; change архивирован,
-требования синхронизированы в основные OpenSpec specs; см. раздел ниже.
+Текущая работа — упаковка skill в общий native plugin для Codex и Claude, #55;
+см. дополнение в конце. Исходный skill #54 завершён и архивирован; его основной
+контракт подключения сохранён.
 Датированные снимки и review common-стандарта сохранены как история.
 
 Обновлено 2026-10-22 при добавлении proposed TS-COMMON-001 поверх origin/main после merge PR #50 с TS-FUNCTIONS-001. Техническая платформа завершена, presenter #42 добавлен как proposed. GitHub repository и origin используют gost-spec, отдельный gost-kit содержит начальную структуру. При возобновлении сверить снимок с GitHub и текущей веткой.
@@ -86,8 +87,8 @@ Change перенесён в архив 2026-10-31 после выполнени
 контракт — [svelte-spa-state-foundation](../../openspec/specs/svelte-spa-state-foundation/spec.md):
 8 требований и 8 сценариев; их текст и Purpose сохранены из согласованной дельты.
 
-Исходный [skill](../../skills/gost-svelte-spa-state/SKILL.md) подключает пустую
-основу к существующему Svelte 5 SPA; [API recipe](../../skills/gost-svelte-spa-state/references/foundation.md)
+Исходный [skill](../../plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/SKILL.md) подключает пустую
+основу к существующему Svelte 5 SPA; [API recipe](../../plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/references/foundation.md)
 фиксирует проверенный development snapshot gost-kit. Незакоммиченная параллельная
 работа в sibling gost-kit не менялась: tarballs собраны из отдельного git archive
 ревизии `7eca0ea`. Baseline SPA и поведенческие проверки synthetic, без доступа к
@@ -111,3 +112,57 @@ Playwright 1.64.1 уже отклонял занятый URL при отсутс
 не считаются недействительными из-за предполагаемого default reuse. Отказ до/после
 изменения, положительные target/probe cases и full suite повторно проверены;
 независимое review без замечаний. Все пять dispositions — в том же design ledger.
+
+
+## Упаковка plugin — #55, 2026-11-01
+
+Текущий [change](../../openspec/changes/package-state-foundation-plugin/proposal.md)
+реализуется на carrier `feature/gost-spec-54-state-foundation-skill`, prefix
+`[gost-spec-52]`. Единственный skill/recipe перенесён без изменения bytes в
+`plugins/gost-svelte-spa-state/skills/`; plugin 0.1.0 имеет два manifests,
+LICENSE/README/icon и собственный changelog. Каталоги находятся в
+`.agents/plugins/marketplace.json` и `.claude-plugin/marketplace.json`.
+Только публичный marketplace.json разрешён внутри ignored .agents.
+
+Подготовленный content commit — `385a0bce81febdad67013f59bc6623a60021cddb`;
+Claude source.sha закрепляет его. Следующий catalog commit должен содержать
+идентичное plugin tree для Codex. Content commit и catalog commit `d48b9bd` запушены в feature-ветку.
+Отдельный выпуск и native установка из публичного GitHub source не подтверждены. Native install/discovery,
+повтор, patch update и rollback проверены на loopback Git source в disposable
+профилях Codex 0.166.0 и Claude 2.1.308; оба поставляют один skill с namespace
+`gost-svelte-spa-state:gost-svelte-spa-state`. Ошибочный старый отрицательный
+Codex inventory отозван: причиной была перезапись config тестовым helper.
+
+Read-only gate проверяет полное Git tree pin, metadata и файловые границы;
+полный suite включает реальные document tarballs/external consumers. Актуальные
+результаты, ограничения, issue edits и review — в [design ledger](../../openspec/changes/package-state-foundation-plugin/design.md).
+Пять npm-пакетов и контракт fc/shell не менялись. asc-admin не подключён,
+миграция фич не выполнялась. Apply завершён: 13/13; дальнейший шаг — archive change;
+архивирование, merge и публикация автоматически не выполняются.
+
+
+Дополнение после восстановления GitHub MCP: live #55/#54 синхронизированы с
+реализованным source.sha контрактом, native evidence и новым canonical path;
+ранние 4/13 и 6/13 записи помечены historical. Обе issues открыты;
+implementation [PR #56](https://github.com/antonsmolko/gost-spec/pull/56) выделен отдельно.
+Локальный outcome завершён: 13/13, финальное независимое review без actionable
+findings. Свежий full check — 72/72 на Node 26.0.0 и 26.11.1; подробности —
+tasks/design текущего change. Commit C каталогов/проверок — `d48b9bd`;
+после интеграции — отдельный archive с синхронизацией distribution spec.
+
+
+## Интеграция outcomes — 2026-11-01
+
+Владелец явно запросил интеграцию после создания PR #56. Исходные outcomes
+разделены в [#57](https://github.com/antonsmolko/gost-spec/pull/57) (план #51),
+[#58](https://github.com/antonsmolko/gost-spec/pull/58) (гигиена #53),
+[#59](https://github.com/antonsmolko/gost-spec/pull/59) (common #52),
+[#60](https://github.com/antonsmolko/gost-spec/pull/60) (skill #54) и
+[#61](https://github.com/antonsmolko/gost-spec/pull/61) (план plugin #55).
+Текущее состояние merges/CI проверять по этим PR и #56. Дерево собранной базы
+побайтово совпадает с 3a52702; обычный merge сохраняет исходную carrier history
+и неизменяемый source.sha P. После каждой ступени следующий PR переводится на
+main и проверяется относительно актуальной базы. Разделение независимо
+проверено; одна ошибка раннего handoff исправлена и reviewer-confirmed closed.
+Разрешение merge этих outcomes не принимает proposed стандарты и не разрешает
+публикацию, release tags или применение skill к asc-admin.

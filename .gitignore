@@ -8,6 +8,9 @@ node_modules/
 # Local IDE, agent configuration and private review notes.
 /.idea/
 /.claude/
-/.agents/
+/.agents/*
+!/.agents/plugins/
+/.agents/plugins/*
+!/.agents/plugins/marketplace.json
 /docs-review/
 /herdr.md

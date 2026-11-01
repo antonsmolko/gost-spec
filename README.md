@@ -14,16 +14,16 @@ validation uses local tarballs.
 
 ## Source skills
 
-[Connect a Svelte SPA state foundation](skills/gost-svelte-spa-state/SKILL.md)
+[Connect a Svelte SPA state foundation](plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/SKILL.md)
 guides an agent through adding gost-kit fc/shell to an existing Svelte 5 SPA.
 It preserves existing business logic and verifies the connection with synthetic
 probes. Its Public API recipe records the tested development artifacts and limits.
 The [capability specification](openspec/specs/svelte-spa-state-foundation/spec.md)
 records its current requirements and scenarios.
 
-Skill sources are separate from the five document workspaces. This source skill
-has no published package or release version yet; packaging and independent
-versioning are separate work before distribution. Reading or installing document
+Skill sources are separate from the five document workspaces. The
+[state plugin](plugins/gost-svelte-spa-state/README.md) has its own unreleased
+version and native Codex and Claude Code marketplace catalogs. Reading or installing document
 packages does not apply the skill or install runtime libraries.
 
 ## Documentation
@@ -44,11 +44,11 @@ and lint/format configuration products are outside the initial product scope.
 
 ## Current implementation
 
-The repository contains five document workspaces, source skills in `skills/`,
+The repository contains five document workspaces, source skills in `plugins/`,
 synthetic evaluation inputs in `fixtures/`, read-only consistency checks and
 isolated packed-artifact tests. Skill and fixture sources are separate from the
-five npm document workspaces. Catalog manifests/schemas, the loader and
-tooling placeholders have been removed. Existing standards remain drafts;
+five npm document workspaces. Native plugin marketplace catalogs are separate
+from the former standards catalog/loader, which has been removed. Existing standards remain drafts;
 passing infrastructure tests does not approve content or authorize a release.
 
 Use Node 26. The development version in `.node-version` is `26.11.1`; verification
