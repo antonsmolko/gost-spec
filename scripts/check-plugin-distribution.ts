@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { marked } from "marked";
 
-const name = "gost-svelte-spa-state";
+const name = "gost-svelte-shell";
 const directory = `plugins/${name}`;
 const files = [
   ".codex-plugin/plugin.json", ".claude-plugin/plugin.json",

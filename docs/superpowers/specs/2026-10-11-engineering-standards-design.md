@@ -23,13 +23,16 @@ implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
 После завершения change актуальный
 [контракт возможности](../../../openspec/specs/svelte-spa-state-foundation/spec.md)
 хранится в основных OpenSpec specs, а план и evidence — в архиве change.
-Единственный исходник хранится в `plugins/gost-svelte-spa-state/skills/`, отдельно
+Единственный исходник хранится в `plugins/gost-svelte-shell/skills/`, отдельно
 от пяти документальных workspaces. [Упаковка #55](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
 добавляет один native plugin версии 0.1.0 и каталоги Codex/Claude; версия и
 changelog плагина независимы от npm-пакетов. Claude закрепляет content commit
 через `source.sha`, Codex выбирает catalog commit; полные деревья совпадают.
 Актуальный [контракт поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
 синхронизирован при архивировании change #55.
+Смена identity на `gost-svelte-shell` отслеживается отдельным
+[change #64](../../../openspec/changes/rename-svelte-shell-plugin/proposal.md);
+основа подключения сохраняется, существующие установки переустанавливаются явно.
 Установка не запускает skill: подключение runtime-библиотек требует явного
 вызова. Публикация, применение в реальном потребителе и миграция фич остаются
 отдельными действиями; gates принятия и выпуска стандартов сохраняются.

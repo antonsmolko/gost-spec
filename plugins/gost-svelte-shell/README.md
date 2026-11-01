@@ -1,11 +1,11 @@
-# GOST Svelte SPA State
+# GOST Svelte Shell
 
 An Agent Skills plugin for Codex and Claude Code. It connects gost-kit fc/shell
 foundations to an existing Svelte 5 SPA when explicitly invoked. Installing or
 updating this plugin does not run the skill or change an application.
 
-Read [the skill](skills/gost-svelte-spa-state/SKILL.md) and its
-[Public API recipe](skills/gost-svelte-spa-state/references/foundation.md).
+Read [the skill](skills/gost-svelte-shell/SKILL.md) and its
+[Public API recipe](skills/gost-svelte-shell/references/foundation.md).
 The recipe records the verified development artifacts. Plugin version 0.1.0
 does not imply a corresponding gost-kit release or supported arbitrary versions.
 Missing library artifacts must be supplied before applying the skill.
@@ -27,7 +27,7 @@ For Codex, select an audited catalog commit:
 
 ```sh
 codex plugin marketplace add antonsmolko/gost-spec --ref <catalog-commit>
-codex plugin add gost-svelte-spa-state@gost
+codex plugin add gost-svelte-shell@gost
 ```
 
 For Claude Code, the marketplace maintainer pins the plugin content commit in
@@ -35,12 +35,12 @@ the catalog's `git-subdir` source. Add the marketplace, then install:
 
 ```sh
 claude plugin marketplace add antonsmolko/gost-spec
-claude plugin install gost-svelte-spa-state@gost
+claude plugin install gost-svelte-shell@gost
 ```
 
 Start a new session and confirm the skill and its Public API recipe are available.
-Invoke `$gost-svelte-spa-state:gost-svelte-spa-state` in Codex or
-`/gost-svelte-spa-state:gost-svelte-spa-state` in Claude Code only when you want
+Invoke `$gost-svelte-shell:gost-svelte-shell` in Codex or
+`/gost-svelte-shell:gost-svelte-shell` in Claude Code only when you want
 to connect the application foundation. Library compatibility remains subject to
 the recipe and the consumer's actual artifacts.
 
@@ -50,7 +50,7 @@ For Claude Code, refresh the catalog and request the maintainer-selected version
 
 ```sh
 claude plugin marketplace update gost
-claude plugin update gost-svelte-spa-state@gost
+claude plugin update gost-svelte-shell@gost
 ```
 
 For Codex, re-register the Git marketplace with the selected catalog commit and
@@ -85,3 +85,39 @@ Git revision and inspect the installed skill and references. Plugin updates do
 not update libraries or applications already connected by an older skill.
 Changesets remains responsible for the separate npm documentation packages.
 Version preparation does not authorize publishing, tags or a release.
+
+## Migrate from the previous name
+
+The plugin and skill were renamed from `gost-svelte-spa-state` to
+`gost-svelte-shell`. This is a new identity, not an automatic update of the old
+installation. The supported Svelte 5 SPA foundation and library requirements
+are unchanged. The new identity starts at version 0.1.0 (unreleased).
+
+For an existing Codex installation, explicitly remove the old plugin, then
+re-register the marketplace at a catalog commit containing the new identity:
+
+```sh
+codex plugin remove gost-svelte-spa-state@gost
+codex plugin marketplace remove gost
+codex plugin marketplace add antonsmolko/gost-spec --ref <new-catalog-commit>
+codex plugin add gost-svelte-shell@gost
+```
+
+Removing a marketplace may remove its other installed plugins; inspect the
+native result and restore any deliberately retained installations.
+
+For an existing Claude Code installation, remove the old plugin and refresh
+the maintainer-selected catalog before installing the new identity:
+
+```sh
+claude plugin uninstall gost-svelte-spa-state@gost
+claude plugin marketplace update gost
+claude plugin install gost-svelte-shell@gost
+```
+
+Restart sessions and confirm only the new plugin skill is active, then read its
+installed recipe. If installation fails after removal, report the migration as
+incomplete and inspect the actual installed identities. To return to the old
+delivery, remove any installed new identity and explicitly install the old ID
+from its previous catalog/content pin. Changing the catalog or ID does not
+connect, update or migrate an application.

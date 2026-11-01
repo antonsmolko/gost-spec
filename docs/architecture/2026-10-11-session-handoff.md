@@ -1,5 +1,8 @@
 # Передача контекста разработки gost-spec
 
+Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и skill —
+`gost-svelte-shell`, поведение подключения Svelte 5 SPA сохраняется.
+
 Упаковка skill в общий native plugin для Codex и Claude, #55, завершена и архивирована;
 см. дополнение в конце. Исходный skill #54 завершён и архивирован; его основной
 контракт подключения сохранён.
@@ -12,10 +15,12 @@
 Archive/spec sync #55 сохранён в Git; его доставку в main отслеживает
 [PR #65](https://github.com/antonsmolko/gost-spec/pull/65). Повторно архивировать
 или искать незакоммиченный локальный перенос не требуется.
-Следующий отдельный outcome — переименование plugin/skill в `gost-svelte-shell`,
-[#64](https://github.com/antonsmolko/gost-spec/issues/64) /
-[PR #66](https://github.com/antonsmolko/gost-spec/pull/66). Его текущий статус
-проверять в issue/PR; изменения rename не входят в archive PR #65.
+Переименование plugin/skill в `gost-svelte-shell`,
+[#64](https://github.com/antonsmolko/gost-spec/issues/64), реализовано: 9/9.
+Доставку отслеживает [PR #66](https://github.com/antonsmolko/gost-spec/pull/66),
+текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
+После интеграции rename нужен отдельный archive/sync его дельты; изменения
+rename не входят в archive PR #65.
 Следующие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
@@ -106,8 +111,8 @@ Change перенесён в архив 2026-10-31 после выполнени
 контракт — [svelte-spa-state-foundation](../../openspec/specs/svelte-spa-state-foundation/spec.md):
 8 требований и 8 сценариев; их текст и Purpose сохранены из согласованной дельты.
 
-Исходный [skill](../../plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/SKILL.md) подключает пустую
-основу к существующему Svelte 5 SPA; [API recipe](../../plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/references/foundation.md)
+Исходный [skill](../../plugins/gost-svelte-shell/skills/gost-svelte-shell/SKILL.md) подключает пустую
+основу к существующему Svelte 5 SPA; [API recipe](../../plugins/gost-svelte-shell/skills/gost-svelte-shell/references/foundation.md)
 фиксирует проверенный development snapshot gost-kit. Незакоммиченная параллельная
 работа в sibling gost-kit не менялась: tarballs собраны из отдельного git archive
 ревизии `7eca0ea`. Baseline SPA и поведенческие проверки synthetic, без доступа к
@@ -198,3 +203,20 @@ main и проверяется относительно актуальной б�
 сохранены без изменения текста. Все artifacts complete, задачи 13/13.
 Исходный fc/shell capability contract, plugin bytes, source.sha и пять npm-версий
 не менялись. Архив не означает публикацию или применение к asc-admin.
+
+## Переименование Svelte shell — #64
+
+Новый canonical source — `plugins/gost-svelte-shell/skills/gost-svelte-shell/`.
+Content commit P — `9007936e0d4e4732d9271de8e0222c5b96c418ea`; Claude catalog
+закрепляет этот SHA, Codex использует идентичное дерево новой поставки.
+Плагин и skill имеют имя `gost-svelte-shell`, marketplace остаётся `gost`, версия
+новой идентичности — 0.1.0 unreleased. Для старых установок нужен явный переход
+uninstall/install; инструкции — в [plugin README](../../plugins/gost-svelte-shell/README.md).
+Это смена identity без изменения fc/shell, library compatibility или SPA scope.
+Основная distribution spec пока хранит прежнюю поставку; её MODIFIED/ADDED
+контракт обновится при последующей синхронизации дельты #64. Код приложения
+не менялся, native fresh install/migration/incomplete/rollback проверены в обоих
+харнесах в disposable profiles. Полный check — 72/72 на обоих Node; независимое
+review без открытых findings. P9007936 и catalog Ce781b2e сохранены и запушены
+для PR #66; актуальная archive base — PR #65. После доставки rename выполняется
+отдельный archive/sync его дельты.

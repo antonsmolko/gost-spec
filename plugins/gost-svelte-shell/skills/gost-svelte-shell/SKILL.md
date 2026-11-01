@@ -1,5 +1,5 @@
 ---
-name: gost-svelte-spa-state
+name: gost-svelte-shell
 description: Use when connecting gost-kit functional core and Svelte shell state foundations to an existing Svelte 5 SPA, or checking an existing connection; not for creating applications or migrating business features.
 ---
 

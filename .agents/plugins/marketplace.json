@@ -2,10 +2,10 @@
   "name": "gost",
   "plugins": [
     {
-      "name": "gost-svelte-spa-state",
+      "name": "gost-svelte-shell",
       "source": {
         "source": "local",
-        "path": "./plugins/gost-svelte-spa-state"
+        "path": "./plugins/gost-svelte-shell"
       },
       "policy": {
         "installation": "AVAILABLE",

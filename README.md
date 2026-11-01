@@ -14,7 +14,7 @@ validation uses local tarballs.
 
 ## Source skills
 
-[Connect a Svelte SPA state foundation](plugins/gost-svelte-spa-state/skills/gost-svelte-spa-state/SKILL.md)
+[Connect a Svelte SPA state foundation](plugins/gost-svelte-shell/skills/gost-svelte-shell/SKILL.md)
 guides an agent through adding gost-kit fc/shell to an existing Svelte 5 SPA.
 It preserves existing business logic and verifies the connection with synthetic
 probes. Its Public API recipe records the tested development artifacts and limits.
@@ -22,7 +22,7 @@ The [capability specification](openspec/specs/svelte-spa-state-foundation/spec.m
 records its current requirements and scenarios.
 
 Skill sources are separate from the five document workspaces. The
-[state plugin](plugins/gost-svelte-spa-state/README.md) has its own unreleased
+[state plugin](plugins/gost-svelte-shell/README.md) has its own unreleased
 version and native Codex and Claude Code marketplace catalogs. Reading or installing document
 packages does not apply the skill or install runtime libraries.
 
