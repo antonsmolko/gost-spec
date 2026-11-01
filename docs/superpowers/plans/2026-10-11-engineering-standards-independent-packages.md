@@ -89,3 +89,12 @@ Change #55 архивирован 2026-11-01 после 13/13 задач. Осн
 [спецификация поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
 содержит неизменённые Purpose, 8 требований и 14 сценариев согласованной дельты.
 Архивирование не меняет версии, content approval или release gates.
+
+## Новое имя Svelte shell — #64
+
+[Change](../../../openspec/changes/rename-svelte-shell-plugin/proposal.md) меняет
+plugin/skill identity на `gost-svelte-shell`, сохраняя прежнюю основу и SPA scope.
+Старые установки переходят явно через uninstall/install; авто-rename не обещается.
+Новый content P и catalog C готовятся последовательно с точным tree match.
+Это отдельный outcome от archive #55, refactor #62 и relocation #63; их критерии
+и release/content gates сохраняются. Progress/evidence находятся в change.
