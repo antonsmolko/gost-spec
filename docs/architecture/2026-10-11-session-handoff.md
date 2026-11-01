@@ -1,6 +1,6 @@
 # Передача контекста разработки gost-spec
 
-Текущая работа — упаковка skill в общий native plugin для Codex и Claude, #55;
+Упаковка skill в общий native plugin для Codex и Claude, #55, завершена и архивирована;
 см. дополнение в конце. Исходный skill #54 завершён и архивирован; его основной
 контракт подключения сохранён.
 Датированные снимки и review common-стандарта сохранены как история.
@@ -9,7 +9,22 @@
 
 ## Откуда продолжать
 
-Актуальное решение — [#30](https://github.com/antonsmolko/engineering-standards/issues/30) и [simplify-project-scope](../../openspec/changes/simplify-project-scope/proposal.md). Читать [design](../../openspec/changes/simplify-project-scope/design.md), обе specs и [tasks](../../openspec/changes/simplify-project-scope/tasks.md), затем [общий дизайн](../superpowers/specs/2026-10-11-engineering-standards-design.md) и [roadmap](../superpowers/plans/2026-10-11-engineering-standards-independent-packages.md).
+Сначала завершить review и отдельно сохранить подготовленный archive/spec sync #55.
+Затем проверить план переименования plugin/skill в `gost-svelte-shell` —
+[#64](https://github.com/antonsmolko/gost-spec/issues/64); реализация требует
+отдельного apply-запроса. Следующие независимые задачи —
+[#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
+`scripts/` и `tests/helpers/`, и
+[#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
+с исходниками. Подключение маркетплейса и применение skill к asc-admin — отдельный
+следующий шаг после согласования имени; миграция фич не входит в эти задачи.
+
+Архитектурная база сохранена в историческом решении
+[#30](https://github.com/antonsmolko/gost-spec/issues/30) и
+[simplify-project-scope](../../openspec/changes/simplify-project-scope/proposal.md).
+Общий контекст — [дизайн](../superpowers/specs/2026-10-11-engineering-standards-design.md)
+и [roadmap](../superpowers/plans/2026-10-11-engineering-standards-independent-packages.md);
+задачи закрытого этапа не задают текущую очередь реализации.
 
 ## Продукт
 
@@ -116,8 +131,8 @@ Playwright 1.64.1 уже отклонял занятый URL при отсутс
 
 ## Упаковка plugin — #55, 2026-11-01
 
-Текущий [change](../../openspec/changes/package-state-foundation-plugin/proposal.md)
-реализуется на carrier `feature/gost-spec-54-state-foundation-skill`, prefix
+Завершённый [change](../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
+реализован на carrier `feature/gost-spec-54-state-foundation-skill`, prefix
 `[gost-spec-52]`. Единственный skill/recipe перенесён без изменения bytes в
 `plugins/gost-svelte-spa-state/skills/`; plugin 0.1.0 имеет два manifests,
 LICENSE/README/icon и собственный changelog. Каталоги находятся в
@@ -135,10 +150,11 @@ Codex inventory отозван: причиной была перезапись c
 
 Read-only gate проверяет полное Git tree pin, metadata и файловые границы;
 полный suite включает реальные document tarballs/external consumers. Актуальные
-результаты, ограничения, issue edits и review — в [design ledger](../../openspec/changes/package-state-foundation-plugin/design.md).
+результаты, ограничения, issue edits и review — в [design ledger](../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/design.md).
 Пять npm-пакетов и контракт fc/shell не менялись. asc-admin не подключён,
-миграция фич не выполнялась. Apply завершён: 13/13; дальнейший шаг — archive change;
-архивирование, merge и публикация автоматически не выполняются.
+миграция фич не выполнялась. Apply завершён: 13/13. Реализация слита в main;
+локальное архивирование выполнено 2026-11-01 по явному запросу владельца.
+Публикация и применение к asc-admin требуют отдельных указаний.
 
 
 Дополнение после восстановления GitHub MCP: live #55/#54 синхронизированы с
@@ -147,8 +163,10 @@ Read-only gate проверяет полное Git tree pin, metadata и фай�
 implementation [PR #56](https://github.com/antonsmolko/gost-spec/pull/56) выделен отдельно.
 Локальный outcome завершён: 13/13, финальное независимое review без actionable
 findings. Свежий full check — 72/72 на Node 26.0.0 и 26.11.1; подробности —
-tasks/design текущего change. Commit C каталогов/проверок — `d48b9bd`;
-после интеграции — отдельный archive с синхронизацией distribution spec.
+[tasks](../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/tasks.md)
+и [design](../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/design.md)
+архивированного change. Commit C каталогов/проверок — `d48b9bd`;
+после интеграции выполнен archive с синхронизацией distribution spec.
 
 
 ## Интеграция outcomes — 2026-11-01
@@ -166,3 +184,15 @@ main и проверяется относительно актуальной б�
 проверено; одна ошибка раннего handoff исправлена и reviewer-confirmed closed.
 Разрешение merge этих outcomes не принимает proposed стандарты и не разрешает
 публикацию, release tags или применение skill к asc-admin.
+
+## Архив plugin distribution — 2026-11-01
+
+По явному запросу владельца и выбору «Синхронизировать и архивировать» change #55
+перенесён в `openspec/changes/archive/2026-11-01-package-state-foundation-plugin/`.
+Основной [контракт поставки](../../openspec/specs/state-foundation-plugin-distribution/spec.md)
+создан из согласованной дельты: Purpose, все 8 требований и 14 сценариев
+сохранены без изменения текста. Все artifacts complete, задачи 13/13.
+Исходный fc/shell capability contract, plugin bytes, source.sha и пять npm-версий
+не менялись. Архив не означает публикацию или применение к asc-admin.
+Дальнейшие независимые задачи: #62 — читаемость scripts/ и tests/helpers/,
+#63 — размещение тестов рядом с исходниками.

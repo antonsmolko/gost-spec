@@ -74,7 +74,7 @@ Change архивирован 2026-10-31; основной
 
 ## Общий plugin и два маркетплейса — #55
 
-[Change](../../../openspec/changes/package-state-foundation-plugin/proposal.md)
+[Change](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
 и [issue #55](https://github.com/antonsmolko/gost-spec/issues/55) поставляют
 существующий skill в одном plugin root с независимыми version/changelog и двумя
 нативными каталогами. Claude source.sha закрепляет подготовленный content commit;
@@ -84,3 +84,8 @@ install/discovery, повтор, update/rollback и отказы неверно�
 Это отдельный outcome carrier #54 с retained prefix [gost-spec-52]; criteria и
 closure #54, пять npm-версий и gates #20/#26 не расширяются. Реализация не означает
 публикацию, release tags или применение skill к asc-admin.
+
+Change #55 архивирован 2026-11-01 после 13/13 задач. Основная
+[спецификация поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
+содержит неизменённые Purpose, 8 требований и 14 сценариев согласованной дельты.
+Архивирование не меняет версии, content approval или release gates.

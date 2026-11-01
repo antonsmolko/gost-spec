@@ -4,7 +4,7 @@
 
 Мотивация и границы — [proposal](proposal.md); новый контракт —
 [distribution spec](specs/state-foundation-plugin-distribution/spec.md).
-Текущий [контракт подключения](../../specs/svelte-spa-state-foundation/spec.md)
+Текущий [контракт подключения](../../../specs/svelte-spa-state-foundation/spec.md)
 остаётся без изменений.
 
 Наблюдаемое состояние на 2026-10-31: общий skill состоит из
@@ -332,7 +332,7 @@ actionable основание — [#55](https://github.com/antonsmolko/gost-spec
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Owner review R1 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | «Ссылка за пределы плагина» смешивала внешние URI и файловые пути | Distribution spec, design, tasks 1.1/2.1; #55 | Fixed in planning | Контракт разрешает внешние HTTP(S) documentation URI; локальные пути и `file:` URI проверяются на containment. Добавлены HTTPS-positive и escaping-file-URI-negative scenarios; future task count остаётся 13, выполнено 0 |
-| Owner review R2–R4 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52), [#20](https://github.com/antonsmolko/gost-spec/issues/20) | Охват approval ledger, порядок TS-COMMON-001 и форматирование таблиц | Approval/inventory/TypeScript README | Dispositions recorded in common review ledger | [Common ledger](../archive/2026-10-31-reuse-common-types-and-guards/review.md#review-round--2026-11-01) сохраняет разделение pending/reviewed и все content gates |
+| Owner review R2–R4 (private input, not a public basis); [#52](https://github.com/antonsmolko/gost-spec/issues/52), [#20](https://github.com/antonsmolko/gost-spec/issues/20) | Охват approval ledger, порядок TS-COMMON-001 и форматирование таблиц | Approval/inventory/TypeScript README | Dispositions recorded in common review ledger | [Common ledger](../2026-10-31-reuse-common-types-and-guards/review.md#review-round--2026-11-01) сохраняет разделение pending/reviewed и все content gates |
 | Owner observation (private input, not a public basis); repository Git state | Local main отставал от origin/main; несколько outcomes в рабочем дереве | Local refs, carrier branch | Main fast-forwarded; outcome separation retained | После fetch проверен ancestor relationship и atomic update-ref main: 6fa4b3b → 475c313. Текущая ветка/HEAD и прежний index не менялись; commit/push/merge не выполнялись |
 
 #### GitHub issue edits — review
@@ -808,3 +808,109 @@ approval gates. PR descriptions содержат integration-specific ledger; п
 исходные domain evidence остаются в прежних committed design/review files.
 Это дополнение заменяет прежние текущие утверждения о локальном P, отсутствии C
 или PR: P/C запушены, #56 открыт; прошлые этапы сохранены как история.
+
+## Archive and main-spec sync — 2026-11-01
+
+Владелец явно вызвал archive и выбрал «Синхронизировать и архивировать».
+CLI status подтвердил spec-driven, все четыре artifacts done; list — 13/13.
+Archive instructions не добавили context/operationGuidance. Валидный specs-rule
+snapshot получен один раз и использован inline sync; rules отсутствуют.
+
+Новая основная спецификация —
+[контракт поставки](../../../specs/state-foundation-plugin-distribution/spec.md).
+Заголовок приведён к main-spec format; Purpose, все 8 requirement blocks и
+14 scenarios перенесены из ADDED дословно. Delta operation headers в main нет,
+установленный fc/shell main spec не менялся. До перемещения повторное сравнение
+показало, что вся дельта уже синхронизирована; strict spec validation прошла.
+
+Change перенесён в `archive/2026-11-01-package-state-foundation-plugin` вместе
+с .openspec.yaml. При самом move hashes всех пяти файлов совпали. Затем
+исправлены только две относительные ссылки archived design и входящие ссылки
+в handoff/product design/roadmap; это дополнение сохраняет прежние evidence.
+Proposal/tasks/delta/metadata не переписывались; tasks остаются 13/13.
+Проверены 69 локальных ссылок/якорей в выбранном diff от 3a52702, отдельно от runtime suite;
+это не было проверкой всех Markdown-файлов репозитория. Никакой
+runtime, plugin metadata/content/source.sha или npm version не менялись.
+
+### Archive issue tracking
+
+Live #55 и carrier #54 обновляются отдельным archive summary с новым путём и
+основной спецификацией; прежние датированные snapshots сохраняются. Перенос и
+sync пока локальные, commit/push/merge этим запросом не выполняются. Archive не
+меняет owner decisions, proposed statuses или gates #20/#26 и не разрешает
+публикацию/применение к asc-admin. Итоговый full check и независимое review
+фиксируются ниже после завершения проверок.
+
+### Final archive verification and review
+
+Свежий полный npm run check прошёл на Node 26.0.0 и 26.11.1: по 72/72,
+включая реальные tarballs/external consumers. Strict main-spec validation
+прошла. Проверка структуры/bytes сравнила Purpose, все requirement/scenario
+blocks, четыре неизменённых archived artifacts и отсутствие change в active
+list; plugin/catalog/pin/packages/fc-shell contract остались прежними.
+Отдельная сверка diff и его 69 локальных ссылок/якорей завершена успешно;
+файлы вне выбранного diff этой проверкой не охватывались.
+
+Независимый fresh-context reviewer прочитал весь девятифайловый archive/sync
+diff, новые/исходные specs, relevant unchanged contracts и live #55/#54, а также
+пустые comments/reviews/threads merged PR #56. Actionable findings нет;
+предыдущие reviewer-confirmed closures сохранены. Reviewer самостоятельно
+проверил точность переноса, структуру, ссылки, active-list состояние и границы,
+а full suite/native installs не повторял: изучены свежие full-check logs автора.
+Review — private input, not a public basis; публичные actionable источники —
+[#55](https://github.com/antonsmolko/gost-spec/issues/55),
+[#54](https://github.com/antonsmolko/gost-spec/issues/54) и согласованный контракт.
+
+Обе issue archive summaries обновлены с итоговым evidence и явно локальным,
+незакоммиченным состоянием. Основная спецификация синхронизирована, change
+архивирован без incomplete-task/artifact warnings; готов полный staged diff
+для ревью владельцем до commit. Commit/push/merge этого archive не выполнялись.
+
+## Archive documentation review — 2026-11-01
+
+Прочитан полный supplied summary четырёх findings (private input, not a public
+basis), live #55 с пустым comments list, предыдущий archive ledger и затронутые
+unchanged документы. Public actionable scope —
+[#55](https://github.com/antonsmolko/gost-spec/issues/55), carrier
+[#54](https://github.com/antonsmolko/gost-spec/issues/54). #30 подтверждена closed;
+#62/#63/#64 — open. Предыдущие domain-review closures не переоткрываются:
+новая ошибка относится к входящей ссылке, сломанной нынешним archive move.
+
+Прежний helper выбирал Markdown-файлы из `git diff 3a52702 --diff-filter=ACMR`,
+а не весь репозиторий. Его 69 проверенных ссылок не подтверждали отсутствие
+сломанных ссылок в unchanged files. Уточнены обе прежние формулировки evidence
+выше и issue archive summaries; старый scoped результат не выдаётся за global.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Owner review R1 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Common ledger сохранил ссылку на перемещённый active design; audit scope описан слишком широко | Common review.md, archive design, #55/#54 summaries | Confirmed and fixed | Repo-wide scan: 105 Markdown files, 165 local links/anchors, одна missing target до правки и ноль после; исправлен sibling archive path с прежним anchor |
+| Owner review R2 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Фраза об архивировании выглядит противоречивой | Handoff archive status | Wording clarified | Прежнее «автоматически не выполняются» не означало «не выполнены»; теперь явно указаны merged implementation, локальный archive по запросу и отдельные publication/consumer instructions |
+| Owner review R3 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | tasks/design текущего change — устаревший указатель | Handoff evidence pointer | Fixed | Добавлены прямые ссылки на archived tasks/design; обе цели и anchors проверены |
+| Owner review R4 (private input, not a public basis); [#55](https://github.com/antonsmolko/gost-spec/issues/55) | Откуда продолжать ведёт к закрытому планированию | Handoff entry point | Fixed against current queue | Указаны завершение archive review, proposed rename #64, затем отдельные #62/#63; #30 сохранена как историческая архитектурная база |
+
+### Verification scope and issue edits
+
+Новый разовый repository-wide audit использует `git ls-files --cached --others
+--exclude-standard`, только существующие .md files: все tracked documents плюс
+неignored новый rename plan, без private/ignored материалов. Markdown links и
+images извлекаются marked; relative targets и локальные heading anchors
+проверяются, code examples не считаются ссылками. Внешние URI не проверяются
+по сети. Before/after evidence: /tmp/gost-archive-review-links-before.json и
+/tmp/gost-archive-review-links-after.json. После добавления этого ledger audit
+повторяется; фактические итоговые счётчики фиксируются ниже отдельно.
+
+#55/#54 archive summaries уточняют scope прежних 69 links и новый repo-wide
+результат; request/dispositions и локальное uncommitted состояние сохранены.
+Рассмотрен полный archive diff и unchanged common ledger, normative/spec/runtime
+contracts не менялись. Отдельное независимое review этой точечной wording/link
+правки пропущено по разрешённому исключению AGENTS.md §6; предыдущие independent
+reviews сохранены с их фактическими ограничениями. Commit/push не выполнялись.
+
+Итог этого документационного review: repository-wide audit — 105 существующих
+Markdown files, 165 local links/anchors, ноль ошибок; до R1 fix была ровно одна
+битая цель. `openspec validate --specs --strict` — 2/2 основных specs.
+Свежий full npm run check — 72/72 на Node 26.0.0 и 26.11.1; logs:
+/tmp/gost-archive-review-check.log и /tmp/gost-archive-review-check-node26.0.log.
+Main-spec Purpose/requirements/scenarios, plugin/source pin, packages и rename
+planning artifacts не менялись в этом review. Все четыре dispositions закрыты;
+R2 классифицирован как уточнение формулировки, а не подтверждённая ошибка runtime.
