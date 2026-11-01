@@ -181,7 +181,7 @@ Owner review R4 (private input, not a public basis); [#52](https://github.com/an
 
 Issue #52 records R2 rationale/clarification and R3/R4 fixes; its criteria,
 dependencies, carrier and closure remain unchanged. The separate URI-containment
-clarification belongs to #55 and its [design ledger](../../package-state-foundation-plugin/design.md#review-round--2026-11-01).
+clarification belongs to #55 and its [design ledger](../2026-11-01-package-state-foundation-plugin/design.md#review-round--2026-11-01).
 No normative text, ID/status, package version, Local-only disposition or
 release/content gate changed. Existing empty common changeset records the
 no-release decision for the README-only package edit.
