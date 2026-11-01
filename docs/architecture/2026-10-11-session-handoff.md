@@ -1,5 +1,9 @@
 # Передача контекста разработки gost-spec
 
+Текущее дополнение — завершённый исходный skill fc/shell в #54; change архивирован,
+требования синхронизированы в основные OpenSpec specs; см. раздел ниже.
+Датированные снимки и review common-стандарта сохранены как история.
+
 Обновлено 2026-10-22 при добавлении proposed TS-COMMON-001 поверх origin/main после merge PR #50 с TS-FUNCTIONS-001. Техническая платформа завершена, presenter #42 добавлен как proposed. GitHub repository и origin используют gost-spec, отдельный gost-kit содержит начальную структуру. При возобновлении сверить снимок с GitHub и текущей веткой.
 
 ## Откуда продолжать
@@ -69,3 +73,41 @@ implementation PR. Критерии #20/#26, версии пакетов и appr
 Change #52 архивирован 2026-10-31 после 6/6 задач. `skip_specs: true`: дельт
 OpenSpec нет, синхронизация не выполнялась. TS-COMMON-001 остаётся proposed,
 решение владельца — Pending; прежние Local-only и rationale сохранены.
+
+## Skill подключения fc/shell — #54
+
+После согласования плана владелец явно вызвал apply для
+[integrate-svelte-spa-state-foundation](../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/proposal.md).
+Implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54), ветка
+`feature/gost-spec-54-state-foundation-skill`, база `15d5630`; это отдельный outcome
+поверх ранее сохранённых #51/#52/#53, их criteria/closure не расширяются.
+
+Change перенесён в архив 2026-10-31 после выполнения всех 12 задач. Актуальный
+контракт — [svelte-spa-state-foundation](../../openspec/specs/svelte-spa-state-foundation/spec.md):
+8 требований и 8 сценариев; их текст и Purpose сохранены из согласованной дельты.
+
+Исходный [skill](../../skills/gost-svelte-spa-state/SKILL.md) подключает пустую
+основу к существующему Svelte 5 SPA; [API recipe](../../skills/gost-svelte-spa-state/references/foundation.md)
+фиксирует проверенный development snapshot gost-kit. Незакоммиченная параллельная
+работа в sibling gost-kit не менялась: tarballs собраны из отдельного git archive
+ревизии `7eca0ea`. Baseline SPA и поведенческие проверки synthetic, без доступа к
+asc-admin или копирования его материалов.
+
+Агент без skill выполнил подключение, но оставил dispatch/effects непроверенными.
+Со skill другой агент проверил их через disposable browser probe; повторное
+применение сохранило все 15 source/config hashes. Missing-artifact сценарий
+завершился явным incomplete без изменения файлов. Full check — 48/48 на Node
+26.0.0 и 26.11.1; внешний target/probe прошли check/build/Chromium. Независимое
+review полного результата завершено без actionable findings; evidence и
+ограничения — в [design ledger](../../openspec/changes/archive/2026-10-31-integrate-svelte-spa-state-foundation/design.md).
+
+Skill пока не отдельный публикуемый пакет и не часть пяти npm workspaces.
+Его упаковка/независимая версия, применение в реальном потребителе и миграция
+фич — последующие согласуемые работы. Нормативные статусы и gates #20/#26 сохранены.
+
+Follow-up review #54 явно закрепляет `reuseExistingServer: false` в fixture:
+занятый 4187 должен останавливать проверку до выполнения cases. Проверенный
+Playwright 1.64.1 уже отклонял занятый URL при отсутствии опции; ранние результаты
+не считаются недействительными из-за предполагаемого default reuse. Отказ до/после
+изменения, положительные target/probe cases и full suite повторно проверены;
+независимое review без замечаний. Все пять dispositions — в том же design ledger.
