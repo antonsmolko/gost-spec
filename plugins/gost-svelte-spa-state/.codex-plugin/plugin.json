@@ -1,0 +1,14 @@
+{
+  "name": "gost-svelte-spa-state",
+  "version": "0.1.0",
+  "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA.",
+  "author": {
+    "name": "Anton Smolko"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GOST Svelte SPA State",
+    "shortDescription": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA."
+  }
+}
