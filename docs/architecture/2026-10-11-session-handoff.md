@@ -12,10 +12,15 @@ Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и
 
 ## Откуда продолжать
 
-Archive/spec sync #55 сохранён отдельно в локальном commit `c9b1fed`.
-Владелец явно запустил apply переименования plugin/skill в `gost-svelte-shell` —
-[#64](https://github.com/antonsmolko/gost-spec/issues/64). Актуальный план и
-прогресс — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
+Archive/spec sync #55 сохранён в Git; его доставку в main отслеживает
+[PR #65](https://github.com/antonsmolko/gost-spec/pull/65). Повторно архивировать
+или искать незакоммиченный локальный перенос не требуется.
+Переименование plugin/skill в `gost-svelte-shell`,
+[#64](https://github.com/antonsmolko/gost-spec/issues/64), реализовано: 9/9.
+Доставку отслеживает [PR #66](https://github.com/antonsmolko/gost-spec/pull/66),
+текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
+После интеграции rename нужен отдельный archive/sync его дельты; изменения
+rename не входят в archive PR #65.
 Следующие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
@@ -198,8 +203,6 @@ main и проверяется относительно актуальной б�
 сохранены без изменения текста. Все artifacts complete, задачи 13/13.
 Исходный fc/shell capability contract, plugin bytes, source.sha и пять npm-версий
 не менялись. Архив не означает публикацию или применение к asc-admin.
-Дальнейшие независимые задачи: #62 — читаемость scripts/ и tests/helpers/,
-#63 — размещение тестов рядом с исходниками.
 
 ## Переименование Svelte shell — #64
 
@@ -214,5 +217,6 @@ uninstall/install; инструкции — в [plugin README](../../plugins/gos
 контракт обновится при последующей синхронизации дельты #64. Код приложения
 не менялся, native fresh install/migration/incomplete/rollback проверены в обоих
 харнесах в disposable profiles. Полный check — 72/72 на обоих Node; независимое
-review без открытых findings. Catalog C подготовлен в index, P и archive commit
-локальные; дальше отдельные commit/review и archive/sync rename change.
+review без открытых findings. P9007936 и catalog Ce781b2e сохранены и запушены
+для PR #66; актуальная archive base — PR #65. После доставки rename выполняется
+отдельный archive/sync его дельты.
