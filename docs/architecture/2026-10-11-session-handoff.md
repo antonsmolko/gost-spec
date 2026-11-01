@@ -9,10 +9,14 @@
 
 ## Откуда продолжать
 
-Сначала завершить review и отдельно сохранить подготовленный archive/spec sync #55.
-Затем проверить план переименования plugin/skill в `gost-svelte-shell` —
-[#64](https://github.com/antonsmolko/gost-spec/issues/64); реализация требует
-отдельного apply-запроса. Следующие независимые задачи —
+Archive/spec sync #55 сохранён в Git; его доставку в main отслеживает
+[PR #65](https://github.com/antonsmolko/gost-spec/pull/65). Повторно архивировать
+или искать незакоммиченный локальный перенос не требуется.
+Следующий отдельный outcome — переименование plugin/skill в `gost-svelte-shell`,
+[#64](https://github.com/antonsmolko/gost-spec/issues/64) /
+[PR #66](https://github.com/antonsmolko/gost-spec/pull/66). Его текущий статус
+проверять в issue/PR; изменения rename не входят в archive PR #65.
+Следующие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
 [#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
@@ -194,5 +198,3 @@ main и проверяется относительно актуальной б�
 сохранены без изменения текста. Все artifacts complete, задачи 13/13.
 Исходный fc/shell capability contract, plugin bytes, source.sha и пять npm-версий
 не менялись. Архив не означает публикацию или применение к asc-admin.
-Дальнейшие независимые задачи: #62 — читаемость scripts/ и tests/helpers/,
-#63 — размещение тестов рядом с исходниками.

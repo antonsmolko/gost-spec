@@ -832,11 +832,13 @@ Proposal/tasks/delta/metadata не переписывались; tasks оста�
 это не было проверкой всех Markdown-файлов репозитория. Никакой
 runtime, plugin metadata/content/source.sha или npm version не менялись.
 
-### Archive issue tracking
+### Archive issue tracking — snapshot before PR creation
 
-Live #55 и carrier #54 обновляются отдельным archive summary с новым путём и
-основной спецификацией; прежние датированные snapshots сохраняются. Перенос и
-sync пока локальные, commit/push/merge этим запросом не выполняются. Archive не
+На этапе archive live #55 и carrier #54 получили отдельный summary с новым путём
+и основной спецификацией. Тогда перенос и sync были локальными; сам archive
+запрос не выполнял commit/push/merge. Позже владелец отдельно запросил создание
+PR: изменения сохранены в c9b1fed и отправлены в PR #65; статус доставки в main
+проверять по PR. Прежние датированные snapshots сохраняются. Archive не
 меняет owner decisions, proposed statuses или gates #20/#26 и не разрешает
 публикацию/применение к asc-admin. Итоговый full check и независимое review
 фиксируются ниже после завершения проверок.
@@ -861,10 +863,11 @@ Review — private input, not a public basis; публичные actionable ис
 [#55](https://github.com/antonsmolko/gost-spec/issues/55),
 [#54](https://github.com/antonsmolko/gost-spec/issues/54) и согласованный контракт.
 
-Обе issue archive summaries обновлены с итоговым evidence и явно локальным,
-незакоммиченным состоянием. Основная спецификация синхронизирована, change
-архивирован без incomplete-task/artifact warnings; готов полный staged diff
-для ревью владельцем до commit. Commit/push/merge этого archive не выполнялись.
+На этапе этой проверки обе issue archive summaries фиксировали итоговое evidence
+и тогда ещё локальное незакоммиченное состояние. Основная спецификация
+синхронизирована, change архивирован без incomplete-task/artifact warnings.
+После отдельного PR-запроса staged diff сохранён и отправлен в PR #65; отсутствие
+commit/push в первоначальном archive snapshot не описывает текущую доставку.
 
 ## Archive documentation review — 2026-11-01
 
@@ -880,6 +883,9 @@ unchanged документы. Public actionable scope —
 а не весь репозиторий. Его 69 проверенных ссылок не подтверждали отсутствие
 сломанных ссылок в unchanged files. Уточнены обе прежние формулировки evidence
 выше и issue archive summaries; старый scoped результат не выдаётся за global.
+Последующий рабочий audit включал также четыре тогда untracked rename-plan
+файла: 105 файлов и 165 targets были наблюдением того workspace, а не проверкой
+committed tree PR #65. Проверка только tracked snapshot приведена в PR65-R3 ниже.
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
@@ -902,15 +908,166 @@ images извлекаются marked; relative targets и локальные hea
 #55/#54 archive summaries уточняют scope прежних 69 links и новый repo-wide
 результат; request/dispositions и локальное uncommitted состояние сохранены.
 Рассмотрен полный archive diff и unchanged common ledger, normative/spec/runtime
-contracts не менялись. Отдельное независимое review этой точечной wording/link
-правки пропущено по разрешённому исключению AGENTS.md §6; предыдущие independent
-reviews сохранены с их фактическими ограничениями. Commit/push не выполнялись.
+contracts не менялись. Для R1–R3 отдельное independent review могло быть
+пропущено как wording/link-only. Однако R4 менял operative continuation queue:
+его первоначальная общая классификация как wording-only была неверной.
+Новый PR #65 review исправляет эту запись и требует independent review полного
+результата, включая очередь; прежние independent reviews сохраняются только
+с их фактическими ограничениями. Commit/push не выполнялись на том раннем этапе.
 
-Итог этого документационного review: repository-wide audit — 105 существующих
-Markdown files, 165 local links/anchors, ноль ошибок; до R1 fix была ровно одна
+Итог того рабочего документационного review: audit — 105 существующих Markdown
+files, включая untracked rename plan, 165 local links/anchors, ноль ошибок;
+эта цифра не является inventory archive commit. До R1 fix была ровно одна
 битая цель. `openspec validate --specs --strict` — 2/2 основных specs.
 Свежий full npm run check — 72/72 на Node 26.0.0 и 26.11.1; logs:
 /tmp/gost-archive-review-check.log и /tmp/gost-archive-review-check-node26.0.log.
 Main-spec Purpose/requirements/scenarios, plugin/source pin, packages и rename
 planning artifacts не менялись в этом review. Все четыре dispositions закрыты;
 R2 классифицирован как уточнение формулировки, а не подтверждённая ошибка runtime.
+
+## PR 65 review follow-up
+
+Прочитаны все четыре inline threads, четыре COMMENTED reviews без отдельного
+summary body и полный issue-comments list (пусто); pagination review_threads
+завершена (hasNextPage=false). Источники — public comments ниже. Старые closures
+сохраняются; здесь исправляется доставка документации и точность review evidence.
+
+### PR65-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Review comment](https://github.com/antonsmolko/gost-spec/pull/65#discussion_r4437181182) | Live resume pointer и незаквалифицированные local-only утверждения устаревают после доставки PR | Handoff, archive tracking snapshots | Fixed | Entry point описывает сохранённый Git outcome, ведёт к статусу PR #65 и следующему #64/PR #66; прежние local/staged записи явно помечены как этап до PR |
+
+### PR65-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Review comment](https://github.com/antonsmolko/gost-spec/pull/65#discussion_r4437181241) | Дублирующая очередь #62/#63 в датированном archive summary | Handoff continuation queue | Fixed | Повтор удалён; текущая очередь хранится только в разделе «Откуда продолжать» |
+
+### PR65-R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Review comment](https://github.com/antonsmolko/gost-spec/pull/65#discussion_r4437181308) | Workspace audit и ephemeral logs не воспроизводят inventory committed archive tree | Archive verification evidence, PR #65 description, #55/#54 summaries | Fixed | Корпус ограничен tracked Git tree выбранного ref; ниже полная команда, hash списка Markdown paths и committed summary. 157 path links и два same-file anchors объясняют отличие от прежних комбинированных counts |
+
+Reproduction: checkout reviewed PR #65 head, use a supported Node version and
+install the locked tooling. Both commands are existing repository verification;
+repeat full check separately on Node 26.0.0 and 26.11.1. Raw /tmp logs above are
+operator debugging records, not the durable basis of the result. CI and PR
+records supply the corresponding public run links after push.
+
+```sh
+npm ci --ignore-scripts
+npm run check
+```
+
+Tracked-only Markdown audit below reads Git blobs, not filesystem/untracked
+files. By default it audits HEAD; AUDIT_REF can select an immutable commit or
+tree. The Markdown path-list hash makes the corpus independently comparable.
+Only Markdown links/images and local heading anchors are checked; fenced code
+examples and external URI network availability are outside this audit.
+
+```sh
+node --input-type=module <<'JS'
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { posix } from 'node:path';
+import { marked } from 'marked';
+const ref = process.env.AUDIT_REF || 'HEAD';
+const git = (...args) => execFileSync('git', args, { encoding: 'utf8' });
+const paths = git('ls-tree', '-r', '--name-only', '-z', ref).split('\0').filter(Boolean);
+const files = paths.filter(path => path.endsWith('.md')).sort();
+const texts = new Map();
+const read = path => {
+  if (!texts.has(path)) texts.set(path, git('show', `${ref}:${path}`));
+  return texts.get(path);
+};
+const headings = path => {
+  const seen = new Map();
+  return marked.lexer(read(path)).filter(token => token.type === 'heading').map(token => {
+    const slug = token.text.toLowerCase().replace(/<[^>]*>/g, '')
+      .replace(/[^\p{L}\p{N}\p{M}\-_\s]/gu, '').replace(/\s/g, '-');
+    const count = seen.get(slug) || 0;
+    seen.set(slug, count + 1);
+    return slug + (count ? `-${count}` : '');
+  });
+};
+let relativeLinksWithPath = 0, sameFileAnchors = 0, relativeImages = 0;
+const errors = [];
+for (const file of files) marked.walkTokens(marked.lexer(read(file)), token => {
+  if (!['link', 'image'].includes(token.type) || /^(?:[a-z][\w+.-]*:|\/\/)/i.test(token.href)) return;
+  const [destination, anchor] = token.href.split('#');
+  const local = destination.split('?')[0];
+  if (token.type === 'image') relativeImages++;
+  else if (local) relativeLinksWithPath++; else sameFileAnchors++;
+  const target = local ? posix.normalize(posix.join(posix.dirname(file), decodeURIComponent(local))) : file;
+  if (!paths.includes(target) && !paths.some(path => path.startsWith(`${target}/`))) errors.push(`${file}: missing ${token.href}`);
+  else if (anchor && target.endsWith('.md') && !headings(target).includes(decodeURIComponent(anchor))) errors.push(`${file}: missing anchor ${token.href}`);
+});
+console.log(JSON.stringify({ markdownFiles: files.length, relativeLinksWithPath, sameFileAnchors, relativeImages,
+  markdownPathListSha256: createHash('sha256').update(files.join('\n') + '\n').digest('hex'), errors }, null, 2));
+if (errors.length) process.exitCode = 1;
+JS
+```
+
+Expected tracked corpus for this archive outcome (the two anchors are in
+issues-review-response and content-approval, so they are counted separately
+from the 157 path-bearing links):
+
+```json
+{
+  "markdownFiles": 101,
+  "relativeLinksWithPath": 157,
+  "sameFileAnchors": 2,
+  "relativeImages": 0,
+  "markdownPathListSha256": "532117f99fe5a72266654a30a5b06765737c841061e47f703aea362f84845dc6",
+  "errors": []
+}
+```
+
+### PR65-R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Review comment](https://github.com/antonsmolko/gost-spec/pull/65#discussion_r4437181358) | R4 continuation-order change ошибочно попало под wording-only exemption | Archive review classification and live handoff | Fixed and independently reviewed | Прежнее exemption ограничено R1–R3; новый reviewer отдельно проверил substantive queue и полный результат, включая public tracking, без открытых findings |
+
+### GitHub issue edits and review scope
+
+#55/#54 archive summaries и описание PR #65 заменяют unqualified 105/165
+утверждение на tracked corpus выше; старый workspace snapshot остаётся явно
+историческим. Owner request, carrier/prefix, issue criteria/closure и gates
+#20/#26 не меняются. Runtime/plugin/catalog/npm packages и Purpose/requirements/
+scenarios не менялись. Task queue reference changes не выдаются за contract-free
+wording-only exception; итог независимой проверки записывается после её завершения.
+
+### Tracking cross-check and candidate checks
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer (private input, not a public basis); [#62](https://github.com/antonsmolko/gost-spec/issues/62) | Existing context ссылки в future refactor issue указывали на удалённый active design | Issue #62 context | Fixed | Контекст переадресован к archive/2026-11-01-package-state-foundation-plugin/design.md без изменения scope/criteria #62 |
+
+#55/#54 получили явное различение старого workspace audit и tracked snapshot,
+исправленную review-exemption classification и статус подготовленного PR65 fix.
+Описание PR65 содержит ту же scope/verification информацию; #62 context обновлён.
+Эти публичные representations повторно прочитаны reviewer; scope и review basis
+подтверждены, устаревший #62 context reviewer-confirmed closed.
+
+Fresh full check кандидатного archive checkout прошёл 72/72 на Node 26.0.0 и
+26.11.1, включая реальные tarballs/external consumers; обе main specs прошли
+strict validation. Тексты Purpose/8 requirements/14 scenarios и archived
+metadata/proposal/tasks/delta сохранены, tasks 13/13. Точный inline audit выполнен
+против staged Git tree, результат совпал с expected summary выше. Whitespace
+check чист; runtime/plugin/catalog/packages и исходные pin не менялись.
+
+### Independent complete-result review
+
+Новый fresh-context reviewer прочитал полный десятифайловый PR diff, все четыре
+public threads/reviews, live #54/#55/#62–#64 и dependent PR #66. R4 получил
+substantive review, operative queue признана корректной; новых actionable
+findings нет. Reviewer самостоятельно выполнил точный inline audit против
+Git tree, strict specs 2/2, whitespace/artifact/text preservation checks.
+Два full-suite logs 72/72 прочитаны; full suite/native installs не повторялись.
+Это private reviewer input, not a public basis; actionable public sources —
+четыре comment links выше и согласованные issue criteria. Предыдущие closures
+сохранены с их реальным scope. Commit/push-status updates и source-linked
+replies выполняются как delivery steps этого результата; merge не разрешён.
