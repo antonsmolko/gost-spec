@@ -16,15 +16,17 @@ matrix is a review aid, not a second source of obligations.
 
 ## TypeScript review set
 
-| Topic                        | Proposed ID and document                                                           | Applicability                                          | Rationale and verification                                                                          |
-| ---------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| External-data boundaries     | [TS-TYPES-001](../../packages/technologies/typescript/docs/runtime-boundaries.md)  | TypeScript consuming untrusted data                    | Static declarations cannot validate runtime data; review adapters and malformed-input failure tests |
-| Consistent type declarations | [TS-TYPES-002](../../packages/technologies/typescript/docs/type-aliases.md)        | Authored TypeScript declarations                       | Use type aliases; review declaration-merging exceptions separately from type checking               |
-| Function syntax              | [TS-FUNCTIONS-001](../../packages/technologies/typescript/docs/arrow-functions.md) | Authored named standalone TypeScript functions         | Recommend const-bound arrows for consistency; ordinary functions remain valid                       |
-| Effective strict checking    | [TS-CONFIG-001](../../packages/technologies/typescript/docs/strict-checking.md)    | Authored TypeScript production code                    | Avoid permissive or unused configuration; inspect effective settings and real compiler errors       |
+| Topic                        | Proposed ID and document                                                                | Applicability                                                               | Rationale and verification                                                                                              |
+| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| External-data boundaries     | [TS-TYPES-001](../../packages/technologies/typescript/docs/runtime-boundaries.md)       | TypeScript consuming untrusted data                                         | Static declarations cannot validate runtime data; review adapters and malformed-input failure tests                     |
+| Consistent type declarations | [TS-TYPES-002](../../packages/technologies/typescript/docs/type-aliases.md)             | Authored TypeScript declarations                                            | Use type aliases; review declaration-merging exceptions separately from type checking                                   |
+| Shared helpers and guards    | [TS-COMMON-001](../../packages/technologies/typescript/docs/common-types-and-guards.md) | New or modified TypeScript in projects explicitly adopting @gost-kit/common | Reuse equivalent contracts; review imports, primitive exceptions and behavior; file layout remains a project convention |
+| Function syntax              | [TS-FUNCTIONS-001](../../packages/technologies/typescript/docs/arrow-functions.md)      | Authored named standalone TypeScript functions                              | Recommend const-bound arrows for consistency; ordinary functions remain valid                                           |
+| Effective strict checking    | [TS-CONFIG-001](../../packages/technologies/typescript/docs/strict-checking.md)         | Authored TypeScript production code                                         | Avoid permissive or unused configuration; inspect effective settings and real compiler errors                           |
 
-All four remain proposed. Runtime validation is independent of a consumer's guard
-names; strict checking is independent of formatting preferences.
+All five remain proposed. TS-TYPES-001 defines complete boundary validation;
+TS-COMMON-001 separately proposes shared helper usage without weakening it.
+Strict checking is independent of formatting preferences.
 
 ## Svelte SPA review set
 
@@ -52,6 +54,10 @@ application alias is implied. The proposed import checker is not implemented.
 | Authentication and API business contracts               | Product-local           | Product identities, session policies and endpoint payloads are not engineering standards     |
 | Mandatory Superpowers or another agent tool             | Local-only              | Standards must be usable without a particular agent or plugin                                |
 | Stateful store/presenter conventions, forms and API error models | Separate design pending | State ownership and failure policies need explicit applicability and their own module review |
+
+TS-COMMON-001 proposes a separately adopted shared-library policy; it remains
+pending and does not supersede the Local-only disposition above. A future owner
+decision must explicitly reconcile any changed disposition and its rationale.
 
 ## Deferred content
 

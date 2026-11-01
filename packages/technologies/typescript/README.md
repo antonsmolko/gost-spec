@@ -14,12 +14,19 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 
 - [TS-TYPES-001 — Validate external values](docs/runtime-boundaries.md)
 - [TS-TYPES-002 — Use type aliases for authored types](docs/type-aliases.md)
+- [TS-COMMON-001 — Reuse common types and runtime guards](docs/common-types-and-guards.md)
 - [TS-FUNCTIONS-001 — Prefer const-bound arrow functions](docs/arrow-functions.md)
 - [TS-CONFIG-001 — Strict compiler checking](docs/strict-checking.md)
 
 ## Applicability and compatibility
 
-Use with standards-core. TypeScript is not limited to frontend; select frontend or stack documents only when applicable.
+Use with standards-core. Proposed TS-COMMON-001 applies to projects explicitly
+adopting `@gost-kit/common` as their shared types and guards library. It requires
+an explicitly configured dependency; installing this documentation package does
+not install the library or approve the draft. Verify the selected artifact's
+name, version and public exports; a registry release is not assumed.
+
+TypeScript is not limited to frontend; select frontend or stack documents only when applicable.
 
 The five packages at 0.1.0 are the currently tested combination. Compatibility
 is documented here rather than checked by a semantic resolver. Review the
