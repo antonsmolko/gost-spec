@@ -27,6 +27,6 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 ## Workflow follow-up
 
-- Content P9007936 и catalog Ce781b2e сохранены и запушены отдельно от predecessor archive c9b1fed; доставку отслеживает PR #66 на базе PR #65.
+- Content P9007936 и catalog Ce781b2e сохранены и запушены. Archive #65 уже в main (c7c879c); PR #66 слит только в archive branch. Следующий delivery PR из исходной carrier-ветки должен получить CI на базе main и сохранить P в истории.
 - После реализации/проверок архивировать change с синхронизацией modified distribution contract.
 - Merge, выпуск, release tags и применение к asc-admin — отдельные разрешаемые действия.

@@ -12,13 +12,15 @@ Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и
 
 ## Откуда продолжать
 
-Archive/spec sync #55 сохранён в Git; его доставку в main отслеживает
-[PR #65](https://github.com/antonsmolko/gost-spec/pull/65). Повторно архивировать
-или искать незакоммиченный локальный перенос не требуется.
+Archive/spec sync #55 доставлен в main через
+[PR #65](https://github.com/antonsmolko/gost-spec/pull/65), commit `c7c879c`.
+Повторно архивировать или искать незакоммиченный локальный перенос не требуется.
 Переименование plugin/skill в `gost-svelte-shell`,
 [#64](https://github.com/antonsmolko/gost-spec/issues/64), реализовано: 9/9.
-Доставку отслеживает [PR #66](https://github.com/antonsmolko/gost-spec/pull/66),
-текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
+PR #66 слит только в `feature/gost-spec-55-plugin-archive`, поэтому его merged
+статус не означает доставку rename в main. Текущий шаг — отдельный PR из
+исходной carrier-ветки в main с CI и сохранением immutable content P9007936.
+Текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
 После интеграции rename нужен отдельный archive/sync его дельты; изменения
 rename не входят в archive PR #65.
 Следующие независимые задачи —

@@ -333,3 +333,51 @@ tests, gate, strict validation, diff check и 105-file/169-target audit. Све�
 native experiments reviewer не повторял, прочитал свежие full-check logs автора.
 Review — private input, not a public basis; actionable public sources — четыре
 inline links выше и #64. Предыдущие reviewer-confirmed closures сохранены.
+
+## Delivery to main after stacked PR merge — 2026-11-02
+
+Владелец сообщил о merge и явно поручил следующий шаг — отдельный PR в main.
+GitHub и Git refs сверены: archive PR #65 вошёл в main как `c7c879c`, rename
+PR #66 вошёл в archive branch как `59feccb` и не доставил rename в main.
+Main catalog пока содержит прежний ID/P385a0bc. Это заменяет прежние указания
+«merge #65, затем retarget #66»: закрытый PR больше не ретаргетируется.
+
+Новый delivery PR использует исходную carrier-ветку с a06256c, content P9007936
+и catalog Ce781b2e, а не squash commit 59feccb. В неё включена текущая main;
+три конфликта architecture/handoff/roadmap разрешены сохранением уже проверенного
+rename результата поверх идентичного archive outcome. Runtime/plugin/pin/spec
+тексты от a06256c не меняются; обновляется только текущее tracking/очередь доставки.
+Новый PR имеет тот же единственный outcome #64; criteria/closure #54/#55,
+retained [gost-spec-52] prefix и gates #20/#26 сохраняются. Независимое review
+полного результата требуется для сверки интеграции и оперативной очереди.
+
+Проверка success: main является предком нового head, P9007936 доступен в его
+истории и все восемь plugin files совпадают с pin; diff относительно main
+содержит только rename outcome. Полный check на обеих Node, packed/external
+consumers, links/contracts и main-target CI должны пройти до готовности PR.
+Merge нового PR, release и archive/sync rename этим поручением не разрешены.
+
+Свежий full check прошёл 72/72 на Node 26.0.0 и 26.11.1 с реальными packed
+artifacts/external consumers: /tmp/gost-rename-main-check-node26.0.log и
+/tmp/gost-rename-main-check.log. Strict OpenSpec validation, whitespace check
+и отдельный repository audit 105 Markdown / 169 local targets прошли без ошибок.
+Проверены полный diff относительно main и unchanged contracts/issue bodies;
+исходный runtime не менялся, поэтому новый RED/runtime fix не заявляется.
+
+Независимое fresh-context review полного 22-file результата без actionable
+findings: reviewer сам выполнил gate, 24 distribution tests, strict validation,
+diff/link checks и byte comparison всех восьми файлов с P9007936. Прочитаны
+все страницы reviews/comments #65/#66 и live #64/#55/#54, прежние closures
+сохранены; полный suite reviewer не повторял, изучил свежие logs автора.
+Native installs не повторялись, публичная установка после push не проверена.
+Review — private input, not a public basis; публичная основа —
+[#64](https://github.com/antonsmolko/gost-spec/issues/64),
+[PR #65](https://github.com/antonsmolko/gost-spec/pull/65) и
+[PR #66](https://github.com/antonsmolko/gost-spec/pull/66).
+
+### GitHub delivery reconciliation
+
+#64 получает актуальный статус нового main-target PR вместо retarget закрытого
+#66; #54/#55 получают ссылку на новую delivery-ступень того же addition #64.
+Ни одна issue не закрывается, acceptance/closure/gates не расширяются. Результаты
+CI нового PR фиксируются в его описании отдельно от локальных проверок.
