@@ -37,9 +37,9 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 ## Archive completion — 2026-11-03
 
-После явного разрешения владельца repair PR68 merged штатным merge commit
-f7e38b1; P2 доступен из main-only checkout, full check72/72. Дельта перенесена
-в основную distribution spec:9 требований/19 сценариев, Purpose и семь иных
-требований сохранены. Все artifacts done/tasks9/9; change перенесён в архив.
+Repair PR68 merged штатным merge commit
+`f7e38b1`; P2 доступен из main-only checkout, full check 72/72. Дельта перенесена
+в основную distribution spec: 9 требований / 19 сценариев, Purpose и семь иных
+требований сохранены. Все artifacts done/tasks 9/9; change перенесён в архив.
 Runtime/plugin/source.sha/npm версии не менялись. Доставка archive/spec sync
 имеет отдельный PR; публикация, его merge и применение к asc-admin не выполнялись.
