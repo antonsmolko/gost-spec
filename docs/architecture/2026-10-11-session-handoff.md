@@ -1,7 +1,7 @@
 # Передача контекста разработки gost-spec
 
-Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и skill —
-`gost-svelte-shell`, поведение подключения Svelte 5 SPA сохраняется.
+Change `rename-svelte-shell-plugin`, #64, завершён и архивирован: 9/9.
+Имя plugin и skill — `gost-svelte-shell`; fc/shell поведение сохраняется.
 
 Упаковка skill в общий native plugin для Codex и Claude, #55, завершена и архивирована;
 см. дополнение в конце. Исходный skill #54 завершён и архивирован; его основной
@@ -15,28 +15,22 @@ Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и
 Archive/spec sync #55 доставлен в main через
 [PR #65](https://github.com/antonsmolko/gost-spec/pull/65), commit `c7c879c`.
 Повторно архивировать или искать незакоммиченный локальный перенос не требуется.
-Переименование plugin/skill в `gost-svelte-shell`,
-[#64](https://github.com/antonsmolko/gost-spec/issues/64), реализовано: 9/9.
-PR #66 слит только в `feature/gost-spec-55-plugin-archive`, поэтому его merged
-статус не означает доставку rename в main. PR #67 доставил файлы в main как
-squash commit `f919c54`, но не сохранил content P2f567ab5 в её истории.
-Текущий шаг — восстановить ancestry pin отдельным PR из исходной carrier-ветки
-через merge commit. В main-only checkout pin недоступен и distribution gate
-отказывает; наличие object в другой ветке не является исправлением.
-Review #67 уточняет Claude rollback: перед user refresh/install мейнтейнер
-восстанавливает old catalog entry/ID/pin; до этого возврат недоступен.
-README уточнён в новом content P2f567ab5; прежний P9007936 и native evidence
-сохраняются. Для доставки нужен merge commit с сохранением P2 в истории;
-CI не блокирует ошибочный выбор squash/rebase в интерфейсе GitHub.
-Текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
-Archive/sync дельты rename выполняется после восстановления pin в main;
-архивирование сейчас отложено. Изменения rename не входят в archive PR #65.
+Переименование [#64](https://github.com/antonsmolko/gost-spec/issues/64)
+доставлено в main через [PR #67](https://github.com/antonsmolko/gost-spec/pull/67),
+а pin history восстановлена штатным merge
+[PR #68](https://github.com/antonsmolko/gost-spec/pull/68), commit `f7e38b1`.
+P2f567ab5 — ancestor main; отдельный main-only checkout проходит full check 72/72.
+Повторно восстанавливать историю или считать pin утраченным не требуется.
+Change архивирован с sync основной distribution spec: 9 требований / 19 сценариев;
+план и evidence — [архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
+Доставка archive/spec sync в main — отдельный documentation PR; runtime/plugin
+и source.sha на этом шаге не меняются. Датированные статусы ниже — история.
 Следующие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
 [#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
 с исходниками. Подключение маркетплейса и применение skill к asc-admin — отдельный
-следующий шаг после согласования имени; миграция фич не входит в эти задачи.
+следующий шаг после отдельного решения владельца; миграция фич не входит в эти задачи.
 
 Архитектурная база сохранена в историческом решении
 [#30](https://github.com/antonsmolko/gost-spec/issues/30) и
@@ -215,6 +209,9 @@ main и проверяется относительно актуальной б�
 не менялись. Архив не означает публикацию или применение к asc-admin.
 
 ## Переименование Svelte shell — #64
+
+Исторический снимок реализации 2026-11-01 до README-коррекции P2 и repair68;
+текущее состояние приведено в «Откуда продолжать» и архивном ledger.
 
 Новый canonical source — `plugins/gost-svelte-shell/skills/gost-svelte-shell/`.
 Content commit P — `9007936e0d4e4732d9271de8e0222c5b96c418ea`; Claude catalog
