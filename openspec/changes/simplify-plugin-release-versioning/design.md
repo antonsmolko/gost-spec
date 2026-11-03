@@ -183,7 +183,12 @@ legacy-поставка, не требование вернуть `source.sha` �
 6. Полный suite на Node 26.0.0 и 26.11.1, real packed artifacts/external consumers,
    strict OpenSpec, audit ссылок и независимое whole-result review. Публичную
    установку не заявлять на основании loopback/native экспериментов.
-7. Обновить текущие architecture/roadmap/handoff и #70, сохраняя архивные факты.
+7. В task 1.2 обновить общий дизайн
+   `docs/superpowers/specs/2026-10-11-engineering-standards-design.md` и roadmap
+   `docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md`,
+   в task 2.2 — plugin README, в task 4.1 — handoff и #70. Проверить отсутствие
+   предписаний content SHA для новой релизной поставки в этих документах,
+   сохраняя отдельную legacy-процедуру возврата и архивные факты.
    Реализация оформляется отдельным PR с одобрением перед merge; настоящий тег требует отдельного
    release approval. После завершения #70 можно реализовывать layout #71.
 
@@ -231,3 +236,51 @@ reviewer отдельно подтвердил неизменность runtime 
 official baseline, public dependencies, strict validation и 31 локальную ссылку
 изменённых Markdown без ошибок. Он не повторял full suite и native experiments.
 Будущие RED/GREEN/native результаты не заявляются как уже полученные.
+
+## PR #72 review follow-up — 2026-11-04
+
+Прочитаны все страницы inline comments, summary reviews и PR comments
+[PR #72](https://github.com/antonsmolko/gost-spec/pull/72): два inline findings,
+два reviews без summary text, PR comments отсутствуют на момент чтения.
+Предыдущее независимое review относится к исходному плану `017d4ee`;
+новые публичные findings проверены отдельно, прежние closures не переоткрыты.
+
+### PR72-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/72#discussion_r4460498669) | Обновление SHA-контракта общего product design не закреплено явно за задачей | tasks.md task 1.2, design Migration Plan step 7, #70 | Fixed | Task 1.2 явно называет общий дизайн и roadmap с полными путями и требует проверки отсутствия content-SHA предписаний для новой релизной поставки; legacy-возврат сохраняется. Migration Plan связывает каждый документ с задачей. Scope уже включал эти документы; runtime-контракт и число задач не изменены |
+
+### PR72-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/72#discussion_r4460500810) | Слитные issue numbers в публичном proposal | proposal.md, #70 planning status | Fixed | Восстановлены `carrier #54`, `gates #20/#26`, `Рефакторинг #62`, `tests #63`; также исправлены `PR #67` и `PR #69`. Исторические номера и ссылки не меняются |
+
+### GitHub issue edits for this round
+
+В #70 planning status уточняется явная ответственность task 1.2 за общий дизайн
+и roadmap; добавляются ссылки на PR72-R1/R2, корректируются слитные references
+`Refactor62/test-location63`. Результат review и проверки обновляются в PR #72.
+Acceptance criteria, зависимости #69 → #70 → #71, 0/9 implementation progress
+и release/content gates остаются прежними; #71 и старые carrier issues не меняются.
+
+### Verification for this round
+
+Уточнение покрытия документов не меняет решения о native sources, release tags
+или область реализации. Свежий полный `npm run check` проходит 72/72 на Node
+26.0.0 и 26.11.1, включая packed artifacts/external consumers. Strict validation
+change и двух main specs, `git diff --check origin/main` проходят. Отдельный
+Git-tree audit: 109 Markdown, 172 path links + 2 same-file anchors, 0 errors;
+команда и path-list hash совпадают с Planning verification выше.
+
+Проверен полный шестифайловый diff PR и текущие unchanged product design,
+roadmap и issue dependencies. Fresh-context independent review полного результата
+подтвердило исправление R1/R2 без новых actionable findings; reviewer независимо
+проверил strict validation, whitespace, все local links/anchors и публичные
+#70/#71/#20/#26, merged PR #69 и все источники PR #72. Он не запускал full suite,
+native experiments и сетевой аудит внешних URL. Review — private input, not a
+public basis; actionable sources — публичные R1/R2 выше.
+Реализация и native experiments не начаты. Публичные статусы и source-linked
+ответы в оба inline threads завершаются после commit/push; их доставку независимое
+review не подтверждает. Пустые summary reviews не содержат отдельных findings.

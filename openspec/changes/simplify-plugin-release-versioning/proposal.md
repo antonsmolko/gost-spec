@@ -3,7 +3,7 @@
 ## Why
 
 Внутренний `source.sha` того же репозитория потребовал отдельных content/catalog
-commits и восстановления истории после squash PR67. Владелец выбрал обычный
+commits и восстановления истории после squash PR #67. Владелец выбрал обычный
 релизный порядок: версия плагина, PR, merge, затем тег на полученном main commit.
 
 ## What Changes
@@ -36,15 +36,15 @@ recipe, Svelte 5 SPA scope и независимость версий пакет
 Упрощение их layout/количества выделено в #71; этот outcome их не меняет.
 
 Outcome — [#70](https://github.com/antonsmolko/gost-spec/issues/70), отдельный
-follow-up #55/#64. База контракта включает archive PR69, уже доставленный в main
+follow-up #55/#64. База контракта включает archive PR #69, уже доставленный в main
 как `57c70bd`; он остаётся отдельным documentation outcome. План и последующая
 реализация основаны на интегрированном контракте. Новая ветка
 `feature/gost-spec-70-plugin-release-tags`, prefix `[gost-spec-70]`.
-Criteria/closure старого carrier54 и gates20/26 не меняются.
+Criteria/closure старого carrier #54 и gates #20/#26 не меняются.
 
 Порядок: #69 → #70 → #71. Здесь формулировки plugin README и контракта версии
 становятся независимыми от количества пакетов; все пять текущих workspaces
 сохраняются. Перенос каталогов и сокращение до четырёх пакетов выполняются в #71.
 
-Рефакторинг62, перенос tests63, переименование stack пакета/папки, npm registry,
+Рефакторинг #62, перенос tests #63, переименование stack пакета/папки, npm registry,
 MCP servers, публичные tags/releases и применение к asc-admin не входят в outcome.

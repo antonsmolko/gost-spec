@@ -8,7 +8,7 @@
 ## 1. Проверка файлов и источники каталогов
 
 - [ ] 1.1 До runtime-правок добавить и запустить RED для валидного локального Claude source и file-only копии без `.git`; включить отказ от внешнего/legacy источника и перенаправления. Зафиксировать падение текущего checker по новому контракту, сохранив непиновые negative cases и CLI/root diagnostics.
-- [ ] 1.2 Перевести Claude на локальный source и минимально убрать Git-object dependency checker/fixture; сохранить Codex source и все проверки состава/метаданных/ссылок/приватности. Обновить описание источников в текущей architecture/roadmap вместе с кодом; distribution tests и file-only check должны стать GREEN, старые non-pin negative cases и root `skills/` guard должны сохраниться.
+- [ ] 1.2 Перевести Claude на локальный source и минимально убрать Git-object dependency checker/fixture; сохранить Codex source и все проверки состава/метаданных/ссылок/приватности. Вместе с кодом обновить описание источников в общем дизайне `docs/superpowers/specs/2026-10-11-engineering-standards-design.md` и roadmap `docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md`; проверить, что текущие разделы этих документов больше не предписывают content SHA для новой релизной поставки, сохраняя отдельную legacy-процедуру возврата. Distribution tests и file-only check должны стать GREEN, старые non-pin negative cases и root `skills/` guard должны сохраниться.
 
 ## 2. Версия и руководство выпуска
 
