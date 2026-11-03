@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { execFileSync, spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
@@ -8,7 +8,7 @@ import test, { type TestContext } from "node:test";
 import { checkPluginDistribution } from "../../scripts/check-plugin-distribution.ts";
 
 const repository = resolve(import.meta.dirname, "../..");
-const pluginPath = "plugins/gost-svelte-spa-state";
+const pluginPath = "plugins/gost-svelte-shell";
 const json = async (path: string) => JSON.parse(await readFile(path, "utf8"));
 
 const git = (root: string, args: string[]) => execFileSync("git", ["-C", root, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
@@ -40,14 +40,18 @@ test("both harness manifests expose the same independently versioned skill", asy
   assert.ok(existsSync(root), "self-contained plugin distribution is missing");
   const codex = await json(join(root, ".codex-plugin/plugin.json"));
   const claude = await json(join(root, ".claude-plugin/plugin.json"));
-  assert.equal(codex.name, "gost-svelte-spa-state");
+  assert.equal(codex.name, "gost-svelte-shell");
   assert.equal(claude.name, codex.name);
   assert.equal(claude.version, codex.version);
-  const skill = await readFile(join(root, "skills/gost-svelte-spa-state/SKILL.md"), "utf8");
-  const recipe = await readFile(join(root, "skills/gost-svelte-spa-state/references/foundation.md"), "utf8");
+  const skill = await readFile(join(root, "skills/gost-svelte-shell/SKILL.md"), "utf8");
+  const recipe = await readFile(join(root, "skills/gost-svelte-shell/references/foundation.md"), "utf8");
   assert.match(skill, /references\/foundation\.md/);
+  assert.match(skill, /^name: gost-svelte-shell$/m);
+  assert.equal(existsSync(join(repository, "plugins/gost-svelte-spa-state")), false, "old plugin tree must be absent from the current repository working tree");
+  const authoring = join(repository, "skills");
+  assert.deepEqual(existsSync(authoring) ? await readdir(authoring, { recursive: true }) : [], [],
+    "top-level skills/ must be absent or empty; author-maintained skills belong under plugins/");
   assert.match(recipe, /# Public API recipe/);
-  assert.equal(existsSync(join(repository, "skills/gost-svelte-spa-state/SKILL.md")), false);
 });
 
 test("native marketplace catalogs select the same plugin directory", async () => {
@@ -67,21 +71,21 @@ test("native marketplace catalogs select the same plugin directory", async () =>
 });
 
 test("the distribution contains its local API recipe", () => {
-  assert.ok(existsSync(join(repository, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md")),
+  assert.ok(existsSync(join(repository, pluginPath, "skills/gost-svelte-shell/references/foundation.md")),
     "required local reference foundation.md is missing from the distribution");
 });
 
 
 const broken = [
-  ["different versions", ".claude-plugin/plugin.json", '{"name":"gost-svelte-spa-state","version":"0.9.0"}', /version/],
+  ["different versions", ".claude-plugin/plugin.json", '{"name":"gost-svelte-shell","version":"0.9.0"}', /version/],
   ["different identities", ".claude-plugin/plugin.json", '{"name":"another","version":"0.1.0"}', /name/],
-  ["invalid SemVer", ".codex-plugin/plugin.json", '{"name":"gost-svelte-spa-state","version":"01.2.3"}', /version/],
+  ["invalid SemVer", ".codex-plugin/plugin.json", '{"name":"gost-svelte-shell","version":"01.2.3"}', /version/],
   ["malformed metadata", ".codex-plugin/plugin.json", "{", /plugin.json/],
-  ["missing skill", "skills/gost-svelte-spa-state/SKILL.md", null, /SKILL.md/],
-  ["missing recipe", "skills/gost-svelte-spa-state/references/foundation.md", null, /foundation.md/],
-  ["escaping path", "skills/gost-svelte-spa-state/SKILL.md", "[outside](../../../outside.md)", /local link/],
-  ["encoded escaping path", "skills/gost-svelte-spa-state/SKILL.md", "[outside](%2e%2e/%2e%2e/%2e%2e/outside.md)", /local link/],
-  ["escaping file URI", "skills/gost-svelte-spa-state/SKILL.md", "[outside](file:///tmp/outside.md)", /local link/],
+  ["missing skill", "skills/gost-svelte-shell/SKILL.md", null, /SKILL.md/],
+  ["missing recipe", "skills/gost-svelte-shell/references/foundation.md", null, /foundation.md/],
+  ["escaping path", "skills/gost-svelte-shell/SKILL.md", "[outside](../../../outside.md)", /local link/],
+  ["encoded escaping path", "skills/gost-svelte-shell/SKILL.md", "[outside](%2e%2e/%2e%2e/%2e%2e/outside.md)", /local link/],
+  ["escaping file URI", "skills/gost-svelte-shell/SKILL.md", "[outside](file:///tmp/outside.md)", /local link/],
   ["forbidden fixture", "fixtures/private.md", "private", /unexpected file/],
 ] as const;
 
@@ -109,9 +113,9 @@ test("distribution validation rejects catalog redirection and symlinked referenc
   assert.match((await checkPluginDistribution(root)).join("\n"), /source/);
   catalog.plugins[0].source = original;
   await writeFile(join(root, ".claude-plugin/marketplace.json"), JSON.stringify(catalog));
-  const recipe = join(root, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md");
+  const recipe = join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md");
   await rm(recipe);
-  await symlink(join(repository, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md"), recipe);
+  await symlink(join(repository, pluginPath, "skills/gost-svelte-shell/references/foundation.md"), recipe);
   assert.match((await checkPluginDistribution(root)).join("\n"), /symlink/);
 });
 
@@ -133,7 +137,7 @@ test("a plugin-only patch version is validated independently of npm workspaces",
 
 test("external URI schemes are not mistaken for local files", async (t) => {
   const root = await fixture(t);
-  const skill = join(root, pluginPath, "skills/gost-svelte-spa-state/SKILL.md");
+  const skill = join(root, pluginPath, "skills/gost-svelte-shell/SKILL.md");
   await writeFile(skill, "[Contact](mailto:maintainer@example.invalid)\n[Archive](ftp://example.invalid/docs)\n");
   await pin(root);
   assert.deepEqual(await checkPluginDistribution(root), []);
@@ -142,7 +146,7 @@ test("external URI schemes are not mistaken for local files", async (t) => {
 test("null metadata reports its file and still diagnoses an independent missing reference", async (t) => {
   const root = await fixture(t);
   await writeFile(join(root, pluginPath, ".codex-plugin/plugin.json"), "null");
-  await rm(join(root, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md"));
+  await rm(join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md"));
   const diagnostics = (await checkPluginDistribution(root)).join("\n");
   assert.match(diagnostics, /\.codex-plugin\/plugin.json:.*object/);
   assert.match(diagnostics, /foundation.md/);
@@ -151,7 +155,7 @@ test("null metadata reports its file and still diagnoses an independent missing 
 
 test("CLI checks the requested tree rather than a healthy current directory", async (t) => {
   const root = await fixture(t);
-  await rm(join(root, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md"));
+  await rm(join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md"));
   const result = spawnSync(process.execPath, [join(repository, "scripts/check-plugin-distribution.ts"), root], {
     cwd: repository, encoding: "utf8", timeout: 10000,
   });
@@ -180,7 +184,7 @@ for (const [label, changes, expected] of [
 test("pinned source accepts a real commit but rejects a changed working tree", async (t) => {
   const root = await fixture(t);
   assert.deepEqual(await checkPluginDistribution(root), []);
-  const recipe = join(root, pluginPath, "skills/gost-svelte-spa-state/references/foundation.md");
+  const recipe = join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md");
   const old = await readFile(recipe, "utf8");
   await writeFile(recipe, old + "\nChanged since the pin.\n");
   assert.match((await checkPluginDistribution(root)).join("\n"), /source.*content/);

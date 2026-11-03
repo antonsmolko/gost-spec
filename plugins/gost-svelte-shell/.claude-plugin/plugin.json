@@ -1,5 +1,5 @@
 {
-  "name": "gost-svelte-spa-state",
+  "name": "gost-svelte-shell",
   "version": "0.1.0",
   "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA.",
   "author": {
