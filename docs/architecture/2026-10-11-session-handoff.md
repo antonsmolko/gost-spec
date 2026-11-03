@@ -18,16 +18,19 @@ Archive/spec sync #55 доставлен в main через
 Переименование plugin/skill в `gost-svelte-shell`,
 [#64](https://github.com/antonsmolko/gost-spec/issues/64), реализовано: 9/9.
 PR #66 слит только в `feature/gost-spec-55-plugin-archive`, поэтому его merged
-статус не означает доставку rename в main. Доставку из исходной carrier-ветки
-отслеживает [PR #67](https://github.com/antonsmolko/gost-spec/pull/67).
+статус не означает доставку rename в main. PR #67 доставил файлы в main как
+squash commit `f919c54`, но не сохранил content P2f567ab5 в её истории.
+Текущий шаг — восстановить ancestry pin отдельным PR из исходной carrier-ветки
+через merge commit. В main-only checkout pin недоступен и distribution gate
+отказывает; наличие object в другой ветке не является исправлением.
 Review #67 уточняет Claude rollback: перед user refresh/install мейнтейнер
 восстанавливает old catalog entry/ID/pin; до этого возврат недоступен.
 README уточнён в новом content P2f567ab5; прежний P9007936 и native evidence
 сохраняются. Для доставки нужен merge commit с сохранением P2 в истории;
 CI не блокирует ошибочный выбор squash/rebase в интерфейсе GitHub.
 Текущий план и evidence — [rename change](../../openspec/changes/rename-svelte-shell-plugin/tasks.md).
-После интеграции rename нужен отдельный archive/sync его дельты; изменения
-rename не входят в archive PR #65.
+Archive/sync дельты rename выполняется после восстановления pin в main;
+архивирование сейчас отложено. Изменения rename не входят в archive PR #65.
 Следующие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
