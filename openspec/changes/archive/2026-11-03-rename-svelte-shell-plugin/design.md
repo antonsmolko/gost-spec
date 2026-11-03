@@ -557,12 +557,20 @@ strict/diff checks и tracked Markdown audit 105/169/0. Node26.0.0 подтве�
 
 ## Archive and spec synchronization — 2026-11-03
 
-Владелец явно разрешил merge #68, проверку main, синхронизацию и архивирование.
+Разрешение владельца на merge #68, проверку main, sync/archive получено в личном
+диалоге: private input, not a public basis. Публичная actionable основа —
+[#64](https://github.com/antonsmolko/gost-spec/issues/64) и
+[archive PR #69](https://github.com/antonsmolko/gost-spec/pull/69);
+[merged PR #68](https://github.com/antonsmolko/gost-spec/pull/68) подтверждает
+фактически выполненный repair, а не публичность личного разрешения.
 PR68 слит штатным merge commit `f7e38b107de9992dcb8d5c75146880ba3fa9c065`:
 его родители f919c54 и a9c1448; P2f567ab5 теперь ancestor настоящей main.
 История и файлы плагина не переписывались. Fresh main-only checkout без других
 refs/shared objects получил pin и прошёл full check 72/72; evidence:
 `/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-archive-rename-ujjvy54i/merged-main-check.log`.
+Локальный log — supplementary detail. Публичные checks фактической main f7e38b1:
+[Node 26.0.0](https://github.com/antonsmolko/gost-spec/actions/runs/41703311090/job/126151964127)
+и [Node 26.11.1](https://github.com/antonsmolko/gost-spec/actions/runs/41703311090/job/126151963740).
 Это закрывает post-merge delivery prerequisite выше. Native P2/public GitHub
 installation не повторялись и не заявляются проверенными.
 
@@ -571,7 +579,7 @@ context не содержит дополнительных constraints, specs-ru
 один раз и переиспользован inline sync. Отдельных rules нет. Из единственной
 зарегистрированной delta перенесены MODIFIED Native marketplace installation
 и ADDED Explicit migration between plugin identities: main spec теперь содержит
-9 требований /19 сценариев. H1/Purpose и семь остальных requirement blocks
+9 требований / 19 сценариев. H1/Purpose и семь остальных requirement blocks
 сохранены без изменения, оба delta blocks совпадают с main побайтово.
 Новых формулировок, delta headers или TBD Purpose в main не добавляли.
 
@@ -586,7 +594,7 @@ source.sha, runtime/tests и пять npm-пакетов не менялись. 
 ### GitHub archive reconciliation
 
 #64/#55/#54 получают текущий статус: repair68 merged/pin restored; change64
-архивирован с sync9/19, canonical ledger переехал в archive path. Ранние
+архивирован с sync 9/19, canonical ledger переехал в archive path. Ранние
 prepared/paused sections сохраняются как исторические и superseded текущим
 снимком. Criteria/closure, retained [gost-spec-52] prefix и gates #20/#26
 сохраняются, issues автоматически не закрываются. На #67/R1 оставляется ссылка
@@ -595,28 +603,123 @@ prepared/paused sections сохраняются как исторические 
 
 ### Archive verification
 
-Полный `npm run check` текущего archive результата прошёл 72/72 на Node26.0.0
-и26.11.1, включая real packed artifacts/external consumers: logs
+Ниже сохранён verification snapshot исходного archive head `ec3659b`.
+Полный `npm run check` этого archive результата прошёл 72/72 на Node 26.0.0
+и 26.11.1, включая real packed artifacts/external consumers: supplementary logs
 /tmp/gost-archive-rename-check-node26.0.log и /tmp/gost-archive-rename-check.log.
+Публичный CI для того же exact head:
+[Node 26.0.0](https://github.com/antonsmolko/gost-spec/actions/runs/41704612582/job/126156497904),
+[Node 26.11.1](https://github.com/antonsmolko/gost-spec/actions/runs/41704612582/job/126156498488).
 `openspec validate --specs --strict` проверяет обе основные specs успешно;
 completed rename отсутствует в active list. Отдельно подтверждены exact delta
 blocks в main, Purpose/seven-block preservation, исходные bytes .openspec.yaml,
 proposal и delta, нулевой runtime/plugin/catalog/npm diff и whitespace check.
-Repository-wide audit:105 Markdown files/169 local links+anchors/0 errors.
+Repository-wide audit этого snapshot: 105 Markdown files / 169 local links+anchors / 0 errors.
 Независимое review полного archive outcome выполняется до его PR; source pin
 уже в main history и этим documentation outcome не вводится/не меняется.
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| Independent reviewer, private input, not a public basis; [#64](https://github.com/antonsmolko/gost-spec/issues/64) | Roadmap #55 в настоящем времени называл основной contract8/14 после sync9/19 | docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md | Fixed and reviewer-confirmed closed | Формулировка описывает историческое создание8/14 при archive55 и прямо указывает на текущее дополнение64; нижний актуальный блок9/19 согласован. Это новое последствие sync, не reopening прежних reviewer-confirmed closures |
+| Independent reviewer, private input, not a public basis; [#64](https://github.com/antonsmolko/gost-spec/issues/64) | Roadmap #55 в настоящем времени называл основной contract 8/14 после sync 9/19 | docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md | Fixed and reviewer-confirmed closed | Формулировка описывает историческое создание 8/14 при archive 55 и прямо указывает на текущее дополнение 64; нижний актуальный блок 9/19 согласован. Это новое последствие sync, не reopening прежних reviewer-confirmed closures |
 
 Независимое fresh-context whole-result review всего девятифайлового archive
-outcome завершено без открытых findings. Reviewer сам выполнил full check72/72
-на Node26.11.1 с packed/external consumers, strict validation обеих main specs,
-Git-blob audit105/169/0, exact block/metadata comparison и runtime/pin equality.
+outcome завершено без открытых findings. Reviewer сам выполнил full check 72/72
+на Node 26.11.1 с packed/external consumers, strict validation обеих main specs,
+Git-blob audit 105/169/0, exact block/metadata comparison и runtime/pin equality.
 Прочитаны live #64/#55/#54, related #62/#63 и все страницы PR67/68 review sources;
 фактическое закрытие repair prerequisite проверено по main/parents/публичным replies.
-Node26.0.0/main-only результаты прочитаны в логах автора; native installs не
+Node 26.0.0/main-only результаты прочитаны в логах автора; native installs не
 повторялись. Review — private input, not a public basis; public scope — #64
 и source-linked merged PR68/PR67-R3. Остались commit/push/отдельный archive PR/CI,
 которые не разрешают его merge автоматически.
+
+## PR 69 review follow-up
+
+Прочитаны все страницы четырёх inline comments, summary review
+[5758587113](https://github.com/antonsmolko/gost-spec/pull/69#pullrequestreview-5758587113)
+и отдельный PR-level finding. Прежний roadmap finding остаётся reviewer-confirmed
+closed. Изменены только documentation/tracking; runtime и нормативные blocks
+перенесённой дельты не менялись.
+
+### PR69-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R1](https://github.com/antonsmolko/gost-spec/pull/69#discussion_r4459711548) | Temp logs не были дополнены публичным evidence/воспроизводимым audit | archive design; PR69 | Fixed | Exact-head CI links ec3659b и actual-main CI f7e38b1 добавлены рядом с supplementary paths, merged68 указан. Команды ниже воспроизводят main-only proof и tracked-tree audit, не зависят от авторских временных файлов |
+
+Main-only proof с Node ^26.0.0 и доступом к публичным Git/npm:
+
+```sh
+proof_root="$(mktemp -d)"
+git clone --single-branch --no-tags --branch main https://github.com/antonsmolko/gost-spec.git "$proof_root/main-only"
+git -C "$proof_root/main-only" checkout --detach f7e38b107de9992dcb8d5c75146880ba3fa9c065
+git -C "$proof_root/main-only" merge-base --is-ancestor f567ab5ad04b139b25a75c9d65c735abe51c3065 HEAD
+(cd "$proof_root/main-only" && npm ci --ignore-scripts && npm run check)
+```
+
+Для Markdown audit использовать уже committed
+[self-contained Git-blob command](../2026-11-01-package-state-foundation-plugin/design.md#pr65-r3).
+Он читает только выбранный Git tree через `AUDIT_REF` (по умолчанию HEAD), а не
+untracked файлы. На ec3659b ожидаются 105 Markdown, 167 links with paths + 2
+same-file anchors, 0 errors; новые ссылки review round учитываются отдельно.
+
+### PR69-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R2](https://github.com/antonsmolko/gost-spec/pull/69#discussion_r4459711558) | Private owner authorization не маркирована и не связана с public scope | archive design/tasks; #64 | Fixed | Canonical record явно private input, not a public basis и paired с public64/PR69; merged68 используется только как evidence фактического действия. Повторный неснабжённый source claim убран из tasks; публичный owner comment не выдумывается |
+
+### PR69-R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R3](https://github.com/antonsmolko/gost-spec/pull/69#discussion_r4459711566) | Слитные bare counts/Node values затрудняют цитирование | design/tasks/handoff | Fixed | Добавлены пробелы перед bare values; исторические compact revision labels сохранены. Исторический 169-target audit явно привязан к ec3659b |
+
+### PR69-R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R4](https://github.com/antonsmolko/gost-spec/pull/69#discussion_r4459711575) | PR67 без ссылки и commit без code formatting | handoff | Fixed | Доставка ссылается на PR67, f7e38b1 оформлен как revision literal |
+
+### PR69-R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR-level R5](https://github.com/antonsmolko/gost-spec/pull/69#issuecomment-6613947685) | Согласование имени осталось невыполненным precondition текущей очереди | handoff; #64 | Fixed | Следующий asc-admin step требует отдельного решения владельца; согласованное/доставленное имя не предлагается пересматривать. Это substantive queue clarification, поэтому весь результат проходит independent review, не wording-only exemption |
+
+### GitHub review reconciliation
+
+#64/#55/#54 получают source-linked R1–R5 dispositions и актуальную ссылку на
+архивный ledger; критерии/closure и gates20/26 не меняются. В PR69 обновляются
+evidence links; каждый inline thread и summary получают ответ со ссылкой на
+свою запись. #70/#71 остаются отдельными branches/plans, не входят в этот diff.
+
+### Verification of this review round
+
+Свежие full checks прошли 72/72 на Node 26.0.0 и 26.11.1, включая actual packed
+artifacts/external consumers; supplementary logs: /tmp/gost-review69-check-node26.0.log
+и /tmp/gost-review69-check.log. Публичная main-only команда из R1 выполнена через
+HTTPS clone без shared objects/других branches, с npm ci и full check 72/72 на
+точном f7e38b1; provenance дополнен public main CI, а temp log не является
+единственным evidence. Новая native установка не выполнялась.
+
+Committed Git-blob audit из R1 проверен на ec3659b и candidate tree: 105 Markdown,
+167 → 168 links with paths, 2 same-file anchors, 0 errors. Добавилась ровно ссылка
+на воспроизводимую команду; path-list SHA256 в обоих случаях
+`9d23c658fca58994a82ac773fc031f3f2fc5f20dc32ca0f20c66046c73c81137`.
+Это 170 суммарных targets после review fixes, не прежние 169. Strict validation
+обеих main specs и whitespace checks проходят; runtime/plugin/catalog/npm diff
+от ec3659b пустой. CI нового head фиксируется после push в
+[PR #69 checks](https://github.com/antonsmolko/gost-spec/pull/69/checks).
+
+Independent fresh-context whole-result review всех девяти файлов подтвердил
+R1–R5 и отсутствие открытых findings. Reviewer сам проверил exact delta transfer,
+H1/Purpose/семь прежних blocks, archive metadata, нулевой runtime/plugin/catalog/npm
+diff, strict/whitespace и tracked audit 105/170/0. Публичные exact-head CI/job IDs
+подтверждены GitHub REST, HTTPS main-only clone/provenance проверены отдельно.
+Полные suites прочитаны в свежих логах 72/72 обоих Node; reviewer их и native
+installation не повторял. Сохранены все прежние reviewer-confirmed closures.
+Review — private input, not a public basis; public actionable sources — пять
+комментариев и summary PR69 выше. Это substantive R5 review полного результата,
+а не wording-only exemption. Остаются commit/push/новый CI и source-linked replies;
+они не разрешают merge PR69 автоматически.

@@ -16,11 +16,12 @@ Archive/spec sync #55 доставлен в main через
 [PR #65](https://github.com/antonsmolko/gost-spec/pull/65), commit `c7c879c`.
 Повторно архивировать или искать незакоммиченный локальный перенос не требуется.
 Переименование [#64](https://github.com/antonsmolko/gost-spec/issues/64)
-доставлено в main через PR67, а pin history восстановлена штатным merge
-[PR #68](https://github.com/antonsmolko/gost-spec/pull/68), commit f7e38b1.
-P2f567ab5 — ancestor main; отдельный main-only checkout проходит full check72/72.
+доставлено в main через [PR #67](https://github.com/antonsmolko/gost-spec/pull/67),
+а pin history восстановлена штатным merge
+[PR #68](https://github.com/antonsmolko/gost-spec/pull/68), commit `f7e38b1`.
+P2f567ab5 — ancestor main; отдельный main-only checkout проходит full check 72/72.
 Повторно восстанавливать историю или считать pin утраченным не требуется.
-Change архивирован с sync основной distribution spec:9 требований/19 сценариев;
+Change архивирован с sync основной distribution spec: 9 требований / 19 сценариев;
 план и evidence — [архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
 Доставка archive/spec sync в main — отдельный documentation PR; runtime/plugin
 и source.sha на этом шаге не меняются. Датированные статусы ниже — история.
@@ -29,7 +30,7 @@ Change архивирован с sync основной distribution spec:9 тр�
 `scripts/` и `tests/helpers/`, и
 [#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
 с исходниками. Подключение маркетплейса и применение skill к asc-admin — отдельный
-следующий шаг после согласования имени; миграция фич не входит в эти задачи.
+следующий шаг после отдельного решения владельца; миграция фич не входит в эти задачи.
 
 Архитектурная база сохранена в историческом решении
 [#30](https://github.com/antonsmolko/gost-spec/issues/30) и
