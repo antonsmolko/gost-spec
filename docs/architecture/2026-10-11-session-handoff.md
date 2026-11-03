@@ -23,9 +23,23 @@ P2f567ab5 — ancestor main; отдельный main-only checkout проход�
 Повторно восстанавливать историю или считать pin утраченным не требуется.
 Change архивирован с sync основной distribution spec: 9 требований / 19 сценариев;
 план и evidence — [архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
-Доставка archive/spec sync в main — отдельный documentation PR; runtime/plugin
-и source.sha на этом шаге не меняются. Датированные статусы ниже — история.
-Следующие независимые задачи —
+Archive/spec sync доставлен в main через
+[PR #69](https://github.com/antonsmolko/gost-spec/pull/69), commit `57c70bd`;
+runtime/plugin и source.sha этим documentation outcome не менялись.
+Датированные статусы ниже — история.
+
+Текущий следующий шаг — [#70](https://github.com/antonsmolko/gost-spec/issues/70),
+переход на релизные теги маркетплейса вместо внутреннего content SHA.
+[OpenSpec-план](../../openspec/changes/simplify-plugin-release-versioning/proposal.md)
+описывает native sources, проверку выпуска и сохранённые границы; implementation
+tasks 0/9. Текущие каталоги всё ещё используют прежний способ, версия 0.1.0
+unreleased. План подготовки 0.2.0 не создаёт публичный выпуск.
+Порядок — #69 → #70 →
+[#71](https://github.com/antonsmolko/gost-spec/issues/71): упрощение до четырёх
+пакетов согласовано отдельно и не реализуется в #70. План #71 сохранён на ветке
+`feature/gost-spec-71-standard-package-layout`; в текущем checkout пять пакетов.
+Изменение count-specific plugin README относится к #70, поэтому #71 не потребует
+правки прежнего content pin. Другие независимые задачи —
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
 [#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
