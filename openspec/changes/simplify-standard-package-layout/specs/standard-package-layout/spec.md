@@ -56,7 +56,7 @@
 - **AND** реальные owner decisions и release approval остаются отдельными действиями
 
 ### Requirement: Legacy package removal has an explicit boundary
-Legacy standards-svelte-spa SHALL удаляться как самостоятельный пакет только при подтверждённом unreleased состоянии. Если обнаружена фактическая публикация, изменение MUST остановиться до отдельного решения о миграции. Перенос MUST NOT менять runtime плагина, source pin или приложение-потребитель.
+Legacy standards-svelte-spa SHALL удаляться как самостоятельный пакет только при подтверждённом unreleased состоянии. Если обнаружена фактическая публикация, изменение MUST остановиться до отдельного решения о миграции. Перенос MUST NOT менять runtime, каталоги и выбор версии плагина или приложение-потребитель.
 
 #### Scenario: Publication contradicts the unreleased baseline
 - **WHEN** перед removal обнаружена существующая публичная версия legacy пакета

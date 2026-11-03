@@ -3,8 +3,7 @@
 ## Context
 
 Мотивация и owner-approved target — [proposal](proposal.md). Контракты:
-[layout](specs/standard-package-layout/spec.md) и
-[plugin independence](specs/state-foundation-plugin-distribution/spec.md).
+[layout](specs/standard-package-layout/spec.md).
 
 Сейчас существуют пять document-only npm workspaces версии 0.1.0 unreleased.
 Svelte package содержит derived-state правило; stack package — единственное
@@ -99,9 +98,12 @@ consumer: docs/reference resolution, FSD ownership, отсутствие workspa
 private материалов/runtime interfaces и legacy package. Broken link/metadata
 остаётся явной ошибкой. Проверяются installed artifacts, не только source imports.
 
-Plugin files/catalogs/source pin и родительские npm identities не меняются.
-Единственная distribution delta убирает числительное «пять» из independent-version
-requirement, сохраняя весь scenario и его запрет связывать версии.
+Plugin files/catalogs/выбор версии и родительские npm identities не меняются.
+Обнаружен literal «five standards packages» в plugin README; при нынешнем SHA
+workflow его изменение потребовало бы новый content pin. Поэтому #70 выполняется
+раньше #71: в distribution docs и contract он нейтрализует число пакетов как часть
+упрощённого release workflow, не меняя сами workspaces. Layout применяет уже этот
+baseline, сохраняет hashes plugin files и не добавляет повторную distribution delta.
 
 ## Risks / Trade-offs
 
@@ -112,12 +114,13 @@ requirement, сохраняя весь scenario и его запрет связ�
   описать новый ownership/applicability; нормализация ID требует отдельного решения.
 - [Stale links/old workspace names] → полный source/issue search и отдельный
   Markdown/anchor audit, включая incoming archive links.
-- [PR69 ещё открыт] → перед apply интегрировать его main baseline; не создавать
-  stacked delivery PR и не добавлять package changes в documentation PR69.
+- [PR69/#70 ещё не интегрированы] → перед apply получить оба main baselines;
+  не создавать stacked delivery PR и не добавлять package changes в PR69/#70.
 
 ## Migration Plan
 
-1. Проверить base69, unreleased status и сохранить package/content/ID baselines.
+1. Проверить baselines69/70, отсутствие count-specific plugin wording, unreleased
+   status и сохранить package/content/ID baselines.
 2. RED: four-workspace layout, FSD tarball ownership и эквивалентные gate cases.
 3. Перенести пакеты/FSD, обновить workspaces/lock и текущие references/fixtures.
 4. Проверить real tarballs/offline consumers, synthetic gate cases, оба Node,
@@ -133,20 +136,21 @@ unreleased. Scope release70 не смешивается с этим outcome.
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — новый issue-scoped outcome,
 ветка feature/gost-spec-71-standard-package-layout и prefix `[gost-spec-71]`.
 Прежний carrier54/его criteria и closure не расширяются; issue70 сохраняется
-отдельным draft на собственной ветке. User-approved четыре пакета заменяют
+отдельным draft на собственной ветке и выполняется первым. User-approved четыре пакета заменяют
 старое число в будущем apply, но сейчас package/runtime files ещё не менялись.
 
 ### GitHub issue reconciliation
 
-В #71 записаны owner target, четыре identities, gate-equivalence и зависимости #69/#70.
-#70 получил отдельность layout71 и draft status; его первоначальный proposal
+В #71 записаны owner target, четыре identities, gate-equivalence и порядок #69 → #70 → #71.
+#70 получил отдельность layout71, draft status и обязанность нейтрализовать
+package-count wording в distribution docs/контракте до layout; его первоначальный proposal
 сохранён commit 9e3d35a на feature/gost-spec-70-plugin-release-tags. Current #20/#26
 пока не редактировались: при apply изменяется только ownership/package wording
 core/TypeScript/FSD minimum и четырёх release artifacts, без acceptance/closure.
 Прежние #54/#55/#64/#62/#63 решения не переоткрываются. Planning approval не
 принимает содержание стандартов и не разрешает merge/release.
 
-### Planning verification and independent review
+### Initial planning verification — 969eaac
 
 Strict OpenSpec validation прошла, все четыре planning artifacts готовы, tasks
 0/8. Source packages, workspaces/lock, plugin/catalog/source pin и main specs
@@ -170,3 +174,24 @@ Reviewer проверил cached diff и прочитал baseline log; runtime 
 Planning documents сохраняются отдельным commit/branch #71. До apply требуется
 новый запрос после review артефактов; текущая planning workflow не запускает
 реализацию автоматически. Нет new content acceptance, merge или release approval.
+
+### Dependency correction before implementation
+
+В [plugin README](https://github.com/antonsmolko/gost-spec/blob/f7e38b107de9992dcb8d5c75146880ba3fa9c065/plugins/gost-svelte-shell/README.md#distribution-and-versions)
+обнаружено «five standards packages». Исправить это внутри #71 при прежнем
+source.sha contract означало бы новый content pin, вопреки границе layout.
+Поэтому сначала #70 делает distribution README/contract нейтральными к числу
+пакетов и переходит на tags, затем #71 меняет только packages. Public #70/#71
+получают этот порядок; cycles и потеря исходной tag-задачи не допускаются.
+Повторная distribution delta из #71 удалена: это ответственность #70.
+
+Первоначальный review/snapshot969eaac выше сохраняет свои точные scope/цифры.
+После коррекции повторяются strict validation/link audit и independent review
+всего итогового плана; runtime source/workspaces/plugin files ещё не изменены.
+
+Повторный independent whole-result review подтвердил отсутствие cycles и новых
+findings, один layout delta и согласованность live #70/#71. Обновлённый strict
+check успешен; repository audit: 109 Markdown / 174 local targets / 0 errors.
+Проверка cached diff пройдена reviewer; runtime/link runs им повторно не запускались.
+Runtime baseline остаётся прежним, реализация 0/8. Сначала закрывается review69;
+затем отдельно завершается план/apply70 и только после этого apply71.

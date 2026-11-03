@@ -1,13 +1,12 @@
 # Tasks
 
-Контракт — [layout](specs/standard-package-layout/spec.md) и
-[plugin independence](specs/state-foundation-plugin-distribution/spec.md),
+Контракт — [layout](specs/standard-package-layout/spec.md),
 решения — [design](design.md), outcome — [#71](https://github.com/antonsmolko/gost-spec/issues/71).
 Это готовый план; реализация не начата.
 
 ## 1. База и RED
 
-- [ ] 1.1 Интегрировать main baseline PR69 перед реализацией; подтвердить actual publication/unreleased legacy status, сохранить документы/ID/status/level, версии и plugin hashes. При существующем registry release остановиться до решения о миграции; не расширять PR69.
+- [ ] 1.1 Интегрировать main baselines PR69 и #70 перед реализацией; проверить count-neutral plugin docs/contract, подтвердить actual publication/unreleased legacy status, сохранить документы/ID/status/level, версии и plugin hashes. При существующем registry release остановиться до решения о миграции; не расширять PR69/#70.
 - [ ] 1.2 До runtime changes запустить failing behavior tests для four-package layout и installed FSD ownership, а также negative core/TS/general-frontend accepted без FSD и positive с accepted FSD profile. Сохранить остальные malformed/example-header отказы и проверить причины RED.
 
 ## 2. Перенос и gates
@@ -22,5 +21,5 @@
 
 ## 4. Завершение
 
-- [ ] 4.1 Запустить полный check на Node 26.0.0 и 26.11.1 и обязательные Changesets/packed checks; отдельно проверить полный diff, unchanged plugin/catalog/source pin и текущие контракты/issue bodies/links/anchors.
+- [ ] 4.1 Запустить полный check на Node 26.0.0 и 26.11.1 и обязательные Changesets/packed checks; отдельно проверить полный diff, unchanged plugin/catalog/выбор версии и текущие контракты/issue bodies/links/anchors.
 - [ ] 4.2 Провести independent whole-result review с source-linked ledger без открытых findings; подготовить отдельный implementation PR71. Не смешивать release tags70/refactor62/test relocation63; merge, публикация, принятие содержания и применение к asc-admin остаются отдельными разрешаемыми действиями.

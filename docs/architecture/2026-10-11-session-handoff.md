@@ -6,11 +6,12 @@
 frontend/svelte. [План #71](../../openspec/changes/simplify-standard-package-layout/proposal.md)
 переносит FSD в frontend/core; packages/runtime ещё не изменены, пока остаются пять
 workspaces. Ветка feature/gost-spec-71-standard-package-layout, prefix `[gost-spec-71]`.
-Реализация начинается после review плана и интеграции archive PR69; его diff
-не расширяется. Pin history уже восстановлена merge68/f7e38b1 — ранние указания
+Реализация начинается после review плана и интеграции archive PR69 и release70;
+их diff не расширяется. Pin history уже восстановлена merge68/f7e38b1 — ранние указания
 ниже о необходимости repair исторические. Переход на теги
 [#70](https://github.com/antonsmolko/gost-spec/issues/70) сохранён draft proposal
-на отдельной ветке, не смешивается с layout. Content acceptance и merge/release
+на отдельной ветке и выполняется первым: он также убирает числительное «пять»
+из plugin docs/contract. Layout не меняет pinned plugin tree. Content acceptance и merge/release
 разрешения не выдаются автоматически; #20/#26 minimum остаётся core/TS/FSD.
 
 Apply `rename-svelte-shell-plugin`, #64, завершён: 9/9. Имя plugin и skill —
