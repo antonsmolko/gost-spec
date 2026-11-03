@@ -68,7 +68,9 @@ Codex сохраняет `{ "source": "local", "path": "./plugins/gost-svelte-sh
 Вход обычного checker — явно переданный root либо cwd. JSON и файловые пути
 считаются непроверенными. Источники должны точно соответствовать указанным
 формам и общему plugin directory; внешние Git sources, иной path или legacy
-`git-subdir` дают диагностическое сообщение с каталогом и причиной.
+`git-subdir` дают диагностическое сообщение с каталогом и причиной. Для Claude
+различаются отсутствующий source, legacy Git source, неправильный тип и иной
+path; сообщение также называет ожидаемый относительный путь без вывода URL/SHA.
 Сохраняются object-JSON validation, SemVer/equality manifests, changelog entry,
 восемь обязательных файлов, отсутствие постороннего содержимого, защита от symlink
 и escaping/encoded/file-URI путей. Внешние non-file URI не становятся локальными
@@ -122,13 +124,14 @@ Native host способен установить плохо названный 
 Документируемые формы регистрации после доступности выпуска:
 
 ```sh
-codex plugin marketplace add antonsmolko/gost-spec --ref gost-svelte-shell-v0.2.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.2.0
 codex plugin add gost-svelte-shell@gost
-claude plugin marketplace add 'antonsmolko/gost-spec#gost-svelte-shell-v0.2.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.2.0'
 claude plugin install gost-svelte-shell@gost
 ```
 
-В apply они проверяются на disposable Git origin с релизными тегами; конкретные
+В apply эти полные Git URL формы проверяются на disposable Git origin с релизными
+тегами; доступность и установка с публичного GitHub не заявляются. Конкретные
 команды update/remove/re-add/reinstall фиксируются по фактическому результату
 тех же native CLI. Смена тега должна явно менять registration ref, одного refresh
 не достаточно. При необходимости перерегистрации заранее описывается, что removal
@@ -308,9 +311,9 @@ Plugin README описывает полный manual tag lifecycle и прове
 
 ### Disposable native verification
 
-Codex 0.166.0, Claude Code 2.1.308. Run:
-`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-release70-b4u3yljn`.
-Loopback origin `http://127.0.0.1:52331/origin.git` обслуживался штатным
+Codex 0.166.0, Claude Code 2.1.308. Исходный run проверял snapshot `f81a24b`;
+его временные файлы не являются долговременными артефактами. Исторический
+loopback origin `http://127.0.0.1:52331/origin.git` обслуживался штатным
 `git-http-backend` с временным HTTP/CGI adapter. Public GitHub source и реальные
 профили не менялись; это native loopback evidence, а не публичная установка.
 Два профиля и synthetic SPA из трёх файлов; конфигурация инициализирована один раз.
@@ -351,7 +354,7 @@ discovery одинаков. Claude использует свежие CLI `plugin
 `plugin details`, включая `Skills (1)`.
 
 Проверенные native формы — команды plugin README с loopback `.git` URL вместо
-GitHub shorthand: Codex `marketplace add <url> --ref <tag>`, Claude
+публичного GitHub `.git` URL: Codex `marketplace add <url> --ref <tag>`, Claude
 `marketplace add '<url>#<tag>'`. Переключение: явный plugin remove/uninstall,
 marketplace remove/add с нужным ref, install, restart/discovery. Refresh —
 Codex `marketplace upgrade gost`, Claude `marketplace update gost`.
@@ -388,11 +391,14 @@ CODEX_HOME/CLAUDE_CONFIG_DIR и synthetic cwd, сверить все installed �
 `git show <resolved-commit>:plugins/gost-svelte-shell/<path>` и SHA256.
 Для legacy source использовать опубликованный исторический tree и доступный
 SHA в этом же temporary origin; его server должен разрешать reachable SHA fetch.
-Supplemental scripts/logs/JSON находятся в run и `/tmp/gost70-native.py`,
-`/tmp/gost70-actions.py`; они не являются единственной публичной основой.
-Публичные контракты, воспроизводимые команды и текущие hashes зафиксированы здесь.
+Временные scripts/logs/JSON использовались только для локальной проверки в
+датированном запуске; они не являются публичными артефактами или воспроизводимыми
+ссылками и могут быть удалены системой. Повторная проверка не должна зависеть
+от сохранности прежнего run: новый disposable repo и профили создаются заново
+по процедуре выше. Публичная основа — контракты, команды и hashes в этом документе,
+версионированные исходники/тесты и CI, а не локальные временные файлы.
 
-SHA256 A (тот же набор, что текущий подготовленный plugin):
+SHA256 A исходного implementation snapshot `f81a24b` (до review-правки README):
 
 ```json
 {
@@ -424,7 +430,9 @@ Strict validation активной дельты и обеих main specs, whites
 dependencies; repository-wide Git-tree audit — 109 Markdown, 174 path links +
 2 same-file anchors, 0 errors. Path-list SHA256 прежний, набор Markdown не менялся.
 Personal fingerprints и synthetic SPA после native проверки сохранены; остановлен
-только собственный loopback server. Native profiles и raw records оставлены для review.
+только собственный loopback server. Native profiles и raw records были доступны
+при исходном review; их дальнейшее хранение не гарантируется и не требуется
+публичной процедурой воспроизведения.
 Independent whole-result review завершено без actionable findings. Fresh-context
 reviewer прочитал полный 12-file diff, artifacts, product design/roadmap/handoff,
 public #70/#71/#20/#26 и все источники PR #72. Независимо выполнены full check
@@ -440,3 +448,105 @@ raw inventory и helpers; A совпадает с текущим plugin. Node 26
 
 Implementation tasks 9/9; следующий delivery step — отдельный PR, затем явное
 решение о merge. Реальные tags/releases и archive/sync требуют отдельных запросов.
+
+## PR #73 review follow-up — 2026-11-04
+
+Прочитаны все страницы inline comments, summary reviews и PR comments
+[PR #73](https://github.com/antonsmolko/gost-spec/pull/73): пять inline findings,
+один review без summary text, PR comments отсутствовали при чтении.
+Предыдущий clean review относится к исходному snapshot `f81a24b`; публичные
+findings этого раунда проверены отдельно. Закрытые PR72-R1/R2 сохраняются.
+
+### PR73-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/73#discussion_r4460864141) | GitHub shorthand в README не соответствует исполненной loopback Git URL форме | plugin README, design native forms, #70 | Fixed; вывод из отказа `#SHA` на `#tag` отклонён | Все регистрации в README/design используют полный `.git` URL и явно ограничивают evidence loopback-host. Новая fresh установка текущих восьми файлов прошла в обоих харнесах. Неподдержанный произвольный SHA и документированный branch/tag selector — разные случаи; отказ первого не является доказательством отказа второго |
+
+[Официальный Claude command reference](https://code.claude.com/docs/en/plugins/cli-reference#plugin-marketplace-add)
+описывает branch/tag ref и для GitHub source, и для полного `.git` URL;
+[OpenAI plugin reference](https://developers.openai.com/plugins/build/plugins)
+поддерживает Git URL и `--ref`. Это documented baseline, а не evidence установки
+из публичного GitHub. Публичного release tag ещё нет, он не создаётся этим review.
+
+### PR73-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/73#discussion_r4460864147) | Недостаточно Codex source negative cases | plugin-distribution.test.ts | Fixed | 13 случаев: missing/null/string/array, remote/missing kind, missing/different/absolute/escaping path, extra ref/SHA/URL. Каждый подтверждает отказ с файлом каталога и отсутствие исправления данных checker-ом |
+
+Дополнительно проверены три mutation-копии production checker вне рабочего дерева:
+удаление `source.source !== "local"` вызывает два отказа новых тестов, удаление
+path comparison — четыре, удаление проверки лишних keys — три. Неизменный checker
+проходит все 13. Воспроизведение: в disposable копии удалить по одному указанному
+условию и запустить `node --test --test-name-pattern='Codex snapshot' tests/integration/plugin-distribution.test.ts`.
+Mutations не входят в поставку и не подменяют обычный suite.
+
+### PR73-R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/73#discussion_r4460864153) | Blanket Claude source diagnostic не различает причины отказа | checker, tests, design source contract | Fixed | Сообщение различает missing, legacy git-subdir, неверный тип и неправильный path; сохраняет файл каталога и ожидаемый relative path, не выводит произвольные URL/SHA. Девять diagnostic tests наблюдались RED до runtime-правки и GREEN после |
+
+### PR73-R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/73#discussion_r4460864163) | Эфемерные run/helper paths читаются как долговременные evidence references | design reproducibility and evidence | Fixed | Конкретные временные filesystem paths удалены из публичного описания; local logs отмечены как временные материалы исходного review. Воспроизведение создаёт новый repo/server/profiles по сохранённым командам и не зависит от прежних файлов |
+
+Публичная основа file/runtime gates — committed checker/tests, команда Git-tree
+audit выше и [CI Node 26.0.0](https://github.com/antonsmolko/gost-spec/actions/runs/41723617951/job/126222527174),
+[CI Node 26.11.1](https://github.com/antonsmolko/gost-spec/actions/runs/41723617951/job/126222526835)
+исходного `f81a24b`. Эти CI не выдаются за native proof; наблюдавшиеся native
+результаты зафиксированы с hashes и процедурой, а сырые private local logs не
+объявляются доступными для будущего читателя. Публикация private профилей и
+temporary helper tooling не требуется для исправления этого finding.
+
+### PR73-R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/73#discussion_r4460864166) | Удаление `.git` из file-only fixture — no-op | plugin-distribution.test.ts | Fixed | Вместо удаления тест явно требует отсутствие `.git` до вызова checker; CLI по-прежнему запускается с пустым PATH. Возврат Git-метаданных в fixture теперь нарушит явную precondition, а не будет скрыт удалением |
+
+### Current content and native evidence
+
+Изменился только README среди восьми plugin files. Исходные 33 records и hash
+блок A выше относятся к `f81a24b`; они не объявляются hashes нового README.
+Для текущего дерева выполнена новая fresh установка с tag selection в двух
+новых disposable profiles: один active skill, recipe доступен, все восемь
+файлов равны текущим исходникам и друг другу. Остальные семь SHA256 совпадают
+с исходным блоком A; новый README SHA256 —
+`1fc0e50985a3d93e701ca6fc7529c3d5ee4b1572cd8e9b3b97dcb2991d6f941c`.
+Локальный fixture tag разрешился в `4c2d236f6b4f2520d121583d54f707bdf6e8f02c`.
+Проверка выполнялась на полном loopback Git URL с теми же CLI versions,
+без подмены config перед discovery; synthetic SPA и шесть personal fingerprints
+сохранились. Это не проверка публичной GitHub установки или доступности release tag.
+
+### GitHub issue edits for this round
+
+#70 и PR #73 получают текущие test counts, source-linked dispositions R1–R5,
+уточнение Git URL формы и ограничения native evidence. Предыдущий implementation
+snapshot `f81a24b` с 73/73 и 33 records сохраняется как исторический.
+Scope/dependencies #69/#72 → #70 → #71, 9/9 tasks, skill/recipe и пять пакетов
+не меняются. Старые carrier issues и content/release gates не редактируются.
+
+### Verification for this round
+
+Distribution tests: RED 33 passed / 9 failed до изменения Claude diagnostic,
+затем GREEN 42/42. Полный `npm run check` — 90/90 на Node 26.0.0 и 26.11.1,
+включая реальные packed artifacts/external consumers. Strict change и обе main
+specs, whitespace проходят. Отдельный tracked-tree audit: 109 Markdown,
+174 path links + 2 same-file anchors, 0 errors; path-list hash не изменился.
+Проверены полный 12-file PR diff, unchanged contracts/пакеты/recipe и public
+dependencies. Остановлен только собственный временный сервер; personal
+fingerprints после нового native run сохранены.
+
+Независимое fresh-context whole-result review подтвердило исправление R1–R5
+без новых actionable findings. Reviewer независимо запустил full suite 90/90
+на Node 26.11.1, strict/whitespace/link checks; сверил два новых native records
+со всеми восемью cache/source/Git blobs, raw commands и inventory. Он не повторял
+Node 26.0.0, mutation probes, native CLI и полный аудит прежних 33 records.
+Review — private input, not a public basis; actionable scope — публичные findings
+PR #73 выше. Tracking и source-linked ответы в threads завершаются после push;
+их доставку это review не подтверждает. Merge, tag/release и consumer changes
+не выполнялись.

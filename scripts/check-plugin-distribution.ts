@@ -61,7 +61,11 @@ export async function checkPluginDistribution(root: string): Promise<string[]> {
           report(path, "catalog source must select only the shared local plugin directory");
         }
       } else if (source !== `./${directory}`) {
-        report(path, "catalog source must select the shared local plugin directory");
+        const reason = source === undefined ? "source is missing"
+          : source?.source === "git-subdir" ? "legacy git-subdir source is unsupported"
+          : typeof source !== "string" ? "source must be a relative path string"
+          : "source path differs";
+        report(path, `${reason}; expected "./${directory}"`);
       }
     }
     for (const file of files) {

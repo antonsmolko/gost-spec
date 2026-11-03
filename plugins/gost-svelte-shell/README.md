@@ -24,16 +24,18 @@ previous release tag to assume when preparing the first release.
 
 ## Install
 
-Select the same existing release tag in both harnesses. These native command
-forms target Codex CLI 0.166.0 and Claude Code 2.1.308:
+Select the same existing release tag in both harnesses. The full Git URL command
+forms below were exercised against a disposable loopback Git origin with Codex
+CLI 0.166.0 and Claude Code 2.1.308. Installation from the public GitHub host has
+not been verified; the release tag must exist there before these examples work.
 
 ```sh
-codex plugin marketplace add antonsmolko/gost-spec --ref gost-svelte-shell-v0.2.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.2.0
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
-claude plugin marketplace add 'antonsmolko/gost-spec#gost-svelte-shell-v0.2.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.2.0'
 claude plugin install gost-svelte-shell@gost
 ```
 
@@ -63,14 +65,14 @@ These commands intentionally remove the current plugin before re-registration:
 ```sh
 codex plugin remove gost-svelte-shell@gost
 codex plugin marketplace remove gost
-codex plugin marketplace add antonsmolko/gost-spec --ref <selected-release-tag>
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref <selected-release-tag>
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
 claude plugin uninstall gost-svelte-shell@gost
 claude plugin marketplace remove gost
-claude plugin marketplace add 'antonsmolko/gost-spec#<selected-release-tag>'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#<selected-release-tag>'
 claude plugin install gost-svelte-shell@gost
 ```
 

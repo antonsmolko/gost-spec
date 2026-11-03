@@ -24,7 +24,7 @@ const fixture = async (t: TestContext) => {
 
 test("draft distribution accepts a local snapshot without Git metadata or a release tag", async (t) => {
   const root = await fixture(t);
-  await rm(join(root, ".git"), { recursive: true, force: true });
+  assert.equal(existsSync(join(root, ".git")), false, "file-only fixture must not contain Git metadata");
   const path = join(root, ".claude-plugin/marketplace.json");
   const catalog = await json(path);
   catalog.plugins[0].source = "./plugins/gost-svelte-shell";
@@ -178,20 +178,55 @@ test("CLI checks the requested tree rather than a healthy current directory", as
 });
 
 
-for (const [label, source] of [
-  ["missing source", undefined],
-  ["external Git source", { source: "url", url: "https://example.invalid/another.git" }],
-  ["absolute path", "/plugins/gost-svelte-shell"],
-  ["escaping path", "../outside"],
-  ["different directory", "./plugins/other"],
+for (const [label, source, reason] of [
+  ["missing source", undefined, /source is missing/],
+  ["null source", null, /source must be a relative path string/],
+  ["numeric source", 42, /source must be a relative path string/],
+  ["array source", [], /source must be a relative path string/],
+  ["external Git source", { source: "url", url: "https://example.invalid/another.git" }, /source must be a relative path string/],
+  ["legacy source", { source: "git-subdir", path: pluginPath, sha: "f".repeat(40) }, /legacy git-subdir source/],
+  ["absolute path", "/plugins/gost-svelte-shell", /source path differs/],
+  ["escaping path", "../outside", /source path differs/],
+  ["different directory", "./plugins/other", /source path differs/],
 ] as const) {
-  test(`local snapshot rejects ${label} without fallback`, async (t) => {
+  test(`Claude snapshot rejects ${label} with a specific reason`, async (t) => {
     const root = await fixture(t);
     assert.deepEqual(await checkPluginDistribution(root), []);
     const path = join(root, ".claude-plugin/marketplace.json");
     const catalog = await json(path);
     catalog.plugins[0].source = source;
     await writeFile(path, JSON.stringify(catalog));
-    assert.match((await checkPluginDistribution(root)).join("\n"), /marketplace.json:.*source/);
+    const diagnostics = (await checkPluginDistribution(root)).join("\n");
+    assert.match(diagnostics, /\.claude-plugin\/marketplace.json:/);
+    assert.match(diagnostics, reason);
+    assert.match(diagnostics, /expected .*\.\/plugins\/gost-svelte-shell/);
+  });
+}
+
+for (const [label, source] of [
+  ["missing source", undefined],
+  ["null source", null],
+  ["string source", "./plugins/gost-svelte-shell"],
+  ["array source", []],
+  ["remote source kind", { source: "url", path: "./plugins/gost-svelte-shell" }],
+  ["missing source kind", { path: "./plugins/gost-svelte-shell" }],
+  ["missing path", { source: "local" }],
+  ["different directory", { source: "local", path: "./plugins/other" }],
+  ["absolute path", { source: "local", path: "/plugins/gost-svelte-shell" }],
+  ["escaping path", { source: "local", path: "../outside" }],
+  ["extra ref", { source: "local", path: "./plugins/gost-svelte-shell", ref: "main" }],
+  ["extra SHA", { source: "local", path: "./plugins/gost-svelte-shell", sha: "f".repeat(40) }],
+  ["extra URL", { source: "local", path: "./plugins/gost-svelte-shell", url: "https://example.invalid/another.git" }],
+] as const) {
+  test(`Codex snapshot rejects ${label} without fallback`, async (t) => {
+    const root = await fixture(t);
+    assert.deepEqual(await checkPluginDistribution(root), []);
+    const path = join(root, ".agents/plugins/marketplace.json");
+    const catalog = await json(path);
+    catalog.plugins[0].source = source;
+    await writeFile(path, JSON.stringify(catalog));
+    const diagnostics = (await checkPluginDistribution(root)).join("\n");
+    assert.match(diagnostics, /\.agents\/plugins\/marketplace.json:.*source/);
+    assert.equal(await readFile(path, "utf8"), JSON.stringify(catalog), "validation must not repair the rejected source");
   });
 }
