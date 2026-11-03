@@ -73,6 +73,12 @@ CLI help и disposable round trip, не обещается неподдержи�
 переименованным. Возврат — явная установка прежнего ID из прежнего catalog/pin,
 а не незаметный fallback в gate.
 
+Для Claude это условный возврат: до пользовательского refresh/install мейнтейнер
+должен восстановить прежнюю catalog entry с old ID, прежний source.sha и
+совпадающую Codex поставку. Одна замена SHA под новым ID не восстанавливает
+старую идентичность. До этого возврат недоступен; не обещается произвольный
+commit selector. Codex пользователь выбирает прежний catalog commit через ref.
+
 ## Risks / Trade-offs
 
 - [Смешение archive #55 с rename] → archive сохранён в отдельном `c9b1fed`;
@@ -381,3 +387,99 @@ Review — private input, not a public basis; публичная основа �
 #66; #54/#55 получают ссылку на новую delivery-ступень того же addition #64.
 Ни одна issue не закрывается, acceptance/closure/gates не расширяются. Результаты
 CI нового PR фиксируются в его описании отдельно от локальных проверок.
+
+## PR 67 review follow-up — 2026-11-03
+
+Прочитаны все страницы четырёх inline comments, четырёх reviews без тела и
+одного PR comment. Присланное резюме — private input, not a public basis;
+публичные actionable sources приведены ниже. Закрытия прежних rounds сохраняются,
+кроме явно уточняемой ниже границы проверки authoring tree.
+
+### PR67-R1 — merge method
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R1](https://github.com/antonsmolko/gost-spec/pull/67#discussion_r4448075162) | Squash/rebase не сохраняет immutable pin в main ancestry; описание не является защитой кнопки merge | catalog, design/tasks/handoff, PR #67 | Risk confirmed; proposed pre-merge ancestry guard declined; repository policy change excluded from this outcome | До merge pin уже ancestor feature head, поэтому такой guard не различает будущий merge и squash. Gate проверяет доступность object/tree, а не разрешение будущего метода merge. Сторонняя branch/object cache может временно скрывать потерю ancestry; полагаться на неё нельзя. Для этого PR сохраняется явный owner-operated merge commit, без auto-merge. Изменение правил всех PR — отдельный outcome по AGENTS task scope, не скрытая правка rename |
+
+Baseline: [официальные merge methods GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).
+Репозиторные настройки не менялись; утверждение об автоматическом enforcement
+не делается. Требование успешной доставки — pin ancestor итогового main,
+проверяемый после отдельно разрешённого merge. Зелёный PR CI сам по себе этого
+будущего состояния не доказывает.
+
+### PR67-R2 — Claude rollback prerequisite
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R2](https://github.com/antonsmolko/gost-spec/pull/67#discussion_r4448078309) | Пользовательский возврат Claude не оговаривает восстановление каталога мейнтейнером | plugin README; delta; design/tasks; #64 | Fixed | README явно разделяет Codex ref и Claude maintainer restore old entry/ID/pin plus matching Codex tree, затем user refresh/install. Delta задаёт prerequisite и unavailable outcome до восстановления; произвольный SHA-selector не обещается. Это уточнение существующего workflow, без новых native commands |
+
+Официальный [Claude CLI reference](https://code.claude.com/docs/en/plugins/cli-reference#plugin-marketplace-add)
+и [hosting reference](https://code.claude.com/docs/en/plugins/host-marketplace)
+различают catalog ref и plugin source pin. Поддержка branch/tag ref не означает
+выбор произвольного предыдущего catalog SHA; новый legacy channel не создаётся.
+
+README — часть pinned tree, поэтому новый content P2
+`f567ab5ad04b139b25a75c9d65c735abe51c3065` подготовлен от P9007936: изменён
+только README новой поставки, а прежние catalogs/gate/old plugin root сохраняют
+coherent development snapshot. Отдельный checkout P2 прошёл прежний полный
+suite 72/72. P2 включается merge-parent текущего carrier; новый catalog commit
+закрепляет P2 и поставляет ровно его восемь файлов. P9007936 и прежние catalog
+commits не переписываются. Версия 0.1.0 unreleased, changelog, skill body/recipe
+и пять npm-пакетов прежние. Это документационная коррекция, не новый release.
+Прежнее native evidence относится к P9007936; новую native установку P2 не заявляем.
+
+### PR67-R3 — deferred main-spec synchronization
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR comment R3](https://github.com/antonsmolko/gost-spec/pull/67#issuecomment-6589149127) | Main spec хранит прежний ID до archive/sync | main distribution spec; delta; tasks/handoff; #64 | Retained agreed lifecycle step; no requested fix in this PR | Owner-approved workflow отделяет delivery от последующего archive/sync; reviewer прямо отмечает tracked deferral. Main spec не переписывается в review fixes; актуальный modified contract находится в active delta. Следующий отдельный шаг после delivery — синхронизация и архивирование по запросу владельца |
+
+### PR67-R4 — top-level authoring copies
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R4](https://github.com/antonsmolko/gost-spec/pull/67#discussion_r4448082140) | После удаления прежнего узкого assertion новые top-level authoring copies не обнаруживаются | distribution test; design; #64 | Fixed with new regression evidence | В disposable checkout прежний тест проходил при skills/gost-svelte-spa-state/SKILL.md и skills/gost-svelte-shell/SKILL.md. Общий guard теперь отказывает обоим деревьям и любому содержимому корневой skills/; absent/empty directory допустима. Старый plugin-root assertion сохранён. Gate продолжает проверять self-contained plugin, repository layout контролирует тест |
+
+Это новое доказательство gap после PR66-R3, а не отмена причины удаления
+проверки несуществующего нового пути. Contract: author-maintained skill files
+хранятся только под plugins/; корневая skills/ может отсутствовать или быть пустой.
+Guard сначала наблюдался RED на обеих stale copies, затем GREEN на чистом layout.
+Проба не меняла пользовательский checkout. Run и before/guard logs:
+`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-pr67-review-j8lr5p7x`.
+
+### PR67-R5 — identity literal readability
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline R5](https://github.com/antonsmolko/gost-spec/pull/67#discussion_r4448085113) | Повторение identity literals повышает стоимость сопровождения | tests/integration/plugin-distribution.test.ts; #62 | Immediate cleanup declined; retained in owner-scoped #62 audit | Reviewer отмечает visibility-only/deferred характер. Поведенческий rename остаётся отдельным outcome; #62 получает ссылку и требование проверить consistency/readability expectations при существующем аудите. Конкретная схема helpers/constants выбирается в его design; production и tests не связываются автоматически одним значением, скрывающим ошибочный ID |
+
+### GitHub reconciliation and review gate
+
+#64 получает conditional Claude rollback, layout boundary и новый P2; #54/#55
+сохраняют historical evidence и carrier criteria/closure, их current delivery
+pointer синхронизируется. #62 получает public R5 как контекст существующего
+readability audit, без test relocation #63 или выбора будущей реализации.
+PR #67 и все четыре inline replies плюс summary comment ссылаются на эти записи.
+Полный результат с changed contracts требует independent review; прежние native
+records не выдаются за новую проверку P2. Merge/release/archive не выполняются.
+
+### Verification of PR67 corrections
+
+Свежий full check текущего результата: 72/72 на Node 26.0.0 и 26.11.1,
+включая реальные tarballs/external consumers; /tmp/gost-pr67-review-check.log
+и /tmp/gost-pr67-review-check-node26.0.log. Prepared P2 snapshot независимо
+экспортирован в Git checkout и прошёл прежний full check 72/72; content-check.log
+лежит в run выше. Strict OpenSpec validation и diff checks проходят.
+Отдельный repository-wide audit — 105 Markdown /169 relative targets /0 errors.
+Проверки относятся к текущим байтам до commit/push; CI нового head ещё требуется.
+Защита merge method не заявляется как проверенная CI гарантия.
+
+Независимый fresh-context reviewer проверил весь 22-file результат и семь файлов
+исправлений, все public PR67 sources, live #64/#55/#54/#62 и unchanged contracts;
+actionable findings нет. Подтверждены R2/R4 fixes, обоснованность R1 decline и
+границы R3/R5. Самостоятельно выполнены gate, 24 tests, strict/diff checks и
+audit 105/169/0; восемь файлов совпадают с P2, единственная разница P2 от P900 —
+README. Full-suite/P2 logs и обе regression probes прочитаны, full/native runs
+reviewer не повторял. Review — private input, not a public basis; основания —
+публичные source links этого round. Commit/push/replies/CI нового head следуют
+после review; это не разрешение merge/release.

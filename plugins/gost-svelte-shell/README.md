@@ -119,5 +119,17 @@ Restart sessions and confirm only the new plugin skill is active, then read its
 installed recipe. If installation fails after removal, report the migration as
 incomplete and inspect the actual installed identities. To return to the old
 delivery, remove any installed new identity and explicitly install the old ID
-from its previous catalog/content pin. Changing the catalog or ID does not
-connect, update or migrate an application.
+from its previous catalog/content pin:
+
+- Codex users can re-register the marketplace with `--ref <old-catalog-commit>`
+  and install `gost-svelte-spa-state@gost` from that delivery.
+- Claude Code requires a maintainer to first restore the previous catalog entry
+  for `gost-svelte-spa-state`, its old `git-subdir` content pin and matching Codex
+  delivery. Restoring only `source.sha` under the new plugin ID is insufficient.
+  Once that catalog is available, users run `claude plugin marketplace update gost`
+  and `claude plugin install gost-svelte-spa-state@gost`. A user cannot select the
+  earlier catalog commit at registration; until the maintainer restores it,
+  report rollback as unavailable and retain the actual installed-state report.
+
+Restart and verify the old skill and recipe, with no active new plugin skill.
+Changing the catalog or ID does not connect, update or migrate an application.

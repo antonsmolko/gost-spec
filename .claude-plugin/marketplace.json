@@ -7,7 +7,7 @@
         "source": "git-subdir",
         "url": "https://github.com/antonsmolko/gost-spec.git",
         "path": "plugins/gost-svelte-shell",
-        "sha": "9007936e0d4e4732d9271de8e0222c5b96c418ea"
+        "sha": "f567ab5ad04b139b25a75c9d65c735abe51c3065"
       },
       "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA."
     }

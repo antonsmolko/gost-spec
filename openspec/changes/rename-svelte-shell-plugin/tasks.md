@@ -13,7 +13,7 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 - [x] 2.1 Подготовить новый plugin content P с новым root/frontmatter и README/display/changelog при рабочей прежней поставке; экспорт snapshot проходит прежний полный check, version новой идентичности 0.1.0 unreleased. Подтвердить unchanged skill body/recipe и отсутствие private/fixture files в новом plugin root.
 - [x] 2.2 Подготовить C: новая identity/path в обоих catalogs/manifests, новый source.sha, согласованные gate/tests и удаление прежнего tree. GREEN подтверждает один canonical skill, восемь файлов, полный Git tree match и прежние invalid-pin/containment/metadata отказы.
-- [x] 2.3 Обновить current README/fixture/architecture/handoff/spec representations и описать native fresh install, old→new uninstall/install, incomplete и возврат; проверить ссылки и команды по текущему CLI help. Исторические criteria/evidence сохранить, исправляя только сломанные Markdown targets.
+- [x] 2.3 Обновить current README/fixture/architecture/handoff/spec representations и описать native fresh install, old→new uninstall/install, incomplete и возврат; для Claude явно указать prerequisite мейнтейнера и unavailable до восстановления old entry/ID/pin. Проверить ссылки и команды по текущему CLI help. Исторические criteria/evidence сохранить, исправляя только сломанные Markdown targets.
 
 ## 3. Native переход
 
@@ -28,5 +28,6 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 ## Workflow follow-up
 
 - Content P9007936 и catalog Ce781b2e сохранены и запушены. Archive #65 уже в main (c7c879c); PR #66 слит только в archive branch. Следующий delivery PR из исходной carrier-ветки должен получить CI на базе main и сохранить P в истории.
+- Доставку в main отслеживает PR #67. Review уточняет README новым content P2f567ab5 и соответствующим catalog pin; P9007936/native evidence сохраняются как прежний снимок. Только merge commit сохраняет требуемую историю; CI feature head не гарантирует выбор этого метода пользователем.
 - После реализации/проверок архивировать change с синхронизацией modified distribution contract.
 - Merge, выпуск, release tags и применение к asc-admin — отдельные разрешаемые действия.

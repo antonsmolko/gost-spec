@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { execFileSync, spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
@@ -48,6 +48,9 @@ test("both harness manifests expose the same independently versioned skill", asy
   assert.match(skill, /references\/foundation\.md/);
   assert.match(skill, /^name: gost-svelte-shell$/m);
   assert.equal(existsSync(join(repository, "plugins/gost-svelte-spa-state")), false, "old plugin tree must be absent from the current repository working tree");
+  const authoring = join(repository, "skills");
+  assert.deepEqual(existsSync(authoring) ? await readdir(authoring, { recursive: true }) : [], [],
+    "top-level skills/ must be absent or empty; author-maintained skills belong under plugins/");
   assert.match(recipe, /# Public API recipe/);
 });
 
