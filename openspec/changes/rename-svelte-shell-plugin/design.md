@@ -515,3 +515,42 @@ head получает P2 и проходит gate/full suite. После отд�
 Синхронизация specs и archive change пока не выполняются, версии/criteria/closure
 и gates #20/#26 не меняются. Решение выполнить merge требует явного разрешения
 по AGENTS.md; создание PR не считается таким разрешением.
+
+Candidate `53072d5` имеет родителей 90a8080 и f919c54. В отдельный Git checkout
+получен только этот head (без shared objects/других веток): main и P2 — его
+предки, gate/full suite 72/72 проходят; candidate-check.log лежит в run выше.
+В основном checkout full checks 72/72 на обеих Node: /tmp/gost-history-repair-check.log
+и /tmp/gost-history-repair-check-node26.0.log. Strict validation, diff check и
+105-file/169-target audit успешны. Полный runtime/plugin/catalog/package diff
+от main пустой; итоговый PR diff содержит три tracking документа.
+
+### GitHub history-repair issue edits
+
+Current sections [#64](https://github.com/antonsmolko/gost-spec/issues/64),
+[#55](https://github.com/antonsmolko/gost-spec/issues/55) и
+[#54](https://github.com/antonsmolko/gost-spec/issues/54) дополнены post-merge
+фактом: PR67 доставил файлы squash commit f919c54, но pin не входит в main.
+Прежний GREEN head90a8080 не выдаётся за доказательство main ancestry.
+Записаны main-only RED, подготовленный candidate53072d5, необходимость отдельного
+repair PR/CI/merge commit и остановка archive/sync до восстановления prerequisite.
+После создания repair PR его ссылка и фактический CI статус заменят preparation
+wording. Acceptance/closure предыдущих outcomes и gates #20/#26 не меняются,
+issues не закрываются; retained prefix [gost-spec-52] сохраняется. Canonical
+disposition/evidence — Post-merge history repair выше.
+
+### Independent history-repair verification
+
+Fresh-context reviewer самостоятельно воспроизвёл RED main-only и GREEN
+exact-candidate-only fetch без alternates/shared objects, проверил P2/main
+ancestry и blob equality. В candidate-only checkout выполнил полный check
+72/72 на Node26.11.1 с packed/external consumers, 24 distribution tests,
+strict/diff checks и tracked Markdown audit 105/169/0. Node26.0.0 подтверждён
+свежим логом автора; native install не повторялся. Весь трёхфайловый diff,
+публичные review sources #67 и live #64/#55/#54 проверены; открытых findings нет.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer, private input, not a public basis; [#64](https://github.com/antonsmolko/gost-spec/issues/64) | Для current issue edits не было dedicated ledger subsection | design.md; #64/#55/#54 | Fixed and reviewer-confirmed closed | GitHub history-repair issue edits выше содержит публичные ссылки, exact superseded/additional status и сохранённые criteria/closure/gates; reviewer повторно сверил с live bodies |
+
+Публичная actionable основа — merged PR67/R1 и issue #64, не private review.
+Новый repair PR и его CI ещё следуют; подтверждение reviewer не разрешает merge.
