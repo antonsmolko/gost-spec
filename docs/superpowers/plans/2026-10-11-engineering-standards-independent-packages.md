@@ -85,16 +85,19 @@ install/discovery, повтор, update/rollback и отказы неверно�
 closure #54, пять npm-версий и gates #20/#26 не расширяются. Реализация не означает
 публикацию, release tags или применение skill к asc-admin.
 
-Change #55 архивирован 2026-11-01 после 13/13 задач. Основная
+При архивировании change #55 2026-11-01 после 13/13 задач была создана основная
 [спецификация поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
-содержит неизменённые Purpose, 8 требований и 14 сценариев согласованной дельты.
+из Purpose, 8 требований и 14 сценариев той дельты без изменения текста.
+Текущий контракт дополнен архивированием #64, описанным ниже.
 Архивирование не меняет версии, content approval или release gates.
 
 ## Новое имя Svelte shell — #64
 
-[Change](../../../openspec/changes/rename-svelte-shell-plugin/proposal.md) меняет
-plugin/skill identity на `gost-svelte-shell`, сохраняя прежнюю основу и SPA scope.
+[Change](../../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/proposal.md)
+завершён и архивирован 2026-11-03: plugin/skill identity `gost-svelte-shell`,
+прежняя основа и SPA scope сохранены.
 Старые установки переходят явно через uninstall/install; авто-rename не обещается.
-Новый content P и catalog C готовятся последовательно с точным tree match.
+Content P2f567ab5 восстановлен в main ancestry через repair68; tree match сохранён.
 Это отдельный outcome от archive #55, refactor #62 и relocation #63; их критерии
-и release/content gates сохраняются. Progress/evidence находятся в change.
+и release/content gates сохраняются. Основная distribution spec синхронизирована:
+9 требований/19 сценариев; progress/evidence находятся в архиве change.

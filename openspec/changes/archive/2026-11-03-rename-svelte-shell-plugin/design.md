@@ -4,7 +4,7 @@
 
 Мотивация — [proposal](proposal.md), изменение контракта —
 [delta](specs/state-foundation-plugin-distribution/spec.md). Текущие
-[distribution requirements](../../specs/state-foundation-plugin-distribution/spec.md)
+[distribution requirements](../../../specs/state-foundation-plugin-distribution/spec.md)
 синхронизированы в архиве #55, сохранённом отдельно в commit `c9b1fed` перед
 реализацией rename. Main implementation #56 уже merged.
 
@@ -14,7 +14,7 @@ Plugin version 0.1.0 unreleased; SKILL body и recipe фиксируют Svelte 
 а не любой Svelte проект. Native inventory использует namespace plugin:skill.
 
 Baseline — прежний проверенный native workflow и официальные ссылки в
-[архивном design](../archive/2026-11-01-package-state-foundation-plugin/design.md):
+[архивном design](../2026-11-01-package-state-foundation-plugin/design.md):
 Codex catalog commit/local source и Claude git-subdir/source.sha. Новый installer,
 схема metadata или механизм обновления не требуются.
 
@@ -554,3 +554,69 @@ strict/diff checks и tracked Markdown audit 105/169/0. Node26.0.0 подтве�
 
 Публичная actionable основа — merged PR67/R1 и issue #64, не private review.
 Новый repair PR и его CI ещё следуют; подтверждение reviewer не разрешает merge.
+
+## Archive and spec synchronization — 2026-11-03
+
+Владелец явно разрешил merge #68, проверку main, синхронизацию и архивирование.
+PR68 слит штатным merge commit `f7e38b107de9992dcb8d5c75146880ba3fa9c065`:
+его родители f919c54 и a9c1448; P2f567ab5 теперь ancestor настоящей main.
+История и файлы плагина не переписывались. Fresh main-only checkout без других
+refs/shared objects получил pin и прошёл full check 72/72; evidence:
+`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-archive-rename-ujjvy54i/merged-main-check.log`.
+Это закрывает post-merge delivery prerequisite выше. Native P2/public GitHub
+installation не повторялись и не заявляются проверенными.
+
+Repo-local status подтвердил все четыре artifacts done и tasks 9/9; archive
+context не содержит дополнительных constraints, specs-rule snapshot получен
+один раз и переиспользован inline sync. Отдельных rules нет. Из единственной
+зарегистрированной delta перенесены MODIFIED Native marketplace installation
+и ADDED Explicit migration between plugin identities: main spec теперь содержит
+9 требований /19 сценариев. H1/Purpose и семь остальных requirement blocks
+сохранены без изменения, оба delta blocks совпадают с main побайтово.
+Новых формулировок, delta headers или TBD Purpose в main не добавляли.
+
+Change перенесён в этот архив с исходной .openspec.yaml. Исправлены две
+внутренние относительные ссылки и входящие ссылки architecture/roadmap/handoff;
+прежние review evidence и одобренные deferred #62/#63 сохраняются. Plugin tree,
+source.sha, runtime/tests и пять npm-пакетов не менялись. Archive/spec sync —
+отдельный documentation outcome от уже доставленной реализации и repair.
+Доставка этого archive outcome в main отслеживается отдельным PR; его создание
+не означает разрешение merge, публикации или применения skill к asc-admin.
+
+### GitHub archive reconciliation
+
+#64/#55/#54 получают текущий статус: repair68 merged/pin restored; change64
+архивирован с sync9/19, canonical ledger переехал в archive path. Ранние
+prepared/paused sections сохраняются как исторические и superseded текущим
+снимком. Criteria/closure, retained [gost-spec-52] prefix и gates #20/#26
+сохраняются, issues автоматически не закрываются. На #67/R1 оставляется ссылка
+на фактическое закрытие history prerequisite; #68 description фиксирует merge
+и проверку actual main. CI archive PR записывается отдельно от runtime tests.
+
+### Archive verification
+
+Полный `npm run check` текущего archive результата прошёл 72/72 на Node26.0.0
+и26.11.1, включая real packed artifacts/external consumers: logs
+/tmp/gost-archive-rename-check-node26.0.log и /tmp/gost-archive-rename-check.log.
+`openspec validate --specs --strict` проверяет обе основные specs успешно;
+completed rename отсутствует в active list. Отдельно подтверждены exact delta
+blocks в main, Purpose/seven-block preservation, исходные bytes .openspec.yaml,
+proposal и delta, нулевой runtime/plugin/catalog/npm diff и whitespace check.
+Repository-wide audit:105 Markdown files/169 local links+anchors/0 errors.
+Независимое review полного archive outcome выполняется до его PR; source pin
+уже в main history и этим documentation outcome не вводится/не меняется.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent reviewer, private input, not a public basis; [#64](https://github.com/antonsmolko/gost-spec/issues/64) | Roadmap #55 в настоящем времени называл основной contract8/14 после sync9/19 | docs/superpowers/plans/2026-10-11-engineering-standards-independent-packages.md | Fixed and reviewer-confirmed closed | Формулировка описывает историческое создание8/14 при archive55 и прямо указывает на текущее дополнение64; нижний актуальный блок9/19 согласован. Это новое последствие sync, не reopening прежних reviewer-confirmed closures |
+
+Независимое fresh-context whole-result review всего девятифайлового archive
+outcome завершено без открытых findings. Reviewer сам выполнил full check72/72
+на Node26.11.1 с packed/external consumers, strict validation обеих main specs,
+Git-blob audit105/169/0, exact block/metadata comparison и runtime/pin equality.
+Прочитаны live #64/#55/#54, related #62/#63 и все страницы PR67/68 review sources;
+фактическое закрытие repair prerequisite проверено по main/parents/публичным replies.
+Node26.0.0/main-only результаты прочитаны в логах автора; native installs не
+повторялись. Review — private input, not a public basis; public scope — #64
+и source-linked merged PR68/PR67-R3. Остались commit/push/отдельный archive PR/CI,
+которые не разрешают его merge автоматически.

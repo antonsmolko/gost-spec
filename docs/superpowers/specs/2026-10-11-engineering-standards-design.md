@@ -28,11 +28,12 @@ implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
 добавляет один native plugin версии 0.1.0 и каталоги Codex/Claude; версия и
 changelog плагина независимы от npm-пакетов. Claude закрепляет content commit
 через `source.sha`, Codex выбирает catalog commit; полные деревья совпадают.
-Актуальный [контракт поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
-синхронизирован при архивировании change #55.
-Смена identity на `gost-svelte-shell` отслеживается отдельным
-[change #64](../../../openspec/changes/rename-svelte-shell-plugin/proposal.md);
-основа подключения сохраняется, существующие установки переустанавливаются явно.
+Текущий [контракт поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
+дополнен при архивировании
+[change #64](../../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/proposal.md):
+identity `gost-svelte-shell`, явная переустановка и условный возврат Claude после
+восстановления old entry/ID/pin мейнтейнером. Первоначальная основа подключения
+и требования change #55 сохраняются.
 Установка не запускает skill: подключение runtime-библиотек требует явного
 вызова. Публикация, применение в реальном потребителе и миграция фич остаются
 отдельными действиями; gates принятия и выпуска стандартов сохраняются.

@@ -27,8 +27,19 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 ## Workflow follow-up
 
+Ниже сохранены этапы до archive; их завершение зафиксировано в конце.
+
 - Content P9007936 и catalog Ce781b2e сохранены и запушены. Archive #65 уже в main (c7c879c); PR #66 слит только в archive branch. Следующий delivery PR из исходной carrier-ветки должен получить CI на базе main и сохранить P в истории.
 - Доставку в main отслеживает PR #67. Review уточняет README новым content P2f567ab5 и соответствующим catalog pin; P9007936/native evidence сохраняются как прежний снимок. Только merge commit сохраняет требуемую историю; CI feature head не гарантирует выбор этого метода пользователем.
 - После squash merge #67 (main f919c54) файлы доставлены, но P2 не ancestor main. До archive/sync нужен отдельный history-repair PR с исходной историей и merge commit; success проверяется main ancestry и gate в main-only checkout, не наличием pin в object cache другой ветки.
 - После реализации/проверок архивировать change с синхронизацией modified distribution contract.
 - Merge, выпуск, release tags и применение к asc-admin — отдельные разрешаемые действия.
+
+## Archive completion — 2026-11-03
+
+После явного разрешения владельца repair PR68 merged штатным merge commit
+f7e38b1; P2 доступен из main-only checkout, full check72/72. Дельта перенесена
+в основную distribution spec:9 требований/19 сценариев, Purpose и семь иных
+требований сохранены. Все artifacts done/tasks9/9; change перенесён в архив.
+Runtime/plugin/source.sha/npm версии не менялись. Доставка archive/spec sync
+имеет отдельный PR; публикация, его merge и применение к asc-admin не выполнялись.
