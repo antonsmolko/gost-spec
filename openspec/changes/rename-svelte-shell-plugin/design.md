@@ -483,3 +483,35 @@ README. Full-suite/P2 logs и обе regression probes прочитаны, full/
 reviewer не повторял. Review — private input, not a public basis; основания —
 публичные source links этого round. Commit/push/replies/CI нового head следуют
 после review; это не разрешение merge/release.
+
+## Post-merge history repair — 2026-11-03
+
+Владелец сообщил о merge #67 и поручил следующий шаг. До archive/sync проверены
+GitHub и main: `f919c540e909c2676f73a96328ec5b1327d39e45` имеет только родителя
+c7c879c. Файлы совпадают с reviewed head90a8080, но P2f567ab5 не ancestor main.
+Archive workflow остановлен до устранения delivery prerequisite; artifacts done
+и 9/9 tasks сами по себе не доказывают наличие content commit в main.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Merged PR #67](https://github.com/antonsmolko/gost-spec/pull/67), [R1 risk](https://github.com/antonsmolko/gost-spec/pull/67#discussion_r4448075162) | Squash main содержит catalog pin, отсутствующий в main ancestry | main history, catalog; handoff/tasks; #64/#54/#55 | History repair prepared; main repair requires authorized merge commit | merge-base --is-ancestor P2 origin/main даёт1. Новый checkout получает только refs/remotes/origin/main без других refs/cache: pin lookup exit128, distribution gate exit1 source.sha unavailable. RED log сохранён в run ниже. Это новый post-merge факт, а не отмена корректности runtime/tree или прежних review closures |
+
+Run: `/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-pin-history-j8kii7nm`.
+Main-only fixture создан git init/fetch exact main ref из локального source,
+без shallow history и без shared object database. Это проверка самостоятельной
+доступности pin через main ancestry, не native installation и не сетевой сбой.
+
+Ремонт: исходный carrier head90a8080 с P2/P900/C включается в историю main
+обычным merge; текущий f919c54 предварительно включён в carrier. Дерево runtime,
+plugin, catalogs/source.sha и пяти npm-пакетов не меняется; только tracking
+отражает текущее prerequisite. Новый PR — та же доставка #64 с восстановлением
+исходного обязательного pin invariant, не новая функциональность/политика merge.
+До и после проверяются blob equality и полный diff на базе f919c54.
+
+Success: main и P2 ancestors candidate head; свежий checkout только candidate
+head получает P2 и проходит gate/full suite. После отдельно разрешённого merge
+те же ancestry/main-only checks выполняются для настоящей main. CI candidate
+не гарантирует будущий метод merge; автоматическое enforcement не добавлено.
+Синхронизация specs и archive change пока не выполняются, версии/criteria/closure
+и gates #20/#26 не меняются. Решение выполнить merge требует явного разрешения
+по AGENTS.md; создание PR не считается таким разрешением.

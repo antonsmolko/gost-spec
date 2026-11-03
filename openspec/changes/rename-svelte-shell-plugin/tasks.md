@@ -29,5 +29,6 @@ Apply завершён: 9/9. Ниже отмечена фактически вы
 
 - Content P9007936 и catalog Ce781b2e сохранены и запушены. Archive #65 уже в main (c7c879c); PR #66 слит только в archive branch. Следующий delivery PR из исходной carrier-ветки должен получить CI на базе main и сохранить P в истории.
 - Доставку в main отслеживает PR #67. Review уточняет README новым content P2f567ab5 и соответствующим catalog pin; P9007936/native evidence сохраняются как прежний снимок. Только merge commit сохраняет требуемую историю; CI feature head не гарантирует выбор этого метода пользователем.
+- После squash merge #67 (main f919c54) файлы доставлены, но P2 не ancestor main. До archive/sync нужен отдельный history-repair PR с исходной историей и merge commit; success проверяется main ancestry и gate в main-only checkout, не наличием pin в object cache другой ветки.
 - После реализации/проверок архивировать change с синхронизацией modified distribution contract.
 - Merge, выпуск, release tags и применение к asc-admin — отдельные разрешаемые действия.
