@@ -6,67 +6,81 @@ updating this plugin does not run the skill or change an application.
 
 Read [the skill](skills/gost-svelte-shell/SKILL.md) and its
 [Public API recipe](skills/gost-svelte-shell/references/foundation.md).
-The recipe records the verified development artifacts. Plugin version 0.1.0
-does not imply a corresponding gost-kit release or supported arbitrary versions.
+The recipe records the verified development artifacts. Plugin version 0.2.0
+does not imply a corresponding gost-kit release or support for arbitrary versions.
 Missing library artifacts must be supplied before applying the skill.
 
 ## Distribution and versions
 
 One skill tree is shared by both harness manifests. The plugin has its own
-version, independent of the five standards packages and gost-kit libraries.
-This initial version is unreleased; Git marketplace installation requires a
-revision that actually contains the plugin and both catalogs.
+SemVer version and changelog, independent of the standards packages and gost-kit
+libraries. Both catalogs read the local plugin directory within the selected
+marketplace snapshot. A tag selects the whole marketplace snapshot, rather than
+resolving independent versions of individual catalog entries.
+
+Version 0.2.0 is unreleased. The release-tag examples below become usable only
+after that tag is explicitly approved and published. There is no published
+previous release tag to assume when preparing the first release.
 
 ## Install
 
-These commands require a published repository revision containing the catalogs
-and plugin. Version 0.1.0 has not been published yet. The native workflow targets
-Codex CLI 0.166.0 and Claude Code 2.1.308.
-
-For Codex, select an audited catalog commit:
+Select the same existing release tag in both harnesses. These native command
+forms target Codex CLI 0.166.0 and Claude Code 2.1.308:
 
 ```sh
-codex plugin marketplace add antonsmolko/gost-spec --ref <catalog-commit>
+codex plugin marketplace add antonsmolko/gost-spec --ref gost-svelte-shell-v0.2.0
 codex plugin add gost-svelte-shell@gost
 ```
 
-For Claude Code, the marketplace maintainer pins the plugin content commit in
-the catalog's `git-subdir` source. Add the marketplace, then install:
-
 ```sh
-claude plugin marketplace add antonsmolko/gost-spec
+claude plugin marketplace add 'antonsmolko/gost-spec#gost-svelte-shell-v0.2.0'
 claude plugin install gost-svelte-shell@gost
 ```
 
-Start a new session and confirm the skill and its Public API recipe are available.
+Start a new session and confirm the installed version, one active plugin skill
+and readable Public API recipe. Record the resolved tag commit and compare all
+installed plugin files with that snapshot; a displayed version alone is not
+proof of the selected content. Report failed commands, unavailable sources or
+stale cached content as incomplete, with the actual installed identity/version.
+Do not substitute main or another release when a selected tag is unavailable.
+
 Invoke `$gost-svelte-shell:gost-svelte-shell` in Codex or
-`/gost-svelte-shell:gost-svelte-shell` in Claude Code only when you want
-to connect the application foundation. Library compatibility remains subject to
-the recipe and the consumer's actual artifacts.
+`/gost-svelte-shell:gost-svelte-shell` in Claude Code only when you want to
+connect the application foundation. Compatibility remains subject to the recipe
+and the consumer's actual artifacts.
 
 ## Update and rollback
 
-For Claude Code, refresh the catalog and request the maintainer-selected version:
+Refreshing a marketplace pinned to a tag refreshes that tag; it does not select
+a newer release. To change versions, explicitly change the registered tag and
+reinstall. Use the same procedure to return to an earlier **existing** tag.
+
+Before removing a marketplace, record any other plugins and data you need to
+retain. Removal can uninstall its plugins and delete their cached data/options;
+inspect the native result and restore deliberately retained installations.
+These commands intentionally remove the current plugin before re-registration:
 
 ```sh
-claude plugin marketplace update gost
-claude plugin update gost-svelte-shell@gost
+codex plugin remove gost-svelte-shell@gost
+codex plugin marketplace remove gost
+codex plugin marketplace add antonsmolko/gost-spec --ref <selected-release-tag>
+codex plugin add gost-svelte-shell@gost
 ```
 
-For Codex, re-register the Git marketplace with the selected catalog commit and
-install its plugin. If the existing registration prevents changing the ref,
-remove the `gost` marketplace and add it with the desired ref before installing
-again. Removing a marketplace can remove its installed plugins; inspect the
-native command result and reinstall the selected plugin.
+```sh
+claude plugin uninstall gost-svelte-shell@gost
+claude plugin marketplace remove gost
+claude plugin marketplace add 'antonsmolko/gost-spec#<selected-release-tag>'
+claude plugin install gost-svelte-shell@gost
+```
 
-Record both the catalog revision and Claude's pinned plugin-content revision.
-They can differ while delivering identical content. Claude has no arbitrary
-commit selector at marketplace registration: rollback requires the maintainer
-to restore the catalog's earlier plugin pin and matching Codex content, followed
-by native refresh/update. Restart sessions and inspect installed versions and
-content after updates or rollback. A version string alone is insufficient.
+Restart and verify the selected tag, manifest version, installed file bytes and
+one active skill with readable references. Repeating an installation of the same
+tag must not add a duplicate skill. If selection or installation fails, report
+the actual active installation, including an empty installation after removal;
+do not describe a retained old cache as the selected release.
 
-## Prepare a version
+## Prepare and verify a release
 
 Change `version` together in `.codex-plugin/plugin.json` and
 `.claude-plugin/plugin.json`, and add the corresponding entry to
@@ -74,62 +88,66 @@ Change `version` together in `.codex-plugin/plugin.json` and
 compatible additions; breaking changes use minor before 1.0 and major from 1.0.
 Describe compatibility changes and required user actions in the changelog.
 
-First commit the complete prepared plugin directory. Then update the Claude
-catalog's full `source.sha` to that commit and keep the Codex catalog's plugin
-tree identical. The content commit must exist before the catalog refers to it;
-do not invent a SHA or pin the catalog to its own not-yet-created commit.
+Prepare one ordinary PR containing the plugin and both catalogs. Run the
+repository's `npm run check`, inspect the distribution, and verify native
+installation/discovery in isolated profiles of both harnesses. Draft file checks
+work without Git metadata, network access or a future release tag. They do not
+prove native installation or authorize a release.
 
-Run the repository's `npm run check` and verify native marketplace installation
-in both harnesses. Versions alone do not identify installed content: retain the
-Git revision and inspect the installed skill and references. Plugin updates do
-not update libraries or applications already connected by an older skill.
-Changesets remains responsible for the separate npm documentation packages.
-Version preparation does not authorize publishing, tags or a release.
+After merge, verify the actual resulting main commit and its plugin/catalog
+content, including after squash or rebase. After separate approval for that
+specific release, create `gost-svelte-shell-v<version>` on that verified commit.
+Create tags only for releases, not every commit. Never move, replace or reuse a
+published tag, and never force-push it; corrections get a new version and tag.
+No separate same-repository plugin-content commit is required.
 
-## Migrate from the previous name
+When verifying an existing release:
 
-The plugin and skill were renamed from `gost-svelte-spa-state` to
-`gost-svelte-shell`. This is a new identity, not an automatic update of the old
-installation. The supported Svelte 5 SPA foundation and library requirements
-are unchanged. The new identity starts at version 0.1.0 (unreleased).
+1. Fetch its exact tag and resolve `git rev-parse 'refs/tags/<tag>^{commit}'`.
+   Record the resolved commit, including for annotated tags.
+2. Confirm it is the verified release result in main history, the catalog sources
+   select the shared local tree, both manifest versions equal the tag's version,
+   and the changelog contains that version. A missing tag, unsuitable revision,
+   changed recorded target or mismatched version fails release verification.
+3. Install that same tag in both harnesses and compare the complete installed
+   plugin trees and references to it. Record commands, CLI versions, inventory,
+   resolved revision and file hashes. Missing native evidence means incomplete.
 
-For an existing Codex installation, explicitly remove the old plugin, then
-re-register the marketplace at a catalog commit containing the new identity:
+Git tags rely on maintainer trust; retain resolved commits and hashes to detect
+later changes. Native installation may accept a wrongly named tag, so its success
+does not replace the version/revision check. Version preparation, merge and file
+checks do not authorize publishing or tag creation. Changesets handles the
+separate npm documentation packages. Plugin updates do not update libraries or
+applications previously connected by an older skill.
+
+## Existing installations
+
+For `gost-svelte-shell` 0.1.0 installed through the previous content-SHA workflow,
+use the explicit remove/re-register/install procedure above with a real released
+tag. The selected tag now controls the whole snapshot in both harnesses.
+
+For the old plugin identity `gost-svelte-spa-state`, explicitly uninstall it first:
 
 ```sh
 codex plugin remove gost-svelte-spa-state@gost
-codex plugin marketplace remove gost
-codex plugin marketplace add antonsmolko/gost-spec --ref <new-catalog-commit>
-codex plugin add gost-svelte-shell@gost
 ```
-
-Removing a marketplace may remove its other installed plugins; inspect the
-native result and restore any deliberately retained installations.
-
-For an existing Claude Code installation, remove the old plugin and refresh
-the maintainer-selected catalog before installing the new identity:
 
 ```sh
 claude plugin uninstall gost-svelte-spa-state@gost
-claude plugin marketplace update gost
-claude plugin install gost-svelte-shell@gost
 ```
 
-Restart sessions and confirm only the new plugin skill is active, then read its
-installed recipe. If installation fails after removal, report the migration as
-incomplete and inspect the actual installed identities. To return to the old
-delivery, remove any installed new identity and explicitly install the old ID
-from its previous catalog/content pin:
+Then remove the old marketplace registration, add it at the selected release tag
+and install `gost-svelte-shell@gost` as above. This is a change of identity, not an
+automatic rename through update. Restart and confirm the old skill is inactive.
+A failed migration remains incomplete and does not change application code.
 
-- Codex users can re-register the marketplace with `--ref <old-catalog-commit>`
-  and install `gost-svelte-spa-state@gost` from that delivery.
-- Claude Code requires a maintainer to first restore the previous catalog entry
-  for `gost-svelte-spa-state`, its old `git-subdir` content pin and matching Codex
-  delivery. Restoring only `source.sha` under the new plugin ID is insufficient.
-  Once that catalog is available, users run `claude plugin marketplace update gost`
-  and `claude plugin install gost-svelte-spa-state@gost`. A user cannot select the
-  earlier catalog commit at registration; until the maintainer restores it,
-  report rollback as unavailable and retain the actual installed-state report.
-
-Restart and verify the old skill and recipe, with no active new plugin skill.
-Changing the catalog or ID does not connect, update or migrate an application.
+Legacy rollback without an existing release tag remains a separate procedure:
+remove any installed new identity and explicitly reinstall the old ID from its
+previous delivery. Codex can select the previous catalog commit with `--ref`.
+For Claude Code, the maintainer must first provide the previous catalog entry,
+old ID and old content SHA with matching Codex content in a legacy delivery;
+restoring only a SHA under the new ID is insufficient. Until that catalog is
+available, report legacy rollback as unavailable. Do not invent a previous tag
+or promise an arbitrary Claude SHA selector. Refresh/re-register that available
+legacy catalog, reinstall the old ID and verify its old skill/recipe with no
+active new skill. The current release catalog keeps its local source.

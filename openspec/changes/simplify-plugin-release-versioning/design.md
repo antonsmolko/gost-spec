@@ -7,6 +7,9 @@
 [PR #69](https://github.com/antonsmolko/gost-spec/pull/69) доставлен в main
 как `57c70bd`; его основная distribution spec — база этой дельты.
 Ветка `feature/gost-spec-70-plugin-release-tags`, prefix `[gost-spec-70]`.
+Это ветка исходного плана; его PR #72 вмержен как `b8d4211`. Реализация идёт
+от этого main commit на `feature/gost-spec-70-release-tag-delivery` с тем же
+issue prefix. Датированные review/planning snapshots ниже сохраняют свой scope.
 
 Наблюдаемое состояние до реализации: Claude использует `git-subdir` с SHA
 `f567ab5ad04b139b25a75c9d65c735abe51c3065`, Codex — локальный источник.
@@ -284,3 +287,156 @@ public basis; actionable sources — публичные R1/R2 выше.
 Реализация и native experiments не начаты. Публичные статусы и source-linked
 ответы в оба inline threads завершаются после commit/push; их доставку независимое
 review не подтверждает. Пустые summary reviews не содержат отдельных findings.
+
+## Apply evidence — 2026-11-04
+
+### Filesystem checks and prepared content
+
+Новые behavior tests запущены до runtime-правок: два ожидаемых RED отказа —
+старый checker отклонял локальный Claude source и принимал legacy Git source.
+После минимальной замены source validation все 25 distribution tests проходят.
+Удалены pin-only cases и Git preparation fixture; остальные отрицательные
+проверки, CLI root/exit codes, root `skills/` guard и boundary checks сохранены.
+Корректная копия без `.git` проходит и CLI с пустым PATH (без запуска Git).
+
+Подготовлена 0.2.0 unreleased, оба каталога выбирают общее локальное дерево.
+Plugin README описывает полный manual tag lifecycle и проверенные native команды,
+стал независимым от количества npm-пакетов. Skill/recipe, все пять npm-пакетов
+и их версии неизменны. Main spec сохраняет прежний снимок до отдельного sync;
+актуальную дельту задаёт этот change. Общий product design и roadmap обновлены
+по task 1.2, сохраняя отдельную legacy-процедуру.
+
+### Disposable native verification
+
+Codex 0.166.0, Claude Code 2.1.308. Run:
+`/var/folders/mb/0tk4p1xj2bnd8j95_hzrbqqr0000gn/T/gost-release70-b4u3yljn`.
+Loopback origin `http://127.0.0.1:52331/origin.git` обслуживался штатным
+`git-http-backend` с временным HTTP/CGI adapter. Public GitHub source и реальные
+профили не менялись; это native loopback evidence, а не публичная установка.
+Два профиля и synthetic SPA из трёх файлов; конфигурация инициализирована один раз.
+Credentials не копировались, environment subprocesses ограничен системными
+переменными. HOME не переназначался; персональные config/registry проверялись
+только fingerprints. Standalone user skills, видимые Codex, не засчитывались
+как plugin discovery.
+
+| Fixture delivery | Resolved commit | Version / selection |
+| --- | --- | --- |
+| A, lightweight tag | `83c1adcb1bc38e1408cbd8b753305d1622e60bde` | `gost-svelte-shell-v0.2.0` |
+| B, annotated tag | `5a563a4ab0d5b7e646ea6c5a3d248f734b0216a5` | `gost-svelte-shell-v0.2.1` |
+| Legacy same ID catalog | `eadb38bbfe8b849e7f0a4b90a58d9021fbf58bd1` | branch `legacy-new`, 0.1.0 |
+| Legacy old ID catalog | `18b389f509d1f3a61b7ed7c9ccb6c17408f6f283` | branch `legacy-old`, 0.1.0 |
+
+A и B подготовлены в отдельных fixture-ветках и squash-merged в fixture main;
+теги созданы на итоговых commits. B отличается manifests, changelog и README
+marker. Свежий clone `--single-branch --branch main` и экспорт его файлов без
+`.git` проходят checker; side-branch objects для поставки не требуются.
+
+| Native scenario | Codex | Claude Code |
+| --- | --- | --- |
+| Fresh A, repeat A | один active skill, 8 файлов A | один enabled skill, 8 файлов A |
+| Явный A → B, refresh B | 0.2.1, 8 файлов B; ref сохраняется | 0.2.1, 8 файлов B; ref сохраняется |
+| Явный B → A | 0.2.0, 8 файлов A | 0.2.0, 8 файлов A |
+| SHA-based 0.1.0 → A | явная перерегистрация, один новый skill | явная перерегистрация, один новый skill |
+| Old ID → A | old удалён, затем один new skill | old удалён, затем один new skill |
+| Недоступный тег после удаления | add/install exit 1, inventory пуст | add/install exit 1, registry пуст |
+| Old ID недоступен в новом каталоге | install exit 1, фактический A сохранён | install exit 1, фактический A сохранён |
+| Неверно названный тег v9.9.9 → A bytes | host install возможен; release verification отказ | host install возможен; release verification отказ |
+
+33 verification records подтверждают actual identity/version, fingerprints
+приложения и шести personal paths. Для каждой установленной поставки сравнены
+все восемь файлов и прочитан recipe; hashes Codex/Claude совпадают с Git blobs.
+Codex discovery — новый `codex --no-daemon app-server`, initialize/initialized,
+`skills/list` с `cwds` synthetic SPA и `forceReload: true`; config hash до/после
+discovery одинаков. Claude использует свежие CLI `plugin list --json` и
+`plugin details`, включая `Skills (1)`.
+
+Проверенные native формы — команды plugin README с loopback `.git` URL вместо
+GitHub shorthand: Codex `marketplace add <url> --ref <tag>`, Claude
+`marketplace add '<url>#<tag>'`. Переключение: явный plugin remove/uninstall,
+marketplace remove/add с нужным ref, install, restart/discovery. Refresh —
+Codex `marketplace upgrade gost`, Claude `marketplace update gost`.
+Наблюдаемое удаление marketplace различается: Claude удаляет установленный plugin
+и сообщает о saved options/data; Codex оставляет enabled cached plugin до явного
+`plugin remove`. Поэтому руководство явно удаляет plugin и требует actual inventory.
+
+Первоначальный legacy trial не засчитан: временный сервер по умолчанию запрещал
+fetch ancestor SHA (`Server does not allow request for unadvertised object`).
+Прямой Git fetch воспроизвёл отказ; поддерживаемая настройка
+[`uploadpack.allowReachableSHA1InWant`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-uploadpackallowReachableSHA1InWant)
+только в disposable bare origin исправила его. Профиль восстановлен native-командами,
+затем оба legacy перехода повторены успешно. Это исправление test server,
+не исключение нового release contract; реальные registry/config вручную не правились.
+
+### Release verification and reproducibility
+
+Manual procedure из plugin README выполнена на A/B: точный `refs/tags/<tag>^{commit}`,
+main ancestry, оба manifest versions, changelog и полные installed hashes.
+Отсутствующий tag, v9.9.9 с версией 0.2.0 и version-matching tag на legacy
+commit вне main history не подтверждаются как выпуск;
+обычный `git tag <existing-tag> <other-commit>` без force отказал в переиспользовании.
+Теги fixture не публиковались. Исторические legacy catalogs подготовлены из
+публичных plugin trees `b8d4211` и `385a0bce`; их pins — локальные fixture commits.
+Восстановленная old catalog delivery проверена отдельно; существование старого
+релизного тега не предполагалось.
+
+Для воспроизведения native проверки: скопировать текущий plugin и оба каталога
+в disposable Git repo, подготовить A в feature branch, squash в main и создать
+локальный тег A; для B изменить только manifests/changelog и README marker,
+повторить squash/tag (один тег annotated). Обслужить bare clone штатным
+git-http-backend на loopback. Выполнить команды README с отдельными
+CODEX_HOME/CLAUDE_CONFIG_DIR и synthetic cwd, сверить все installed файлы через
+`git show <resolved-commit>:plugins/gost-svelte-shell/<path>` и SHA256.
+Для legacy source использовать опубликованный исторический tree и доступный
+SHA в этом же temporary origin; его server должен разрешать reachable SHA fetch.
+Supplemental scripts/logs/JSON находятся в run и `/tmp/gost70-native.py`,
+`/tmp/gost70-actions.py`; они не являются единственной публичной основой.
+Публичные контракты, воспроизводимые команды и текущие hashes зафиксированы здесь.
+
+SHA256 A (тот же набор, что текущий подготовленный plugin):
+
+```json
+{
+  ".claude-plugin/plugin.json": "f84bc3a0999941a4fc64497d155109b211475248b677c5486631c3ce0eca00ce",
+  ".codex-plugin/plugin.json": "e00818390a7897fabb894d8905ebe9ee494b47b2fb38d5c699e2f76699b5a076",
+  "CHANGELOG.md": "7aec1cb65f61c7eff792354b44a26f441f1f1932119c54059c967fa688bf690c",
+  "LICENSE": "b30836d02111b64583c4eab07aef8f9ba79f7b699359521f740d5cab428b9666",
+  "README.md": "0c4058aeeff6244dde8aa67425e2891325b7b7bee02c0988af874f88b6e336da",
+  "assets/icon.png": "195c6abf4e183791242be0a91ddd9bf8b5c2369d80fbf037e342c69b983383ec",
+  "skills/gost-svelte-shell/SKILL.md": "f6fce0d94a821fc18762e36e0adedf6b10f358aa9bc2a47f5930a59d22de2315",
+  "skills/gost-svelte-shell/references/foundation.md": "30e97531684243b931c18a714c89dfbf5ceb8f621c1785f2c228dd68cfd22f8a"
+}
+```
+
+### Apply verification and issue edits
+
+Реализация оформляется отдельным main-target PR после merged plan #72. В #70
+фиксируются branch, native evidence, фактический progress и verification;
+PR #72 отмечается доставленным планом, а не завершённой реализацией #70.
+Scope #71, исходные criteria/closure #54/#55/#64 и gates #20/#26 сохраняются.
+Merge реализации, публичные tags/releases, archive/sync и применение к asc-admin
+не выполняются автоматически. Итоговые suite/link checks и independent review
+завершают tasks 4.1/4.2 ниже.
+
+Свежие полные checks: 73/73 на Node 26.0.0 и 26.11.1, включая real packed
+artifacts и external consumers. Distribution subset — 25/25, typecheck успешен.
+Strict validation активной дельты и обеих main specs, whitespace check проходят.
+Отдельно проверены полный diff, неизменные contracts/пакеты/recipe и публичные
+dependencies; repository-wide Git-tree audit — 109 Markdown, 174 path links +
+2 same-file anchors, 0 errors. Path-list SHA256 прежний, набор Markdown не менялся.
+Personal fingerprints и synthetic SPA после native проверки сохранены; остановлен
+только собственный loopback server. Native profiles и raw records оставлены для review.
+Independent whole-result review завершено без actionable findings. Fresh-context
+reviewer прочитал полный 12-file diff, artifacts, product design/roadmap/handoff,
+public #70/#71/#20/#26 и все источники PR #72. Независимо выполнены full check
+73/73 на Node 26.11.1, strict change/main specs, whitespace и link audit выше.
+Все 33 native records и 149 command logs сопоставлены с actual Git blobs,
+raw inventory и helpers; A совпадает с текущим plugin. Node 26.0.0 и native
+команды reviewer не повторял. Review — private input, not a public basis;
+публичный actionable scope — #70. Previous R1/R2 closures сохранены.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent review: private input, not a public basis; scope [#70](https://github.com/antonsmolko/gost-spec/issues/70) | Проверка полного результата реализации | 12 changed files, all native evidence | Reviewed, no actionable findings | Независимый full check 73/73, strict/link/contract review и проверка 33 native records по Git blobs; ограничения повторного запуска перечислены выше |
+
+Implementation tasks 9/9; следующий delivery step — отдельный PR, затем явное
+решение о merge. Реальные tags/releases и archive/sync требуют отдельных запросов.
