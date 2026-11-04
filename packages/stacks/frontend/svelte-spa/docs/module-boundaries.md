@@ -32,6 +32,13 @@ not a requirement for every frontend or Svelte application. Layer folders may
 be omitted when unnecessary; the profile does not mandate a presenter, store,
 API client, routing library, alias spelling or `index.ts` for every helper.
 
+If the project separately applies FRONTEND-ARCH-001/002, follow that contract
+for state/presentation/event responsibilities while keeping this profile's
+import direction. A shared component may receive ready props and intent
+callbacks from its higher-level caller; it does not gain permission to import
+feature state or own a competing logical store. FSD selection alone does not
+make that FC/presenter contract mandatory or require a presenter per component.
+
 ## Verification
 
 Currently verify by manual review of module placement, the project layer map,

@@ -102,7 +102,7 @@ state contract, которые presenter отображает предсказу
 | Контекст | Допустимо | Требует переноса/изменения |
 | --- | --- | --- |
 | Вывод значения | `{viewState.title}`, готовый prop, поле готового row | Formatting, mapping, фильтрация и domain/presentation decisions в компоненте |
-| If/else-if | `{#if isLoaded}`, `{#if viewState.isLoaded}` с готовым boolean | Object/data truthiness, сравнение, `&&`/`||`, тернарное выражение, negation, function call в condition |
+| If/else-if | `{#if isLoaded}`, `{#if viewState.isLoaded}` с готовым boolean | Object/data truthiness, сравнение, `&&`/`\|\|`, тернарное выражение, negation, function call в condition |
 | Список | Итерация готового массива, чтение полей/готового стабильного ключа | Inline filter/sort/map или вычисление доступности/представления элемента |
 | Read-only reactivity | Feature selection, alias/чтение готового поля, вызов pure presenter | Presentation calculation, записанная inline в component `$derived`, override derived как mutable UI-state |
 | Event payload | Передать стабильный payload (`event.currentTarget.value`, checked, id row); DOM event остаётся в UI plumbing | Преобразовать/нормализовать бизнес-данные, выбрать action по business state, dispatch chain |
@@ -318,3 +318,178 @@ anchors /0 errors, same path-list hash. Fresh npm run check passes 102/102 on
 Node26.11.1 including real packs/external consumers. Proposal/spec/schema are
 byte-identical to planning commit 589b01f; only the task-list omission, wording
 corrections and this ledger changed. No runtime tests added for prose fixes.
+
+## Implementation evidence
+
+Owner authorized merge/apply after published planning review. PR #80 merged at
+4b5361a324160b3e607ba04655a9812d9dbd5af3; implementation branch
+feature/gost-spec-78-component-presenter-implementation, prefix gost-spec-78.
+Task1.1 replaces the two proposed frontend documents with the agreed ownership,
+ready-rendering, intent/browser and validated-input boundaries. Existing IDs,
+required levels and proposed status retained. Manual trace against all seven
+requirements/fifteen scenarios confirms textual coverage, with scoped stateless
+and browser-only exceptions. Complete synthetic code examples are being checked
+under task1.2; no claim of automated architecture/provenance validation.
+
+Tasks1.2/2.1 verification: both complete TS modules and six Svelte components
+were extracted from the new normative documents into a disposable consumer.
+TypeScript and svelte-check report 0 errors/0 warnings; Vite production build
+passes, including policy-negative BadView/BadEditor/BadBrowser. Each negative construct was
+manually classified (truthiness/condition/derived/formatting/local store/business
+selection/dispatch chain); successful syntax is not policy approval. MCP
+autofixer checked all six; BrowserInput had two advisory attachment alternatives
+for bind:this; BadBrowser had one equivalent advisory. These were retained deliberately to demonstrate valid refs, not correctness
+defects. No automatic architecture/provenance checker added.
+
+Pure probes checked eight status/collection variants, presenter composition,
+frozen inputs and factory-built editor action transitions with preserved root
+neighbours. Separate Chromium probe executed the exact three positive published
+components in a temporary harness with real common/svelte 0.1.0 artifacts built
+from isolated public source fbf8a518, Svelte5.57.2. It verified eight reactive
+view variants, one action per logical event, draft through FC, zero-action focus,
+widget callback and lifecycle cleanup, with no page errors. Vite strictPort at
+4190 prevents silent server reuse. Artifacts/source/probes remain disposable;
+no real app/widget vendor integration is claimed. Raw unknown responses were not
+validated by these examples: their application contract/TS-TYPES-001 boundary
+was reviewed separately; no payload validator is provided or promised.
+
+Svelte/FSD compatibility was reviewed as four separate selection cases: standalone
+Svelte derived rule, combined read-only binding, combined invalid inline
+presentation calculation, combined invalid logical-state writes. FSD retains
+its import directions and never implicitly selects a presenter/state library.
+
+Task2.2 tracking: frontend/Svelte/FSD READMEs/changelogs align with the two
+frontend rules, inventory adds narrow proposed ownership and retains the original
+Local-only/API/form pending row/rationale. Approval tracking adds Pending rows for
+FRONTEND-ARCH-001/SVELTE-STATE-001 and revises existing FRONTEND-ARCH-002 source,
+without an acceptance decision. Product design/roadmap/handoff point to #78 and
+dependent #79. #78 current progress 4/6, #79 dependency checkpoint only, PR #80
+body records actual merge; criteria/dependencies unchanged. #79 exclusion in
+task3.1 refers to implementation, not the dependency metadata required by 2.2.
+
+Changesets 3.0.3 add --empty created lazy-snakes-type.md under the existing
+unreleased-proposed policy, without version preparation or release. All five
+0.1.0 identities and lock unchanged. First offline verification install used an
+unavailable svelte-check pin and failed before useful checks; corrected to the
+existing fixture's 4.7.7 and pinned toolchain, no repo dependency change. Earlier
+failed attempts are not counted as evidence. No code-text regex tests added.
+
+
+### Final audit — task3.1
+
+Fresh full npm run check passes 102/102 on Node26.11.1 and26.0.0, including
+real package packing/external consumers. All five tarballs were additionally
+inspected: core11/frontend6/Svelte5/TypeScript9/FSD5 entries; packed Markdown
+matches source bytes and no internal review/config/OpenSpec directories enter
+packages. Strict change and both main specs pass; changeset status has no bumps,
+whitespace clean. Versions/lock/runtime/plugins/scripts/tests unchanged.
+
+Separate complete staged diff inspection and search of unchanged TS-TYPES-001,
+README selection policy, state/effect contracts and public #78/#79 bodies found
+no conflicting active obligations. Manual classification covers all six complete
+components, including three intentionally syntax-valid policy-negative examples;
+pure, type/build and Chromium evidence remain distinct. Markdown audit covers
+124 files,206 local path links,3 same-file anchors,0 errors; path-list SHA256
+`db09aaf144514da115617444916e454394f2a57f4c40e62150ac029c2dd0e290`.
+No claim of automated architecture enforcement, generic validation or real app
+migration. Task3.1 complete; independent complete-result review remains task3.2.
+
+### Implementation GitHub issue edits
+
+#78 current-status section records PR80's actual merge, implementation progress
+and separated verification evidence. Original criteria, dependencies and owner
+approval gates are preserved; historical planning/review records stay historical.
+#79 receives only a dependency checkpoint: #78 normative review/decision pending,
+no skill implementation or preselected distribution. PR80's description records
+its actual merge. Public actionable source for implementation/review is
+[#78](https://github.com/antonsmolko/gost-spec/issues/78), not private samples.
+
+### Independent implementation review
+
+Fresh-context separate reviewer inspected the complete nineteen-file result,
+all seven requirements/fifteen scenarios, eight published code examples and
+relevant unchanged contracts. Sources read: public [#78](https://github.com/antonsmolko/gost-spec/issues/78),
+[#79](https://github.com/antonsmolko/gost-spec/issues/79), all PR80 inline
+findings/replies and summary reviews; previous confirmed closures retained.
+Reviewer found no actionable findings. Private agent input is not a public
+basis; actionable requirements are the linked issues and committed spec/design.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent review (private input, not a public basis); public #78 requirements above | Complete-result consistency check | All nineteen implementation files / #78 | No actionable findings | Independently matched all eight extracted examples, ran pure probes and TS/Svelte checks, inspected five actual packs, whitespace and both 102/102 suite logs; checked unchanged contracts, proposed/Pending and package boundaries |
+
+Reviewer inspected browser/link evidence without rerunning Chromium/full suite.
+Author reran Chromium successfully after final audit. Synthetic checks do not
+prove arbitrary helper purity, unknown-data validation, actual vendor widget
+integration or migration. Implementation [PR #81](https://github.com/antonsmolko/gost-spec/pull/81) presents
+the complete outcome; task3.2 complete,6/6. Merge, normative acceptance, sync/archive
+and release retain separate decisions.
+
+Final tracking: #78 current status and PR81 description updated to6/6 with
+canonical evidence; original criteria/Pending gates preserved. #79 dependency
+checkpoint remains unimplemented. This final bookkeeping changes no contract.
+
+### PR81 published review
+
+Read every page of PR81 inline comments, summary reviews and PR/issue78
+comments at reviewed head `3edc7eb`; four inline findings and two summary
+findings. Empty reviews contain no additional findings. Public summary:
+[verification](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324).
+Prior reviewer-confirmed planning/implementation closures remain valid.
+
+#### PR81 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Idle wording](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472865280) | Ready initial message conflates ready values with ready status | presenter-composition.md | Fixed | Else explicitly renders the initial Not requested message for idle |
+
+#### PR81 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Classification](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472868627) | Verification names only two negative components | presenter-composition.md | Fixed | Names BadView, BadEditor and BadBrowser; readonly state property does not make nested fields immutable |
+
+#### PR81 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Effect representation](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472868855) | Plain reducer/no-effects type is not explicitly distinguished from library handler API | state-ownership.md | Fixed | Explicitly labels plain reducer and never-array/empty-array as illustrative no-effects representation; integration uses actual reducer/state/action/effect contracts. Code unchanged; existing recipe distinguishes define.reducer handlers from reducing normalization |
+
+#### PR81 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inventory](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472869024) | Svelte compatibility ID lacks navigable inventory row | requirements-inventory.md | Fixed | New Svelte technology row links existing SVELTE-STATE-001 with unchanged applicability/verification; approval remains Pending |
+
+#### PR81 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item1](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324) | Proposal names planning branch as current | proposal.md | Fixed | Historical planning base/branch explicitly labelled; implementation branch and main4b5361a given |
+
+#### PR81 R6
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item2](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324) | PR-body relative ledger anchor resolves against main before merge | PR81 description | Fixed | Replaced with full commit-pinned blob URL; final round link uses its pushed review-fix commit |
+
+These corrections clarify existing wording, classification and navigation; no
+contract/gate or code change. Under AGENTS rule6 this wording/link-only round
+needs no new independent review; existing independent result retained. The full
+final PR diff and unchanged contracts/issue bodies were checked separately from
+runtime tests. No conflicting active wording found; all six findings addressed.
+Tasks remain6/6 and proposed/Pending/package versions unchanged.
+
+#### PR81 review GitHub issue edits
+
+#78 gets only the review-fix revision and canonical dispositions link; criteria,
+dependencies and content gate unchanged. #79 dependency stays unchanged. PR81
+body links to committed evidence. Each inline finding and summary receives a
+reply linking its ledger entry, with no unrecorded disposition.
+
+Round verification: fresh npm run check102/102 on Node26.11.1, including
+real packs/external consumers; strict change/both main specs and whitespace pass.
+All eight code fences byte-identical to reviewed head; prior two-Node/type/pure/
+Chromium evidence remains applicable without reruns for unchanged code. Separate
+final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
+same path-list hash as task3.1. The extra path link is the Svelte inventory row.

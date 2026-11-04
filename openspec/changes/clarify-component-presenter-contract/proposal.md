@@ -44,7 +44,11 @@ outcome #78; skill [#79](https://github.com/antonsmolko/gost-spec/issues/79), ES
 presenter runtime и миграция asc-admin исключены. Ни один из пяти npm-пакетов
 не переименовывается и не получает версию другого пакета.
 
-Текущий PR создаёт только план: нормативные документы и реализация пока прежние.
-База — merged PR #77, main `31930c4`; #75 реализована, отдельный sync/archive
-остаётся pending. Ветка `feature/gost-spec-78-component-presenter-contract`,
-prefix `[gost-spec-78]`. Согласование плана не принимает proposed-текст.
+Planning PR #80 создавал только план; на том этапе нормативные документы оставались
+прежними. Реализация начата отдельным owner request после merge плана.
+Историческая база плана — merged PR #77, main `31930c4`; planning-ветка —
+`feature/gost-spec-78-component-presenter-contract`. Реализация основана на merge
+PR #80, main `4b5361a`, и ведётся в
+`feature/gost-spec-78-component-presenter-implementation`, prefix `[gost-spec-78]`.
+#75 реализована, отдельный sync/archive остаётся pending.
+Согласование плана не принимает proposed-текст.

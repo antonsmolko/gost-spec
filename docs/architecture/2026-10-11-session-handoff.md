@@ -61,11 +61,16 @@ Reducer unit tests используют готовые root/feature state factor
 реализация завершена, issue открыта для этого учёта. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
-Shell skill сохраняется. Следующий outcome —
+Shell skill сохраняется. Текущий outcome —
 [#78](https://github.com/antonsmolko/gost-spec/issues/78): уточнение proposed-контракта
 компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/clarify-component-presenter-contract/proposal.md)
-на ветке feature/gost-spec-78-component-presenter-contract, prefix `[gost-spec-78]`;
-реализация 0/6, нормативные документы ещё прежние.
+доставлен через PR #80 (main 4b5361a). Реализация на ветке
+feature/gost-spec-78-component-presenter-implementation, prefix `[gost-spec-78]`,
+6/6: proposed frontend-контракт/примеры и совместимость Svelte/FSD обновлены;
+приёмка содержания Pending. Pure и отдельные Chromium probes, полный check
+102/102 на обоих Node и package/link audit пройдены; independent review без findings.
+Реализация представлена в [PR #81](https://github.com/antonsmolko/gost-spec/pull/81);
+merge, content acceptance и sync/archive ещё требуют отдельных решений.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
 Архивирование #75 не блокирует подготовку плана #78.

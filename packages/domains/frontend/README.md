@@ -19,6 +19,13 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 
 Use with standards-core for shared principles. Select standards-typescript or standards-svelte when using those technologies; standards-svelte-spa adds the specific FSD SPA policy.
 
+FRONTEND-ARCH-001/002 define the proposed FC/presenter contract for projects
+explicitly applying it. Read both complete documents, including the ready-value,
+event, browser-plumbing and validation boundaries and examples. A simple component
+with ready props may need no presenter. Framework or FSD selection alone does
+not adopt the contract; acceptance and applicability still need explicit review.
+This package supplies documents, not a presenter runtime, source checker or skill.
+
 The five packages at 0.1.0 are the currently tested combination. Compatibility
 is documented here rather than checked by a semantic resolver. Review the
 [CHANGELOG](CHANGELOG.md) before upgrading; packages are versioned independently.

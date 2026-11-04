@@ -18,6 +18,12 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 
 Intended to be read with standards-core, standards-frontend, standards-typescript and standards-svelte. These companion packages must be selected and installed explicitly; this stack is not a universal frontend rule.
 
+Its FSD profile governs module dependencies. When also applying the frontend
+FC/presenter contract, read FRONTEND-ARCH-001/002 for state and UI responsibilities
+and SVELTE-STATE-001 for reactive compatibility. Folder layout alone does not
+choose a state library, create a presenter requirement or bypass another
+explicitly adopted architecture rule.
+
 The five packages at 0.1.0 are the currently tested combination. Compatibility
 is documented here rather than checked by a semantic resolver. Review the
 [CHANGELOG](CHANGELOG.md) before upgrading; packages are versioned independently.

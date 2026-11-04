@@ -20,15 +20,17 @@ work, not a complete inventory of proposed IDs. A Pending row records no owner
 acceptance; absence of a row also grants no approval. Other draft IDs enter the
 table when their content review starts, not merely because they exist in a package.
 
-| Package              | Requirement ID      | Owner decision | Reviewed revision / decision link           |
-| -------------------- | ------------------- | -------------- | ------------------------------------------- |
-| standards-core       | CORE-ARCH-001       | Pending        | No content approval recorded                |
-| standards-typescript | TS-TYPES-001        | Pending        | No content approval recorded                |
-| standards-svelte-spa | SVELTE-SPA-ARCH-001 | Pending        | No content approval recorded                |
-| standards-frontend   | FRONTEND-ARCH-002   | Pending        | Proposed text; no content approval recorded |
-| standards-typescript | TS-TYPES-002        | Pending        | Proposed text; no content approval recorded |
-| standards-typescript | TS-COMMON-001       | Pending        | Proposed text; no content approval recorded |
-| standards-typescript | TS-FUNCTIONS-001    | Pending        | Proposed text; no content approval recorded |
+| Package              | Requirement ID      | Owner decision | Reviewed revision / decision link                                                                     |
+| -------------------- | ------------------- | -------------- | ----------------------------------------------------------------------------------------------------- |
+| standards-core       | CORE-ARCH-001       | Pending        | No content approval recorded                                                                          |
+| standards-typescript | TS-TYPES-001        | Pending        | No content approval recorded                                                                          |
+| standards-svelte-spa | SVELTE-SPA-ARCH-001 | Pending        | No content approval recorded                                                                          |
+| standards-frontend   | FRONTEND-ARCH-001   | Pending        | Proposed revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval      |
+| standards-frontend   | FRONTEND-ARCH-002   | Pending        | Proposed revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval      |
+| standards-svelte     | SVELTE-STATE-001    | Pending        | Compatibility revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval |
+| standards-typescript | TS-TYPES-002        | Pending        | Proposed text; no content approval recorded                                                           |
+| standards-typescript | TS-COMMON-001       | Pending        | Proposed text; no content approval recorded                                                           |
+| standards-typescript | TS-FUNCTIONS-001    | Pending        | Proposed text; no content approval recorded                                                           |
 
 The initial core, TypeScript and Svelte SPA rows are candidates for the first accepted-content set, not
 predetermined decisions. Its content gate is defined under

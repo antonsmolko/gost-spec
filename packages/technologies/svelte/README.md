@@ -18,6 +18,11 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 
 Use with standards-core and standards-typescript for Svelte with TypeScript. Frontend architecture belongs to standards-frontend; FSD SPA composition belongs to standards-svelte-spa.
 
+Read FRONTEND-ARCH-001/002 from standards-frontend when also applying its
+FC/presenter contract. SVELTE-STATE-001 documents how derived binding coexists
+with that ownership policy; installing this Svelte package alone does not adopt
+it. Framework capability and project architecture are separate review concerns.
+
 The five packages at 0.1.0 are the currently tested combination. Compatibility
 is documented here rather than checked by a semantic resolver. Review the
 [CHANGELOG](CHANGELOG.md) before upgrading; packages are versioned independently.

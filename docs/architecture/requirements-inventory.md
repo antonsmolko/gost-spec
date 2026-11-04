@@ -28,6 +28,12 @@ All five remain proposed. TS-TYPES-001 defines complete boundary validation;
 TS-COMMON-001 separately proposes shared helper usage without weakening it.
 Strict checking is independent of formatting preferences.
 
+## Svelte technology review set
+
+| Topic                                        | Proposed ID and document                                                     | Applicability                            | Rationale and verification                                                                                                 |
+| -------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Derived state and architecture compatibility | [SVELTE-STATE-001](../../packages/technologies/svelte/docs/derived-state.md) | Svelte 5 reactive components and modules | Review reactive dependencies and updates; separately adopted FC/presenter rules govern ownership and calculation placement |
+
 ## Svelte SPA review set
 
 | Topic                            | Proposed ID and document                                                                   | Applicability                                                         | Rationale and verification                                                                                                               |
@@ -40,9 +46,15 @@ application alias is implied. The proposed import checker is not implemented.
 
 ## Frontend presentation
 
-| Topic                                          | Proposed ID and document                                                                   | Applicability                                                     | Rationale and verification                                                                                                     |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Pure presentation calculations and composition | [FRONTEND-ARCH-002](../../packages/domains/frontend/architecture/presenter-composition.md) | Frontend calculations that benefit from tests outside a component | Group shared work, keep independent inputs explicit, compose pure functions; test outputs separately from reactive UI bindings |
+| Topic                                          | Proposed ID and document                                                                   | Applicability                                          | Rationale and verification                                                                                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Logical state and intent ownership             | [FRONTEND-ARCH-001](../../packages/domains/frontend/architecture/state-ownership.md)       | Projects explicitly applying the FC/presenter contract | Root/feature state owns logical UI data; reducers decide from current state, application handlers execute effects; browser plumbing has a bounded exception |
+| Pure presentation calculations and composition | [FRONTEND-ARCH-002](../../packages/domains/frontend/architecture/presenter-composition.md) | Projects explicitly applying the FC/presenter contract | Ready values/boolean conditions, pure composable presenters and read-only binding; pure tests and reactive/component checks are separate                    |
+
+Both proposed revisions retain the application validation boundary and explain
+stateless/shared UI and zero-action browser plumbing. SVELTE-STATE-001 clarifies
+compatibility when this contract is also adopted; neither Svelte nor FSD selects
+it implicitly. Compiler success is not proof of this architecture or helper provenance.
 
 ## Local-only topics
 
@@ -55,16 +67,22 @@ application alias is implied. The proposed import checker is not implemented.
 | Mandatory Superpowers or another agent tool             | Local-only              | Standards must be usable without a particular agent or plugin                                |
 | Stateful store/presenter conventions, forms and API error models | Separate design pending | State ownership and failure policies need explicit applicability and their own module review |
 
+The broad pending row and its rationale remain: runtime store/presenter APIs,
+form policies and API error models are not delivered by the proposed frontend
+contract. FRONTEND-ARCH-001/002 now define the narrower logical-state/pure-view
+responsibilities for adopting projects; they neither define those runtime APIs
+nor accept their content. A presenter is not an alternative mutable state owner.
+
 TS-COMMON-001 proposes a separately adopted shared-library policy; it remains
 pending and does not supersede the Local-only disposition above. A future owner
 decision must explicitly reconcile any changed disposition and its rationale.
 
 ## Deferred content
 
-Standards are developed incrementally from concrete problems. Presenter composition
-is a proposed addition; frontend state ownership, accessibility/form states and
-Svelte reactivity/lifecycle remain separate future review topics. Existing
-FRONTEND-ARCH-001 and SVELTE-STATE-001 are proposed seeds, not complete packages
-of accepted conventions. Authentication, authorization, API-client and
+Standards are developed incrementally from concrete problems. FRONTEND-ARCH-001/002
+and SVELTE-STATE-001 have proposed revisions under #78, still pending owner content
+review. Accessibility, form-state policy and further reactivity/lifecycle topics
+remain separate work. These drafts are not complete packages of accepted
+conventions. Authentication, authorization, API-client and
 frontend-state modules require separate designs; no module package is created
 by this inventory.

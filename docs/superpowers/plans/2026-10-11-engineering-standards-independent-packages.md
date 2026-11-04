@@ -129,3 +129,17 @@ artifact, применение skill в disposable TypeScript consumer и native
 Прогресс и ограничения — [tasks](../../../openspec/changes/add-functional-core-skill/tasks.md)
 и [evidence](../../../openspec/changes/add-functional-core-skill/design.md#implementation-evidence).
 Presenter, #71/#62/#63, реальный выпуск и asc-admin остаются отдельными outcomes.
+
+
+## Контракт component/presenter/FC — #78
+
+План [clarify-component-presenter-contract](../../../openspec/changes/clarify-component-presenter-contract/proposal.md)
+доставлен через PR #80, main 4b5361a. Реализация пересматривает proposed frontend
+ownership/presentation и scoped Svelte/FSD compatibility, не принимая норм и
+не меняя пять версий. Примеры проверяются отдельно как pure functions, Svelte
+syntax/types и реальная UI binding; compiler success не равен architecture approval.
+Progress/evidence — [tasks](../../../openspec/changes/clarify-component-presenter-contract/tasks.md)
+и [design](../../../openspec/changes/clarify-component-presenter-contract/design.md#implementation-evidence).
+[#79](https://github.com/antonsmolko/gost-spec/issues/79) получает свой skill design
+после согласования этого контракта. ESLint/runtime/package-layout и реальные
+потребители сохраняют самостоятельный scope; archive/sync #75 остаётся pending.
