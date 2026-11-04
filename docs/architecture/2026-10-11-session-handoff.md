@@ -40,13 +40,17 @@ commit `ba02bbd`; план — merged PR #72. Все 9/9 задач заверш
 Change перенесён в [архив](../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/proposal.md)
 с синхронизацией основной distribution spec: 11 требований / 27 сценариев.
 [Ledger и evidence](../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/design.md)
-сохраняют review dispositions и границы проверок. Доставка этого archive/spec sync
-оформляется отдельным documentation PR; runtime/plugin/version не меняются.
+сохраняют review dispositions и границы проверок. Archive/spec sync доставлен
+через [PR #74](https://github.com/antonsmolko/gost-spec/pull/74), commit `82f9d7c`;
+#70 закрыта. Этот documentation outcome не менял runtime/plugin/version.
 Публичного release tag, публикации и применения к asc-admin не было.
 
-Следующее содержательное направление — отдельные skills для functional core
-и presenter; shell skill уже существует. Язык skills остаётся английским.
-Архивирование не создаёт эти skills и не запускает их реализацию автоматически.
+Текущий следующий outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
+английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
+marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
+на ветке `feature/gost-spec-75-functional-core-skill`, prefix `[gost-spec-75]`;
+implementation 0/7. Сам skill, новый plugin и fixture ещё не созданы.
+Shell skill сохраняется; presenter будет отдельным outcome.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
