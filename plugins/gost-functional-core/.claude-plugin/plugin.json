@@ -1,0 +1,10 @@
+{
+  "name": "gost-functional-core",
+  "version": "0.1.0",
+  "description": "Develop business features with the framework-independent gost-kit functional core.",
+  "author": {
+    "name": "Anton Smolko"
+  },
+  "license": "MIT",
+  "icon": "./assets/icon.png"
+}

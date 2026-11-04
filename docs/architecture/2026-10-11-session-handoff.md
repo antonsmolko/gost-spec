@@ -48,8 +48,18 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 Текущий следующий outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
 английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
 marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
-на ветке `feature/gost-spec-75-functional-core-skill`, prefix `[gost-spec-75]`;
-implementation 0/7. Сам skill, новый plugin и fixture ещё не созданы.
+план доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
+`feature/gost-spec-75-functional-core-implementation`, prefix `[gost-spec-75]`,
+7/7 после уточнения reducer unit tests: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
+Пример исправлен: четыре FC-файла фичи используют готовые эффекты приложения
+с receivers; все effectors остаются на app level. ApiEffect API — отдельно в gost-kit.
+Reducer unit tests используют готовые root/feature state factories с overrides,
+проверяют чистый state/action → state/effects; app integration проверяется отдельно.
+Независимое итоговое review этой правки завершено без actionable findings. Implementation
+[PR #77](https://github.com/antonsmolko/gost-spec/pull/77) открыт для review; merge
+и sync/archive ещё не выполнялись. Full check — 102/102 на обоих Node;
+consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
+Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется; presenter будет отдельным outcome.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
