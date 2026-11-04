@@ -222,3 +222,112 @@ consumers. Отдельный Git-tree link audit снова дал 114 Markdown
 PR #76 review R1 меняет только имя будущей fixture; criteria и статус #75 (0/7)
 сохранены. В #75/PR #76 добавляются ссылки на этот ledger и review-fix commit;
 изменения outcome, dependencies или approval gates не потребовались.
+
+## Implementation evidence
+
+### Task 1.1 — real artifact and baseline
+
+Apply authorized after PR #76 review. Source snapshot gost-kit fbf8a518 copied
+with git archive into a disposable directory; offline npm ci and npm pack
+produced a real common 0.1.0 tarball. The source repository was not built or
+modified. Inspected public types and generated package exports. Framework-free
+fixture typechecks with that artifact. Its explicit probe failed first with
+“requested staff feature is missing”. A separate no-skill agent then implemented
+the quoted synthetic request in an external copy: check and behaviour probes
+both passed; author reran them and inspected generated code. This successful
+agent baseline is not RED and does not establish an advantage for the skill.
+The missing-feature probe is the observed RED.
+
+Initial fixture typing exposed effecting's three generic parameters; the
+baseline composition now uses its actual handler-table tuple. No casts or
+framework dependency were added. Evaluation raw logs are temporary, not durable
+public artifacts; reproduction inputs are in the committed fixture README.
+
+### Tasks 1.2–1.3 — skill and observable feature application
+
+New English SKILL/reference is self-contained. Recipe's complete TypeScript
+block compiled against the actual common tarball. Author executed its reducer
+on frozen inputs and checked full state, preserved preferences, effect shape,
+success/failure through createDispatch and onError collection: passed. Bundled
+quick_validate passed in a disposable Python environment (PyYAML was absent
+from system Python); no repo tooling dependency was added.
+
+A fresh-context agent, with only the installed skill/reference and a separate
+consumer's public package artifacts, implemented the same README request.
+Author inspected resulting code and reran check/probe: passed. Agent then added
+ClearStaffAction with observed RED→GREEN, checked original probes, and repeated
+the original request without edits/duplicate registrations. Source SHA256 after
+change and before/after repeat was
+`e477b58e61f446e621e3d654fdeebac0b200dba15e20fee1eb9f2d2646837904`;
+recipe source and package metadata/lock remained unchanged. Imperative dependency
+is typed/trusted; no stale-response protection or concurrency policy is claimed.
+
+Fresh missing-artifact copy: no common in node_modules; TS2307 and dependent
+typing errors, no source edit or dependency replacement, explicitly incomplete.
+A failed tsc build emitted dist JS; that is not working integration. Fresh
+missing-composition copy: no src application, TS18003, no replacement store or
+source edits; explicitly incomplete pending original composition/handler inputs.
+These are independent behavioural observations, not a claim that Markdown
+format or successful baseline proves an improvement over a capable agent.
+
+### Task 2.1 — two concrete distributions
+
+New 8-file plugin 0.1.0 unreleased and both local catalog entries added. Existing
+shell tree/version and five npm-workspaces unchanged. Tests ran before checker
+changes: a valid two-entry distribution failed under old single-entry logic,
+FC metadata/link diagnostics and root-skills case failed. Missing/duplicate/
+unknown/redirect cases exist for each catalog; FC version mismatch/cross-plugin
+references are checked. After minimal adaptation all 53 distribution tests and
+typecheck pass (42 existing + 11 added). Root skill-source prohibition is now
+also enforced by the gate, retaining the previous repository assertion.
+Checker API/CLI, exit codes, JSON diagnostics, SemVer, required files, URI/file
+containment and per-plugin allowlist remain; catalogs are read in one common
+pass, each plugin tree checked independently with identity-qualified diagnostics.
+README/product design/roadmap point to both independent source skills; no generic
+registry, installer/config API or broad #62/#63 refactor was introduced.
+
+### Task 2.2 — native installation and file equality
+
+Codex 0.166.0 / Claude Code 2.1.308, fresh disposable CODEX_HOME and
+CLAUDE_CONFIG_DIR, synthetic app cwd. Personal credentials were not copied;
+subprocess environment was restricted to system variables and those temporary
+profile selectors. HOME was not reassigned. Personal config/registry files and
+synthetic app were fingerprinted before/after and unchanged.
+
+Final isolated snapshot `f2228ae` contains the exact two plugin trees and
+catalogs. A temporary tag gost-functional-core-v0.1.0 belongs only to this
+disposable repository; no gost-spec release/tag was created or moved. Full URL
+`http://127.0.0.1:52376/cgi-bin/git/origin-final.git` was served by standard
+Python CGI HTTP server plus git-http-backend (temporary wrapper, not product
+tooling). First attempt with Python's --directory failed before cloning; running
+CGI server with its actual cwd corrected that environment setup. This is not
+a harness failure. It does not prove public GitHub hosting availability.
+
+Both harnesses executed the README forms with that URL and fixture tag: FC
+installed alone, repeat, install shell alongside, fresh inventories. Codex
+app-server initialize → skills/list with forceReload in a new process discovered
+one active FC skill alone and both distinct native names when coexisting; skill
+and local reference were readable. Config was not reset before inventory and
+its hash was unchanged. Claude fresh plugin details parsed exactly one FC skill
+both alone and alongside shell; plugin list showed versions 0.1.0 / 0.2.0.
+This is local native inventory/discovery, not a model invocation or public-host
+proof. All eight files of each installed plugin in both harnesses matched the
+selected final snapshot byte-for-byte, with no extra files.
+
+### Task 3.1 — integration checks
+
+Full npm run check: 101/101 on Node 26.11.1 and npm-exec Node 26.0.0, including
+real npm document tarballs/external consumers. Strict change and both main specs
+pass; whitespace clean. Separate real common tarball has SHA256
+`516c0c518aa08655b1fdfc3bf082c2e5ed094f8f9b8b70c857c922f03e453b5c`;
+only package metadata/license/changelog and dist are packed, no private inputs
+or source workspace imports. Full code/doc diff inspected against reviewed plan,
+including unchanged distribution main spec, roadmap and public #75 criteria.
+Shell tree/version, all five npm packages/lock and actual asc-admin/gost-kit
+sources unchanged. Main spec delta remains for a separately requested sync/archive.
+PR #76 is now merged as `6ea9b317e19e7c21f5f155214fb115df7f4f3672` after
+GitHub initially returned 502/merge-in-progress; no alternate main push was used.
+
+Separate final tracked-tree Markdown audit: 119 files, 192 path links + 2
+same-file anchors, zero errors. Path-list SHA256
+`b2c3c72a828886f09027ef68a14f408bf0c0b40e01d0a2fdb0fcce0830a0a7bc`.

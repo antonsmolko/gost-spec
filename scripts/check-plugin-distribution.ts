@@ -3,21 +3,24 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
 
-const name = "gost-svelte-shell";
-const directory = `plugins/${name}`;
-const files = [
-  ".codex-plugin/plugin.json", ".claude-plugin/plugin.json",
-  "README.md", "LICENSE", "CHANGELOG.md", "assets/icon.png",
-  `skills/${name}/SKILL.md`, `skills/${name}/references/foundation.md`,
-];
+const distributions = [
+  { name: "gost-svelte-shell", reference: "foundation.md" },
+  { name: "gost-functional-core", reference: "functional-core.md" },
+] as const;
 // SemVer 2.0.0: numeric prerelease identifiers may not have leading zeroes.
 const number = "(?:0|[1-9]\\d*)";
 const identifier = `(?:${number}|[\\da-zA-Z-]*[a-zA-Z-][\\da-zA-Z-]*)`;
 const versionPattern = new RegExp(`^${number}\\.${number}\\.${number}(?:-${identifier}(?:\\.${identifier})*)?(?:\\+[\\da-zA-Z-]+(?:\\.[\\da-zA-Z-]+)*)?$`);
 
-export async function checkPluginDistribution(root: string): Promise<string[]> {
+async function checkPlugin(root: string, name: string, reference: string): Promise<string[]> {
+  const directory = `plugins/${name}`;
+  const files = [
+    ".codex-plugin/plugin.json", ".claude-plugin/plugin.json",
+    "README.md", "LICENSE", "CHANGELOG.md", "assets/icon.png",
+    `skills/${name}/SKILL.md`, `skills/${name}/references/${reference}`,
+  ];
   const diagnostics: string[] = [];
-  const report = (path: string, message: string) => diagnostics.push(`${path}: ${message}`);
+  const report = (path: string, message: string) => diagnostics.push(`${path.startsWith(directory) ? path : `${directory}/${path}`}: ${message}`);
   try {
     const repository = await realpath(root);
     const plugin = join(repository, directory);
@@ -48,26 +51,6 @@ export async function checkPluginDistribution(root: string): Promise<string[]> {
     if (codex.version !== claude.version) report(directory, "harness versions differ");
     if (codex.skills !== "./skills/") report(".codex-plugin/plugin.json", "skills source must select the shared skills directory");
     if (claude.icon !== "./assets/icon.png") report(".claude-plugin/plugin.json", "icon source must select the packaged icon");
-    for (const [path, harness] of [[".agents/plugins/marketplace.json", "codex"], [".claude-plugin/marketplace.json", "claude"]] as const) {
-      const catalog = await json(path);
-      const entries = catalog.plugins;
-      const entry = Array.isArray(entries) && entries.length === 1 ? entries[0] : undefined;
-      if (catalog.name !== "gost" || entry?.name !== name) report(path, "catalog identity or plugin entries differ");
-      const source = entry?.source;
-      if (harness === "codex") {
-        if (!source || typeof source !== "object" || Array.isArray(source) ||
-            source.path !== `./${directory}` || source.source !== "local" ||
-            Object.keys(source).some((key) => !["source", "path"].includes(key))) {
-          report(path, "catalog source must select only the shared local plugin directory");
-        }
-      } else if (source !== `./${directory}`) {
-        const reason = source === undefined ? "source is missing"
-          : source?.source === "git-subdir" ? "legacy git-subdir source is unsupported"
-          : typeof source !== "string" ? "source must be a relative path string"
-          : "source path differs";
-        report(path, `${reason}; expected "./${directory}"`);
-      }
-    }
     for (const file of files) {
       try {
         const path = join(plugin, file);
@@ -102,8 +85,59 @@ export async function checkPluginDistribution(root: string): Promise<string[]> {
       } catch (error) { report(file, (error as Error).message); }
     }
   } catch (error) {
-    diagnostics.push(`Plugin distribution check failed: ${(error as Error).message}`);
+    diagnostics.push(`${directory}: Plugin distribution check failed: ${(error as Error).message}`);
   }
+  return diagnostics;
+}
+
+export async function checkPluginDistribution(root: string): Promise<string[]> {
+  const diagnostics: string[] = [];
+  try {
+    const repository = await realpath(root);
+    for (const path of [".agents/plugins/marketplace.json", ".claude-plugin/marketplace.json"]) {
+      try {
+        const catalog = JSON.parse(await readFile(join(repository, path), "utf8"));
+        if (!catalog || typeof catalog !== "object" || Array.isArray(catalog)) throw new Error("metadata must be a JSON object");
+        const entries = Array.isArray(catalog.plugins) ? catalog.plugins : [];
+        if (catalog.name !== "gost" || entries.length !== distributions.length ||
+            entries.some((entry: { name?: unknown } | null) => !distributions.some(({ name }) => entry?.name === name))) {
+          diagnostics.push(`${path}: catalog identity or plugin entries differ`);
+        }
+        for (const { name } of distributions) {
+          const matches = entries.filter((entry: { name?: unknown } | null) => entry?.name === name);
+          if (matches.length !== 1) {
+            diagnostics.push(`${path}: plugin entries must contain exactly one ${name}`);
+            continue;
+          }
+          const source = matches[0].source;
+          const expected = `./plugins/${name}`;
+          if (path.startsWith(".agents/")) {
+            if (!source || typeof source !== "object" || Array.isArray(source) ||
+                source.path !== expected || source.source !== "local" ||
+                Object.keys(source).some((key) => !["source", "path"].includes(key))) {
+              diagnostics.push(`${path}: ${name} catalog source must select only the shared local plugin directory`);
+            }
+          } else if (source !== expected) {
+            const reason = source === undefined ? "source is missing"
+              : source?.source === "git-subdir" ? "legacy git-subdir source is unsupported"
+              : typeof source !== "string" ? "source must be a relative path string"
+              : "source path differs";
+            diagnostics.push(`${path}: ${name} ${reason}; expected "${expected}"`);
+          }
+        }
+      } catch (error) { diagnostics.push(`${path}: ${(error as Error).message}`); }
+    }
+    const rootSkills = join(repository, "skills");
+    try {
+      const entry = await lstat(rootSkills);
+      if (entry.isSymbolicLink() || !entry.isDirectory() || (await readdir(rootSkills)).length) {
+        diagnostics.push("skills: root skills tree must be absent or empty; sources belong under plugins/");
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") diagnostics.push(`skills: ${(error as Error).message}`);
+    }
+    for (const { name, reference } of distributions) diagnostics.push(...await checkPlugin(repository, name, reference));
+  } catch (error) { diagnostics.push(`Plugin distribution check failed: ${(error as Error).message}`); }
   return diagnostics;
 }
 

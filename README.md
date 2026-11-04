@@ -21,9 +21,17 @@ probes. Its Public API recipe records the tested development artifacts and limit
 The [capability specification](openspec/specs/svelte-spa-state-foundation/spec.md)
 records its current requirements and scenarios.
 
+[Develop functional-core features](plugins/gost-functional-core/skills/gost-functional-core/SKILL.md)
+guides requested business state, actions, reducers and effect/result flow through
+the public common API in an existing composition, independently of a UI framework.
+Its [Public API recipe](plugins/gost-functional-core/skills/gost-functional-core/references/functional-core.md)
+records verified artifacts and API constraints; missing inputs remain explicit.
+
 Skill sources are separate from the five document workspaces. The
-[state plugin](plugins/gost-svelte-shell/README.md) has its own unreleased
-version and native Codex and Claude Code marketplace catalogs. Reading or installing document
+[shell plugin](plugins/gost-svelte-shell/README.md) and
+[functional-core plugin](plugins/gost-functional-core/README.md) have independent
+unreleased versions and share native Codex and Claude Code marketplace catalogs.
+Either can be installed independently from the selected snapshot. Reading or installing document
 packages does not apply the skill or install runtime libraries.
 
 ## Documentation

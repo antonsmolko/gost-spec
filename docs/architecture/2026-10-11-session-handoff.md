@@ -48,8 +48,12 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 Текущий следующий outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
 английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
 marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
-на ветке `feature/gost-spec-75-functional-core-skill`, prefix `[gost-spec-75]`;
-implementation 0/7. Сам skill, новый plugin и fixture ещё не созданы.
+план доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
+`feature/gost-spec-75-functional-core-implementation`, prefix `[gost-spec-75]`,
+6/7: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
+Независимое итоговое review ещё требуется. Full check — 101/101 на обоих Node;
+consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
+Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется; presenter будет отдельным outcome.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх

@@ -23,7 +23,7 @@ implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
 После завершения change актуальный
 [контракт возможности](../../../openspec/specs/svelte-spa-state-foundation/spec.md)
 хранится в основных OpenSpec specs, а план и evidence — в архиве change.
-Единственный исходник хранится в `plugins/gost-svelte-shell/skills/`, отдельно
+Единственный исходник shell skill хранится в `plugins/gost-svelte-shell/skills/`, отдельно
 от пяти документальных workspaces. [Упаковка #55](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
 добавила один native plugin и каталоги Codex/Claude; версия и changelog плагина
 независимы от npm-пакетов. Поставка обновлена в
@@ -47,6 +47,18 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 Установка не запускает skill: подключение runtime-библиотек требует явного
 вызова. Публикация, применение в реальном потребителе и миграция фич остаются
 отдельными действиями; gates принятия и выпуска стандартов сохраняются.
+
+## Functional-core skill — #75
+
+Отдельный [plugin](../../../plugins/gost-functional-core/README.md) содержит
+английский [skill](../../../plugins/gost-functional-core/skills/gost-functional-core/SKILL.md)
+разработки бизнес-фич через публичный common API. Он расширяет существующую
+композицию и не зависит от UI framework; bootstrap shell и presenter — отдельные
+задачи. Версия нового plugin — 0.1.0 unreleased, shell остаётся 0.2.0 unreleased
+с неизменным деревом. Оба каталога содержат две независимо устанавливаемые entries;
+выбранный тег нового plugin имеет форму `gost-functional-core-v<version>` и выбирает
+весь snapshot маркетплейса. Пять npm-workspaces и approval gates сохраняются.
+План и implementation evidence — [change #75](../../../openspec/changes/add-functional-core-skill/design.md).
 
 ## Уровни требований
 

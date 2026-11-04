@@ -5,6 +5,11 @@
       "name": "gost-svelte-shell",
       "source": "./plugins/gost-svelte-shell",
       "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA."
+    },
+    {
+      "name": "gost-functional-core",
+      "source": "./plugins/gost-functional-core",
+      "description": "Develop business features with the framework-independent gost-kit functional core."
     }
   ],
   "owner": {
