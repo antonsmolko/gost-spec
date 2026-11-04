@@ -587,3 +587,154 @@ interactions. No public-host install, release or real consumer readiness verifie
 All 7 tasks complete after R7 verification/review. Final issue/PR status and R7
 reply link to this commit's ledger, with 102 full-suite, 12 recipe and 7 generated
 unit tests reported separately. No merge/sync/archive/release performed.
+
+
+## Archive and spec sync — 2026-11-04
+
+Owner explicitly selected sync and archive. All artifacts complete, tasks7/7;
+implementation PR77 merged at31930c4, current archive base main82eda95.
+New main functional-core-feature-development spec preserves Purpose and all seven
+requirements/nineteen scenarios verbatim except canonical H1/Requirements headers.
+Distribution sync replaces only Native marketplace installation in both harnesses
+with the complete delta, preserving both existing scenarios and adding shared
+marketplace installation. Existing distribution title/Purpose and ten other
+requirements remain untouched: total11 requirements/28 scenarios. No runtime,
+plugin, package/version, normative acceptance or release changes.
+
+All incoming repository links and moved artifacts' relative links are rebased.
+Historical planning/review records remain historical; current handoff/roadmap and
+#78 checkpoints distinguish delivered implementation from pending archive delivery.
+#78 itself remains active; #79 implementation has not started.
+
+### Archive GitHub issue edits
+
+#75 receives sync/archive status and the archive PR/evidence, stays open until
+archive delivery; original criteria and release gates preserved. #78/#79 current
+checkpoints replace stale pending #75 pointers with archive-PR status. No issue
+is closed or normative content accepted by this documentation operation.
+
+
+Archive verification: full npm run check102/102 on Node26.11.1 and26.0.0,
+including real package artifacts/external consumers. Strict main specs3/3 and
+whitespace pass. New main7/19; distribution11/28. Exact comparison verifies
+new main normalization, complete modified block, all ten unrelated requirement
+blocks and existing title/Purpose. Moved metadata/proposal/tasks/deltas are
+byte-identical. Plugin/runtime/package/fixture/test directories unchanged.
+Separate complete diff/unchanged-contract audit:125 Markdown files/213 local
+path links/3 same-file anchors/0 errors; path-list SHA256
+`c1466b4663e91d15831114693fd5ab2871dff0bdd261a18f14603e6a68ea27e9`.
+Selected change absent from active list. An optional broader --all strict scan
+finds the existing unfinished #71 change simplify-standard-package-layout has
+no deltas; it is unrelated and not fixed or counted as a passing archive check.
+
+### Independent archive review
+
+Separate fresh-context reviewer examined the complete diff against main82eda95,
+public [#75](https://github.com/antonsmolko/gost-spec/issues/75), PR77 threads/
+summaries and #78/#79 bodies. Prior confirmed dispositions retained. No actionable
+findings; exact normalization/delta, unchanged remaining distribution blocks,
+rebased links, task metadata, historical checkpoints and scope verified.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public #75 completed scope above | Archive/sync completeness review | Complete archive diff / #75 | No actionable findings | Independently compared specifications and moved files, inspected supplied full-suite/link evidence; did not rerun suites/native installation. Public issue status updates follow PR creation |
+
+No new content contract is introduced; existing reviewed delta is synchronized.
+Public issue updates and PR presentation complete delivery preparation, not merge.
+
+Archive presented in [PR82](https://github.com/antonsmolko/gost-spec/pull/82).
+Public #75/#78/#79 status bodies updated with its link and pending delivery;
+all issues remain open, original criteria and acceptance/release gates retained.
+
+## PR82 published review — 2026-11-05
+
+Read all pages of PR82 inline threads, reviews, PR comments and issue75 comments
+at772bca5. Four inline findings plus one PR-description finding in the public
+[summary](https://github.com/antonsmolko/gost-spec/pull/82#issuecomment-6642042821).
+Prior verified byte-transfer/sync/link/suite closures retained. The earlier
+independent no-findings result does not override the concrete contradictory
+status lines identified by this public round; those lines are corrected here.
+
+### PR82 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Superseded wording](https://github.com/antonsmolko/gost-spec/pull/82#discussion_r4473296641) | #78 live lines still call #75 sync pending | #78 proposal/design/tasks | Fixed | Replaced each identified live statement with completed sync/archive in PR82 and explicit PR-status lookup; historical implementation evidence remains historical |
+
+### PR82 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Distribution summary](https://github.com/antonsmolko/gost-spec/pull/82#discussion_r4473299749) | Resume documents omit changed normative requirement body | handoff/roadmap | Fixed | Both now name Native marketplace installation in both harnesses, independent plugins with preserved shell identity/content/version, added scenario and11/28 total; synchronized spec unchanged |
+
+### PR82 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Post-merge state](https://github.com/antonsmolko/gost-spec/pull/82#discussion_r4473299987) | Current pending-delivery claims become stale after merge | handoff/roadmap/product design/#78 artifacts/issue checkpoints | Fixed | Current tracked checkpoints use stable PR82 delivery reference with status lookup; historical pre-merge evidence remains a dated snapshot. Explicit post-merge steps below cover all tracked/public representations |
+
+### PR82 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Hash reproduction](https://github.com/antonsmolko/gost-spec/pull/82#discussion_r4473300269) | Path-list hash lacks file/ordering/encoding procedure | archive evidence | Fixed | Standalone reproduction command below defines tracked Git-tree Markdown paths, sorting, separator bytes and SHA256; reproduces c1466b4… without private audit script |
+
+### PR82 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary presentation gap](https://github.com/antonsmolko/gost-spec/pull/82#issuecomment-6642042821) | PR description does not identify edited active #78 artifacts or purpose | PR82 description | Fixed | Description explicitly names #78 proposal/design/tasks and stale #75 dependency-state correction; #78 requirements/task completion and scope stay unchanged |
+
+### Reproduce the path-list hash
+
+Run from repository root, replacing HEAD with the reviewed commit if needed.
+This hashes only the path list, not file contents or the link-check results.
+Git ls-tree supplies all tracked paths in that tree; select case-sensitive .md
+suffixes and sort with JavaScript's default UTF-16 ordering. UTF-8 encode the
+joined list with a single LF byte0x0a after every path (including the last),
+matching the original audit's implementation. It yields125 paths and the
+recorded SHA256.
+
+```sh
+node --input-type=module <<'NODE'
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+const paths = execFileSync('git', ['ls-tree', '-r', '--name-only', '-z', 'HEAD'], { encoding: 'utf8' })
+  .split('\0').filter(Boolean).filter(path => path.endsWith('.md')).sort();
+const separator = String.fromCharCode(0x0a);
+const bytes = Buffer.from(paths.join(separator) + separator, 'utf8');
+console.log(paths.length, createHash('sha256').update(bytes).digest('hex'));
+NODE
+```
+
+### Post-merge checkpoint procedure
+
+After separate owner-authorized merge of PR82, verify merged state and actual
+main commit via GitHub and update the public #75/#78/#79 current checkpoints:
+archive delivered, actual merge commit, #78 archive still separate, #79 not yet
+implemented. Close #75 only after archive delivery is verified. Do not close
+#78/#79 or change content approval/release gates. Verify handoff, roadmap, product
+design and all three #78 artifacts against that snapshot; their stable PR82
+references already remain true across merge. If explicit delivered/SHA wording
+is needed, prepare it on an issue-scoped branch in a separate reviewable PR,
+with no direct commit on main and no invented merge hash. Keep dated pre-merge
+ledger entries historical rather than presenting them as current state.
+
+### PR82 review GitHub issue edits
+
+#75/#78/#79 checkpoint updates link this round's committed R1–R5 ledger and
+post-merge procedure, retaining criteria/dependencies and open status. PR82
+receives the clarified active-change scope, final evidence link and post-merge
+procedure. Each inline finding and the summary receives a ledger-linked reply.
+This wording/navigation round changes no requirement, gate, spec or runtime;
+AGENTS rule6 permits it without another independent review. Existing independent
+sync verification retained with its stated limits.
+
+PR82 round verification: fresh npm run check102/102 on Node26.11.1, including
+real packs/external consumers; strict main specs3/3 and whitespace pass.
+Standalone path-list command reproduces125 paths/c1466b4… exactly. Separate
+tracked-tree link audit remains125 Markdown/213 path links/3 anchors/0 errors.
+Complete final diff inspected, relevant unchanged specs and public issue bodies
+checked for conflicting contracts. Specs/plugins/runtime/packages/tests/fixtures
+unchanged this round; prior sync-byte and two-Node evidence retained. The known
+unrelated unfinished #71 strict-all limitation remains as disclosed above.

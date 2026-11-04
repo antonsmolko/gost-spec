@@ -61,7 +61,9 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 с неизменным деревом. Оба каталога содержат две независимо устанавливаемые entries;
 выбранный тег нового plugin имеет форму `gost-functional-core-v<version>` и выбирает
 весь snapshot маркетплейса. Пять npm-workspaces и approval gates сохраняются.
-План и implementation evidence — [change #75](../../../openspec/changes/add-functional-core-skill/design.md).
+Основной [FC contract](../../../openspec/specs/functional-core-feature-development/spec.md)
+создан при sync/archive #75 (7 требований/19 сценариев); доставка архива —
+[PR #82](https://github.com/antonsmolko/gost-spec/pull/82), статус проверяется по PR. План и implementation evidence — [change #75](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/design.md).
 
 ## Контракт компонентов и presenters — #78
 
