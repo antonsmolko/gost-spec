@@ -34,7 +34,7 @@ plugin. Повторно проектировать installer, registry или r
 **Goal:** агент получает короткую инструкцию FC-разработки с проверяемым recipe
 и реализует запрошенную бизнес-логику внутри существующей композиции.
 
-**Non-Goals:** новый store/shell, обязательный Svelte/FSD/file layout, presenter
+**Non-Goals:** новый store/shell, обязательный Svelte/FSD layout, presenter
 skill, изменение gost-kit, миграция asc-admin, принятие стандартов или настоящий
 release/tag. Совместимость не достигается автоматическим upgrade зависимостей.
 
@@ -86,10 +86,13 @@ handlers → подключить их к имеющемуся root → пров
   выводится через `ScopedActions`; property для `scope(key, handlers)` может
   называться иначе, чем namespace в `reducing`. Root state читается явно через
   аргументы, а не hidden import store. Новые типовые ошибки не закрываются `any`.
-- I/O выполняют effect handlers. Уже имеющийся global handler переиспользуется;
-  новый регистрируется только при необходимости фичи, с уникальным владельцем
-  effect type. `effecting` использует известные типизированные таблицы с проверкой
-  покрытия; consumer не строит новый универсальный effect pipeline.
+- Фича содержит `state.ts`, `action.ts`, `reducer.ts`, `reducer.test.ts` в существующем
+  layout. Она не определяет effect types/effector. Reducer описывает уже имеющиеся
+  эффекты приложения; receivers API-эффекта преобразуют ответ/`ApiError[]` в root
+  actions. Приложение исполняет эффект и dispatch-ит возвращённые actions через
+  общий AppEffector/RootEffector. Отсутствующий shared contract/handler — incomplete,
+  его проектирование/реализация (включая ApiEffect API) — отдельная задача gost-kit/app.
+  Существующий общий обработчик не меняется при реализации фичи.
 - `dispatch` commit-ит state до effects и ждёт свои effects/awaited nested
   dispatch, но catches execution errors и не доказывает бизнес-успех. Результат
   моделируется state/result actions. Нет обещания автоматической cancellation,
@@ -125,7 +128,9 @@ Missing/duplicate/unknown catalog identity, source redirect, несовпаде�
 ### Behavioral evaluation and fixtures
 
 Один `fixtures/functional-core-feature-development/` — plain TypeScript consumer с заданной
-root composition, fake imperative dependency и соседним состоянием. Только
+root composition, готовыми application API/alert handlers, fake imperative dependency
+и соседним состоянием. Synthetic app contract/handler задаются как входы evaluation,
+а не определяют универсальный gost-kit ApiEffect; файл общего обработчика заморожен. Только
 публичные imports реального packed common artifact из disposable gost-kit copy,
 никаких source-path/workspace imports. Svelte/browser для этих проверок не нужны.
 Fixture probes имеют явный entry point, не auto-discovered test filename:
@@ -225,6 +230,11 @@ PR #76 review R1 меняет только имя будущей fixture; criter
 изменения outcome, dependencies или approval gates не потребовались.
 
 ## Implementation evidence
+
+Первые результаты ниже описывают историческую реализацию до owner correction
+в PR #77. Они не подтверждают исправленную границу effect ownership. Актуальные
+требования — в Decisions и specs, результаты исправления — в разделе
+[PR77 correction](#pr77-correction).
 
 ### Task 1.1 — real artifact and baseline
 
@@ -362,3 +372,125 @@ the single agreed outcome; all 7 tasks are complete after the clean review.
 Final #75/PR #77 status records 7/7 and the evidence link. The issue remains open through
 review and the separately requested sync/archive workflow. No real tag/release
 or consumer action follows from this implementation.
+
+## PR77 correction
+
+Scope remains #75, prefix gost-spec-75, the same feature skill outcome. Owner
+clarified the intended architecture in the public thread below and authorized
+rewriting the example/instructions. Receiver details and four-file feature
+structure from conversation are private input, not a public basis; the public
+actionable basis is updated #75 criteria plus the owner thread. No new generic
+ApiEffect API, transport, CLI/refactor product or consumer migration is included.
+
+Read all pages: 6 summary reviews with empty bodies, 6 inline comments including
+the owner's thread and its independent follow-up, 1 PR summary, 0 #75 comments.
+Earlier checks/closures are retained as history; new owner/source evidence
+reopens effect ownership despite the earlier clean private review.
+
+### PR77 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Owner](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466379001), [verification](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466495749) | Feature effectors contradict application ownership | SKILL/reference, fixture, proposal/design/spec/tasks, docs/handoff, #75 | Fixed | Feature FC now consists of state/action/reducer/reducer.test; imports existing app contracts, receivers return actions, existing app handler dispatches them. No feature effects/effector or ApiEffect definition/implementation in skill. Missing shared effect/handler is incomplete. Existing app effector preserved byte-for-byte in independent application |
+
+### PR77 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Failure path](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466500663) | String(error) recipe path conflicts with bare-message fixture assertion | reference, fixture/probe | Fixed | Removed transport/error normalization from the feature example. Receiver passes ApiError[] with code/message/path unchanged; application normalizes externally. Regression tests inspect complete arrays and receiver-returned actions, plus actual shared-handler failure flow |
+
+### PR77 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [State initializer](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466507172) | Factory claim did not show define.state | reference state.ts | Fixed | Example now explicitly calls define.state with a factory returning fresh errors; all four code blocks compiled, colocated reducer test executed |
+
+### PR77 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Checker cleanup](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466507363) | Duplicated JSON guard and redundant identity diagnostic | scripts/check-plugin-distribution.ts | Declined in this PR | Review confirms correct behaviour on real/adversarial trees; duplicate diagnostics do not hide invalid input. This is optional checker cleanup rather than a feature-skill defect. Approved #75 limits gate adaptation; existing broad refactor #62 owns readability work. No new resolver/API or unapproved task added |
+
+### PR77 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Catalog order](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466507532) | Tests required positional entries while gate matches names | distribution tests | Fixed | All catalog assertions and mutations select entries by identity. Added a behaviour case reversing both catalogs; gate accepts either order. No new order constraint |
+
+### PR77 R6
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR summary](https://github.com/antonsmolko/gost-spec/pull/77#issuecomment-6628695308) | Shared icon may look accidental | plugin README/icon/LICENSE | Clarified | README explicitly identifies intentional shared GOST branding; native plugin names/descriptions distinguish purpose. Same MIT holder/license is intentional; no unique artwork requirement exists |
+
+### Correction verification
+
+Before instruction changes, a strengthened behaviour probe rejected the previous
+generated feature: LoadStaffEffect != ApiEffect. This is observed RED for the
+reported ownership defect, separate from the earlier successful no-skill baseline.
+Fresh fixture gives a synthetic existing app contract/handler as input; it does
+not publish a universal gost-kit ApiEffect contract. Public recipe contains only
+four FC files importing given app types, no transport/effector implementation.
+All four blocks typechecked against the real common tarball and supplied app
+contracts; reducer.test executed with frozen inputs, success/error receivers,
+complete state replacement and preserved neighbour state.
+
+An independent agent applied the corrected installed skill to a fresh disposable
+consumer: four FC files, app state/action/reducer composition, no effect types or
+effector added. Author read generated files and reran check, probe and four
+colocated feature tests: passed. Existing app effector SHA256 before/after
+`0c499012ecb17b8315f037d4b596a17ffb21020820f8cddf86fa9af1aefc8553`.
+A ClearStaffAction change went RED→GREEN; repeating original request preserved
+all source hashes and the new action. Missing-handler fresh copy left actual
+integration explicitly incomplete (missing app/effector import), with optional
+pure feature code/tests passing and no replacement handler/store/adapter.
+Previous missing-artifact/composition evidence remains scoped to the unchanged
+artifact/bootstrap rule, not the new ownership proof.
+
+Both native harnesses reran alone/repeat/coexistence and fresh inventory/read
+in new isolated profiles against exact final 8-file plugin trees in disposable
+snapshot `367fb85`, loopback full Git URL on port 52377. The final run uses
+origin-current.git and fresh codex-current/claude-current profiles; the earlier
+12b693d proof remains historical after the root-integration wording was narrowed. All installed file
+sets/bytes match, personal config/registry and synthetic app fingerprints unchanged.
+No real repository tag/release or public-host/asc-admin readiness is claimed.
+Full check is 102/102 on Node 26.0.0 and 26.11.1, including packed document
+artifacts/external consumers; distribution suite is 54/54. Strict change/main
+specs and skill format pass. Original package/shell trees and versions unchanged.
+
+### Correction GitHub issue edits
+
+#75 criteria now explicitly require the four FC files, existing app effects/receivers
+and unchanged AppEffector/RootEffector; shared infrastructure gaps are incomplete.
+The previous blanket directory-convention exclusion is narrowed to outer layout/
+FSD/one-type-per-file, preserving the owner's four-file FC instruction.
+ApiEffect design/implementation stays separate gost-kit/app work. Current status
+marks the previous 7/7 as historical and this correction in progress. PR #77
+body/final #75 status and thread replies point to these individual dispositions
+after verification. No new outcome/dependency or release gate is introduced.
+
+Separate correction audit: 119 tracked Markdown, 192 path links + 3 same-file
+anchors, zero errors; path-list SHA256 remains
+`b2c3c72a828886f09027ef68a14f408bf0c0b40e01d0a2fdb0fcce0830a0a7bc`.
+
+### Correction independent review
+
+Fresh-context reviewer inspected the entire PR diff against main including the
+latest correction and public #75/PR77 sources. No actionable findings. Independently
+reran 102/102 on both Node versions, strict change/main specs, consumer check/probe
+and 4 tests, plus extracted four-block recipe check/test. Missing-handler integration
+fails TS2307 as expected, with no substitute handler/store; app effector unchanged.
+All 8 files per plugin in both native current profiles match the current source,
+14 recorded native commands succeed and inventories/fingerprints agree. Link/path
+audit and unchanged shell/npm/lock boundaries pass. This reviewer assessed native
+install/repeat history, independent agent interactions and historical unavailable-
+artifact/composition cases from supplied evidence rather than rerunning all those
+workflows. Public hosting, release and real consumer readiness remain unverified.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent correction review: private input, not a public basis; actionable scope [#75](https://github.com/antonsmolko/gost-spec/issues/75) and [owner thread](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466379001) | Complete owner-corrected result including R1–R6 | Full PR diff and staged correction | Reviewed, no actionable findings | Independently reproduced checks/limits above; final task/status bookkeeping introduces no new contract |
+
+All 7 tasks are complete again after the corrected behaviour, native byte proof
+and independent review. Final public issue/PR tracking uses 102 tests and the new
+commit; individual thread replies link to R1–R6 above. No merge/release is included.

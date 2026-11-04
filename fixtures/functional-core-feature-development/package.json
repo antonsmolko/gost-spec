@@ -8,5 +8,5 @@
     "build": "tsc",
     "probe": "npm run build && node checks/feature.mjs"
   },
-  "devDependencies": { "typescript": "5.9.3" }
+  "devDependencies": { "typescript": "5.9.3", "@types/node": "26.6.5" }
 }

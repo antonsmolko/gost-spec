@@ -38,6 +38,10 @@ The skill checks actual installed artifacts and reports unavailable integration.
 It does not bootstrap a new store, migrate unrelated features, prescribe FSD or
 implement presenter/UI architecture. Compatible application bindings are a
 separate prerequisite. Registry publication of common is not assumed.
+Feature reducers use existing application effects and receivers; effect contracts
+and `AppEffector`/`RootEffector` remain application-level prerequisites.
+The icon deliberately shares the GOST brand with the shell plugin; plugin names
+and descriptions distinguish their purposes.
 
 Codex 0.166.0 and Claude Code 2.1.308 were checked in disposable profiles with a
 full loopback HTTP Git URL in place of the GitHub URL above, selecting a temporary

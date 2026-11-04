@@ -1,6 +1,6 @@
 # Tasks
 
-План #75, реализация 7/7. [Design](design.md) фиксирует API baseline и границы;
+План #75, реализация 7/7; owner correction проверена. [Design](design.md) фиксирует API baseline и границы;
 [feature spec](specs/functional-core-feature-development/spec.md) — поведение,
 [distribution delta](specs/state-foundation-plugin-distribution/spec.md) —
 сохранность shell plugin при двух entries. Skill/reference/README пишутся на английском.
@@ -8,8 +8,8 @@
 ## 1. Проверяемый feature workflow
 
 - [x] 1.1 Подготовить framework-free fixture и реалистичные feature probes с реальным packed common artifact из изолированной копии проверенного gost-kit source. До создания skill наблюдать отказ probes на отсутствующей фиче и выполнить baseline задачи без skill; записать фактические результаты, не объявляя успешный baseline RED. Проверить public package imports и отсутствие Svelte/source-path зависимостей.
-- [x] 1.2 Написать краткий SKILL.md и `references/functional-core.md` на основании API и наблюдавшихся ошибок: state/actions/reducers, effects/result actions, namespace/property composition и reuse root. Recipe должен компилироваться с реальным artifact; pure transitions, full-state replacement и сохранность соседнего состояния проверяются поведенчески. Формат skill проверяется отдельно и не заменяет эти проверки.
-- [x] 1.3 Выполнить независимое применение skill к созданию и изменению фичи, повторному вызову и отсутствующим artifact/composition в disposable consumers. Проверить реальные generated files, type checks, effects/result flow, отсутствие I/O в reducers, неизменность bootstrap/соседних частей и честный incomplete; исправлять только подтверждённые проблемы инструкции. Сохранить запросы, команды, результаты и ограничения evaluation.
+- [x] 1.2 Написать краткий SKILL.md и `references/functional-core.md` на основании API и наблюдавшихся ошибок: state/actions/reducers, готовые application effects/receivers/result actions, namespace/property composition и reuse root; пример из state/action/reducer/reducer.test без feature effects/effector. Recipe должен компилироваться с реальным artifact; pure transitions, full-state replacement и сохранность соседнего состояния проверяются поведенчески. Формат skill проверяется отдельно и не заменяет эти проверки.
+- [x] 1.3 Выполнить независимое применение skill к созданию и изменению фичи, повторному вызову и отсутствующим artifact/composition в disposable consumers. Проверить реальные generated files, type checks, effects/result flow, отсутствие I/O в reducers, неизменность bootstrap/соседних частей и общего app effector, receivers и честный incomplete при отсутствии shared handler; исправлять только подтверждённые проблемы инструкции. Сохранить запросы, команды, результаты и ограничения evaluation.
 
 ## 2. Отдельная поставка в общем marketplace
 

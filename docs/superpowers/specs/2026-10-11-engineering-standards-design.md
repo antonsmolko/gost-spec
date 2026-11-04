@@ -54,7 +54,10 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 английский [skill](../../../plugins/gost-functional-core/skills/gost-functional-core/SKILL.md)
 разработки бизнес-фич через публичный common API. Он расширяет существующую
 композицию и не зависит от UI framework; bootstrap shell и presenter — отдельные
-задачи. Версия нового plugin — 0.1.0 unreleased, shell остаётся 0.2.0 unreleased
+задачи. Фича содержит state/action/reducer и colocated reducer test, использует
+готовые эффекты приложения с receivers. Все effectors находятся на уровне
+приложения; API/реализация ApiEffect — отдельная задача gost-kit/app.
+Версия нового plugin — 0.1.0 unreleased, shell остаётся 0.2.0 unreleased
 с неизменным деревом. Оба каталога содержат две независимо устанавливаемые entries;
 выбранный тег нового plugin имеет форму `gost-functional-core-v<version>` и выбирает
 весь snapshot маркетплейса. Пять npm-workspaces и approval gates сохраняются.

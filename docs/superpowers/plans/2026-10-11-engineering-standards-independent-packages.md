@@ -118,8 +118,11 @@ distribution spec содержала 9 требований / 19 сценари�
 
 [Change](../../../openspec/changes/add-functional-core-skill/proposal.md) добавляет
 отдельный английский skill/plugin `gost-functional-core` для существующей
-framework-independent FC-композиции. Общий marketplace содержит две entries,
-независимые версии и local source внутри выбранного snapshot. Готовый shell
+framework-independent FC-композиции. Общий marketplace содержит две entries.
+FC фичи содержит state/action/reducer/test без собственных effect types/effector;
+использует готовые эффекты приложения с receivers. Контракт ApiEffect и общий
+AppEffector/RootEffector принадлежат отдельной работе gost-kit/app.
+Плагины имеют независимые версии и local source внутри выбранного snapshot. Готовый shell
 plugin 0.2.0 и пять npm-workspaces не меняются. Проверки различают реальный common
 artifact, применение skill в disposable TypeScript consumer и native установку
 в обоих харнесах; metadata success не заменяет бизнес-поведение.

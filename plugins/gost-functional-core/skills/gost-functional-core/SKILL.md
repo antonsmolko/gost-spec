@@ -6,8 +6,9 @@ description: Use when creating or changing business feature state, actions, redu
 # GOST functional core
 
 Implement the requested business feature inside the application's existing FC
-composition. Functional core contains pure transitions and effect descriptions;
-imperative handlers perform I/O and dispatch results. No UI framework is required.
+composition. A feature owns state, actions and pure reducers. Reducers return
+descriptions of existing application effects; application-level handlers execute
+them and dispatch the actions returned by receivers. No UI framework is required.
 
 Read [the public API recipe](references/functional-core.md) before writing
 handlers or changing composition. It records a verified development artifact,
@@ -22,9 +23,10 @@ do not upgrade dependencies or copy library source to make the example work.
 If the required artifact/export or compatibility is unavailable, identify the
 missing input and leave dependent integration explicitly incomplete.
 
-Keep project file placement and naming. FSD, one-type-per-file and presenter
-architecture are not prerequisites. Limit changes to the requested feature and
-its necessary composition/handler registrations.
+Use `state.ts`, `action.ts`, `reducer.ts` and colocated `reducer.test.ts` for a new
+feature's functional core, within the project's existing layout. Preserve compatible
+existing modules. FSD, one-type-per-file and presenter architecture are not
+prerequisites. Limit changes to the requested feature and its root composition.
 
 ## Implement and compose the feature
 
@@ -35,11 +37,17 @@ its necessary composition/handler registrations.
 - Route feature actions with `ScopedActions`. Local action declarations have
   no `scope`; composition adds it. Action namespace and state property may
   differ. Read root state through handler arguments, without hidden store imports.
-- Describe external work as effects. Reuse compatible global handlers; add a
-  feature handler only for new responsibilities. Keep a unique owner for each
-  effect type and complete typed coverage in `effecting`. Dispatch result
-  actions through the same root composition, including business errors.
-- Extend existing root state/action unions and reducer/effector tables. Preserve
+- Reuse existing application effect contracts, such as `ApiEffect`, `ModalEffect`,
+  `AlertEffect` and `NavigateEffect`. Features do not define effect types or
+  effectors. For an existing API effect, its success/error receivers convert the
+  response or API errors into feature result actions; the application handler
+  invokes `dispatch` with those actions. Inspect the actual contract and field
+  names rather than designing a replacement API or transport adapter.
+- Keep `AppEffector`/`RootEffector` and all handler tables at application level.
+  Preserve compatible handlers. If a necessary shared effect/handler is missing,
+  report that dependency and incomplete integration; extending gost-kit or the
+  application's effect infrastructure is separate work.
+- Extend existing root state/action unions and reducer tables. Preserve
   unrelated state and the store instance. If no compatible composition exists,
   report the separate foundation work needed; do not reconnect shell or create
   another store/provider as part of this skill.

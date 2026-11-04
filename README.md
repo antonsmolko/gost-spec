@@ -24,6 +24,7 @@ records its current requirements and scenarios.
 [Develop functional-core features](plugins/gost-functional-core/skills/gost-functional-core/SKILL.md)
 guides requested business state, actions, reducers and effect/result flow through
 the public common API in an existing composition, independently of a UI framework.
+Features reuse application effects and receivers; their handlers remain at app level.
 Its [Public API recipe](plugins/gost-functional-core/skills/gost-functional-core/references/functional-core.md)
 records verified artifacts and API constraints; missing inputs remain explicit.
 

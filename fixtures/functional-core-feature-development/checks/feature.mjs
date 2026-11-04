@@ -22,6 +22,14 @@ assert.deepEqual(commit.state.staff.rows, []);
 assert.deepEqual(commit.state.preferences, before.preferences);
 assert.deepEqual(commit.state.audit, before.audit);
 assert.equal(commit.effects.length, 1);
+assert.equal(commit.effects[0].type, 'ApiEffect', 'feature must reuse the application API effect');
+assert.deepEqual(commit.effects[0].receiverSuccess(rows), {
+  scope: 'directory', type: 'StaffLoadedAction', rows,
+});
+const apiErrors = [{ code: 'OFFLINE', message: 'offline', path: ['staff'] }];
+assert.deepEqual(commit.effects[0].receiverError(apiErrors), {
+  scope: 'directory', type: 'StaffFailedAction', errors: apiErrors,
+});
 assert.equal(before.staff.status, 'idle');
 const pending = app.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
 assert.equal(app.readState().staff.status, 'loading');
@@ -38,7 +46,7 @@ assert.deepEqual(app.readState().audit, { marker: 'keep' });
 const failed = createApplication({ loadStaff: async () => { throw new Error('offline'); } });
 await failed.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
 assert.equal(failed.readState().staff.status, 'error');
-assert.equal(failed.readState().staff.error, 'offline');
+assert.deepEqual(failed.readState().staff.errors, [{ code: 'OFFLINE', message: 'offline', path: [] }]);
 assert.deepEqual(failed.alerts, ['offline']);
 assert.deepEqual(failed.errors, []);
 console.log('FC feature probes passed: pure transitions, full state, scoped routing, effects/results, existing global handler and neighbours');
