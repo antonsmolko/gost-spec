@@ -46,6 +46,9 @@ presenter runtime и миграция asc-admin исключены. Ни оди�
 
 Planning PR #80 создавал только план; на том этапе нормативные документы оставались
 прежними. Реализация начата отдельным owner request после merge плана.
-База — merged PR #77, main `31930c4`; #75 реализована, отдельный sync/archive
-остаётся pending. Ветка `feature/gost-spec-78-component-presenter-contract`,
-prefix `[gost-spec-78]`. Согласование плана не принимает proposed-текст.
+Историческая база плана — merged PR #77, main `31930c4`; planning-ветка —
+`feature/gost-spec-78-component-presenter-contract`. Реализация основана на merge
+PR #80, main `4b5361a`, и ведётся в
+`feature/gost-spec-78-component-presenter-implementation`, prefix `[gost-spec-78]`.
+#75 реализована, отдельный sync/archive остаётся pending.
+Согласование плана не принимает proposed-текст.

@@ -99,7 +99,8 @@ export const presentCatalog = (state: CatalogState) => ({
 `presentStatus` groups related status outputs. `presentRows` needs only items.
 They can be bound independently or combined as above. Neither needs component
 access or mutable presenter state. `idle` has all display-state booleans false;
-the component below uses ordinary else for its ready initial message.
+the component below uses ordinary else for its initial “Not requested” message
+(the `idle` status).
 
 ## Component and browser examples
 
@@ -289,7 +290,8 @@ none, and widget lifecycle cleans up. Review valid and invalid cases against the
 contract, including missing/invalid inputs and local UI-state ownership.
 
 Compiler/type checks establish syntax and compatibility, not policy compliance.
-Both BadView and BadEditor may compile successfully. A linter, helper name or
+All three policy-negative components (BadView, BadEditor, BadBrowser) may compile
+successfully. A linter, helper name or
 simple boolean identifier does not establish arbitrary function purity or source
 provenance. Record manual checks and unavailable evidence explicitly; do not
 claim reactive integration from pure-function tests.

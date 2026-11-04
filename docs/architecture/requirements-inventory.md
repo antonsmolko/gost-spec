@@ -28,6 +28,12 @@ All five remain proposed. TS-TYPES-001 defines complete boundary validation;
 TS-COMMON-001 separately proposes shared helper usage without weakening it.
 Strict checking is independent of formatting preferences.
 
+## Svelte technology review set
+
+| Topic                                        | Proposed ID and document                                                     | Applicability                            | Rationale and verification                                                                                                 |
+| -------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Derived state and architecture compatibility | [SVELTE-STATE-001](../../packages/technologies/svelte/docs/derived-state.md) | Svelte 5 reactive components and modules | Review reactive dependencies and updates; separately adopted FC/presenter rules govern ownership and calculation placement |
+
 ## Svelte SPA review set
 
 | Topic                            | Proposed ID and document                                                                   | Applicability                                                         | Rationale and verification                                                                                                               |

@@ -428,3 +428,68 @@ and release retain separate decisions.
 Final tracking: #78 current status and PR81 description updated to6/6 with
 canonical evidence; original criteria/Pending gates preserved. #79 dependency
 checkpoint remains unimplemented. This final bookkeeping changes no contract.
+
+### PR81 published review
+
+Read every page of PR81 inline comments, summary reviews and PR/issue78
+comments at reviewed head `3edc7eb`; four inline findings and two summary
+findings. Empty reviews contain no additional findings. Public summary:
+[verification](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324).
+Prior reviewer-confirmed planning/implementation closures remain valid.
+
+#### PR81 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Idle wording](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472865280) | Ready initial message conflates ready values with ready status | presenter-composition.md | Fixed | Else explicitly renders the initial Not requested message for idle |
+
+#### PR81 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Classification](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472868627) | Verification names only two negative components | presenter-composition.md | Fixed | Names BadView, BadEditor and BadBrowser; readonly state property does not make nested fields immutable |
+
+#### PR81 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Effect representation](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472868855) | Plain reducer/no-effects type is not explicitly distinguished from library handler API | state-ownership.md | Fixed | Explicitly labels plain reducer and never-array/empty-array as illustrative no-effects representation; integration uses actual reducer/state/action/effect contracts. Code unchanged; existing recipe distinguishes define.reducer handlers from reducing normalization |
+
+#### PR81 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inventory](https://github.com/antonsmolko/gost-spec/pull/81#discussion_r4472869024) | Svelte compatibility ID lacks navigable inventory row | requirements-inventory.md | Fixed | New Svelte technology row links existing SVELTE-STATE-001 with unchanged applicability/verification; approval remains Pending |
+
+#### PR81 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item1](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324) | Proposal names planning branch as current | proposal.md | Fixed | Historical planning base/branch explicitly labelled; implementation branch and main4b5361a given |
+
+#### PR81 R6
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item2](https://github.com/antonsmolko/gost-spec/pull/81#pullrequestreview-5775208324) | PR-body relative ledger anchor resolves against main before merge | PR81 description | Fixed | Replaced with full commit-pinned blob URL; final round link uses its pushed review-fix commit |
+
+These corrections clarify existing wording, classification and navigation; no
+contract/gate or code change. Under AGENTS rule6 this wording/link-only round
+needs no new independent review; existing independent result retained. The full
+final PR diff and unchanged contracts/issue bodies were checked separately from
+runtime tests. No conflicting active wording found; all six findings addressed.
+Tasks remain6/6 and proposed/Pending/package versions unchanged.
+
+#### PR81 review GitHub issue edits
+
+#78 gets only the review-fix revision and canonical dispositions link; criteria,
+dependencies and content gate unchanged. #79 dependency stays unchanged. PR81
+body links to committed evidence. Each inline finding and summary receives a
+reply linking its ledger entry, with no unrecorded disposition.
+
+Round verification: fresh npm run check102/102 on Node26.11.1, including
+real packs/external consumers; strict change/both main specs and whitespace pass.
+All eight code fences byte-identical to reviewed head; prior two-Node/type/pure/
+Chromium evidence remains applicable without reruns for unchanged code. Separate
+final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
+same path-list hash as task3.1. The extra path link is the Svelte inventory row.

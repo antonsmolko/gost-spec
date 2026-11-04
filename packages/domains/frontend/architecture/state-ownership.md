@@ -68,7 +68,11 @@ inputs or malformed data MUST NOT be hidden by assertions or invented defaults.
 
 This small TypeScript example has no external effects. Names and the GOST
 `define.state` import illustrate existing application factories, not a required
-runtime API. Use the target project's compatible state/action contracts.
+runtime API. The plain reducer and its `effects: never[]` / `effects: []`
+no-effects representation are also illustrative, not the `define.reducer` handler
+API or a reusable effect contract. For real integration, use the target project's
+compatible reducer, state/action and effect-description contracts; do not copy
+this example's no-effects type when adding application effects.
 
 ```ts
 import { define } from '@gost-kit/common';
