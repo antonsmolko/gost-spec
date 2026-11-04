@@ -550,3 +550,61 @@ Review — private input, not a public basis; actionable scope — публич�
 PR #73 выше. Tracking и source-linked ответы в threads завершаются после push;
 их доставку это review не подтверждает. Merge, tag/release и consumer changes
 не выполнялись.
+
+## Archive and spec synchronization — 2026-11-04
+
+Реализация доставлена в main через
+[PR #73](https://github.com/antonsmolko/gost-spec/pull/73), commit
+`ba02bbd6b9af0e4e8db4bf7496d3c7c27e236142`; tree совпадает с reviewed `8e1dc77`.
+Предыдущие planning/apply/review записи описывают свои исторические snapshots.
+Публичный scope — [#70](https://github.com/antonsmolko/gost-spec/issues/70).
+Согласование sync/archive — private input, not a public basis; публичное основание
+scope — завершённый change #70 и merged implementation PR #73.
+
+Все четыре артефакта имеют status done, CLI подтверждает 9/9 задач. Единственная
+дельта `state-foundation-plugin-distribution` синхронизирована: четыре MODIFIED
+и три ADDED блока перенесены полностью, `Claude catalog pins the plugin source`
+удалён. Основная спецификация теперь содержит 11 требований / 27 сценариев;
+title/Purpose и четыре не затронутых requirement blocks сохранены. Все старые
+scenario names обновляемых требований присутствуют в дельте; их удаления нет.
+После sync дельта ничего дополнительно не применяет, operation headers в main
+spec отсутствуют. Исходная fc/shell spec не меняется.
+
+Change перенесён в `openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/`.
+Исходные `.openspec.yaml`, proposal, tasks и delta сохранены byte-for-byte;
+design дополнен только этим ledger. Из active list выбранный change исчез.
+Обновлены входящие ссылки, product design/roadmap и handoff. Это один
+documentation outcome на `feature/gost-spec-70-release-tag-archive`, prefix
+`[gost-spec-70]`; ни runtime, ни plugin tree/catalogs/version, ни npm-пакеты,
+ни release/content gates не меняются. Новый native прогон не требуется и
+не заявляется. 0.2.0 остаётся unreleased, публичных тегов и применения к asc-admin нет.
+
+### GitHub issue edits for archive delivery
+
+В #70 статус дополняется завершённым sync/archive с отдельным documentation PR
+и canonical archived ledger; прежние implementation/review snapshots остаются
+историческими. Criteria и closure #70 и других issues не изменяются автоматически.
+Skills остаются на английском. Следующие functional-core/presenter skills и
+технические задачи #71/#62/#63 не реализуются и не объединяются с этим PR.
+
+### Archive verification
+
+Проверки scope: title/Purpose и четыре untouched blocks равны исходному main;
+все семь transferred blocks равны дельте; removed block отсутствует, 9/9 tasks
+и original metadata сохранены. Incoming links и полный documentation diff
+проверены отдельно от runtime suite. Strict main-spec validation — 2/2,
+whitespace проходит. Свежий полный `npm run check` — 90/90 на Node 26.0.0 и
+26.11.1 с packed artifacts/external consumers; это проверка неизменной реализации,
+а не новый native эксперимент. Отдельный Git-tree audit — 109 Markdown,
+175 path links + 2 same-file anchors, 0 errors; Markdown path-list SHA256
+`33f344a41d4cc1e97c8b1c97fac7fcdf6754b6e350070657b958610c35ce95e8`.
+
+Независимое fresh-context whole-result review всех девяти файлов — без actionable
+findings. Reviewer самостоятельно сравнил transferred/untouched blocks и артефакты,
+проверил active list, scope/gates, incoming links, strict/whitespace, public #70,
+merged PR #73 со всеми review sources и задачи #71/#62/#63; запустил full check
+90/90 на Node 26.11.1. Node 26.0.0 и native CLI он не повторял. Review — private
+input, not a public basis; actionable scope — public #70 и merged PR #73.
+Обновление GitHub tracking и создание archive PR выполняются после commit/push;
+данное review не подтверждает их доставку. Авторизация archive не означает merge
+этого documentation PR, публикацию или применение skill к приложению.

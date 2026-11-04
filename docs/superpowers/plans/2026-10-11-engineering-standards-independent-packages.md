@@ -80,12 +80,14 @@ Change архивирован 2026-10-31; основной
 нативными каталогами. Исторический этап #55 использовал отдельный content pin;
 нынешний способ поставки определён в
 [#70](https://github.com/antonsmolko/gost-spec/issues/70) и его
-[плане](../../../openspec/changes/simplify-plugin-release-versioning/proposal.md):
+[архивном плане](../../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/proposal.md):
 оба каталога выбирают локальный plugin tree выбранного snapshot маркетплейса,
 пользователь указывает одинаковый релизный тег обоим харнесам. Проверка файлов
 работает без `.git` и без будущего тега. Native install/discovery, repeat,
 update/rollback и отказы недоступного выпуска проверяются отдельно в disposable
-профилях. Evidence — в активном change #70; факты прежнего этапа остаются в архиве.
+профилях. Реализация #70 доставлена в main через PR #73; change завершён 9/9,
+основная spec синхронизирована (11 требований / 27 сценариев). Evidence — в
+архиве #70; факты прежнего этапа остаются в своих архивах.
 Историческая упаковка #55 — отдельный outcome carrier #54 с retained prefix
 [gost-spec-52]. Обновление #70 имеет собственную issue-ветку и prefix [gost-spec-70].
 Criteria и closure #54, пять npm-версий и gates #20/#26 не расширяются.
