@@ -19,43 +19,43 @@ Archive/spec sync #55 доставлен в main через
 доставлено в main через [PR #67](https://github.com/antonsmolko/gost-spec/pull/67),
 а pin history восстановлена штатным merge
 [PR #68](https://github.com/antonsmolko/gost-spec/pull/68), commit `f7e38b1`.
-P2f567ab5 — ancestor main; отдельный main-only checkout проходит full check 72/72.
+`f567ab5` сохранён в истории main; при исторической проверке main-only checkout
+после PR #68 полный check прошёл 72/72. Это результат того этапа, не текущий размер suite.
 Повторно восстанавливать историю или считать pin утраченным не требуется.
-Change архивирован с sync основной distribution spec: 9 требований / 19 сценариев;
-план и evidence — [архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
+Rename change #64 архивирован с sync основной distribution spec: на том этапе
+9 требований / 19 сценариев; план и evidence —
+[архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
 Archive/spec sync доставлен в main через
 [PR #69](https://github.com/antonsmolko/gost-spec/pull/69), commit `57c70bd`;
 runtime/plugin и source.sha этим documentation outcome не менялись.
 Датированные статусы ниже — история.
 
-Текущий следующий шаг — [#70](https://github.com/antonsmolko/gost-spec/issues/70),
-переход на релизные теги маркетплейса вместо внутреннего content SHA.
-[OpenSpec-план](../../openspec/changes/simplify-plugin-release-versioning/proposal.md)
-доставлен через [PR #72](https://github.com/antonsmolko/gost-spec/pull/72),
-commit `b8d4211`. Реализация #70 идёт отдельно в
-`feature/gost-spec-70-release-tag-delivery`, prefix `[gost-spec-70]`: 9/9 задач.
-Оба каталога используют локальное дерево snapshot, подготовлена версия 0.2.0
-unreleased. Проверка файлов без `.git`, native install/repeat/update/rollback,
-переход SHA/old ID и недоступный тег проверены в обоих disposable profiles;
-первичный полный check 73/73 и независимое review зафиксированы в исходном
-snapshot `f81a24b`. Реализация опубликована в
-[PR #73](https://github.com/antonsmolko/gost-spec/pull/73), не вмержена.
-Review follow-up уточняет полные Git URL и границы loopback-проверки, расширяет
-Codex cases и диагностику Claude; свежий полный check — 90/90 на обоих Node.
-Для текущего README повторена fresh install обоих харнесов с проверкой восьми
-файлов. Актуальные dispositions и ограничения — в design ledger change #70.
-Новых публичных тегов или выпуска нет; применение к asc-admin не выполнялось.
-Порядок — #69 → #70 →
-[#71](https://github.com/antonsmolko/gost-spec/issues/71): упрощение до четырёх
-пакетов согласовано отдельно и не реализуется в #70. План #71 сохранён на ветке
-`feature/gost-spec-71-standard-package-layout`; в текущем checkout пять пакетов.
-Изменение count-specific plugin README относится к #70, поэтому #71 не потребует
-правки прежнего content pin. Другие независимые задачи —
+Переход на релизные теги [#70](https://github.com/antonsmolko/gost-spec/issues/70)
+доставлен в main через [PR #73](https://github.com/antonsmolko/gost-spec/pull/73),
+commit `ba02bbd`; план — merged PR #72. Все 9/9 задач завершены. Оба каталога
+используют локальное дерево snapshot, версия плагина — 0.2.0 unreleased.
+Полный implementation check — 90/90 на обоих Node; native evidence ограничен
+изолированными loopback profiles, публичная GitHub установка не заявляется.
+
+Change перенесён в [архив](../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/proposal.md)
+с синхронизацией основной distribution spec: 11 требований / 27 сценариев.
+[Ledger и evidence](../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/design.md)
+сохраняют review dispositions и границы проверок. Доставка этого archive/spec sync
+оформляется отдельным documentation PR; runtime/plugin/version не меняются.
+Публичного release tag, публикации и применения к asc-admin не было.
+
+Следующее содержательное направление — отдельные skills для functional core
+и presenter; shell skill уже существует. Язык skills остаётся английским.
+Архивирование не создаёт эти skills и не запускает их реализацию автоматически.
+Технические работы не блокируют описание skills:
+[#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
+пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
 [#62](https://github.com/antonsmolko/gost-spec/issues/62), читаемость всех
 `scripts/` и `tests/helpers/`, и
 [#63](https://github.com/antonsmolko/gost-spec/issues/63), размещение тестов рядом
-с исходниками. Подключение маркетплейса и применение skill к asc-admin — отдельный
-следующий шаг после отдельного решения владельца; миграция фич не входит в эти задачи.
+с исходниками. Прежде чем устанавливать релизный тег в asc-admin, потребуется
+отдельно одобренный выпуск и проверка публичного источника. Миграция бизнес-фич
+не входит в перечисленные задачи.
 
 Архитектурная база сохранена в историческом решении
 [#30](https://github.com/antonsmolko/gost-spec/issues/30) и
