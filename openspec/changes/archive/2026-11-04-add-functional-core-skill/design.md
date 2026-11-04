@@ -641,3 +641,7 @@ rebased links, task metadata, historical checkpoints and scope verified.
 
 No new content contract is introduced; existing reviewed delta is synchronized.
 Public issue updates and PR presentation complete delivery preparation, not merge.
+
+Archive presented in [PR82](https://github.com/antonsmolko/gost-spec/pull/82).
+Public #75/#78/#79 status bodies updated with its link and pending delivery;
+all issues remain open, original criteria and acceptance/release gates retained.
