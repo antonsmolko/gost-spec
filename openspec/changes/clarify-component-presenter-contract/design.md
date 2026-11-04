@@ -421,5 +421,10 @@ basis; actionable requirements are the linked issues and committed spec/design.
 Reviewer inspected browser/link evidence without rerunning Chromium/full suite.
 Author reran Chromium successfully after final audit. Synthetic checks do not
 prove arbitrary helper purity, unknown-data validation, actual vendor widget
-integration or migration. Task3.2 awaits presentation of the implementation PR;
-merge, normative acceptance, sync/archive and release retain separate decisions.
+integration or migration. Implementation [PR #81](https://github.com/antonsmolko/gost-spec/pull/81) presents
+the complete outcome; task3.2 complete,6/6. Merge, normative acceptance, sync/archive
+and release retain separate decisions.
+
+Final tracking: #78 current status and PR81 description updated to6/6 with
+canonical evidence; original criteria/Pending gates preserved. #79 dependency
+checkpoint remains unimplemented. This final bookkeeping changes no contract.

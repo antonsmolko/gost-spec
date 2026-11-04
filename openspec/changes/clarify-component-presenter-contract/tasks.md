@@ -1,6 +1,6 @@
 # Tasks
 
-План #78; реализация 5/6. [Design](design.md) фиксирует границы и sources;
+План #78; реализация 6/6. [Design](design.md) фиксирует границы и sources;
 [spec](specs/frontend-component-presentation/spec.md) — требования.
 Нормативные документы/примеры остаются на английском, план — на русском.
 
@@ -17,7 +17,7 @@
 ## 3. Итоговая проверка
 
 - [x] 3.1 Выполнить полный npm run check на обоих поддерживаемых Node с реальными packs/external consumers, strict OpenSpec и whitespace. Отдельно просмотреть полный diff/unchanged contracts, ссылки и manual classification всех examples, различая syntax/type, pure behaviour и UI integration. Убедиться, что runtime/plugins, реализация #71/#62/#63/#79 и потребители не изменены; dependency tracking не считается реализацией этих outcomes.
-- [ ] 3.2 Провести независимое fresh-context review полного нормативного результата по #78/spec/design/AGENTS.md, устранить findings либо записать обоснованные dispositions, ответить на threads/summary. Сохранить evidence/limits и представить один implementation PR; это не content acceptance, merge или release.
+- [x] 3.2 Провести независимое fresh-context review полного нормативного результата по #78/spec/design/AGENTS.md, устранить findings либо записать обоснованные dispositions, ответить на threads/summary. Сохранить evidence/limits и представить один implementation PR; это не content acceptance, merge или release.
 
 ## Workflow follow-up
 

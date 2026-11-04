@@ -66,9 +66,11 @@ Shell skill сохраняется. Текущий outcome —
 компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/clarify-component-presenter-contract/proposal.md)
 доставлен через PR #80 (main 4b5361a). Реализация на ветке
 feature/gost-spec-78-component-presenter-implementation, prefix `[gost-spec-78]`,
-5/6: proposed frontend-контракт/примеры и совместимость Svelte/FSD обновлены;
+6/6: proposed frontend-контракт/примеры и совместимость Svelte/FSD обновлены;
 приёмка содержания Pending. Pure и отдельные Chromium probes, полный check
-102/102 на обоих Node и package/link audit пройдены; independent review выполняется.
+102/102 на обоих Node и package/link audit пройдены; independent review без findings.
+Реализация представлена в [PR #81](https://github.com/antonsmolko/gost-spec/pull/81);
+merge, content acceptance и sync/archive ещё требуют отдельных решений.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
 Архивирование #75 не блокирует подготовку плана #78.
