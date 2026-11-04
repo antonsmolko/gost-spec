@@ -50,8 +50,10 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
 план доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
 `feature/gost-spec-75-functional-core-implementation`, prefix `[gost-spec-75]`,
-6/7: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
-Независимое итоговое review ещё требуется. Full check — 101/101 на обоих Node;
+7/7: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
+Независимое итоговое review завершено без actionable findings. Implementation
+[PR #77](https://github.com/antonsmolko/gost-spec/pull/77) открыт для review; merge
+и sync/archive ещё не выполнялись. Full check — 101/101 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется; presenter будет отдельным outcome.

@@ -8,7 +8,7 @@ Owner выбрал отдельный `gost-functional-core` в общем marke
 Это новый outcome на `feature/gost-spec-75-functional-core-skill`, prefix
 `[gost-spec-75]`; layout #71 и scripts/tests #62/#63 не являются prerequisites.
 
-Наблюдаемое состояние: один готовый shell plugin с bootstrap skill, один
+Baseline на момент планирования: один готовый shell plugin с bootstrap skill, один
 single-plugin checker и native каталоги. Shell recipe проверял старые development
 artifacts common/svelte 0.0.0; это не доказательство совместимости новых версий.
 Новый skill ещё отсутствует. Все пять npm-workspaces остаются прежними.
@@ -169,7 +169,8 @@ Merge, release и изменения реального потребителя �
 
 ### Planning verification
 
-Все четыре planning artifacts готовы; implementation остаётся 0/7. Strict change
+Историческая проверка planning PR #76: все четыре artifacts готовы; implementation
+на тот момент 0/7. Strict change
 validation и обе main specs проходят, staged whitespace чистый. Текущий неизменный
 код прошёл `npm run check` 90/90 на Node 26.11.1 с packed artifacts/external
 consumers; это baseline, не проверка ещё не созданного skill или нового common
@@ -331,3 +332,33 @@ GitHub initially returned 502/merge-in-progress; no alternate main push was used
 Separate final tracked-tree Markdown audit: 119 files, 192 path links + 2
 same-file anchors, zero errors. Path-list SHA256
 `b2c3c72a828886f09027ef68a14f408bf0c0b40e01d0a2fdb0fcce0830a0a7bc`.
+
+### Task 3.2 — independent complete-result review
+
+Fresh-context reviewer inspected complete implementation diff at `0a3db5b`
+against approved #75 requirements and main `6ea9b31`, actual API/source, generated
+consumers and installed native trees. No actionable findings. Independently
+reproduced full 101/101 suite on both supported Node versions, strict change
+and both main specs, consumer check/probe and ClearStaffAction behaviour, plus
+recipe extracted from HEAD compiled and exercised with frozen inputs, routing,
+full replacement and success/failure. Fresh native Codex inventory and Claude
+details were read; all 8 files per plugin in each harness matched HEAD.
+Separate audit: 119 Markdown / 192 path links / no missing paths; shell/packages/
+lock diff empty. Reviewer did not rerun complete historical installation/repeat
+or agent missing-input/repeat workflows: those were assessed from existing
+evidence and resulting artifacts. Public hosting/release/real app are unverified.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent implementation review: private input, not a public basis; actionable scope [#75](https://github.com/antonsmolko/gost-spec/issues/75) | Complete-result contracts, behaviour, distribution and scope | Full implementation diff, fixture, new plugin, both catalogs, checker/tests and docs | Reviewed, no actionable findings | Independent checks and exact limits above; original author also inspected generated code and reran consumer/recipe probes |
+
+### Implementation GitHub issue edits
+
+#75's current status was updated to 6/7 with final review pending, while its old
+planning status was explicitly marked historical. Acceptance criteria, dependencies
+and approval gates were retained. PR #76 body records actual delivery to main
+`6ea9b31` and keeps its planning-only scope. Implementation [PR #77](https://github.com/antonsmolko/gost-spec/pull/77) now presents
+the single agreed outcome; all 7 tasks are complete after the clean review.
+Final #75/PR #77 status records 7/7 and the evidence link. The issue remains open through
+review and the separately requested sync/archive workflow. No real tag/release
+or consumer action follows from this implementation.

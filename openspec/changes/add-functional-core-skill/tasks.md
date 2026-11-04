@@ -1,6 +1,6 @@
 # Tasks
 
-План #75, реализация 6/7. [Design](design.md) фиксирует API baseline и границы;
+План #75, реализация 7/7. [Design](design.md) фиксирует API baseline и границы;
 [feature spec](specs/functional-core-feature-development/spec.md) — поведение,
 [distribution delta](specs/state-foundation-plugin-distribution/spec.md) —
 сохранность shell plugin при двух entries. Skill/reference/README пишутся на английском.
@@ -19,7 +19,7 @@
 ## 3. Итоговая интеграционная проверка
 
 - [x] 3.1 Запустить full `npm run check` на обоих поддерживаемых Node с реальными packed artifacts/external consumers, strict OpenSpec и whitespace. Отдельно проверить полный diff, unchanged contracts, ссылки/якоря и scope; обновить handoff/#75 и design evidence, различая baseline старой реализации, native installation и применение нового skill. Убедиться, что #71/#62/#63 и asc-admin не изменены.
-- [ ] 3.2 Провести независимое fresh-context review полного результата по #75, specs и AGENTS.md; зафиксировать findings/dispositions и устранить открытые проблемы. Готовность требует working skill behavior и обоих native proofs, а не только Markdown/gate success; представить один implementation PR без автоматического merge/release.
+- [x] 3.2 Провести независимое fresh-context review полного результата по #75, specs и AGENTS.md; зафиксировать findings/dispositions и устранить открытые проблемы. Готовность требует working skill behavior и обоих native proofs, а не только Markdown/gate success; представить один implementation PR без автоматического merge/release.
 
 ## Workflow follow-up
 
