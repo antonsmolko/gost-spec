@@ -45,7 +45,7 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 #70 закрыта. Этот documentation outcome не менял runtime/plugin/version.
 Публичного release tag, публикации и применения к asc-admin не было.
 
-Текущий следующий outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
+Functional-core outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
 английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
 marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
 план доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
@@ -56,11 +56,19 @@ marketplace, независимый от Svelte. [OpenSpec-план](../../opens
 Reducer unit tests используют готовые root/feature state factories с overrides,
 проверяют чистый state/action → state/effects; app integration проверяется отдельно.
 Независимое итоговое review этой правки завершено без actionable findings. Implementation
-[PR #77](https://github.com/antonsmolko/gost-spec/pull/77) открыт для review; merge
-и sync/archive ещё не выполнялись. Full check — 102/102 на обоих Node;
+[PR #77](https://github.com/antonsmolko/gost-spec/pull/77) вмержен с разрешения
+владельца, main `31930c4`. Change #75 остаётся активным до отдельного sync/archive;
+реализация завершена, issue открыта для этого учёта. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
-Shell skill сохраняется; presenter будет отдельным outcome.
+Shell skill сохраняется. Следующий outcome —
+[#78](https://github.com/antonsmolko/gost-spec/issues/78): уточнение proposed-контракта
+компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/clarify-component-presenter-contract/proposal.md)
+на ветке feature/gost-spec-78-component-presenter-contract, prefix gost-spec-78;
+реализация 0/6, нормативные документы ещё прежние.
+Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
+согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
+Архивирование #75 не блокирует подготовку плана #78.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
