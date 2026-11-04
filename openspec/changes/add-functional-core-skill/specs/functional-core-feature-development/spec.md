@@ -85,6 +85,12 @@ Skill SHALL расширять существующую state/action/reducer/eff
 - **THEN** отчёт различает проверенную FC-логику и непроверенную готовность приложения
 - **AND** успешная компиляция сама по себе не объявляется доказательством всего бизнес-поведения
 
+#### Scenario: Factory-built reducer unit cases
+- **WHEN** агент пишет reducer.test.ts фичи
+- **THEN** исходные состояния создаются готовыми root/feature state factories с overrides сценария, а чистый reducer вызывается с state и action
+- **AND** независимые cases сгруппированы по action/сценарию и проверяют возвращённые state и описания effects; result actions подаются напрямую
+- **AND** dispatch, исполнение effects и store/bootstrap проверяются отдельно от unit tests reducer
+
 ### Requirement: Independent native plugin delivery
 Plugin `gost-functional-core` SHALL иметь собственные SemVer/changelog и один одноимённый skill в общем marketplace `gost` для Codex и Claude Code. Оба харнеса MUST устанавливать одинаковое содержимое из выбранного snapshot. Опубликованные version tags MUST NOT перемещаться или переиспользоваться. Установка MUST NOT запускать skill, менять приложение или автоматически обновлять другие плагины.
 

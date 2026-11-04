@@ -14,6 +14,8 @@ API gost-kit, сохраняя независимость от UI-фреймво
   чистые переходы и описания готовых эффектов приложения с receivers, проверка результата.
   FC фичи — state/action/reducer и colocated reducer test; эффекторы остаются
   на уровне приложения, контракт ApiEffect не проектируется этим skill.
+  Unit cases используют готовые state factories с overrides и проверяют чистый
+  reducer; dispatch и исполнение effects проверяются отдельно.
 - Поставлять его отдельным plugin версии 0.1.0 unreleased в общем marketplace
   `gost` для Codex и Claude Code; имеющийся shell plugin не менять.
 - Дополнить существующие каталоги и их проверки ровно необходимым для двух

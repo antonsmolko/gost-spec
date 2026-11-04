@@ -104,6 +104,15 @@ Store/bootstrap и framework bindings не пересоздаются. При о
 gost-kit «один тип — один файл» не становится глобальным требованием потребителя.
 UI/presenter и соседние бизнес-фичи остаются в их запрошенной области работы.
 
+Reducer — чистый `(state, action) → { state, effects }`. Unit tests используют
+готовые root/feature state factories с overrides, без ручной сборки root state.
+Независимые сценарии группируются по action/case и проверяют поля state и описания
+effects/их параметры. Result actions подаются напрямую с собственным исходным
+состоянием, без цепочки из результата другого теста. Dispatch, store и выполнение
+effects проверяются отдельно на application boundary. Фабрика нового feature
+state поддерживает overrides по фактическому define.state контракту; существующие
+root factories переиспользуются/дополняются только в composition point.
+
 ### Two entries with existing validation boundaries
 
 Оба `gost` каталога содержат shell и новый FC plugin как отдельные entries;
@@ -494,3 +503,87 @@ workflows. Public hosting, release and real consumer readiness remain unverified
 All 7 tasks are complete again after the corrected behaviour, native byte proof
 and independent review. Final public issue/PR tracking uses 102 tests and the new
 commit; individual thread replies link to R1–R6 above. No merge/release is included.
+
+## PR77 factory-based reducer tests
+
+Public [owner review](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466695817)
+reopens reducer-test guidance. Full private example/conversation is private input,
+not a public basis; the public actionable scope is that thread and revised #75
+criteria. Only the testing principle is used: no private domain code, URLs, class
+names or business rules are copied into the published plugin/fixture.
+
+Sources read across all pages: 12 inline comments (including prior responses),
+12 reviews with empty bodies, 2 PR summaries, 0 #75 comments. Earlier R1–R6
+dispositions remain as recorded; new evidence changes the reducer test method,
+not the previously corrected application ownership or packaging contracts.
+
+### PR77 R7
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Owner tests](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466695817), public #75 criteria | Reducer tests need existing state factories and independent pure action cases | SKILL/reference, fixture state factory/README, proposal/design/spec/tasks, handoff, #75/PR77 | Fixed | Root/feature factories supply inputs with scenario overrides; describe/action/scenario groups assert returned state/effect descriptions. Result actions are supplied directly, not chained from previous outcomes. Unit tests neither create a store/dispatcher nor execute effects; separate app probe retains integration coverage |
+
+The previous published test was pure but hand-built root state and chained
+request/result transitions in one case. Earlier generated unit tests also mixed
+in dispatch/application work. Both representations now follow the intended
+boundary. Different action classes/method names in the owner's private example
+are not requirements; the existing project's actual API/runner is retained.
+
+An additional real behaviour defect was found first: the old recipe's state
+factory ignored scenario options, so createUserState({status:'loading'}) returned
+idle. Observed RED against the actual compiled previous recipe; after the
+factory applied options this check passed, preserving fresh default arrays.
+The example imports the existing rootState factory and uses feature-state
+factory overrides. All four current blocks compile with real common artifacts;
+the grouped reducer.test example passes 12 tests / 6 suites.
+
+Fresh independent skill application in a disposable consumer creates the four
+FC files, extends the existing root factory/composition and reuses the app effector.
+Author inspected generated sources and reran typecheck, app probe and 7 reducer
+unit tests. Unit inputs come from root/feature factories; result actions are
+independent; no store/dispatch/effect execution occurs in those unit tests.
+App integration and receiver execution remain in the external probe. App effector
+SHA256 remains 0c499012ecb17b8315f037d4b596a17ffb21020820f8cddf86fa9af1aefc8553.
+This application did not repeat all historical change/missing-input scenarios;
+those earlier proofs remain scoped to the unchanged composition/artifact rules.
+
+Both full suites pass 102/102 on Node 26.0.0 and 26.11.1; strict change/main
+specs, skill format and whitespace pass. Native verification repeated in fresh
+profiles against temporary snapshot 639ef8d and full loopback Git URL on port
+52381: alone/repeat/coexistence, fresh inventory/read, all eight files per plugin
+match, personal registry/config and synthetic app fingerprints unchanged. No
+real release/tag/public-host readiness or real consumer mutation is included.
+
+### Factory-test GitHub issue edits
+
+#75 criteria now explicitly distinguish reducer unit cases built with existing
+state factories/overrides from application integration probes. Current status
+marks this correction in progress; prior head d4abb39 remains historical for
+its previous example. Same outcome/prefix, dependencies and approval gates.
+Final issue/PR tracking and public reply point to R7 after the complete-result
+review. Sync/archive and release are separate owner-authorized steps.
+
+### Factory-test final verification and review
+
+Separate tracked-tree audit: 119 Markdown, 192 path links + 3 same-file anchors,
+zero errors, unchanged path-list hash b2c3c72a828886f09027ef68a14f408bf0c0b40e01d0a2fdb0fcce0830a0a7bc.
+Fresh-context independent review of the complete PR diff including R7 found no
+actionable findings. Reproduced 102/102 on both supported Node versions, four-
+block recipe typecheck and 12 tests/6 suites, factory overrides/fresh arrays/
+frozen inputs/neighbours/receivers/direct result actions, generated consumer
+typecheck/7 unit tests and separate integration probe. Recipe sources exactly
+match the four blocks; TypeScript emission matches executed artifacts. Both
+current native profiles contain each plugin's exact 8 files/bytes. Strict
+change/main specs, links/anchors, whitespace and unchanged shell/npm/lock pass.
+
+Reviewer assessed historical RED, native interaction history and prior change/
+missing-input workflows from supplied evidence rather than rerunning those full
+interactions. No public-host install, release or real consumer readiness verified.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Independent R7 review: private input, not a public basis; actionable scope [#75](https://github.com/antonsmolko/gost-spec/issues/75) and [owner tests](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466695817) | Complete result with factory-built pure reducer unit cases | Full PR diff and R7 correction | Reviewed, no actionable findings | Independently reproduced checks and limits above; R1–R6 dispositions retained |
+
+All 7 tasks complete after R7 verification/review. Final issue/PR status and R7
+reply link to this commit's ledger, with 102 full-suite, 12 recipe and 7 generated
+unit tests reported separately. No merge/sync/archive/release performed.

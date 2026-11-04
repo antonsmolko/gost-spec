@@ -8,6 +8,10 @@ explicit probe, so root test discovery cannot execute an unprepared consumer.
 application boundary. They are evaluation inputs, not a proposed gost-kit API.
 Feature application may extend root action/state composition but must preserve
 the existing effect contracts and `src/app/effector.ts` bytes.
+`src/app/state.ts` supplies the existing root-state factory. Reducer unit tests
+use root/feature state factories with scenario overrides; they call the reducer
+with an action and assert returned state/effect descriptions. Keep dispatch and
+effect execution in the separate `checks/feature.mjs` integration probe.
 
 Copy this directory to a disposable directory and install a real
 `@gost-kit/common` tarball there, then install TypeScript 5.9.3. Do not install or
@@ -29,8 +33,13 @@ Use the same request without a skill, then in a fresh copy with
 > on failure also describe the existing AlertEffect with the error message.
 > Reuse the given app effector unchanged; do not introduce feature effects,
 > effectors or another API adapter. Put feature FC in state.ts, action.ts,
-> reducer.ts and reducer.test.ts within the existing layout. Preserve preferences, audit,
-> SetThemeAction and the store boundary. Keep reducers pure and immutable.
+> reducer.ts and reducer.test.ts within the existing layout.
+> In reducer.test.ts use ready-made root/feature state factories with overrides,
+> group cases by action/scenario and assert returned state/effect descriptions.
+> Test result actions directly with independent inputs; keep application dispatch
+> and effect execution out of feature reducer tests.
+> Preserve preferences, audit, SetThemeAction and the store boundary.
+> Keep reducers pure and immutable.
 > Run the existing checks and report actual dependencies, changed files and
 > incomplete work. Do not use a UI framework or access the library source tree.
 

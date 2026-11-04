@@ -29,7 +29,9 @@ integration instead of creating `FetchUserEffect` or a transport handler.
 ## Feature example
 
 Illustrative location: `src/features/user/fc/`. The already existing application
-contracts are at `src/app/contracts.ts`; adjust import paths to the project.
+contracts are at `src/app/contracts.ts`, and its ready-made root-state factory
+`rootState` is at `src/app/state.ts`. Adjust names/paths to the project; use its
+existing state factories with overrides rather than hand-building root state.
 
 ### state.ts
 
@@ -43,8 +45,8 @@ export type UserState = {
   data?: User;
   errors: ApiError[];
 };
-export const createUserState = define.state<UserState>(() => ({
-  email: '', status: 'idle', errors: [],
+export const createUserState = define.state<UserState>((options = {}) => ({
+  email: '', status: 'idle', errors: [], ...options,
 }));
 ```
 
@@ -92,52 +94,89 @@ export const userReducer = define.reducer<UserState, UserAction, RootEffect, Roo
 
 ```ts
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { describe, test } from 'node:test';
 import { reducing, scope } from '@gost-kit/common';
 import type { RootAction, RootEffect, RootState } from '../../../app/contracts.js';
+import { rootState } from '../../../app/state.js';
 import { userReducer } from './reducer.js';
 import { createUserState } from './state.js';
 
-test('user transitions use the existing API effect and pure receivers', () => {
-  const reducer = reducing<RootState, RootAction, RootEffect>({ users: scope('user', userReducer) });
-  const before: RootState = {
-    user: createUserState(), preferences: { theme: 'dark' },
-  };
-  Object.freeze(before.user.errors);
-  Object.freeze(before.user);
-  Object.freeze(before.preferences);
-  Object.freeze(before);
-  const pending = reducer(before, { scope: 'users', type: 'LoadAction' });
-  assert.equal(pending.state.user.status, 'loading');
-  assert.equal(pending.state.user.email, before.user.email);
-  assert.equal(pending.state.preferences, before.preferences);
-  assert.equal(before.user.status, 'idle');
-  assert.equal(pending.effects.length, 1);
-  const effect = pending.effects[0];
-  assert.ok(effect.type === 'ApiEffect');
+const reducer = reducing<RootState, RootAction, RootEffect>({ users: scope('user', userReducer) });
 
-  const response = { id: 'one', name: 'Ada' };
-  const success = effect.receiverSuccess(response);
-  assert.deepEqual(success, { scope: 'users', type: 'SuccessReceiveAction', response });
-  const ready = reducer(pending.state, success);
-  assert.equal(ready.state.user.status, 'ready');
-  assert.deepEqual(ready.state.user.data, response);
-  assert.deepEqual(ready.state.user.errors, []);
+describe('userReducer', () => {
+  describe('LoadAction', () => {
+    const before = rootState({ user: createUserState({ email: 'user@example.invalid' }) });
+    const { state, effects } = reducer(before, { scope: 'users', type: 'LoadAction' });
 
-  const errors = [{ code: 'OFFLINE', message: 'offline', path: ['email'] }];
-  const failure = effect.receiverError(errors);
-  assert.deepEqual(failure, { scope: 'users', type: 'ErrorReceiveAction', errors });
-  const failed = reducer(pending.state, failure);
-  assert.equal(failed.state.user.status, 'error');
-  assert.deepEqual(failed.state.user.errors, errors);
-  assert.equal(failed.state.preferences, before.preferences);
+    test('sets loading status', () => {
+      assert.equal(state.user.status, 'loading');
+    });
+    test('returns the existing API effect with request parameters', () => {
+      assert.equal(effects.length, 1);
+      const [effect] = effects;
+      assert.ok(effect.type === 'ApiEffect');
+      assert.equal(effect.url, '/user');
+      assert.deepEqual(effect.body, { email: 'user@example.invalid' });
+    });
+    test('preserves the input and neighbouring state', () => {
+      assert.equal(before.user.status, 'idle');
+      assert.equal(state.user.email, before.user.email);
+      assert.equal(state.preferences, before.preferences);
+    });
+  });
+
+  describe('SuccessReceiveAction', () => {
+    const response = { id: 'one', name: 'Ada' };
+    const { state, effects } = reducer(
+      rootState({ user: createUserState({ status: 'loading' }) }),
+      { scope: 'users', type: 'SuccessReceiveAction', response },
+    );
+    test('sets ready status', () => {
+      assert.equal(state.user.status, 'ready');
+    });
+    test('stores the response', () => {
+      assert.deepEqual(state.user.data, response);
+    });
+    test('clears errors and returns no effects', () => {
+      assert.deepEqual(state.user.errors, []);
+      assert.deepEqual(effects, []);
+    });
+  });
+
+  describe('ErrorReceiveAction', () => {
+    const cases = [
+      { code: 'OFFLINE', message: 'offline', path: [] },
+      { code: 'INVALID_EMAIL', message: 'invalid email', path: ['email'] },
+    ];
+    for (const error of cases) {
+      describe(error.code, () => {
+        const errors = [error];
+        const { state, effects } = reducer(
+          rootState({ user: createUserState({ status: 'loading' }) }),
+          { scope: 'users', type: 'ErrorReceiveAction', errors },
+        );
+        test('sets error status', () => {
+          assert.equal(state.user.status, 'error');
+        });
+        test('stores API errors unchanged', () => {
+          assert.deepEqual(state.user.errors, errors);
+        });
+        test('returns no effects for this transition', () => {
+          assert.deepEqual(effects, []);
+        });
+      });
+    }
+  });
 });
 ```
 
-The test invokes the receivers and resulting transitions directly. It performs
-no request and implements no effector. The application already composes the
-`users` namespace with `scope('user', userReducer)` and its shared effector.
-Check actual request/result flow through that existing composition separately.
+Each scenario independently calls the pure reducer with a factory-built input
+and an action, then checks returned state/effect descriptions. Result actions
+are supplied directly, without chaining a request and its response. There is no
+store, dispatcher, request or effect execution in these unit tests. Use the
+project's test runner (`describe.each` when available); the loop above uses the
+built-in Node runner. Check actual request/receiver/dispatch flow separately at
+the application integration boundary.
 
 ## FC contracts that matter
 

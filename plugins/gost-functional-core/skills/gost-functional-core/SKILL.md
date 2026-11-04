@@ -54,11 +54,17 @@ prerequisites. Limit changes to the requested feature and its root composition.
 
 ## Verify the requested behaviour
 
-Run meaningful type and behaviour checks against real public artifacts: pure
-transitions with immutable inputs, complete state replacement, routing, effect
-execution and result actions, plus preservation of neighbouring state. Verify
-existing global effect reuse and repeat application without duplicate slices or
-registrations. Compilation alone does not establish business success.
+In `reducer.test.ts`, prepare inputs with the project's existing root/feature
+state factories and scenario overrides. Test the pure `(state, action) →
+{ state, effects }` contract. Group cases by action and scenario; assert returned
+state fields and effect descriptions/parameters. Test result actions directly
+with their own factory-built inputs. Reuse the project's test runner and action
+representation; do not copy classes or wrappers from another implementation.
+
+Keep dispatch, effect execution and application integration checks separate from
+feature reducer tests. Run applicable checks with real artifacts, verify neighbour
+preservation and repeat application without duplicate registrations. Compilation
+alone does not establish business success.
 
 `await dispatch(...)` waits for its effects and awaited nested dispatches;
 execution errors are reported rather than propagated. Determine success from

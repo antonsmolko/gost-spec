@@ -40,6 +40,8 @@ implement presenter/UI architecture. Compatible application bindings are a
 separate prerequisite. Registry publication of common is not assumed.
 Feature reducers use existing application effects and receivers; effect contracts
 and `AppEffector`/`RootEffector` remain application-level prerequisites.
+Reducer unit tests use existing state factories with scenario overrides to check
+the pure state/action → state/effects transition; app integration is checked separately.
 The icon deliberately shares the GOST brand with the shell plugin; plugin names
 and descriptions distinguish their purposes.
 
