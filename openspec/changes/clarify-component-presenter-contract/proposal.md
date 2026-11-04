@@ -50,10 +50,10 @@ Planning PR #80 создавал только план; на том этапе �
 `feature/gost-spec-78-component-presenter-contract`. Реализация основана на merge
 PR #80, main `4b5361a`, и ведётся в
 `feature/gost-spec-78-component-presenter-implementation`, prefix `[gost-spec-78]`.
-#75 реализована, отдельный sync/archive остаётся pending.
+#75 реализована; sync/archive выполнен в PR #82, статус доставки проверяется по PR.
 Согласование плана не принимает proposed-текст.
 
-Archive checkpoint 2026-11-04: прежние pending-упоминания #75 описывают этап
-планирования/реализации #78. #75 теперь синхронизирован и перенесён в
-[архив](../archive/2026-11-04-add-functional-core-skill/design.md); доставка архива
-в main ожидает отдельного PR. Sync/archive #78 пока не выполнялся.
+Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
+[архив](../archive/2026-11-04-add-functional-core-skill/design.md) через
+[PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
+доставки проверяется по PR. Sync/archive #78 пока не выполнялся.

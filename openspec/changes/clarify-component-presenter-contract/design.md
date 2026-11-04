@@ -8,7 +8,7 @@ Scope — [#78](https://github.com/antonsmolko/gost-spec/issues/78), мотив�
 
 База main `31930c40818972cecea725a828e9478f6144248f` содержит skill FC после
 PR #77: application effects отдельно, unit reducer tests используют state factories.
-Архив/sync #75 pending и не меняет порядок #78 → #79.
+Архив/sync #75 выполнен в PR #82; статус доставки проверяется по PR. Порядок #78 → #79 сохраняется.
 
 Наблюдаемые противоречия текущих документов:
 
@@ -210,8 +210,8 @@ scope. Нельзя обещать автоматическую проверку
 представляет один нормативный PR для issue #78 с complete valid/invalid examples и
 independent review. Ни consumer source, ни runtime, ни готовые source skills
 не меняются. При отклонении текста предложить исправление proposed-документов;
-не мигрировать приложения автоматически. Sync/archive #75 — отдельный pending
-учёт, не prerequisite нового плана. Merge/release не следуют из принятия плана.
+не мигрировать приложения автоматически. Sync/archive #75 выполнен в PR #82; статус доставки проверяется по PR,
+это не prerequisite нового плана. Merge/release не следуют из принятия плана.
 
 ## Review and issue tracking
 
@@ -494,7 +494,7 @@ Chromium evidence remains applicable without reruns for unchanged code. Separate
 final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
 same path-list hash as task3.1. The extra path link is the Svelte inventory row.
 
-Archive checkpoint 2026-11-04: прежние pending-упоминания #75 описывают этап
-планирования/реализации #78. #75 теперь синхронизирован и перенесён в
-[архив](../archive/2026-11-04-add-functional-core-skill/design.md); доставка архива
-в main ожидает отдельного PR. Sync/archive #78 пока не выполнялся.
+Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
+[архив](../archive/2026-11-04-add-functional-core-skill/design.md) через
+[PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
+доставки проверяется по PR. Sync/archive #78 пока не выполнялся.

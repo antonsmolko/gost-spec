@@ -60,8 +60,12 @@ Reducer unit tests используют готовые root/feature state factor
 владельца, main `31930c4`. Change #75 синхронизирован и перенесён в архив
 `2026-11-04-add-functional-core-skill`: 7/7. Новая основная
 [FC specification](../../openspec/specs/functional-core-feature-development/spec.md)
-содержит 7 требований /19 сценариев; distribution spec дополнена одним сценарием.
-Archive PR ещё ожидает review/merge; issue открыта до доставки архива. Full check — 102/102 на обоих Node;
+содержит 7 требований /19 сценариев. В distribution spec изменён текст требования
+Native marketplace installation in both harnesses: допускаются независимо
+версионируемые плагины с сохранением identity/content/version shell; добавлен
+shared-marketplace сценарий. Итого 11 требований /28 сценариев.
+Доставка архива — [PR #82](https://github.com/antonsmolko/gost-spec/pull/82),
+фактический статус проверяется по PR; issue закрывается после подтверждения доставки. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется. Текущий outcome —
