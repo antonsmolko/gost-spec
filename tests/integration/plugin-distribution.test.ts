@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { execFileSync, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import test, { type TestContext } from "node:test";
 import { checkPluginDistribution } from "../../scripts/check-plugin-distribution.ts";
@@ -10,16 +10,6 @@ import { checkPluginDistribution } from "../../scripts/check-plugin-distribution
 const repository = resolve(import.meta.dirname, "../..");
 const pluginPath = "plugins/gost-svelte-shell";
 const json = async (path: string) => JSON.parse(await readFile(path, "utf8"));
-
-const git = (root: string, args: string[]) => execFileSync("git", ["-C", root, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
-const pin = async (root: string) => {
-  git(root, ["add", "plugins"]);
-  git(root, ["-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--allow-empty", "-m", "Prepare plugin content"]);
-  const catalog = await json(join(root, ".claude-plugin/marketplace.json"));
-  catalog.plugins[0].source = { source: "git-subdir", url: "https://github.com/antonsmolko/gost-spec.git", path: pluginPath, sha: git(root, ["rev-parse", "HEAD"]) };
-  await writeFile(join(root, ".claude-plugin/marketplace.json"), JSON.stringify(catalog));
-};
-
 
 const fixture = async (t: TestContext) => {
   const root = await mkdtemp(join(tmpdir(), "gost-plugin-check-"));
@@ -29,11 +19,39 @@ const fixture = async (t: TestContext) => {
     await mkdir(join(root, catalog, ".."), { recursive: true });
     await cp(join(repository, catalog), join(root, catalog));
   }
-  git(root, ["init", "-b", "main"]);
-  git(root, ["remote", "add", "origin", "https://github.com/antonsmolko/gost-spec.git"]);
-  await pin(root);
   return root;
 };
+
+test("draft distribution accepts a local snapshot without Git metadata or a release tag", async (t) => {
+  const root = await fixture(t);
+  assert.equal(existsSync(join(root, ".git")), false, "file-only fixture must not contain Git metadata");
+  const path = join(root, ".claude-plugin/marketplace.json");
+  const catalog = await json(path);
+  catalog.plugins[0].source = "./plugins/gost-svelte-shell";
+  await writeFile(path, JSON.stringify(catalog));
+  assert.deepEqual(await checkPluginDistribution(root), []);
+  const result = spawnSync(process.execPath, [join(repository, "scripts/check-plugin-distribution.ts"), root], {
+    encoding: "utf8", env: { ...process.env, PATH: "" }, timeout: 10000,
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test("draft distribution refuses legacy Git sources and local sources with a second revision selector", async (t) => {
+  const root = await fixture(t);
+  const claudePath = join(root, ".claude-plugin/marketplace.json");
+  const legacy = await json(claudePath);
+  legacy.plugins[0].source = { source: "git-subdir", url: "https://github.com/antonsmolko/gost-spec.git", path: pluginPath, sha: "f".repeat(40) };
+  await writeFile(claudePath, JSON.stringify(legacy));
+  assert.match((await checkPluginDistribution(root)).join("\n"), /marketplace.json:.*source/);
+  const claude = await json(claudePath);
+  claude.plugins[0].source = "./plugins/gost-svelte-shell";
+  await writeFile(claudePath, JSON.stringify(claude));
+  const codexPath = join(root, ".agents/plugins/marketplace.json");
+  const codex = await json(codexPath);
+  codex.plugins[0].source.ref = "main";
+  await writeFile(codexPath, JSON.stringify(codex));
+  assert.match((await checkPluginDistribution(root)).join("\n"), /\.agents\/plugins\/marketplace.json:.*source/);
+});
 
 test("both harness manifests expose the same independently versioned skill", async () => {
   const root = join(repository, pluginPath);
@@ -65,9 +83,7 @@ test("native marketplace catalogs select the same plugin directory", async () =>
   assert.equal(codex.plugins.length, 1);
   assert.equal(claude.plugins.length, 1);
   assert.equal(codex.plugins[0].source.path, `./${pluginPath}`);
-  assert.equal(claude.plugins[0].source.source, "git-subdir");
-  assert.equal(claude.plugins[0].source.path, pluginPath);
-  assert.match(claude.plugins[0].source.sha, /^[a-f0-9]{40}$/);
+  assert.equal(claude.plugins[0].source, `./${pluginPath}`);
 });
 
 test("the distribution contains its local API recipe", () => {
@@ -130,7 +146,6 @@ test("a plugin-only patch version is validated independently of npm workspaces",
   assert.match((await checkPluginDistribution(root)).join("\n"), /CHANGELOG.md/);
   const changelog = join(root, pluginPath, "CHANGELOG.md");
   await writeFile(changelog, "# Changelog\n\n## 0.1.1\n\nCompatible documentation correction.\n");
-  await pin(root);
   assert.deepEqual(await checkPluginDistribution(root), []);
   assert.equal(existsSync(join(root, "package.json")), false);
 });
@@ -139,7 +154,6 @@ test("external URI schemes are not mistaken for local files", async (t) => {
   const root = await fixture(t);
   const skill = join(root, pluginPath, "skills/gost-svelte-shell/SKILL.md");
   await writeFile(skill, "[Contact](mailto:maintainer@example.invalid)\n[Archive](ftp://example.invalid/docs)\n");
-  await pin(root);
   assert.deepEqual(await checkPluginDistribution(root), []);
 });
 
@@ -164,29 +178,55 @@ test("CLI checks the requested tree rather than a healthy current directory", as
 });
 
 
-for (const [label, changes, expected] of [
-  ["missing SHA", { sha: undefined }, /source\.sha must be a full/],
-  ["invalid SHA", { sha: "main" }, /source\.sha must be a full/],
-  ["unavailable SHA", { sha: "f".repeat(40) }, /source\.sha unavailable/],
-  ["wrong URL", { url: "https://example.invalid/another.git" }, /source\.url must select/],
-  ["wrong path", { path: "../outside" }, /source\.path differs/],
+for (const [label, source, reason] of [
+  ["missing source", undefined, /source is missing/],
+  ["null source", null, /source must be a relative path string/],
+  ["numeric source", 42, /source must be a relative path string/],
+  ["array source", [], /source must be a relative path string/],
+  ["external Git source", { source: "url", url: "https://example.invalid/another.git" }, /source must be a relative path string/],
+  ["legacy source", { source: "git-subdir", path: pluginPath, sha: "f".repeat(40) }, /legacy git-subdir source/],
+  ["absolute path", "/plugins/gost-svelte-shell", /source path differs/],
+  ["escaping path", "../outside", /source path differs/],
+  ["different directory", "./plugins/other", /source path differs/],
 ] as const) {
-  test(`pinned source rejects ${label} without fallback`, async (t) => {
+  test(`Claude snapshot rejects ${label} with a specific reason`, async (t) => {
     const root = await fixture(t);
     assert.deepEqual(await checkPluginDistribution(root), []);
-    const catalog = await json(join(root, ".claude-plugin/marketplace.json"));
-    Object.assign(catalog.plugins[0].source, changes);
-    await writeFile(join(root, ".claude-plugin/marketplace.json"), JSON.stringify(catalog));
-    assert.match((await checkPluginDistribution(root)).join("\n"), expected);
+    const path = join(root, ".claude-plugin/marketplace.json");
+    const catalog = await json(path);
+    catalog.plugins[0].source = source;
+    await writeFile(path, JSON.stringify(catalog));
+    const diagnostics = (await checkPluginDistribution(root)).join("\n");
+    assert.match(diagnostics, /\.claude-plugin\/marketplace.json:/);
+    assert.match(diagnostics, reason);
+    assert.match(diagnostics, /expected .*\.\/plugins\/gost-svelte-shell/);
   });
 }
 
-test("pinned source accepts a real commit but rejects a changed working tree", async (t) => {
-  const root = await fixture(t);
-  assert.deepEqual(await checkPluginDistribution(root), []);
-  const recipe = join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md");
-  const old = await readFile(recipe, "utf8");
-  await writeFile(recipe, old + "\nChanged since the pin.\n");
-  assert.match((await checkPluginDistribution(root)).join("\n"), /source.*content/);
-  assert.equal(await readFile(recipe, "utf8"), old + "\nChanged since the pin.\n");
-});
+for (const [label, source] of [
+  ["missing source", undefined],
+  ["null source", null],
+  ["string source", "./plugins/gost-svelte-shell"],
+  ["array source", []],
+  ["remote source kind", { source: "url", path: "./plugins/gost-svelte-shell" }],
+  ["missing source kind", { path: "./plugins/gost-svelte-shell" }],
+  ["missing path", { source: "local" }],
+  ["different directory", { source: "local", path: "./plugins/other" }],
+  ["absolute path", { source: "local", path: "/plugins/gost-svelte-shell" }],
+  ["escaping path", { source: "local", path: "../outside" }],
+  ["extra ref", { source: "local", path: "./plugins/gost-svelte-shell", ref: "main" }],
+  ["extra SHA", { source: "local", path: "./plugins/gost-svelte-shell", sha: "f".repeat(40) }],
+  ["extra URL", { source: "local", path: "./plugins/gost-svelte-shell", url: "https://example.invalid/another.git" }],
+] as const) {
+  test(`Codex snapshot rejects ${label} without fallback`, async (t) => {
+    const root = await fixture(t);
+    assert.deepEqual(await checkPluginDistribution(root), []);
+    const path = join(root, ".agents/plugins/marketplace.json");
+    const catalog = await json(path);
+    catalog.plugins[0].source = source;
+    await writeFile(path, JSON.stringify(catalog));
+    const diagnostics = (await checkPluginDistribution(root)).join("\n");
+    assert.match(diagnostics, /\.agents\/plugins\/marketplace.json:.*source/);
+    assert.equal(await readFile(path, "utf8"), JSON.stringify(catalog), "validation must not repair the rejected source");
+  });
+}

@@ -25,15 +25,22 @@ implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
 хранится в основных OpenSpec specs, а план и evidence — в архиве change.
 Единственный исходник хранится в `plugins/gost-svelte-shell/skills/`, отдельно
 от пяти документальных workspaces. [Упаковка #55](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
-добавляет один native plugin версии 0.1.0 и каталоги Codex/Claude; версия и
-changelog плагина независимы от npm-пакетов. Claude закрепляет content commit
-через `source.sha`, Codex выбирает catalog commit; полные деревья совпадают.
+добавила один native plugin и каталоги Codex/Claude; версия и changelog плагина
+независимы от npm-пакетов. Поставка обновляется в
+[#70](https://github.com/antonsmolko/gost-spec/issues/70): оба каталога выбирают
+локальное общее дерево внутри snapshot маркетплейса. Пользователь выбирает один
+release tag `gost-svelte-shell-v<version>` в обоих харнесах; отдельного content SHA
+для новой поставки нет. Тег создаётся на проверенном итоговом main commit после
+merge и отдельного release approval, а не на каждый рабочий commit.
 Текущий [контракт поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)
 дополнен при архивировании
 [change #64](../../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/proposal.md):
-identity `gost-svelte-shell`, явная переустановка и условный возврат Claude после
-восстановления old entry/ID/pin мейнтейнером. Первоначальная основа подключения
-и требования change #55 сохраняются.
+identity `gost-svelte-shell`, явная переустановка и условный legacy-возврат Claude
+после восстановления old entry/ID/pin мейнтейнером. Для новых выпусков возврат
+выбирает прежний существующий release tag; первый выпуск не создаёт автоматически
+предыдущий тег. Дельта #70 хранится в активном
+[плане](../../../openspec/changes/simplify-plugin-release-versioning/proposal.md)
+до отдельного sync/archive. Первоначальная основа подключения сохраняется.
 Установка не запускает skill: подключение runtime-библиотек требует явного
 вызова. Публикация, применение в реальном потребителе и миграция фич остаются
 отдельными действиями; gates принятия и выпуска стандартов сохраняются.

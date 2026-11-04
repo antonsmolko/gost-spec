@@ -77,13 +77,19 @@ Change архивирован 2026-10-31; основной
 [Change](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
 и [issue #55](https://github.com/antonsmolko/gost-spec/issues/55) поставляют
 существующий skill в одном plugin root с независимыми version/changelog и двумя
-нативными каталогами. Claude source.sha закрепляет подготовленный content commit;
-Codex выбирает catalog commit с идентичным plugin tree. Проверки включают native
-install/discovery, повтор, update/rollback и отказы неверного pin в disposable
-профилях. План, прогресс и evidence — в change; дублирующий план не создаётся.
-Это отдельный outcome carrier #54 с retained prefix [gost-spec-52]; criteria и
-closure #54, пять npm-версий и gates #20/#26 не расширяются. Реализация не означает
-публикацию, release tags или применение skill к asc-admin.
+нативными каталогами. Исторический этап #55 использовал отдельный content pin;
+нынешний способ поставки определён в
+[#70](https://github.com/antonsmolko/gost-spec/issues/70) и его
+[плане](../../../openspec/changes/simplify-plugin-release-versioning/proposal.md):
+оба каталога выбирают локальный plugin tree выбранного snapshot маркетплейса,
+пользователь указывает одинаковый релизный тег обоим харнесам. Проверка файлов
+работает без `.git` и без будущего тега. Native install/discovery, repeat,
+update/rollback и отказы недоступного выпуска проверяются отдельно в disposable
+профилях. Evidence — в активном change #70; факты прежнего этапа остаются в архиве.
+Историческая упаковка #55 — отдельный outcome carrier #54 с retained prefix
+[gost-spec-52]. Обновление #70 имеет собственную issue-ветку и prefix [gost-spec-70].
+Criteria и closure #54, пять npm-версий и gates #20/#26 не расширяются.
+Реализация не означает публикацию, release tags или применение skill к asc-admin.
 
 При архивировании change #55 2026-11-01 после 13/13 задач была создана основная
 [спецификация поставки](../../../openspec/specs/state-foundation-plugin-distribution/spec.md)

@@ -31,9 +31,20 @@ runtime/plugin и source.sha этим documentation outcome не менялис�
 Текущий следующий шаг — [#70](https://github.com/antonsmolko/gost-spec/issues/70),
 переход на релизные теги маркетплейса вместо внутреннего content SHA.
 [OpenSpec-план](../../openspec/changes/simplify-plugin-release-versioning/proposal.md)
-описывает native sources, проверку выпуска и сохранённые границы; implementation
-tasks 0/9. Текущие каталоги всё ещё используют прежний способ, версия 0.1.0
-unreleased. План подготовки 0.2.0 не создаёт публичный выпуск.
+доставлен через [PR #72](https://github.com/antonsmolko/gost-spec/pull/72),
+commit `b8d4211`. Реализация #70 идёт отдельно в
+`feature/gost-spec-70-release-tag-delivery`, prefix `[gost-spec-70]`: 9/9 задач.
+Оба каталога используют локальное дерево snapshot, подготовлена версия 0.2.0
+unreleased. Проверка файлов без `.git`, native install/repeat/update/rollback,
+переход SHA/old ID и недоступный тег проверены в обоих disposable profiles;
+первичный полный check 73/73 и независимое review зафиксированы в исходном
+snapshot `f81a24b`. Реализация опубликована в
+[PR #73](https://github.com/antonsmolko/gost-spec/pull/73), не вмержена.
+Review follow-up уточняет полные Git URL и границы loopback-проверки, расширяет
+Codex cases и диагностику Claude; свежий полный check — 90/90 на обоих Node.
+Для текущего README повторена fresh install обоих харнесов с проверкой восьми
+файлов. Актуальные dispositions и ограничения — в design ledger change #70.
+Новых публичных тегов или выпуска нет; применение к asc-admin не выполнялось.
 Порядок — #69 → #70 →
 [#71](https://github.com/antonsmolko/gost-spec/issues/71): упрощение до четырёх
 пакетов согласовано отдельно и не реализуется в #70. План #71 сохранён на ветке

@@ -1,7 +1,6 @@
 import { lstat, readFile, readdir, realpath } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { execFileSync } from "node:child_process";
 import { marked } from "marked";
 
 const name = "gost-svelte-shell";
@@ -56,42 +55,17 @@ export async function checkPluginDistribution(root: string): Promise<string[]> {
       if (catalog.name !== "gost" || entry?.name !== name) report(path, "catalog identity or plugin entries differ");
       const source = entry?.source;
       if (harness === "codex") {
-        if (source?.path !== `./${directory}` || source?.source !== "local") report(path, "catalog source differs from shared plugin directory");
-      } else if (!source || typeof source !== "object" || source.source !== "git-subdir") {
-        report(path, "source must be git-subdir with url/path/sha");
-      } else {
-        const git = (args: string[]) => execFileSync("git", ["-C", repository, ...args], { stdio: ["ignore", "pipe", "pipe"] });
-        const validSha = typeof source.sha === "string" && /^[a-f0-9]{40}$/.test(source.sha);
-        if (!validSha) report(path, "source.sha must be a full lowercase commit SHA");
-        if (source.path !== directory) report(path, "source.path differs from shared plugin directory");
-        let validUrl = source.url === "https://github.com/antonsmolko/gost-spec.git";
-        try {
-          const url = new URL(source.url);
-          // Disposable native experiments may use their own loopback Git origin.
-          if (url.protocol === "http:" && ["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)) {
-            validUrl = git(["remote", "get-url", "origin"]).toString().trim() === source.url;
-          }
-        } catch { validUrl = false; }
-        if (!validUrl) report(path, "source.url must select this repository or the disposable loopback origin");
-        if (validSha && validUrl && source.path === directory) {
-          try {
-            if (await realpath(git(["rev-parse", "--show-toplevel"]).toString().trim()) !== repository) throw new Error("repository root differs");
-            if (git(["cat-file", "-t", source.sha]).toString().trim() !== "commit") throw new Error("pin is not a commit");
-            const entries = git(["ls-tree", "-r", "-z", source.sha, "--", directory]).toString().split("\0").filter(Boolean);
-            const pinnedFiles = entries.map((entry) => entry.split("\t")[1].slice(directory.length + 1)).sort();
-            if (JSON.stringify(pinnedFiles) !== JSON.stringify([...files].sort())) throw new Error("content file set differs");
-            for (const entry of entries) {
-              const [metadata, fullPath] = entry.split("\t");
-              const file = fullPath.slice(directory.length + 1);
-              const info = await lstat(join(plugin, file));
-              const mode = info.mode & 0o111 ? "100755" : "100644";
-              if (!info.isFile() || !metadata.startsWith(`${mode} blob `) ||
-                  !(await readFile(join(plugin, file))).equals(git(["show", `${source.sha}:${fullPath}`]))) {
-                throw new Error(`content differs: ${file}`);
-              }
-            }
-          } catch (error) { report(path, `source.sha unavailable or content mismatch: ${(error as Error).message}`); }
+        if (!source || typeof source !== "object" || Array.isArray(source) ||
+            source.path !== `./${directory}` || source.source !== "local" ||
+            Object.keys(source).some((key) => !["source", "path"].includes(key))) {
+          report(path, "catalog source must select only the shared local plugin directory");
         }
+      } else if (source !== `./${directory}`) {
+        const reason = source === undefined ? "source is missing"
+          : source?.source === "git-subdir" ? "legacy git-subdir source is unsupported"
+          : typeof source !== "string" ? "source must be a relative path string"
+          : "source path differs";
+        report(path, `${reason}; expected "./${directory}"`);
       }
     }
     for (const file of files) {
