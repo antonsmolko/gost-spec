@@ -48,7 +48,7 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 Functional-core outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
 английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
 marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
-план доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
+доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
 `feature/gost-spec-75-functional-core-implementation`, prefix `[gost-spec-75]`,
 7/7 после уточнения reducer unit tests: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
 Пример исправлен: четыре FC-файла фичи используют готовые эффекты приложения
@@ -64,7 +64,7 @@ Native evidence ограничен loopback Git source; public-host release не
 Shell skill сохраняется. Следующий outcome —
 [#78](https://github.com/antonsmolko/gost-spec/issues/78): уточнение proposed-контракта
 компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/clarify-component-presenter-contract/proposal.md)
-на ветке feature/gost-spec-78-component-presenter-contract, prefix gost-spec-78;
+на ветке feature/gost-spec-78-component-presenter-contract, prefix `[gost-spec-78]`;
 реализация 0/6, нормативные документы ещё прежние.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.

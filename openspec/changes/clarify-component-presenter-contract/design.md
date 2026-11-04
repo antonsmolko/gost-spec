@@ -164,7 +164,7 @@ SVELTE-STATE-001 и Svelte README пояснить совмещение с FC/pr
 применяется, только если выбран отдельно.
 
 Inventory/approval tracking отражают пересматриваемые FRONTEND-ARCH-001/002 и
-SVELTE-STATE-001 как Pending, с точной revison/source; не удалять rationale
+SVELTE-STATE-001 как Pending, с точной revision/source; не удалять rationale
 Local-only/API/form topics под предлогом presenter-контракта. Принятие новой
 английской редакции и release approval — отдельные owner decisions. Пять пакетов
 независимо версионируются; текущие 0.1.0 не меняются на этапе планирования.
@@ -207,7 +207,7 @@ scope. Нельзя обещать автоматическую проверку
 ## Migration Plan
 
 Сначала owner review этого плана, затем отдельный apply request. Реализация
-представляет один нормативный PR #78 с complete valid/invalid examples и
+представляет один нормативный PR для issue #78 с complete valid/invalid examples и
 independent review. Ни consumer source, ни runtime, ни готовые source skills
 не меняются. При отклонении текста предложить исправление proposed-документов;
 не мигрировать приложения автоматически. Sync/archive #75 — отдельный pending
@@ -259,3 +259,62 @@ normative examples, future runtime/skill/lint or content acceptance.
 Independent review now reports no actionable findings. Main normative documents,
 all five packages, plugins/catalogs, runtime/checker/tests remain untouched by
 this planning result. Owner review of the concrete plan precedes apply.
+
+### PR80 published review
+
+All pages read: 5 reviews with empty bodies, 5 inline findings and 1 public
+summary; #78 has no comments. [Summary](https://github.com/antonsmolko/gost-spec/pull/80#issuecomment-6638719710)
+confirms the complete six-file planning diff, strict checks, counters, sources
+and dependency states without blockers. Prior independently confirmed closures
+remain valid. The five minor corrections below do not alter requirements,
+gates, applicability or task count: 7 requirements /15 scenarios, 0/6.
+
+#### PR80 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Task coverage](https://github.com/antonsmolko/gost-spec/pull/80#discussion_r4471602572) | Task 1.2 omitted explicit browser-plumbing examples | tasks.md 1.2 | Fixed | Example list now includes valid/invalid focus-only zero-action handler, refs/lifecycle/widget wiring, hidden business selection/logical state ownership. This restates existing spec/design coverage without a new obligation |
+
+#### PR80 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Issue/PR identity](https://github.com/antonsmolko/gost-spec/pull/80#discussion_r4471602874) | PR #78 wording misidentified an issue | design Migration Plan | Fixed | Now says one normative PR for issue #78; no existing/future PR number assumed |
+
+#### PR80 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated word](https://github.com/antonsmolko/gost-spec/pull/80#discussion_r4471603086) | Duplicated plan wording inherited in handoff | handoff PR76 sentence | Fixed | Removed second plan word; delivery/commit/history unchanged |
+
+#### PR80 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Typo](https://github.com/antonsmolko/gost-spec/pull/80#discussion_r4471603323) | revison misspelling | design adoption section | Fixed | Corrected to revision/source |
+
+#### PR80 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Prefix spelling](https://github.com/antonsmolko/gost-spec/pull/80#discussion_r4471603570) | Handoff omitted prefix brackets | handoff #78 | Fixed | Prefix shown as [gost-spec-78], consistent with committed proposal/actual commits |
+
+These are task-list/wording/typo corrections against unchanged spec/design
+requirements. No contract or gate changes, new normative content or runtime code;
+AGENTS review rule 6 allows this wording-only round without another independent
+review. Existing independent planning review and public verification remain
+recorded with their limits. Full final six-file diff and unchanged requirement/
+issue criteria were rechecked; no conflicting active wording remains.
+
+#### PR80 review issue edits
+
+#78 acceptance criteria/dependencies stay unchanged. Its planning status and
+PR80 description receive the review-fix commit and canonical R1–R5 links, still
+0/6 and no normative acceptance. Each inline/summary reply points to this ledger.
+
+PR80 round verification: strict change and both main specs pass; whitespace
+clean; final tracked-tree audit remains 123 Markdown /196 path links /3 same-file
+anchors /0 errors, same path-list hash. Fresh npm run check passes 102/102 on
+Node26.11.1 including real packs/external consumers. Proposal/spec/schema are
+byte-identical to planning commit 589b01f; only the task-list omission, wording
+corrections and this ledger changed. No runtime tests added for prose fixes.
