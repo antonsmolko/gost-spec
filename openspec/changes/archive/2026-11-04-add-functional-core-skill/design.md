@@ -587,3 +587,57 @@ interactions. No public-host install, release or real consumer readiness verifie
 All 7 tasks complete after R7 verification/review. Final issue/PR status and R7
 reply link to this commit's ledger, with 102 full-suite, 12 recipe and 7 generated
 unit tests reported separately. No merge/sync/archive/release performed.
+
+
+## Archive and spec sync — 2026-11-04
+
+Owner explicitly selected sync and archive. All artifacts complete, tasks7/7;
+implementation PR77 merged at31930c4, current archive base main82eda95.
+New main functional-core-feature-development spec preserves Purpose and all seven
+requirements/nineteen scenarios verbatim except canonical H1/Requirements headers.
+Distribution sync replaces only Native marketplace installation in both harnesses
+with the complete delta, preserving both existing scenarios and adding shared
+marketplace installation. Existing distribution title/Purpose and ten other
+requirements remain untouched: total11 requirements/28 scenarios. No runtime,
+plugin, package/version, normative acceptance or release changes.
+
+All incoming repository links and moved artifacts' relative links are rebased.
+Historical planning/review records remain historical; current handoff/roadmap and
+#78 checkpoints distinguish delivered implementation from pending archive delivery.
+#78 itself remains active; #79 implementation has not started.
+
+### Archive GitHub issue edits
+
+#75 receives sync/archive status and the archive PR/evidence, stays open until
+archive delivery; original criteria and release gates preserved. #78/#79 current
+checkpoints replace stale pending #75 pointers with archive-PR status. No issue
+is closed or normative content accepted by this documentation operation.
+
+
+Archive verification: full npm run check102/102 on Node26.11.1 and26.0.0,
+including real package artifacts/external consumers. Strict main specs3/3 and
+whitespace pass. New main7/19; distribution11/28. Exact comparison verifies
+new main normalization, complete modified block, all ten unrelated requirement
+blocks and existing title/Purpose. Moved metadata/proposal/tasks/deltas are
+byte-identical. Plugin/runtime/package/fixture/test directories unchanged.
+Separate complete diff/unchanged-contract audit:125 Markdown files/213 local
+path links/3 same-file anchors/0 errors; path-list SHA256
+`c1466b4663e91d15831114693fd5ab2871dff0bdd261a18f14603e6a68ea27e9`.
+Selected change absent from active list. An optional broader --all strict scan
+finds the existing unfinished #71 change simplify-standard-package-layout has
+no deltas; it is unrelated and not fixed or counted as a passing archive check.
+
+### Independent archive review
+
+Separate fresh-context reviewer examined the complete diff against main82eda95,
+public [#75](https://github.com/antonsmolko/gost-spec/issues/75), PR77 threads/
+summaries and #78/#79 bodies. Prior confirmed dispositions retained. No actionable
+findings; exact normalization/delta, unchanged remaining distribution blocks,
+rebased links, task metadata, historical checkpoints and scope verified.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public #75 completed scope above | Archive/sync completeness review | Complete archive diff / #75 | No actionable findings | Independently compared specifications and moved files, inspected supplied full-suite/link evidence; did not rerun suites/native installation. Public issue status updates follow PR creation |
+
+No new content contract is introduced; existing reviewed delta is synchronized.
+Public issue updates and PR presentation complete delivery preparation, not merge.

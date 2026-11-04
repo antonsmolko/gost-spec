@@ -116,7 +116,7 @@ distribution spec содержала 9 требований / 19 сценари�
 
 ## Разработка functional-core фич — #75
 
-[Change](../../../openspec/changes/add-functional-core-skill/proposal.md) добавляет
+[Change](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/proposal.md) добавляет
 отдельный английский skill/plugin `gost-functional-core` для существующей
 framework-independent FC-композиции. Общий marketplace содержит две entries.
 FC фичи содержит state/action/reducer/test без собственных effect types/effector;
@@ -126,8 +126,8 @@ AppEffector/RootEffector принадлежат отдельной работе 
 plugin 0.2.0 и пять npm-workspaces не меняются. Проверки различают реальный common
 artifact, применение skill в disposable TypeScript consumer и native установку
 в обоих харнесах; metadata success не заменяет бизнес-поведение.
-Прогресс и ограничения — [tasks](../../../openspec/changes/add-functional-core-skill/tasks.md)
-и [evidence](../../../openspec/changes/add-functional-core-skill/design.md#implementation-evidence).
+Прогресс и ограничения — [tasks](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/tasks.md)
+и [evidence](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/design.md#implementation-evidence).
 Presenter, #71/#62/#63, реальный выпуск и asc-admin остаются отдельными outcomes.
 
 
@@ -142,4 +142,9 @@ Progress/evidence — [tasks](../../../openspec/changes/clarify-component-presen
 и [design](../../../openspec/changes/clarify-component-presenter-contract/design.md#implementation-evidence).
 [#79](https://github.com/antonsmolko/gost-spec/issues/79) получает свой skill design
 после согласования этого контракта. ESLint/runtime/package-layout и реальные
-потребители сохраняют самостоятельный scope; archive/sync #75 остаётся pending.
+потребители сохраняют самостоятельный scope; archive/sync #75 выполнен локально, отдельный PR ожидает review/merge.
+
+Архив #75: `2026-11-04-add-functional-core-skill`, 7/7. Основной
+[FC contract](../../../openspec/specs/functional-core-feature-development/spec.md)
+содержит 7 требований/19 сценариев; distribution дополнена shared-marketplace
+сценарием. Runtime/plugin/version и content approval не менялись.

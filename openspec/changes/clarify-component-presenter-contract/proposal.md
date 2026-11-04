@@ -52,3 +52,8 @@ PR #80, main `4b5361a`, и ведётся в
 `feature/gost-spec-78-component-presenter-implementation`, prefix `[gost-spec-78]`.
 #75 реализована, отдельный sync/archive остаётся pending.
 Согласование плана не принимает proposed-текст.
+
+Archive checkpoint 2026-11-04: прежние pending-упоминания #75 описывают этап
+планирования/реализации #78. #75 теперь синхронизирован и перенесён в
+[архив](../archive/2026-11-04-add-functional-core-skill/design.md); доставка архива
+в main ожидает отдельного PR. Sync/archive #78 пока не выполнялся.

@@ -493,3 +493,8 @@ All eight code fences byte-identical to reviewed head; prior two-Node/type/pure/
 Chromium evidence remains applicable without reruns for unchanged code. Separate
 final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
 same path-list hash as task3.1. The extra path link is the Svelte inventory row.
+
+Archive checkpoint 2026-11-04: прежние pending-упоминания #75 описывают этап
+планирования/реализации #78. #75 теперь синхронизирован и перенесён в
+[архив](../archive/2026-11-04-add-functional-core-skill/design.md); доставка архива
+в main ожидает отдельного PR. Sync/archive #78 пока не выполнялся.

@@ -47,7 +47,7 @@ Change перенесён в [архив](../../openspec/changes/archive/2026-11
 
 Functional-core outcome — [#75](https://github.com/antonsmolko/gost-spec/issues/75),
 английский skill `gost-functional-core` для FC-фич: отдельный plugin в общем
-marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/add-functional-core-skill/proposal.md)
+marketplace, независимый от Svelte. [OpenSpec-план](../../openspec/changes/archive/2026-11-04-add-functional-core-skill/proposal.md)
 доставлен в main через PR #76 (`6ea9b31`). Реализация на ветке
 `feature/gost-spec-75-functional-core-implementation`, prefix `[gost-spec-75]`,
 7/7 после уточнения reducer unit tests: отдельный plugin/skill 0.1.0 unreleased, recipe и framework-free fixture.
@@ -57,8 +57,11 @@ Reducer unit tests используют готовые root/feature state factor
 проверяют чистый state/action → state/effects; app integration проверяется отдельно.
 Независимое итоговое review этой правки завершено без actionable findings. Implementation
 [PR #77](https://github.com/antonsmolko/gost-spec/pull/77) вмержен с разрешения
-владельца, main `31930c4`. Change #75 остаётся активным до отдельного sync/archive;
-реализация завершена, issue открыта для этого учёта. Full check — 102/102 на обоих Node;
+владельца, main `31930c4`. Change #75 синхронизирован и перенесён в архив
+`2026-11-04-add-functional-core-skill`: 7/7. Новая основная
+[FC specification](../../openspec/specs/functional-core-feature-development/spec.md)
+содержит 7 требований /19 сценариев; distribution spec дополнена одним сценарием.
+Archive PR ещё ожидает review/merge; issue открыта до доставки архива. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется. Текущий outcome —
@@ -69,11 +72,11 @@ feature/gost-spec-78-component-presenter-implementation, prefix `[gost-spec-78]`
 6/6: proposed frontend-контракт/примеры и совместимость Svelte/FSD обновлены;
 приёмка содержания Pending. Pure и отдельные Chromium probes, полный check
 102/102 на обоих Node и package/link audit пройдены; independent review без findings.
-Реализация представлена в [PR #81](https://github.com/antonsmolko/gost-spec/pull/81);
-merge, content acceptance и sync/archive ещё требуют отдельных решений.
+Реализация вмержена через [PR #81](https://github.com/antonsmolko/gost-spec/pull/81),
+main `82eda95`; content acceptance и sync/archive #78 остаются отдельными решениями.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
-Архивирование #75 не блокирует подготовку плана #78.
+После доставки архива #75 следующий учётный шаг — sync/archive #78; затем план #79.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
