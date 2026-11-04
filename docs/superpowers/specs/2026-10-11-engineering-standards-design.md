@@ -26,8 +26,9 @@ implementation [#54](https://github.com/antonsmolko/gost-spec/issues/54).
 Единственный исходник хранится в `plugins/gost-svelte-shell/skills/`, отдельно
 от пяти документальных workspaces. [Упаковка #55](../../../openspec/changes/archive/2026-11-01-package-state-foundation-plugin/proposal.md)
 добавила один native plugin и каталоги Codex/Claude; версия и changelog плагина
-независимы от npm-пакетов. Поставка обновляется в
-[#70](https://github.com/antonsmolko/gost-spec/issues/70): оба каталога выбирают
+независимы от npm-пакетов. Поставка обновлена в
+[#70](https://github.com/antonsmolko/gost-spec/issues/70), implementation
+[PR #73](https://github.com/antonsmolko/gost-spec/pull/73): оба каталога выбирают
 локальное общее дерево внутри snapshot маркетплейса. Пользователь выбирает один
 release tag `gost-svelte-shell-v<version>` в обоих харнесах; отдельного content SHA
 для новой поставки нет. Тег создаётся на проверенном итоговом main commit после
@@ -38,7 +39,8 @@ merge и отдельного release approval, а не на каждый раб
 identity `gost-svelte-shell`, явная переустановка и условный legacy-возврат Claude
 после восстановления old entry/ID/pin мейнтейнером. Для новых выпусков возврат
 выбирает прежний существующий release tag; первый выпуск не создаёт автоматически
-предыдущий тег. После merged PR #73 основной контракт синхронизирован с #70:
+предыдущий тег. Синхронизацию основного контракта с #70 и архивирование доставляет
+отдельный documentation [PR #74](https://github.com/antonsmolko/gost-spec/pull/74):
 11 требований / 27 сценариев; план и evidence сохранены в
 [архиве](../../../openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/proposal.md).
 Первоначальная основа подключения сохраняется.

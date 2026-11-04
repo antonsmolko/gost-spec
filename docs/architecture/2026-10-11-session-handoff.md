@@ -19,10 +19,12 @@ Archive/spec sync #55 доставлен в main через
 доставлено в main через [PR #67](https://github.com/antonsmolko/gost-spec/pull/67),
 а pin history восстановлена штатным merge
 [PR #68](https://github.com/antonsmolko/gost-spec/pull/68), commit `f7e38b1`.
-P2f567ab5 — ancestor main; отдельный main-only checkout проходит full check 72/72.
+`f567ab5` сохранён в истории main; при исторической проверке main-only checkout
+после PR #68 полный check прошёл 72/72. Это результат того этапа, не текущий размер suite.
 Повторно восстанавливать историю или считать pin утраченным не требуется.
-Change архивирован с sync основной distribution spec: 9 требований / 19 сценариев;
-план и evidence — [архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
+Rename change #64 архивирован с sync основной distribution spec: на том этапе
+9 требований / 19 сценариев; план и evidence —
+[архив rename](../../openspec/changes/archive/2026-11-03-rename-svelte-shell-plugin/design.md).
 Archive/spec sync доставлен в main через
 [PR #69](https://github.com/antonsmolko/gost-spec/pull/69), commit `57c70bd`;
 runtime/plugin и source.sha этим documentation outcome не менялись.

@@ -561,14 +561,16 @@ PR #73 выше. Tracking и source-linked ответы в threads заверш�
 Согласование sync/archive — private input, not a public basis; публичное основание
 scope — завершённый change #70 и merged implementation PR #73.
 
-Все четыре артефакта имеют status done, CLI подтверждает 9/9 задач. Единственная
-дельта `state-foundation-plugin-distribution` синхронизирована: четыре MODIFIED
+При исходном архивировании все четыре артефакта имели status done, CLI подтвердил
+9/9 задач. В исходном sync `ae41a75` единственная дельта
+`state-foundation-plugin-distribution` синхронизирована: четыре MODIFIED
 и три ADDED блока перенесены полностью, `Claude catalog pins the plugin source`
 удалён. Основная спецификация теперь содержит 11 требований / 27 сценариев;
 title/Purpose и четыре не затронутых requirement blocks сохранены. Все старые
 scenario names обновляемых требований присутствуют в дельте; их удаления нет.
-После sync дельта ничего дополнительно не применяет, operation headers в main
-spec отсутствуют. Исходная fc/shell spec не меняется.
+После исходного sync дельта ничего дополнительно не применяла, operation headers
+в main spec отсутствуют. Последующее уточнение legacy scope из review PR #74
+описано ниже; оригинальная дельта сохраняется как история. Исходная fc/shell spec не меняется.
 
 Change перенесён в `openspec/changes/archive/2026-11-04-simplify-plugin-release-versioning/`.
 Исходные `.openspec.yaml`, proposal, tasks и delta сохранены byte-for-byte;
@@ -589,8 +591,8 @@ Skills остаются на английском. Следующие functional
 
 ### Archive verification
 
-Проверки scope: title/Purpose и четыре untouched blocks равны исходному main;
-все семь transferred blocks равны дельте; removed block отсутствует, 9/9 tasks
+Проверки исходного sync `ae41a75`: title/Purpose и четыре untouched blocks равны
+исходному main; все семь transferred blocks равны дельте; removed block отсутствует, 9/9 tasks
 и original metadata сохранены. Incoming links и полный documentation diff
 проверены отдельно от runtime suite. Strict main-spec validation — 2/2,
 whitespace проходит. Свежий полный `npm run check` — 90/90 на Node 26.0.0 и
@@ -608,3 +610,78 @@ input, not a public basis; actionable scope — public #70 и merged PR #73.
 Обновление GitHub tracking и создание archive PR выполняются после commit/push;
 данное review не подтверждает их доставку. Авторизация archive не означает merge
 этого documentation PR, публикацию или применение skill к приложению.
+
+## PR #74 review follow-up — 2026-11-04
+
+Прочитаны все страницы inline comments, summary reviews и PR comments
+[PR #74](https://github.com/antonsmolko/gost-spec/pull/74): два inline findings,
+два reviews без summary text и один PR comment с ещё тремя findings. Reviewer
+подтвердил исходные block/artifact/link/runtime проверки `ae41a75`; они остаются
+evidence того snapshot. Закрытые PR72/PR73 dispositions не переоткрываются.
+
+### PR74-R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/74#discussion_r4465221372) | В main spec неявно разграничены legacy rollback и gate новой релизной поставки | main distribution spec, archive ledger, #70 | Clarified | Сценарий возврата явно требует отдельный исторический snapshot и проверку его процессом. Текущий checker продолжает отклонять legacy git-subdir; успешная его проверка не является условием исторического возврата, а legacy-каталог не объявляется новой поставкой и не меняет текущий snapshot |
+
+Это уточнение уже описанного scope в Migration Plan/README, а не новый installer,
+validator mode или ослабление containment. Runtime/checker/каталоги не меняются.
+В main добавлены только две AND-строки существующего legacy-сценария. Счётчики
+остаются 11 требований / 27 сценариев. Оригинальная архивная delta не переписана:
+шесть transferred blocks по-прежнему равны ей; седьмой (`Explicit migration
+between plugin identities`) дополнен указанным clarification в этом review.
+Title/Purpose и четыре untouched blocks сохранены. Утверждение о равенстве всех
+семи блоков выше теперь явно относится к исходному sync `ae41a75`.
+
+### PR74-R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR review, finding 2](https://github.com/antonsmolko/gost-spec/pull/74#issuecomment-6626085937) | Roadmap смешивает нынешние 11/27 и 9/19 этапа #64 | implementation roadmap | Fixed | 9/19 явно обозначены историческим snapshot архивирования #64, а текущее состояние после #70/PR #74 — 11/27 |
+
+### PR74-R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/74#discussion_r4465224648) | Формулировка после merged PR #73 неоднозначно атрибутирует sync | product design | Clarified | Implementation явно связан с PR #73; синхронизация основной spec и архивирование явно связаны с отдельным documentation PR #74 |
+
+### PR74-R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR review, finding 4](https://github.com/antonsmolko/gost-spec/pull/74#issuecomment-6626085937) | Product design описывает завершённую поставку как обновляющуюся | product design | Fixed | «Поставка обновлена в #70», с прямой ссылкой на implementation PR #73; архивный scope и границы выпуска сохранены |
+
+### PR74-R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR review, finding 5](https://github.com/antonsmolko/gost-spec/pull/74#issuecomment-6626085937) | В live handoff результат 72/72 читается как текущий | session handoff | Fixed | Проверка main-only 72/72 отнесена к историческому этапу PR #68; 9/19 явно относятся к rename #64. Актуальный implementation suite остаётся 90/90 в блоке #70 |
+
+### GitHub issue edits for this round
+
+#70 и PR #74 дополняются source-linked dispositions R1–R5 и явным описанием
+review clarification поверх исходного byte-exact sync. Оригинальные artifacts,
+9/9 tasks, 11/27 counts, зависимости и criteria/gates сохраняются. Публичные
+счётчики и атрибуция исправляются без изменения implementation PR #73 или
+создания release/tag/consumer изменений. Исторические snapshots не выдаются
+за новые native проверки.
+
+### Verification for this round
+
+Strict main specs — 2/2, whitespace проходит. Свежий полный `npm run check` —
+90/90 на Node 26.0.0 и 26.11.1, включая packed artifacts/external consumers.
+Отдельный tracked-tree audit: 109 Markdown, 175 path links + 2 same-file anchors,
+0 errors; path-list SHA256 `33f344a41d4cc1e97c8b1c97fac7fcdf6754b6e350070657b958610c35ce95e8`.
+Шесть delta blocks равны оригиналу; седьмой отличается ровно двумя AND-строками,
+title/Purpose и четыре untouched blocks сохранены. Четыре исходных архивных
+артефакта и префикс original design равны базе; metadata/tasks не переписаны.
+
+Независимое fresh-context whole-result review девяти файлов — без actionable
+findings. Reviewer подтвердил R1–R5 и отсутствие bypass текущего gate, прочитал
+все public PR74 sources и #70/#71/#62/#63, сверил merged PR72/PR73. Самостоятельно
+выполнил strict/whitespace/link checks, block/artifact comparison и full check
+90/90 на Node 26.11.1. Node 26.0.0 и native CLI он не повторял. Review — private
+input, not a public basis; actionable sources — public findings выше.
+Обновление public tracking и replies выполняется после push; их доставку это
+review не подтверждает. Runtime не менялся, новых release/consumer действий нет.

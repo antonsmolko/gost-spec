@@ -107,5 +107,8 @@ Criteria и closure #54, пять npm-версий и gates #20/#26 не рас�
 Старые установки переходят явно через uninstall/install; авто-rename не обещается.
 Content P2f567ab5 восстановлен в main ancestry через repair68; tree match сохранён.
 Это отдельный outcome от archive #55, refactor #62 и relocation #63; их критерии
-и release/content gates сохраняются. Основная distribution spec синхронизирована:
-9 требований/19 сценариев; progress/evidence находятся в архиве change.
+и release/content gates сохраняются. На этапе архивирования #64 основная
+distribution spec содержала 9 требований / 19 сценариев; это исторический снимок.
+Текущее состояние после синхронизации #70 в
+[PR #74](https://github.com/antonsmolko/gost-spec/pull/74) — 11 требований /
+27 сценариев. Progress/evidence #64 находятся в архиве его change.
