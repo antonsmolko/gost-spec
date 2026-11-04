@@ -63,6 +63,20 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 весь snapshot маркетплейса. Пять npm-workspaces и approval gates сохраняются.
 План и implementation evidence — [change #75](../../../openspec/changes/add-functional-core-skill/design.md).
 
+## Контракт компонентов и presenters — #78
+
+[Proposed-редакция](../../../openspec/changes/clarify-component-presenter-contract/proposal.md)
+уточняет FRONTEND-ARCH-001/002: logical UI-state принадлежит FC, pure presenters
+готовят представление, component отображает готовые значения/boolean и передаёт
+логическое намерение. Read-only selection/presenter calls и browser plumbing
+сохраняются; focus-only handler может не отправлять action. Validation остаётся
+на application boundary; presenter не становится validator или mutable store.
+Svelte/FSD документы поясняют сочетание отдельно выбранных политик. Proposed,
+Pending и gates #20/#26 сохраняются. Это документы и synthetic examples, не
+runtime/линтер/skill. [#79](https://github.com/antonsmolko/gost-spec/issues/79)
+использует согласованный контракт после отдельного review/дизайна; точная поставка
+не предрешена. Evidence/ограничения — [design #78](../../../openspec/changes/clarify-component-presenter-contract/design.md#implementation-evidence).
+
 ## Уровни требований
 
 | Область | Ответственность | Пакет |
