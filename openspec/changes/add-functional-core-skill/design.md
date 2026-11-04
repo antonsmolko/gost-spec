@@ -124,7 +124,7 @@ Missing/duplicate/unknown catalog identity, source redirect, несовпаде�
 
 ### Behavioral evaluation and fixtures
 
-Один `fixtures/functional-core-feature/` — plain TypeScript consumer с заданной
+Один `fixtures/functional-core-feature-development/` — plain TypeScript consumer с заданной
 root composition, fake imperative dependency и соседним состоянием. Только
 публичные imports реального packed common artifact из disposable gost-kit copy,
 никаких source-path/workspace imports. Svelte/browser для этих проверок не нужны.
@@ -188,6 +188,30 @@ Reviewer не запускал full runtime suite, consumer или native уст
 | --- | --- | --- | --- | --- |
 | Independent review: private input, not a public basis; actionable scope [#75](https://github.com/antonsmolko/gost-spec/issues/75) | Полнота и согласованность плана | 7 planning/handoff files | Reviewed, no actionable findings | Contracts/API/boundaries и verification tasks согласованы; ограничения review перечислены выше |
 
+### PR 76 review round 1
+
+Прочитаны все страницы reviews, inline threads и PR comments, а также #75 и её
+comments: 1 review с пустым body, 1 inline finding, 1 summary, 0 issue comments.
+Предыдущие review-confirmed результаты сохранены; новых контрактов или gates нет.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [R1 inline](https://github.com/antonsmolko/gost-spec/pull/76#discussion_r4466115621) | Имя fixture сокращено относительно capability | design.md, будущий fixture path | Fixed | План использует `fixtures/functional-core-feature-development/`, соответствующий capability `functional-core-feature-development`; старый путь нигде более не использовался, fixture ещё не создана |
+| [Review summary](https://github.com/antonsmolko/gost-spec/pull/76#issuecomment-6627876009), [review](https://github.com/antonsmolko/gost-spec/pull/76#pullrequestreview-5766530518) | Blocking findings отсутствуют; единственное замечание — R1 | Все 7 planning/handoff files | Recorded; R1 fixed | Независимый reviewer воспроизвёл strict validation, counters, links/audit и API/source checks; замечание о локальном untracked directory не относится к PR и не требует изменения |
+
+Это correction имени в плане, без изменения поведения, требований, acceptance
+criteria или task count (0/7). По AGENTS.md § Review handling 6 wording-only
+исправление не требует ещё одного independent review. Исходный полный независимый
+review и его ограничения остаются выше; runtime/plugin/fixture не создаются.
+
+После R1 повторно проверены полный diff PR и остальные artifacts/публичные criteria
+#75: других ссылок на прежний fixture path и конфликтующих требований нет.
+Strict change и обе main specs проходят; `git diff --check` чистый. Свежий
+`npm run check` — 90/90 на Node 26.11.1, включая packed artifacts/external
+consumers. Отдельный Git-tree link audit снова дал 114 Markdown, 180 path links
++ 2 same-file anchors и 0 errors; path-list hash прежний. Это проверки текущего
+репозитория, а не ещё отсутствующего skill. Новых runtime tests для имени пути нет.
+
 ### GitHub issue edits
 
 #75 фиксирует отдельный plugin, outcome и acceptance criteria. Статус дополняется
@@ -195,3 +219,6 @@ Reviewer не запускал full runtime suite, consumer или native уст
 #70 закрыта merge PR #74; публичные записи #70/PR #74 обновлены фактом merge
 `82f9d7c`, без изменения прежних criteria или release gates. Никакие runtime,
 каталоги, версии, пакеты или consumer source текущим планом не менялись.
+PR #76 review R1 меняет только имя будущей fixture; criteria и статус #75 (0/7)
+сохранены. В #75/PR #76 добавляются ссылки на этот ledger и review-fix commit;
+изменения outcome, dependencies или approval gates не потребовались.
