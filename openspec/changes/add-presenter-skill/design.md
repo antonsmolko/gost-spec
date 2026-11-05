@@ -4,8 +4,8 @@
 
 [Задача #79](https://github.com/antonsmolko/gost-spec/issues/79) — skill разработки
 presenters. Назначение описано в [proposal](proposal.md), поведение — в
-[spec](specs/component-presentation-development/spec.md). Подготовлен план,
-реализация 0/6. База — main `f0a936c36458225dd58a896e7f5f6257dcf99821`.
+[spec](specs/component-presentation-development/spec.md). План вмержен PR84,
+реализация 5/6 на базе main `2add3a850768fd4c559c3751a72890ab09594046`.
 
 В репозитории уже есть два плагина, общий маркетплейс Codex/Claude и проверка
 поставки. Для нового skill достаточно добавить ещё одну запись и сохранить
@@ -169,7 +169,7 @@ Merge, принятие нормативного содержания, archive �
 
 Публичный scope — [#79](https://github.com/antonsmolko/gost-spec/issues/79),
 план — [PR #84](https://github.com/antonsmolko/gost-spec/pull/84). #75/#78 завершены
-и закрыты. Все четыре artifacts готовы; реализация 0/6.
+и закрыты. Все четыре artifacts готовы; текущая реализация 5/6.
 
 ### GitHub issue edits
 
@@ -307,3 +307,90 @@ contracts/current #79 criteria reviewed for conflicts. Existing independent
 editorial review retained; this review round restores explicit wording for
 already-agreed boundaries and updates status/links, not scope or gates. Runtime,
 plugin/package/fixture/main-spec files unchanged, implementation0/6.
+
+## Implementation evidence
+
+Owner authorized merge/apply; PR84 merged main2add3a8. Branch
+feature/gost-spec-79-view-presenter-implementation, prefix[gost-spec-79].
+Earlier planning/review verification above is historical. Tasks1.1–2.2 complete5/6;
+final full-result review/implementation PR remains task3.1.
+
+- Pure RED: module absent, test fails ERR_MODULE_NOT_FOUND. GREEN:10 ordinary
+  tests cover seven static status/list variants, nullable/blank labels, explicit
+  context, frozen inputs, composition and determinism. Reference has six complete
+  blocks byte-identical to fixture; tests colocated with presenter. Svelte checks
+  report0 errors/warnings, production build succeeds; all four components checked
+  with upstream MCP autofixer without issues/suggestions.
+- Client: two Chromium probes run both extracted/original components through
+  idle/loading/empty/rows/changed rows/error/null-error and Refresh/Activate.
+  A disposable one-time-snapshot mutation fails the same reactive probe;
+  occupied-port probe confirms rejection before tests (reuseExistingServer:false).
+- Baseline agent without skill succeeded (13 tests, types/build,2 browser cases);
+  not reported as an agent failure. Separate skill-assisted agent read installed
+  Codex skill and verified source f0a936c, produced actual code in disposable
+  consumer:12 tests, types/build,2 browser cases. Separate label-update copy passes
+  live context change and3 browser cases; repeat keeps source hashes unchanged,
+  ready-only component preserved. Missing-date/context/source case records an
+  actual incomplete response;13 source hashes unchanged, no timezone/default
+  invented. This constrained case verifies missing-input handling, not new date logic.
+- Distribution RED: absent third manifest and checker accepts missing third tree;
+  after one descriptor/local entries,56 tests pass including missing/mismatched/
+  duplicated presenter and cross-plugin links. Diagnostics assertions were aligned
+  to existing wording, no diagnostic contract changed. Old plugins and npm trees
+  unchanged. Skill format validator passes in temporary PyYAML environment.
+- Native: Codex0.166.0 / Claude2.1.308, fresh temporary CODEX_HOME/CLAUDE_CONFIG_DIR,
+  no credential copies or config resets. Final disposable snapshot43e30033a04ae8c3bb92d148ac054d02df7ebf5e,
+  fixture tag gost-view-presenter-v0.1.0, full smart-HTTP Git URL
+  http://127.0.0.1:4193/cgi-bin/git/final.git. Both README command forms install
+  presenter alone/repeat, then shell/FC alongside. New Codex app-server
+  initialize→skills/list(forceReload) discovers one presenter alone and three
+  native plugin skills together; config hash unchanged across discovery. Claude
+  fresh plugin details reports exactly one presenter skill alone/together;
+  inventory confirms0.1.0. All8 files of all3 plugins match source in both
+  profiles; personal config/registry and synthetic-app fingerprints unchanged.
+  Initial dumb-HTTP source cannot support Claude shallow clone; corrected to
+  standard git-http-backend CGI in disposable environment. Unsupported details
+  --json flag was removed per CLI help. These setup failures are not readiness
+  evidence. No public-host install, model invocation, real release/tag or app
+  migration is claimed; reference/installed files and generated code are separate.
+
+Evaluation requests/commands/results and before/after source checks are retained
+in disposable artifacts under /tmp/gost79-apply (not distributed/private input,
+not a public basis). Public actionable scope remains #79 and this committed
+synthetic fixture/reference. No code-text regex quality tests or new lint rules.
+
+### Implementation GitHub issue edits
+
+#79 current status links implementation progress/evidence and eventual PR;
+criteria retain pure presenter scope, concrete examples and separate approvals.
+PR84 records actual merge. Handoff/product overview/roadmap/root README expose
+the third skill; published plugin README contains consumer usage and verification
+limits, not internal issue/review tracking. #75/#78 remain closed; #79 stays open
+for review and later separately requested sync/archive.
+
+Final integration audit before independent review: full114/114 on both Node26.0.0
+and26.11.1; strict change/all four main specs and whitespace pass. All five
+actual document tarballs inspected (11/6/5/9/5 entries, Markdown exact and no
+internal directories). Full36-file diff and relevant unchanged standards/issue
+contracts inspected separately from tests. Markdown135/239 path links/3 anchors/
+0 errors; path-list SHA25617abdbeea72cf3063ab081afd4b4b02a87018972bd78eef9fa076acab2ea7d37
+(method as initial verification: sorted tracked .md paths with LF). Existing
+plugins/npm files and main specs unchanged. #79 current progress5/6 and PR84
+actual merge updated publicly; implementation PR/review is the remaining task.
+
+### Independent implementation review
+
+Fresh-context reviewer inspected the complete36-file result, specs/tasks, current
+public #79/PR84 and retained R1–R7 closures. No actionable findings. Independently
+ran full114/114 Node26.11.1, distribution56/56, strict change/four main specs and
+whitespace; copied fixture externally and reproduced pure10, types0warnings,
+build/browser2, four clean MCP checks and six exact reference blocks. Native
+profiles/install/byte/fingerprint evidence and lower-Node log inspected rather
+than fully rerun; no public release/app migration claim.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); actionable public [#79](https://github.com/antonsmolko/gost-spec/issues/79) | Complete implementation/contract consistency | All36 implementation files | No actionable findings | Independent reruns and limits above; current issue status rechecked |
+
+Implementation PR presentation completes task3.1; its merge, later sync/archive,
+normative acceptance and release retain separate owner decisions.

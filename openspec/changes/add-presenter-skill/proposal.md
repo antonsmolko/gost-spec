@@ -37,4 +37,6 @@ Presenter выносит логику подготовки данных для �
 Задача — [#79](https://github.com/antonsmolko/gost-spec/issues/79), база — main
 `f0a936c36458225dd58a896e7f5f6257dcf99821`. Ветка плана —
 `feature/gost-spec-79-presenter-skill-plan`, префикс `[gost-spec-79]`.
-Подготовлен только план: реализация 0/6.
+План доставлен PR84/main `2add3a8`; по запросу владельца начата реализация
+на `feature/gost-spec-79-view-presenter-implementation`, префикс `[gost-spec-79]`.
+Текущий прогресс и проверки — в tasks/design.

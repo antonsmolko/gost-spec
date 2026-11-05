@@ -6,6 +6,7 @@ import { marked } from "marked";
 const distributions = [
   { name: "gost-svelte-shell", reference: "foundation.md" },
   { name: "gost-functional-core", reference: "functional-core.md" },
+  { name: "gost-view-presenter", reference: "view-presenter.md" },
 ] as const;
 // SemVer 2.0.0: numeric prerelease identifiers may not have leading zeroes.
 const number = "(?:0|[1-9]\\d*)";

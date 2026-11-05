@@ -86,11 +86,15 @@ main `f0a936c`; #78 закрыта после проверки доставки.
 Content acceptance и release остаются отдельными решениями.
 Текущий outcome — план [#79](https://github.com/antonsmolko/gost-spec/issues/79),
 [add-presenter-skill](../../openspec/changes/add-presenter-skill/proposal.md),
-ветка `feature/gost-spec-79-presenter-skill-plan`, prefix `[gost-spec-79]`.
+План доставлен PR84/main `2add3a8`. Ветка реализации
+`feature/gost-spec-79-view-presenter-implementation`, prefix `[gost-spec-79]`.
 Выбран отдельный plugin `gost-view-presenter` 0.1.0 unreleased. Presenter выносит
 логику подготовки данных для отображения в чистые функции с unit-тестами.
-Reference содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5
-проверку. План 0/6; после его review/approval — отдельный apply.
+[Reference](../../plugins/gost-view-presenter/skills/gost-view-presenter/references/view-presenter.md)
+содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5 проверку.
+Реализация 5/6: skill/пример и третья поставка готовы, native loopback проверен
+в Codex/Claude. Full check114/114 на обоих Node; итоговое review ещё выполняется.
+Реальные release/tag и применение к asc-admin остаются отдельными.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
