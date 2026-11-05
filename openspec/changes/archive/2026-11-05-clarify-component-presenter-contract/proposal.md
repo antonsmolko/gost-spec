@@ -53,7 +53,9 @@ PR #80, main `4b5361a`, и ведётся в
 #75 реализована; sync/archive выполнен в PR #82, статус доставки проверяется по PR.
 Согласование плана не принимает proposed-текст.
 
-Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
-[архив](../archive/2026-11-04-add-functional-core-skill/design.md) через
+Historical pre-archive checkpoint 2026-11-05 (superseded later that day by
+sync/archive #78 in PR #83): #75 синхронизирован и перенесён в
+[архив](../2026-11-04-add-functional-core-skill/design.md) через
 [PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
-доставки проверяется по PR. Sync/archive #78 пока не выполнялся.
+доставки проверяется по PR. На момент этого исторического checkpoint
+sync/archive #78 ещё не выполнялся; текущая операция описана в archive evidence.
