@@ -76,8 +76,8 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 Svelte/FSD документы поясняют сочетание отдельно выбранных политик. Proposed,
 Pending и gates #20/#26 сохраняются. Это документы и synthetic examples, не
 runtime/линтер/skill. [#79](https://github.com/antonsmolko/gost-spec/issues/79)
-использует согласованный контракт после отдельного review/дизайна; точная поставка
-не предрешена. Evidence/ограничения — [design #78](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
+описывает применение этих рекомендаций к чистым функциям подготовки представления;
+выбран отдельный plugin gost-view-presenter 0.1.0 unreleased. Evidence/ограничения — [design #78](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
 
 ## Уровни требований
 
@@ -127,6 +127,14 @@ Private root не имеет release-версии. Пакеты независи
 После реализации PR81 (main82eda95) выполнен запрошенный sync/archive #78:
 [основная spec](../../../openspec/specs/frontend-component-presentation/spec.md)
 содержит7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
-сохраняет planning/review/evidence. Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется
-в GitHub. Нормативные документы остаются proposed/Pending.
+сохраняет planning/review/evidence. Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), main `f0a936c`; #78 закрыта. Нормативные документы остаются proposed/Pending.
 #79 получает отдельный план; archive не создаёт skill или release.
+
+## Pure view presenter skill — #79
+
+[План](../../../openspec/changes/add-presenter-skill/proposal.md) описывает перенос
+логики подготовки данных для отображения в чистые функции, их композицию,
+unit-тесты и использование результатов компонентом. Reference содержит полный
+пример, отдельная Svelte5 fixture проверяет обновление отображения.
+Skill поставляется как `gost-view-presenter` в общем маркетплейсе; English content,
+версия 0.1.0 unreleased. Подготовлен план, реализация 0/6.

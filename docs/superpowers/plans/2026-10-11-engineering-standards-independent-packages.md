@@ -159,5 +159,17 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 [контракт](../../../openspec/specs/frontend-component-presentation/spec.md)
 сохраняет Purpose и все7 требований/15 сценариев из reviewed delta.
 Это документационный outcome; proposed/Pending, plugin/runtime и пять версий
-не меняются. Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется в GitHub.
+не меняются. Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), main `f0a936c`; #78 закрыта.
 #75 уже доставлен PR82/main d4ea4ac и закрыт; далее план #79 без реализации skill.
+
+## Pure view presenter skill — #79
+
+[План add-presenter-skill](../../../openspec/changes/add-presenter-skill/proposal.md)
+описывает skill выделения и изменения чистых функций подготовки представления.
+Компонент отображает готовые результаты; unit-тесты проверяют вычисления.
+Полный пример будет в reference плагина, рабочая Svelte5 проверка — в
+`fixtures/view-presenter/`. Выбран отдельный `gost-view-presenter` 0.1.0 unreleased
+в marketplace gost. Поставка и поведение skill проверяются отдельно.
+[Design](../../../openspec/changes/add-presenter-skill/design.md),
+[tasks](../../../openspec/changes/add-presenter-skill/tasks.md), реализация 0/6.
+#78 archive доставлен PR83/main f0a936c. После review плана — отдельный apply.

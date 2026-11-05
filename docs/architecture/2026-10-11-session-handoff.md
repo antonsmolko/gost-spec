@@ -81,11 +81,16 @@ main `82eda95`. По запросу владельца #78 синхронизи�
 `2026-11-05-clarify-component-presenter-contract`, 6/6. Основной
 [контракт компонентов](../../openspec/specs/frontend-component-presentation/spec.md)
 содержит 7 требований/15 сценариев; остальные main specs не менялись.
-Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется в GitHub.
+Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83),
+main `f0a936c`; #78 закрыта после проверки доставки.
 Content acceptance и release остаются отдельными решениями.
-Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
-согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
-Следующий outcome — OpenSpec-план skill #79; реализация skill пока не начата.
+Текущий outcome — план [#79](https://github.com/antonsmolko/gost-spec/issues/79),
+[add-presenter-skill](../../openspec/changes/add-presenter-skill/proposal.md),
+ветка `feature/gost-spec-79-presenter-skill-plan`, prefix `[gost-spec-79]`.
+Выбран отдельный plugin `gost-view-presenter` 0.1.0 unreleased. Presenter выносит
+логику подготовки данных для отображения в чистые функции с unit-тестами.
+Reference содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5
+проверку. План 0/6; после его review/approval — отдельный apply.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),
