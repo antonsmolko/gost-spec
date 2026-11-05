@@ -213,3 +213,8 @@ source/events, pinned external rules, independent delivery/evaluation gates and
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis); actionable public [#79](https://github.com/antonsmolko/gost-spec/issues/79) | Complete planning result against corrected pure scope | All eight planning/tracking files | No actionable findings | Fresh-context contract/criteria/dependency review above; author verification separate, implementation not performed |
+
+Planning outcome presented in [PR84](https://github.com/antonsmolko/gost-spec/pull/84).
+#79 current title/criteria record pure FC-independent scope and chosen identity;
+its planning checkpoint links this complete committed design/review record.
+All artifacts complete, implementation0/6. No apply/skill/runtime/merge/release.
