@@ -159,5 +159,5 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 [контракт](../../../openspec/specs/frontend-component-presentation/spec.md)
 сохраняет Purpose и все7 требований/15 сценариев из reviewed delta.
 Это документационный outcome; proposed/Pending, plugin/runtime и пять версий
-не меняются. Доставка архива идёт отдельным PR со статусом в GitHub.
+не меняются. Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется в GitHub.
 #75 уже доставлен PR82/main d4ea4ac и закрыт; далее план #79 без реализации skill.

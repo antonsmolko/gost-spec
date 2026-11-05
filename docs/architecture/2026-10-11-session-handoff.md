@@ -81,7 +81,7 @@ main `82eda95`. По запросу владельца #78 синхронизи�
 `2026-11-05-clarify-component-presenter-contract`, 6/6. Основной
 [контракт компонентов](../../openspec/specs/frontend-component-presentation/spec.md)
 содержит 7 требований/15 сценариев; остальные main specs не менялись.
-Доставка архива выполняется отдельным PR, статус проверяется в GitHub.
+Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется в GitHub.
 Content acceptance и release остаются отдельными решениями.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.

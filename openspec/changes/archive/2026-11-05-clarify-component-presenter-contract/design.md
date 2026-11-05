@@ -571,3 +571,8 @@ browser checks not rerun. Public issue updates follow actual PR creation.
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis); public [#78](https://github.com/antonsmolko/gost-spec/issues/78) completed scope | Complete sync/archive result | Full archive diff / #78 | No actionable findings | Independent exact-transfer and cross-document review above; supplied suite/link evidence inspected with stated limits |
+
+Archive presented in [PR83](https://github.com/antonsmolko/gost-spec/pull/83).
+#78/#79 public current checkpoints updated with its URL/evidence and separate
+merge/closure procedure. Both issues remain open; #79 unimplemented. Current
+handoff/roadmap/product overview link PR83 without predicting its merge state.

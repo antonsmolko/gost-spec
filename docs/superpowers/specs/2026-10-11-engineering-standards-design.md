@@ -127,6 +127,6 @@ Private root не имеет release-версии. Пакеты независи
 После реализации PR81 (main82eda95) выполнен запрошенный sync/archive #78:
 [основная spec](../../../openspec/specs/frontend-component-presentation/spec.md)
 содержит7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
-сохраняет planning/review/evidence. Доставка архива — отдельный PR со статусом
+сохраняет planning/review/evidence. Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется
 в GitHub. Нормативные документы остаются proposed/Pending.
 #79 получает отдельный план; archive не создаёт skill или release.
