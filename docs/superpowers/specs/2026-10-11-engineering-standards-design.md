@@ -138,5 +138,5 @@ unit-тесты и использование результатов компо�
 пример, отдельная Svelte5 fixture проверяет обновление отображения.
 [Skill](../../../plugins/gost-view-presenter/skills/gost-view-presenter/SKILL.md)
 поставляется как `gost-view-presenter` в общем маркетплейсе; English content,
-версия 0.1.0 unreleased. План доставлен PR84, реализация 5/6; проверки и границы
+версия 0.1.0 unreleased. План доставлен PR84, реализация 6/6; проверки и границы
 записаны в [evidence](../../../openspec/changes/add-presenter-skill/design.md#implementation-evidence).

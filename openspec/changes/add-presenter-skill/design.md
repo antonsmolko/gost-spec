@@ -5,7 +5,7 @@
 [Задача #79](https://github.com/antonsmolko/gost-spec/issues/79) — skill разработки
 presenters. Назначение описано в [proposal](proposal.md), поведение — в
 [spec](specs/component-presentation-development/spec.md). План вмержен PR84,
-реализация 5/6 на базе main `2add3a850768fd4c559c3751a72890ab09594046`.
+реализация 6/6 на базе main `2add3a850768fd4c559c3751a72890ab09594046`.
 
 В репозитории уже есть два плагина, общий маркетплейс Codex/Claude и проверка
 поставки. Для нового skill достаточно добавить ещё одну запись и сохранить
@@ -169,7 +169,7 @@ Merge, принятие нормативного содержания, archive �
 
 Публичный scope — [#79](https://github.com/antonsmolko/gost-spec/issues/79),
 план — [PR #84](https://github.com/antonsmolko/gost-spec/pull/84). #75/#78 завершены
-и закрыты. Все четыре artifacts готовы; текущая реализация 5/6.
+и закрыты. Все четыре artifacts готовы; текущая реализация 6/6.
 
 ### GitHub issue edits
 
@@ -312,8 +312,7 @@ plugin/package/fixture/main-spec files unchanged, implementation0/6.
 
 Owner authorized merge/apply; PR84 merged main2add3a8. Branch
 feature/gost-spec-79-view-presenter-implementation, prefix[gost-spec-79].
-Earlier planning/review verification above is historical. Tasks1.1–2.2 complete5/6;
-final full-result review/implementation PR remains task3.1.
+Earlier planning/review verification above is historical. All6/6 tasks complete after independent review and presentation in PR85.
 
 - Pure RED: module absent, test fails ERR_MODULE_NOT_FOUND. GREEN:10 ordinary
   tests cover seven static status/list variants, nullable/blank labels, explicit
@@ -394,3 +393,9 @@ than fully rerun; no public release/app migration claim.
 
 Implementation PR presentation completes task3.1; its merge, later sync/archive,
 normative acceptance and release retain separate owner decisions.
+
+
+Implementation presented in [PR85](https://github.com/antonsmolko/gost-spec/pull/85),
+all6/6 tasks complete. #79 and PR85 current status/pinned evidence point to this
+complete revision. Issue remains open for review/later sync/archive; merge and
+release still separate. Final status update changes no code or contract.

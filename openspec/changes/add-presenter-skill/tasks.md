@@ -1,6 +1,6 @@
 # Tasks
 
-План #79, реализация 5/6. [Design](design.md) описывает решение и примеры,
+План #79, реализация 6/6. [Design](design.md) описывает решение и примеры,
 [spec](specs/component-presentation-development/spec.md) — поведение.
 Skill, reference и публичный README пишутся на английском.
 
@@ -17,7 +17,7 @@ Skill, reference и публичный README пишутся на английс
 
 ## 3. Итоговая проверка
 
-- [ ] 3.1 Выполнить full npm run check на обоих Node с real packs/external consumers, strict change/main specs и whitespace. Отдельно проверить полный diff, согласованность с #79 и существующими контрактами, ссылки/якоря. Обновить handoff, обзор продукта, roadmap, #79 и evidence. Провести независимое review полного результата, закрыть findings с ledger/replies и представить один implementation PR. Сохранить proposed/Pending и отдельные решения о merge/выпуске.
+- [x] 3.1 Выполнить full npm run check на обоих Node с real packs/external consumers, strict change/main specs и whitespace. Отдельно проверить полный diff, согласованность с #79 и существующими контрактами, ссылки/якоря. Обновить handoff, обзор продукта, roadmap, #79 и evidence. Провести независимое review полного результата, закрыть findings с ledger/replies и представить один implementation PR. Сохранить proposed/Pending и отдельные решения о merge/выпуске.
 
 ## Workflow follow-up
 
