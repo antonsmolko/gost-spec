@@ -76,8 +76,8 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 Svelte/FSD документы поясняют сочетание отдельно выбранных политик. Proposed,
 Pending и gates #20/#26 сохраняются. Это документы и synthetic examples, не
 runtime/линтер/skill. [#79](https://github.com/antonsmolko/gost-spec/issues/79)
-использует согласованный контракт после отдельного review/дизайна; точная поставка
-не предрешена. Evidence/ограничения — [design #78](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
+использует pure/rendering части после отдельного review/дизайна, не требует FC;
+выбран отдельный plugin gost-view-presenter 0.1.0 unreleased. Evidence/ограничения — [design #78](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
 
 ## Уровни требований
 
@@ -130,3 +130,15 @@ Private root не имеет release-версии. Пакеты независи
 сохраняет planning/review/evidence. Доставка архива — [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), статус проверяется
 в GitHub. Нормативные документы остаются proposed/Pending.
 #79 получает отдельный план; archive не создаёт skill или release.
+
+## Pure view presenter skill — #79
+
+[Новый план](../../../openspec/changes/add-presenter-skill/proposal.md) описывает
+чистые testable presentation functions, их композицию и binding готовых outputs
+к компонентам. Обязательная связь presenter с FC снята по уточнению владельца;
+новый skill сохраняет текущие источники данных и events, не проектирует state
+manager/runtime или API. Согласованные ранее FC policies в проектах сохраняются
+при их отдельной applicability. Нет второго normative source или принятия drafts.
+Отдельный plugin gost-view-presenter, общий marketplace, English content, проверка
+чистых outputs и Svelte5 UI отдельно. Сейчас0/6, planning only; implementation и
+release требуют собственных действий.
