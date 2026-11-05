@@ -494,10 +494,12 @@ Chromium evidence remains applicable without reruns for unchanged code. Separate
 final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
 same path-list hash as task3.1. The extra path link is the Svelte inventory row.
 
-Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
+Historical pre-archive checkpoint 2026-11-05 (superseded later that day by
+sync/archive #78 in PR #83): #75 синхронизирован и перенесён в
 [архив](../2026-11-04-add-functional-core-skill/design.md) через
 [PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
-доставки проверяется по PR. Sync/archive #78 пока не выполнялся.
+доставки проверяется по PR. На момент этого исторического checkpoint
+sync/archive #78 ещё не выполнялся; текущая операция описана в archive evidence.
 
 
 ## Archive and spec sync — 2026-11-05
@@ -536,7 +538,13 @@ header normalization, including Purpose. Metadata/delta byte-identical;
 proposal/tasks differ only in the required sibling-archive link rebase. All
 three previous main specs and runtime/plugin/package/test/fixture scope unchanged.
 Separate full diff/unchanged-contract inspection and tracked Markdown audit:
-126 files,217 local path links,3 same-file anchors,0 errors. Path-list SHA256:
+126 files,217 local path links,3 same-file anchors,0 errors. Link counting uses
+marked18.1.1 lexer/walkTokens on tracked Markdown: count link/image tokens with
+relative paths, check target existence and local heading anchors; exclude URI/
+absolute targets and fenced/inline code (not parsed as links). The two apparent
+node_modules links in docs/usage.md are inside a fenced Markdown example, so
+they are not counted. There is no node_modules-specific path exclusion.
+Path-list SHA256:
 `baa37a8b4afea17d86cc272a1f4e8463c8c28a7aec078f86d678025043b39a9c`.
 Reproduce the path-list hash from a reviewed commit at repository root:
 
@@ -576,3 +584,69 @@ Archive presented in [PR83](https://github.com/antonsmolko/gost-spec/pull/83).
 #78/#79 public current checkpoints updated with its URL/evidence and separate
 merge/closure procedure. Both issues remain open; #79 unimplemented. Current
 handoff/roadmap/product overview link PR83 without predicting its merge state.
+
+## PR83 published review
+
+Read all pages of inline comments, summary reviews, PR comments and issue78
+comments at0fd249f. Five inline findings and one PR-level finding in
+[summary](https://github.com/antonsmolko/gost-spec/pull/83#issuecomment-6668247330).
+Prior confirmed exact-transfer, counters, scope and verification closures retained.
+This round corrects presentation/current-status ambiguity without reopening
+completed architecture or changing the synchronized requirements.
+
+### PR83 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Roadmap status](https://github.com/antonsmolko/gost-spec/pull/83#discussion_r4485532051) | #75 neutral PR-status lookup is less precise than known delivered state | roadmap | Fixed | Live section explicitly records merged PR82/main d4ea4ac and closed #75, matching existing current evidence |
+
+### PR83 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Duplicate subject](https://github.com/antonsmolko/gost-spec/pull/83#discussion_r4485534470) | Handoff repeats PR82 in one sentence | handoff | Fixed | Single linked delivery statement with actual main SHA and closed issue |
+
+### PR83 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Same-day history](https://github.com/antonsmolko/gost-spec/pull/83#discussion_r4485534689) | Same-date pre-archive checkpoint is ambiguous without local supersession marker | archived proposal/design/tasks | Fixed | Each checkpoint explicitly labelled historical pre-archive, superseded later that day by sync/archive in PR83; original stage statement qualified at its occurrence, no claim of merged archive delivery |
+
+### PR83 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Audit counting method](https://github.com/antonsmolko/gost-spec/pull/83#discussion_r4485534991) | Link-token counting method omitted, apparent raw-text count219 differs | archive audit evidence | Clarified;217 retained | marked18.1.1 lexer/walkTokens counts rendered link/image tokens, not code examples; docs/usage.md has zero node_modules link tokens and one fenced example. This is a code-token exclusion, not a node_modules path exemption |
+
+### PR83 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Pinned evidence](https://github.com/antonsmolko/gost-spec/pull/83#discussion_r4485535276) | Public evidence points to intermediate commit lacking final checkpoint record | PR83 description/#78/#79 | Fixed | Pinned archive and review-ledger links updated to this pushed correction revision, which includes the final checkpoint paragraph from0fd249f and current round dispositions |
+
+### PR83 R6
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Product overview status](https://github.com/antonsmolko/gost-spec/pull/83#issuecomment-6668247330) | Live #75 overview still directs lookup instead of recording verified delivery | product design | Fixed | Explicit merged PR82/main d4ea4ac and closed #75 status |
+
+### PR83 review GitHub edits
+
+#78/#79 current checkpoints retain the original criteria and proposed/Pending,
+but their archive-evidence URLs now pin the correction revision, not0a01c67.
+PR83 description receives the same complete evidence and R1–R6 link. Each inline
+finding and summary has a ledger-linked reply; no new unrecorded disposition.
+Merge/closure procedure unchanged; #78/#79 stay open before archive delivery.
+
+This wording/link/method-description round changes no contract, gate, spec or
+runtime. AGENTS rule6 allows no additional independent review; prior independent
+complete-result review retained with its limits. Historical snapshot edits are
+explicitly marked, not presented as changed implementation requirements.
+
+PR83 round verification: fresh npm run check102/102 Node26.11.1 with real
+packs/external consumers; strict main specs4/4 and whitespace pass. Separate
+tracked Markdown audit126/217/3/0 and same path-list hash. Complete final PR diff
+inspected; unchanged main specs, normative documents and public #78/#79 criteria
+checked for conflicts. Runtime/plugin/package/test/fixture and synchronized specs
+unchanged. Prior two-Node and exact-transfer evidence remains valid; no new
+runtime/native/browser claims are made for these wording corrections.

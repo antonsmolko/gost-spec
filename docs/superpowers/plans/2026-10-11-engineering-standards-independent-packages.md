@@ -142,7 +142,7 @@ Progress/evidence — [tasks](../../../openspec/changes/archive/2026-11-05-clari
 и [design](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
 [#79](https://github.com/antonsmolko/gost-spec/issues/79) получает свой skill design
 после согласования этого контракта. ESLint/runtime/package-layout и реальные
-потребители сохраняют самостоятельный scope; archive/sync #75 выполнен в PR #82, фактический статус доставки проверяется по PR.
+потребители сохраняют самостоятельный scope; archive/sync #75 доставлен через PR #82, main `d4ea4ac`; #75 закрыта.
 
 Архив #75: `2026-11-04-add-functional-core-skill`, 7/7. Основной
 [FC contract](../../../openspec/specs/functional-core-feature-development/spec.md)

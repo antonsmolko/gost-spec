@@ -64,8 +64,8 @@ Reducer unit tests используют готовые root/feature state factor
 Native marketplace installation in both harnesses: допускаются независимо
 версионируемые плагины с сохранением identity/content/version shell; добавлен
 shared-marketplace сценарий. Итого 11 требований /28 сценариев.
-Доставка архива — [PR #82](https://github.com/antonsmolko/gost-spec/pull/82),
-PR #82 вмержен, main `d4ea4ac`; #75 закрыта после проверки доставки. Full check — 102/102 на обоих Node;
+Архив #75 доставлен через [PR #82](https://github.com/antonsmolko/gost-spec/pull/82),
+main `d4ea4ac`; #75 закрыта после проверки доставки. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
 Shell skill сохраняется. Завершённый outcome —

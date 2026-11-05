@@ -63,7 +63,7 @@ identity `gost-svelte-shell`, явная переустановка и усло�
 весь snapshot маркетплейса. Пять npm-workspaces и approval gates сохраняются.
 Основной [FC contract](../../../openspec/specs/functional-core-feature-development/spec.md)
 создан при sync/archive #75 (7 требований/19 сценариев); доставка архива —
-[PR #82](https://github.com/antonsmolko/gost-spec/pull/82), статус проверяется по PR. План и implementation evidence — [change #75](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/design.md).
+[PR #82](https://github.com/antonsmolko/gost-spec/pull/82) вмержен, main `d4ea4ac`; #75 закрыта. План и implementation evidence — [change #75](../../../openspec/changes/archive/2026-11-04-add-functional-core-skill/design.md).
 
 ## Контракт компонентов и presenters — #78
 
