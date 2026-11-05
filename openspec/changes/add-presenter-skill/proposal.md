@@ -2,46 +2,39 @@
 
 ## Why
 
-Нужен skill, который помогает выносить вычисления представления из компонентов
-в чистые, легко тестируемые функции. Он не должен требовать FC/store или смешивать
-presentation calculations с бизнес-состоянием и обработкой событий.
+Presenter выносит логику подготовки данных для отображения из компонента
+в чистые функции. Это позволяет проверять вычисления обычными unit-тестами
+и оставляет компоненту отображение готовых значений.
 
 ## What Changes
 
-- Добавить английский skill `gost-view-presenter` для создания/изменения pure
-  presenters, их композиции и использования готовых результатов компонентом.
-- Поставлять его отдельным plugin 0.1.0 unreleased в marketplace `gost` для
-  Codex/Claude, независимо от shell и functional-core plugins.
-- Проверить generated code: обычные input/output tests без store/FC, отдельно
-  Svelte 5 reactive/component integration. Это первый проверяемый UI target,
-  а не обязательная зависимость чистых TypeScript presenters.
-- Сохранять существующие источники данных, callbacks, state ownership и
-  event workflows проекта. Не устанавливать/менять FC/shell ради presenter.
+- Добавить английский skill `gost-view-presenter`: выделение и изменение
+  presenter-функций, их композиция и подключение к компоненту.
+- Подготовить полный пример: исходные вычисления в компоненте, presenter,
+  unit-тесты и компонент, использующий результат.
+- Проверить пример в рабочем Svelte 5 приложении: результаты вычислений,
+  обновление отображения при изменении входных данных и сохранность событий.
+- Поставлять skill отдельным плагином версии 0.1.0 unreleased в маркетплейсе
+  `gost` для Codex и Claude.
 
 ## Capabilities
 
 ### New Capabilities
 
-- `component-presentation-development`: portable skill выделения/изменения
-  чистых presentation functions, интеграции готового view data и их проверки.
+- `component-presentation-development`: разработка и проверка чистых функций
+  подготовки представления и использование их результатов компонентами.
 
 ### Modified Capabilities
 
-Нет. Существующий distribution contract уже допускает несколько независимых
-plugins; третий plugin использует этот workflow без изменения требований shell.
-Контракт #78 не переписывается: его pure/rendering части служат источником,
-но полный FC/presenter contract не навязывается проекту этим skill.
+Существующие спецификации сохраняются. Новый плагин использует текущий механизм
+поставки; источником рекомендаций по presenters и отображению служит #78.
 
 ## Impact
 
-Будущая реализация: `plugins/gost-view-presenter/`, третий local entry в обоих
-каталогах, минимальное расширение существующего checker/tests, synthetic fixture
-без FC/common/shell и текущая документация. Содержимое двух прежних plugins,
-пять npm-версий и proposed/Pending неизменны. Нет нового presenter runtime,
-линтера, automatic dependency upgrade, миграции asc-admin или реального release.
+Реализация добавит `plugins/gost-view-presenter/`, пример в `fixtures/view-presenter/`,
+записи в двух каталогах и проверки поставки. Подробные границы — в [design](design.md).
 
-Scope — [#79](https://github.com/antonsmolko/gost-spec/issues/79); база main
-`f0a936c36458225dd58a896e7f5f6257dcf99821` после archive PR83. Ветка плана
-`feature/gost-spec-79-presenter-skill-plan`, prefix `[gost-spec-79]`.
-Owner уточнил независимость presenter от FC и имя `gost-view-presenter`.
-Сейчас создаётся только план; implementation progress0/6.
+Задача — [#79](https://github.com/antonsmolko/gost-spec/issues/79), база — main
+`f0a936c36458225dd58a896e7f5f6257dcf99821`. Ветка плана —
+`feature/gost-spec-79-presenter-skill-plan`, префикс `[gost-spec-79]`.
+Подготовлен только план: реализация 0/6.

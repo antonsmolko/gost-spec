@@ -87,10 +87,10 @@ Content acceptance и release остаются отдельными решени
 Текущий outcome — план [#79](https://github.com/antonsmolko/gost-spec/issues/79),
 [add-presenter-skill](../../openspec/changes/add-presenter-skill/proposal.md),
 ветка `feature/gost-spec-79-presenter-skill-plan`, prefix `[gost-spec-79]`.
-Выбран отдельный plugin `gost-view-presenter` 0.1.0 unreleased; presenter — pure
-function без FC/store/dispatch dependency. Первые UI checks на Svelte5; source
-и events проекта сохраняются, это не FC/shell integration. План0/6, реализация
-skill/fixture/plugins ещё не начата; approval, apply и release отдельные.
+Выбран отдельный plugin `gost-view-presenter` 0.1.0 unreleased. Presenter выносит
+логику подготовки данных для отображения в чистые функции с unit-тестами.
+Reference содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5
+проверку. План 0/6; после его review/approval — отдельный apply.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),

@@ -2,190 +2,185 @@
 
 ## Context
 
-Scope — [#79](https://github.com/antonsmolko/gost-spec/issues/79), мотивация —
-[proposal](proposal.md). База main `f0a936c36458225dd58a896e7f5f6257dcf99821`:
-#75 skill и #78 контракт реализованы/архивированы; PR83 вмержен, #78 закрыта.
-Текущий план не создаёт skill и не меняет нормативные документы. Tasks0/6.
+[Задача #79](https://github.com/antonsmolko/gost-spec/issues/79) — skill разработки
+presenters. Назначение описано в [proposal](proposal.md), поведение — в
+[spec](specs/component-presentation-development/spec.md). Подготовлен план,
+реализация 0/6. База — main `f0a936c36458225dd58a896e7f5f6257dcf99821`.
 
-Owner выбрал отдельный plugin и уточнил имя `gost-view-presenter`. Последнее
-уточнение важнее раннего FC scope: presenter выносит calculations в pure function,
-которую легко покрыть тестами; у presenter нет зависимости от FC. Публичный
-scope #79 пересматривается соответственно, в рамках того же outcome, без новой
-миграции/библиотеки. Прежние обязательные FC criteria заменяются, не дополняются
-противоречащими требованиями. Выбор имени/scope был private input, not a public
-basis; actionable source — обновлённая public issue #79.
-
-### Observed baseline and upstream
-
-- Два независимых plugin: shell0.2.0 и FC0.1.0 unreleased; shared local sources
-  в двух каталогах. Checker перечисляет два конкретных distribution descriptors;
-  существующие tests копируют все plugins и проверяют regression boundaries.
-- [Agent Skills specification](https://agentskills.io/specification),
-  [OpenAI plugin packaging](https://developers.openai.com/plugins/build/plugins),
-  [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
-  проверены при планировании. Upstream example — официальный
-  [Anthropic marketplace snapshot](https://github.com/anthropics/claude-plugins-official/blob/a2e251d9b97b909bf728b3e84fc8d17e6aba0063/.claude-plugin/marketplace.json),
-  уже использованный предыдущей поставкой. Нужен только третий local plugin,
-  supported механизм подходит; installer/registry/resolver не нужны.
-- Framework-free FC fixture не подходит для proving independence: он требует
-  common. Svelte shell fixture специально начинает без основы и предназначен
-  для bootstrap evaluation, не для presenter. Из него можно переиспользовать
-  проверенную toolchain и upstream baseline, но не переписывать старые fixtures.
-- Maintained [Vite Svelte TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-svelte-ts)
-  и [Svelte testing guidance](https://svelte.dev/docs/svelte/testing) — baseline
-  минимального consumer. Текущая pinned toolchain: Svelte5.57.2, TS5.9.3,
-  svelte-check4.7.7, Vite8.3.5, plugin-svelte7.3.1, Playwright1.64.1.
-  Apply подтверждает реальную доступность; публикация runtime gost-kit не нужна.
+В репозитории уже есть два плагина, общий маркетплейс Codex/Claude и проверка
+поставки. Для нового skill достаточно добавить ещё одну запись и сохранить
+проверки существующих плагинов.
 
 ## Goals / Non-Goals
 
-**Goal:** агент выделяет/изменяет чистые presentation calculations и сохраняет
-обновляемое отображение их outputs в компоненте. Первое проверяемое UI применение —
-Svelte5; pure TypeScript functions не зависят от него. Другие framework adapters
-не объявляются проверенными только из-за нейтрального имени.
+**Результат:** skill помогает вынести вычисления представления из компонента,
+написать чистые функции, проверить их результаты и подключить к отображению.
+Первый рабочий пример и проверка UI — Svelte 5. Функции пишутся на TypeScript.
 
-**Non-Goals:** FC/state/actions/reducers/effects/dispatch workflow, подключение
-shell, новый store/presenter runtime, FSD reorganisation, validation infrastructure,
-linters/config packages, изменение #78 норм, миграция asc-admin, #71/#62/#63,
-реальный выпуск/tag. Существующие callbacks/events и browser mechanics сохраняются;
-сохранность поведения проверяется, но их архитектура не перепроектируется skill.
+**Границы:** изменяются запрошенные вычисления и их привязка к компоненту.
+Источники данных, зависимости, состояние и обработка событий проекта сохраняются.
+Выпуск, применение к asc-admin и отдельные работы #71/#62/#63 требуют своих задач.
 
 ## Decisions
 
-### Approaches and chosen distribution
+### Presenter
 
-Owner выбрал отдельный plugin вместо расширения shell. `gost-view-presenter`
-точнее обозначает подготовку представления, чем промежуточные варианты
-`gost-presenter`/`gost-component-presenter`/`gost-template-presenter`.
-Расширение FC plugin отвергнуто: создало бы ложную обязательную связь с FC.
-Новый plugin0.1.0 unreleased, один English SKILL.md и
-`references/view-presenter.md`, два native manifests, README/changelog/license/icon.
-Версия и release prefix `gost-view-presenter-v<version>` независимы. Реальный tag
-только после отдельного release approval на verified main; оба каталога выбирают
-весь snapshot. Installation не применяет skill. Прежние plugin trees/version
-сохраняются побайтово; обновление каталога не обновляет приложения автоматически.
+Presenter принимает данные и контекст, например locale, и возвращает значения
+для отображения: текст, признаки видимости, строки списка. При одинаковых входах
+результат одинаковый; входные данные остаются неизменными. Побочные эффекты
+выполняются за пределами presenter.
 
-### No FC dependency and no second source of rules
+Связанные вычисления удобно объединять, когда у них есть общая промежуточная
+работа. Независимые функции получают только нужные им данные. Общая функция
+может собрать результаты нескольких presenters. Компонент использует готовые
+значения и вызывает presenter через принятую в проекте реактивную привязку.
+Если компонент уже получает всё готовым, дополнительная функция ему не нужна.
 
-Presenter получает обычные typed data/context: props, result DTO после внешней
-validation, selected state или уже подготовленный input. Он не знает происхождения
-данных. Вызов и reactive binding остаются в компоненте/существующем adapter.
-Callbacks, store access и business workflows не передаются в presenter как
-зависимости для вызова; presenter только возвращает данные. Использование рядом
-с FC возможно, но skill не устанавливает/требует common, root state, action или
-store. Если задача требует изменений business behaviour, сообщить отдельный scope.
+### Примеры и расположение файлов
 
-Canonical sources — pure/composition/rendering части FRONTEND-ARCH-002 и
-[capability #78](../../specs/frontend-component-presentation/spec.md).
-Полный #78 contract охватывает также separately adopted FC ownership/event policy;
-это не standalone prerequisite pure presenters. Для FC-проекта уже выбранные правила
-не отменяются. Skill не заявляет принятие proposed стандарта и не копирует весь
-его текст в новую нормативную редакцию. В recipe — procedural guidance, один
-synthetic пример и attribution/revision/status, а не новая таблица MUST правил.
+В `plugins/gost-view-presenter/skills/gost-view-presenter/SKILL.md` будет краткий
+порядок работы. Перед реализацией агент читает
+`references/view-presenter.md` — полный пример с пояснениями:
 
-Изолированная установка не имеет author checkout. Internal reference локален;
-для нормативных деталей recipe содержит полный pinned GitHub blob URL на
-FRONTEND-ARCH-002 из main f0a936c, с явно выбранными pure/rendering разделами и
-предупреждением об отдельной applicability FC-разделов. Доступная verified copy
-этой revision тоже допустима. При unavailable source и отсутствии verified copy
-не выдумывать требования: dependent policy work incomplete, сохранённые inputs и
-непроверенные части указать. Не делать cross-plugin filesystem links или
-обязательный auto-install npm-пакета стандартов. Таким образом нет второго
-самостоятельно поддерживаемого normative source или зависимости от другого skill.
+1. Исходный компонент: форматирование названий, расчёт признаков отображения,
+   подготовка списка.
+2. `catalog.presenter.ts`: независимая подготовка строк и связанных признаков
+   loading/empty/error/success, затем композиция результатов.
+3. `catalog.presenter.test.ts`: входные данные, ожидаемые результаты, nullable
+   варианты, сохранность входов, отдельные и скомпонованные функции.
+4. `Catalog.svelte`: вызов presenter в реактивной привязке, отображение готовых
+   значений, boolean-условия и список.
+5. Небольшой компонент с готовыми props как пример, где выделять нечего.
 
-### Workflow, input trust and failure behaviour
+Полный рабочий пример размещается в `fixtures/view-presenter/`.
+Короткое имя fixture выбрано по предмету примера — view presenter; имя capability
+описывает весь workflow разработки. Пути согласованы во всех артефактах. Presenter и его
+unit-тест находятся рядом. Отдельные браузерные проверки меняют входные данные,
+проверяют текст/ветки/строки и вызывают существующий callback. Пример использует
+обычные props и данные. Инструкция в reference и проверяемый пример согласуются;
+код из reference проверяется компилятором и тестами.
 
-1. Прочитать project instructions, component/props/context types, existing pure
-   functions/conventions, checks и requested visible behaviour. Убедиться в
-   наличии конкретного output contract; missing context уточнить до зависимых edits.
-2. Выделить calculations в ordinary pure functions. Shared intermediate work
-   группировать, independent inputs не раздувать, композицию делать вызовами функций.
-   Inputs не мутировать; hidden store/I/O/time/locale заменить явным data/context.
-3. Компонент связывает inputs с presenter и использует ready values/booleans/rows.
-   Не делать one-time snapshot или mutable view-store. Если calculations нет,
-   wrapper не нужен. Существующие data/event mechanics не перестраиваются.
-4. Обычные pure tests проверяют input/output, documented variants, immutability
-   и композицию без DOM/store. Отдельные component/browser checks подтверждают
-   reactive changes и сохранность events. Existing approved lint commands можно
-   запустить, новые правила/configs не создаются; простой helper name/compiler
-   success не доказывает provenance/purity. Отчёт содержит actual checks/limits.
+Примеры используют synthetic catalog data. Отдельно разбираются ошибки:
+мутация входов, скрытые зависимости, вычисления в компоненте под готовым именем
+и однократный snapshot, переставший обновляться. Компиляция такого примера
+и его архитектурная оценка — разные проверки.
 
-Входы типизированы по contract проекта; это не доказательство validation unknown
-external data. Domain validation остаётся на существующей границе. Nullable,
-loading/empty/error/success — explicit documented inputs/outputs, не повод скрывать
-required fields через casts/guessed defaults. Unsupported framework/artifact,
-missing types/context/source или check failure — конкретный incomplete, без
-home-made store, upgrades или ложного claim complete. Работать только в scope
-запрошенного presenter/component; результаты частичных edits перечислять.
+### Входные данные и проверка результата
 
-### Evaluation and packaging
+Агент читает существующий компонент, типы props/context, функции подготовки
+данных и команды проверки. Уточняет ожидаемое отображение. Отсутствующий
+обязательный вход или неопределённое поведение указывает до зависимых изменений.
 
-Один новый `fixtures/view-presenter/` — synthetic Svelte5 component consumer на
-обычных props/local fixture input controls, без common/shell/FC. Fixture не входит
-в plugin. До skill baseline задача без него и behaviour probes: missing function/
-incorrect output дают RED, успешный baseline не называется RED. Затем independent
-agent получает те же inputs/request и установленный skill, проверяются actual
-files, pure tests и browser. Generated results остаются disposable.
+Presenter обрабатывает состояния, предусмотренные входным контрактом, включая
+nullable/loading/empty/error/success. Проверка внешних данных остаётся на
+существующей границе приложения. Обязательные данные не подменяются догадками,
+casts или случайными defaults.
 
-Cases: extraction, new calculation, change/repeat, shared component без лишней
-обёртки, independent/composed functions, documented loading/empty/error/success и
-nullable outputs, changing inputs/rows/branches, preserved callbacks, unknown/missing
-required context/source. Negative cases: hidden store read, mutation/I/O,
-component-local calculations under a ready-looking name и stale reactive snapshot.
-Manual classifications отделяются от compiler/autofixer; no string-regex quality
-checks. Pure tests используют обычные data builders/values, не FC factories/store.
-Поиск imports/metadata и standalone build подтверждают отсутствие FC dependency.
+Проверки выполняются на двух уровнях:
 
-Distribution checker получает третий конкретный descriptor и существующие
-privacy/JSON/identity/version/source/link/symlink/root-skills gates. Сначала RED
-для absent third/mismatch/cross-plugin links, затем GREEN с прежними regressions.
-Без общего рефакторинга #62 или нового config API. Both local catalogs и root
-README отражают три plugins, прежние artifacts не переписываются.
+- Unit-тесты вызывают обычные функции и сравнивают результат с ожиданием,
+  проверяют композицию и неизменность входов.
+- Проверки компонента подтверждают обновление представления при изменении
+  данных и сохранность существующих событий.
 
-Native evidence: fresh isolated Codex/Claude profiles, full Git URL controlled
-snapshot, install third отдельно и рядом с shell/FC, repeat, fresh discovery/read
-reference, byte comparison full plugin, unchanged personal/app fingerprints.
-Использовать существующий release snapshot workflow; допустим disposable loopback
-tag с ясной маркировкой, не выдавать его за public-host release. Недоступный harness
-оставляет evidence incomplete. Metadata validation не заменяет skill behaviour.
+Отчёт перечисляет изменённые файлы, фактические проверки и оставшиеся проблемы.
+Поддержка других UI-фреймворков подтверждается собственными примерами. Доступные
+проектные lint-команды используются вместе с ручной проверкой вычислений.
+
+### Источники рекомендаций
+
+Чистые функции, композиция и готовые данные описаны в
+[FRONTEND-ARCH-002](../../../packages/domains/frontend/architecture/presenter-composition.md)
+и [контракте #78](../../specs/frontend-component-presentation/spec.md).
+В recipe будет полный pinned GitHub URL на FRONTEND-ARCH-002 из main f0a936c,
+с revision/status и точными разделами о вычислениях и отображении. Проверенная
+копия той же ревизии также подходит. При недоступном источнике агент указывает,
+какие рекомендации остались непроверенными.
+
+Внутренний reference поставляется вместе со skill. Нормативные ссылки остаются
+ссылками на исходные документы, recipe объясняет применение на примере.
+Proposed-статус сохраняется. Правила состояния и событий из более широкого
+контракта #78 применяются согласно уже выбранной архитектуре проекта;
+сам presenter работает с переданными данными.
+
+### Плагин и проверка поставки
+
+Выбран отдельный `gost-view-presenter` версии 0.1.0 unreleased в маркетплейсе
+`gost`. Он содержит English skill/reference, два manifests, README, changelog,
+license и icon. Имя, версия и дерево совпадают для обоих харнесов. Существующие
+shell/FC plugins и пять npm-пакетов сохраняют своё содержимое и версии.
+
+Checker расширяется третьим конкретным descriptor. Проверки охватывают
+пропущенные/дублирующиеся entries, identity/version, источник, JSON, ссылки,
+symlinks, границы plugin root и прежний root-skills guard. Сначала подтверждается
+отказ на повреждённой поставке, затем весь набор regression checks проходит.
+
+В isolated Codex/Claude profiles проверяются отдельная установка, соседство
+с другими плагинами, повтор, fresh discovery/read reference и совпадение всех
+installed bytes с выбранным Git snapshot. Личные настройки и synthetic app
+сравниваются до/после. Используется существующий release-tag workflow:
+`gost-view-presenter-v<version>` выбирает snapshot маркетплейса.
+Loopback-проверка помечается отдельно от публичной установки; настоящий выпуск
+следует отдельному разрешению на проверенный main commit.
+
+### Проверка skill на задачах
+
+До написания skill выполняется тот же запрос в disposable consumer: наблюдается
+baseline и отказ probes на отсутствующих/неверных вычислениях. Успешный baseline
+фиксируется как успешный.
+
+После подготовки skill независимый агент выполняет выделение, создание,
+изменение и повторную задачу, проверяет простой компонент и отсутствующий
+обязательный input/source. Оценка опирается на generated files, unit/browser
+results и сохранность соседних файлов. Формат SKILL.md проверяется отдельно.
+Непроверенный харнес, failing checks или missing inputs остаются видимыми
+ограничениями результата.
+
+### Базовые инструменты
+
+- [Agent Skills specification](https://agentskills.io/specification),
+  [OpenAI packaging](https://developers.openai.com/plugins/build/plugins),
+  [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces).
+- Maintained example: [официальный Anthropic catalog, snapshot a2e251d](https://github.com/anthropics/claude-plugins-official/blob/a2e251d9b97b909bf728b3e84fc8d17e6aba0063/.claude-plugin/marketplace.json).
+  Новый plugin использует уже поддерживаемые local sources.
+- [Vite Svelte TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-svelte-ts)
+  и [Svelte testing guidance](https://svelte.dev/docs/svelte/testing) задают основу
+  fixture. Из существующей fixture переиспользуется проверенная toolchain:
+  Svelte5.57.2, TypeScript5.9.3, svelte-check4.7.7, Vite8.3.5,
+  plugin-svelte7.3.1, Playwright1.64.1. Доступность проверяется при apply.
 
 ## Risks / Trade-offs
 
-- FC clauses исходного #78 шире pure scope → explicit selected sections and
-  applicability, не делать mandatory store dependency; older issue wording replace.
-- External source недоступен offline → verified supplied copy либо incomplete;
-  не поддерживать вторую нормативную копию внутри plugin.
-- Имя нейтральное, tested UI один → отдельно описать verified Svelte5 support;
-  чистые TS tests не доказывают другие framework integrations.
-- Unit tests проходят, UI stale → separate Chromium transitions и callback checks.
-- Третий plugin нарушает gates → preserve all regressions и byte-check двух старых.
+- Unit-тесты могут пропустить устаревшее отображение — для него есть отдельные
+  браузерные проверки изменения входов.
+- Установленный skill может потерять доступ к нормативному источнику —
+  используются pinned source или проверенная копия, missing evidence указывается.
+- Третий plugin может нарушить поставку прежних — сохраняются regression checks
+  и сравнение содержимого двух прежних плагинов.
 
 ## Migration Plan
 
-Сначала review/approval этого плана, затем отдельный apply. Новый plugin не
-переименовывает/удаляет прежние и не требует migration приложения. Fresh install
-через выбранный snapshot; uninstall новой entry не меняет consumer. Выбор другого
-marketplace snapshot описывает последствия для всех entries; existing release
-workflow не заменяется. Merge/release/нормативное acceptance остаются самостоятельны.
+После review плана начинается отдельный apply. Готовый plugin устанавливается
+из выбранного snapshot. Его установка и удаление сохраняют приложение;
+перерегистрация marketplace описывает последствия для остальных entries.
+Merge, принятие нормативного содержания, archive и выпуск — отдельные действия.
 
 ## Review and issue tracking
 
-Public source — #79 и уточнённые criteria pure scope. #78 delivered PR83/main
-f0a936c, #75 delivered PR82/main d4ea4ac, обе issues закрыты. #79 stays open.
-Issue body заменяет прежние FC-specific criteria на presenter-only, фиксирует
-English content, selected identity0.1.0, Svelte5 verification и отдельную поставку.
-При изменении criteria сохранить запрос/обоснование, dependencies/link gates;
-это narrowing того же skill outcome, не новая runtime/нормативная задача.
+Публичный scope — [#79](https://github.com/antonsmolko/gost-spec/issues/79),
+план — [PR #84](https://github.com/antonsmolko/gost-spec/pull/84). #75/#78 завершены
+и закрыты. Все четыре artifacts готовы; реализация 0/6.
 
 ### GitHub issue edits
 
-#79 current scope/criteria/title согласуются с owner correction: no FC prerequisite,
-pure functions/input-output tests, preserve source/events, separate native plugin.
-Исторические milestones помечаются как history; конкретные superseded live criteria
-заменяются, а не остаются параллельными. #78 остаётся closed/proposed-content Pending.
-Этот planning PR не меняет опубликованные нормативные документы или implementation.
+В #79 зафиксированы выбранное имя, отдельная поставка, English content,
+назначение presenter, примеры и критерии проверки. Уточнение владельца заменило
+раннюю обязательную привязку к FC; это изменение границ записано здесь для
+согласования истории задачи. Выбор был private input, not a public basis;
+публичная actionable source — обновлённая #79. Текущая редакция излагает назначение и ожидаемый результат;
+история согласования остаётся в этом разделе.
 
-### Planning verification
+### Initial planning verification — superseded by editorial round
 
 All four planning artifacts complete; implementation0/6, seven proposed
 requirements/fifteen scenarios. Strict change and all four main specs pass;
@@ -218,3 +213,97 @@ Planning outcome presented in [PR84](https://github.com/antonsmolko/gost-spec/pu
 #79 current title/criteria record pure FC-independent scope and chosen identity;
 its planning checkpoint links this complete committed design/review record.
 All artifacts complete, implementation0/6. No apply/skill/runtime/merge/release.
+
+
+### Editorial round — purpose and examples
+
+Owner requested direct purpose-first wording across the full plan and asked for
+example locations. Public actionable scope/criteria: [#79](https://github.com/antonsmolko/gost-spec/issues/79).
+Proposal, design, spec, tasks, handoff/product overview/roadmap, issue and PR
+now describe preparing view data, pure tests and component use. Context about
+previous FC scope stays only in issue-edit history. Full before/presenter/test/
+after reference and working Svelte fixture are specified, with colocated unit
+tests and separate browser checks. Same7 requirements/15 scenarios,0/6 tasks.
+
+Fresh strict change/main specs and whitespace pass; unchanged-runtime baseline
+check102/102 Node26.11.1 passes. Separate latest Markdown audit130/229/3/0,
+same path-list hash as initial verification. The initial226-link result above
+is historical. Complete final diff and current #79 criteria checked separately;
+plugins/packages/main specs/runtime/fixtures unchanged.
+
+Fresh-context independent review of the complete revised plan found no actionable
+findings, including scope preservation and explicit examples. Reviewer read public
+#79, #75/#78 closed states and PR84 discussions (no published findings), compared
+main/previous plan; did not rerun runtime/link scripts.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public #79 criteria above | Purpose-first rewrite and example coverage | Entire planning/tracking result | No actionable findings | Independent full-result comparison; counts7/15 and0/6 preserved, author checks separate |
+
+On publication, #79 and PR84 descriptions/pinned evidence point to the complete
+correction revision. No implementation, normative acceptance, merge or release performed.
+
+### PR84 published review
+
+Read all pages of inline threads, summary review and PR/issue comments at7b40de2,
+including the reviewer's staged editorial snapshot. Public sources:
+[summary](https://github.com/antonsmolko/gost-spec/pull/84#issuecomment-6669209451),
+[review](https://github.com/antonsmolko/gost-spec/pull/84#pullrequestreview-5791995042).
+Prior counters/source/scope closures retained. Seven findings addressed below.
+
+#### PR84 R1
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Roadmap delivery](https://github.com/antonsmolko/gost-spec/pull/84#discussion_r4485966087) | PR83 lookup wording less precise than verified delivery | roadmap | Fixed | Records merged PR83/main f0a936c and closed #78 |
+
+#### PR84 R2
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Product delivery](https://github.com/antonsmolko/gost-spec/pull/84#discussion_r4485966103) | Product overview retains PR83 status lookup | product design | Fixed | Same known delivered/closed state as handoff |
+
+#### PR84 R3
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Contract traceability](https://github.com/antonsmolko/gost-spec/pull/84#discussion_r4485966113) | Editorial simplification obscures explicit implementation boundaries | delta requirements1/5/7 | Fixed | Explicitly excludes adding state infrastructure for presenter, new lint rules/configs, duplicated normative rules or widened source applicability. Purpose stays direct and positive; props/data scenario and dependency preservation remain |
+
+#### PR84 R4
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item1](https://github.com/antonsmolko/gost-spec/pull/84#issuecomment-6669209451) | PR body/pin still describes pre-editorial226-link result | PR84/#79/evidence | Fixed | Published body/evidence pin updated to complete correction revision,229-link audit; pre-editorial evidence explicitly historical |
+
+#### PR84 R5
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item2](https://github.com/antonsmolko/gost-spec/pull/84#issuecomment-6669209451) | Heading lacks preceding blank line | design | Fixed | Blank line added before initial verification heading |
+
+#### PR84 R6
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item3](https://github.com/antonsmolko/gost-spec/pull/84#issuecomment-6669209451) | Fixture path differs from capability-name pattern | fixture path in plan | Retained with rationale | view-presenter names the subject of the example; capability names the wider workflow. All paths consistent; rationale recorded in examples section |
+
+#### PR84 R7
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary item4](https://github.com/antonsmolko/gost-spec/pull/84#issuecomment-6669209451) | Awkward explanation of current prose/history | design | Fixed | Says current text states purpose/result, history remains in issue-edit section |
+
+### PR84 review issue edits
+
+#79 and PR84 descriptions state purpose, examples and verification concisely;
+pinned evidence points at this complete revision. #79 criteria, examples and
+separate implementation/approval gates remain consistent. Replies link each
+finding to this ledger; no implementation work performed, counts7/15 and0/6.
+
+PR84 round verification: fresh baseline npm run check102/102 Node26.11.1,
+strict change/four main specs and whitespace pass. Separate final Markdown
+audit130/229/3/0; same path-list hash. Complete final diff and unchanged main
+contracts/current #79 criteria reviewed for conflicts. Existing independent
+editorial review retained; this review round restores explicit wording for
+already-agreed boundaries and updates status/links, not scope or gates. Runtime,
+plugin/package/fixture/main-spec files unchanged, implementation0/6.
