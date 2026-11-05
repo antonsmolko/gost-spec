@@ -65,22 +65,27 @@ Native marketplace installation in both harnesses: допускаются нез
 версионируемые плагины с сохранением identity/content/version shell; добавлен
 shared-marketplace сценарий. Итого 11 требований /28 сценариев.
 Доставка архива — [PR #82](https://github.com/antonsmolko/gost-spec/pull/82),
-фактический статус проверяется по PR; issue закрывается после подтверждения доставки. Full check — 102/102 на обоих Node;
+PR #82 вмержен, main `d4ea4ac`; #75 закрыта после проверки доставки. Full check — 102/102 на обоих Node;
 consumer behaviour и native install/discovery обоих харнесов проверены отдельно.
 Native evidence ограничен loopback Git source; public-host release не заявлен.
-Shell skill сохраняется. Текущий outcome —
+Shell skill сохраняется. Завершённый outcome —
 [#78](https://github.com/antonsmolko/gost-spec/issues/78): уточнение proposed-контракта
-компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/clarify-component-presenter-contract/proposal.md)
+компонентов/presenters/FC. [OpenSpec-план](../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/proposal.md)
 доставлен через PR #80 (main 4b5361a). Реализация на ветке
 feature/gost-spec-78-component-presenter-implementation, prefix `[gost-spec-78]`,
 6/6: proposed frontend-контракт/примеры и совместимость Svelte/FSD обновлены;
 приёмка содержания Pending. Pure и отдельные Chromium probes, полный check
 102/102 на обоих Node и package/link audit пройдены; independent review без findings.
 Реализация вмержена через [PR #81](https://github.com/antonsmolko/gost-spec/pull/81),
-main `82eda95`; content acceptance и sync/archive #78 остаются отдельными решениями.
+main `82eda95`. По запросу владельца #78 синхронизирован и перенесён в
+`2026-11-05-clarify-component-presenter-contract`, 6/6. Основной
+[контракт компонентов](../../openspec/specs/frontend-component-presentation/spec.md)
+содержит 7 требований/15 сценариев; остальные main specs не менялись.
+Доставка архива выполняется отдельным PR, статус проверяется в GitHub.
+Content acceptance и release остаются отдельными решениями.
 Skill [#79](https://github.com/antonsmolko/gost-spec/issues/79) следует после
 согласования контракта #78; ни skill, ни lint/runtime здесь не реализованы.
-После доставки архива #75 следующий учётный шаг — sync/archive #78; затем план #79.
+Следующий outcome — OpenSpec-план skill #79; реализация skill пока не начата.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх
 пакетов (план на `feature/gost-spec-71-standard-package-layout`, сейчас пять),

@@ -495,6 +495,79 @@ final tracked-tree link audit:124 Markdown/207 path links/3 anchors/0 errors,
 same path-list hash as task3.1. The extra path link is the Svelte inventory row.
 
 Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
-[архив](../archive/2026-11-04-add-functional-core-skill/design.md) через
+[архив](../2026-11-04-add-functional-core-skill/design.md) через
 [PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
 доставки проверяется по PR. Sync/archive #78 пока не выполнялся.
+
+
+## Archive and spec sync — 2026-11-05
+
+Owner explicitly selected synchronization and archival. All artifacts complete,
+tasks6/6, implementation PR81 merged at82eda95; archive base is main d4ea4ac
+with #75 archive delivered by PR82. New main frontend-component-presentation
+spec copies Purpose and seven requirements/fifteen scenarios verbatim except
+canonical H1 and Requirements header. No other main spec, normative document,
+plugin/runtime/package version or acceptance/release gate changes.
+
+Change moved to2026-11-05-clarify-component-presenter-contract with metadata,
+proposal/tasks/delta preserved; relative links in moved artifacts and incoming
+repository links are rebased. Earlier statements in archived artifacts describe
+their dated planning/implementation stages, including historical pending archive
+and issue status, not current delivery. Handoff/roadmap/product overview expose
+the main spec and archive; #79 remains unimplemented and gets its own plan.
+
+### Archive GitHub issue edits and delivery procedure
+
+#78 current status links the archive PR and evidence, stays open until verified
+archive delivery; #79 dependency checkpoint reflects the same state. #75 is
+already closed after PR82/main d4ea4ac. Original issue criteria/dependencies and
+proposed/Pending unchanged. On a separately owner-authorized archive merge,
+verify actual main SHA, update #78/#79 public checkpoints and close #78; do not
+close #79, accept content, create tags or publish. Tracked archive references
+use stable PR delivery links once available, without unconditional pending claims
+that become false at merge. No direct main commits are part of that procedure.
+
+### Archive verification
+
+Full npm run check102/102 on Node26.11.1 and26.0.0, including actual package
+packs/external consumers. Strict main specs4/4 and whitespace pass. Exact
+comparison confirms new main equals the complete delta with canonical title/
+header normalization, including Purpose. Metadata/delta byte-identical;
+proposal/tasks differ only in the required sibling-archive link rebase. All
+three previous main specs and runtime/plugin/package/test/fixture scope unchanged.
+Separate full diff/unchanged-contract inspection and tracked Markdown audit:
+126 files,217 local path links,3 same-file anchors,0 errors. Path-list SHA256:
+`baa37a8b4afea17d86cc272a1f4e8463c8c28a7aec078f86d678025043b39a9c`.
+Reproduce the path-list hash from a reviewed commit at repository root:
+
+```sh
+node --input-type=module <<'NODE'
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+const paths = execFileSync('git', ['ls-tree', '-r', '--name-only', '-z', 'HEAD'], { encoding: 'utf8' })
+  .split('\0').filter(Boolean).filter(path => path.endsWith('.md')).sort();
+const separator = String.fromCharCode(0x0a);
+console.log(paths.length, createHash('sha256').update(paths.join(separator) + separator, 'utf8').digest('hex'));
+NODE
+```
+
+This selects all tracked .md paths, JavaScript default sort, UTF-8 and a final LF.
+It hashes paths only, not document content or link results. Archived historical
+runtime/browser evidence is retained, not rerun as new archive behaviour. The
+previously disclosed unfinished #71 planning change still lacks deltas and is
+outside this archive; strict main-spec validation does not claim strict-all success.
+
+### Independent archive review
+
+Separate fresh-context reviewer examined the complete archive diff against
+d4ea4ac, public #75/#78/#79 and PR81/82 states, all PR81 inline findings/replies
+and summary, preserving confirmed R1–R6 closures. No actionable findings.
+Reviewer independently confirmed exact normalized main7/15, metadata/delta byte
+identity, tasks6/6, #75 sibling-link rebase and absence of old active-path links.
+Unchanged frontend/Svelte/FSD/validation/inventory/approval contracts retain scope
+and proposed/Pending. Both102/102 logs and126/217/3/0 audit inspected; runtime/
+browser checks not rerun. Public issue updates follow actual PR creation.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public [#78](https://github.com/antonsmolko/gost-spec/issues/78) completed scope | Complete sync/archive result | Full archive diff / #78 | No actionable findings | Independent exact-transfer and cross-document review above; supplied suite/link evidence inspected with stated limits |

@@ -28,6 +28,6 @@
 - Sync/archive #78, merge и реальная интеграция приложений требуют своих указаний.
 
 Archive checkpoint 2026-11-05: #75 синхронизирован и перенесён в
-[архив](../archive/2026-11-04-add-functional-core-skill/design.md) через
+[архив](../2026-11-04-add-functional-core-skill/design.md) через
 [PR #82](https://github.com/antonsmolko/gost-spec/pull/82); фактический статус
 доставки проверяется по PR. Sync/archive #78 пока не выполнялся.

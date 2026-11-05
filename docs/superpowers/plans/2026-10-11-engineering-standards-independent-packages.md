@@ -133,13 +133,13 @@ Presenter, #71/#62/#63, реальный выпуск и asc-admin остают�
 
 ## Контракт component/presenter/FC — #78
 
-План [clarify-component-presenter-contract](../../../openspec/changes/clarify-component-presenter-contract/proposal.md)
+План [clarify-component-presenter-contract](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/proposal.md)
 доставлен через PR #80, main 4b5361a. Реализация пересматривает proposed frontend
 ownership/presentation и scoped Svelte/FSD compatibility, не принимая норм и
 не меняя пять версий. Примеры проверяются отдельно как pure functions, Svelte
 syntax/types и реальная UI binding; compiler success не равен architecture approval.
-Progress/evidence — [tasks](../../../openspec/changes/clarify-component-presenter-contract/tasks.md)
-и [design](../../../openspec/changes/clarify-component-presenter-contract/design.md#implementation-evidence).
+Progress/evidence — [tasks](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/tasks.md)
+и [design](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md#implementation-evidence).
 [#79](https://github.com/antonsmolko/gost-spec/issues/79) получает свой skill design
 после согласования этого контракта. ESLint/runtime/package-layout и реальные
 потребители сохраняют самостоятельный scope; archive/sync #75 выполнен в PR #82, фактический статус доставки проверяется по PR.
@@ -150,3 +150,14 @@ Progress/evidence — [tasks](../../../openspec/changes/clarify-component-presen
 Native marketplace installation in both harnesses: отдельные независимо
 версионируемые плагины сохраняют identity/content/version shell. Добавлен
 shared-marketplace сценарий; итого 11 требований/28 сценариев. Runtime/plugin/version и content approval не менялись.
+
+
+## Архив контракта component/presenter/FC — #78
+
+По явному выбору sync/archive завершённый change перенесён в
+`2026-11-05-clarify-component-presenter-contract`, tasks6/6. Основной
+[контракт](../../../openspec/specs/frontend-component-presentation/spec.md)
+сохраняет Purpose и все7 требований/15 сценариев из reviewed delta.
+Это документационный outcome; proposed/Pending, plugin/runtime и пять версий
+не меняются. Доставка архива идёт отдельным PR со статусом в GitHub.
+#75 уже доставлен PR82/main d4ea4ac и закрыт; далее план #79 без реализации skill.
