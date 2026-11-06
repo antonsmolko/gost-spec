@@ -507,3 +507,15 @@ implementation. Full final diff and relevant unchanged contracts/issue bodies
 checked separately from runtime tests. Existing plugins/npm trees and main specs
 unchanged. Code changes are the presenter API/example requested by this review;
 all 6/6 tasks remain complete, merge and release are separate.
+
+### PR85 R13 — local result type
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Unused type export](https://github.com/antonsmolko/gost-spec/pull/85#discussion_r4496402061) | ViewState is not imported outside the presenter | fixture/reference | Fixed | ViewState remains explicit and local; only catalogPresenter is exported. Fixture types pass, full 114/114 pass, all six reference blocks match. TypeScript emits identical JavaScript before/after |
+
+Micro-round read all new inline/review/summary pages through R13; intervening
+reviews contain no additional findings. This local type visibility correction
+changes no runtime behaviour; native/browser evidence from the previous round
+is retained, not rerun for this type-only edit. Final diff/type consumers checked;
+no external ViewState consumers. Owner authorized merge after this correction.

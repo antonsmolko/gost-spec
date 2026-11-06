@@ -79,7 +79,7 @@ type Params = {
   labels: CatalogLabels;
 };
 
-export type ViewState = {
+type ViewState = {
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
