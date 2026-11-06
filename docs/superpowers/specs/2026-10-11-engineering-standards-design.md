@@ -143,4 +143,4 @@ unit-тесты и использование результатов компо�
 
 Основной [контракт skill](../../../openspec/specs/component-presentation-development/spec.md)
 создан при sync/archive #79: 7 требований / 15 сценариев. Реализация доставлена
-PR85/main f3af7de; archive delivery учитывается отдельным PR.
+PR85/main f3af7de; доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86).

@@ -177,4 +177,4 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 #78 archive доставлен PR83/main f0a936c. #79 implementation доставлен PR85/main f3af7de.
 По выбору владельца #79 синхронизирован и перенесён в архив:
 [основная spec](../../../openspec/specs/component-presentation-development/spec.md),
-7 требований / 15 сценариев. Доставка архива — отдельный PR; выпуск — отдельное действие.
+7 требований / 15 сценариев. Доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86); выпуск — отдельное действие.

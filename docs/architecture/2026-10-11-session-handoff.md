@@ -98,7 +98,7 @@ Content acceptance и release остаются отдельными решени
 main `f3af7de`. Change синхронизирован и перенесён в архив
 `2026-11-06-add-presenter-skill`; основной
 [контракт skill](../../openspec/specs/component-presentation-development/spec.md)
-содержит 7 требований и 15 сценариев. Доставка архива — отдельный PR.
+содержит 7 требований и 15 сценариев. Доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
 Реальные release/tag и применение к asc-admin остаются отдельными.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх

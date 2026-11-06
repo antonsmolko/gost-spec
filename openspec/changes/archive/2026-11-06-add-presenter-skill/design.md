@@ -534,8 +534,9 @@ versions and proposed/Pending status unchanged.
 Incoming repository links and moved artifacts' relative links are rebased.
 Handoff/product overview/roadmap expose the main spec and actual implementation
 merge. Historical planning/review passages in this archive describe their stage,
-not current delivery. Archive delivery is a separate PR, with a stable link once
-created. Release/tag/public-host verification and app adoption remain separate.
+not current delivery. Archive delivery is tracked in
+[PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
+Release/tag/public-host verification and app adoption remain separate.
 
 ### Archive GitHub issue edits and delivery
 
@@ -571,3 +572,7 @@ Implementation merge f3af7de verified; archive PR and issue publication follow.
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis); public [#79](https://github.com/antonsmolko/gost-spec/issues/79) completed scope | Complete sync/archive result | Full archive diff | No actionable findings | Independent byte/strict checks and review with limits above |
+
+Archive delivery checkpoint: [PR #86](https://github.com/antonsmolko/gost-spec/pull/86)
+contains the sync/archive result. The #79 current checkpoint links this PR and
+the committed evidence; criteria and closure gates are retained.
