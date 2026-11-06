@@ -91,8 +91,8 @@ casts или случайными defaults.
 ### Источники рекомендаций
 
 Чистые функции и готовые данные описаны в
-[FRONTEND-ARCH-002](../../../packages/domains/frontend/architecture/presenter-composition.md)
-и [контракте #78](../../specs/frontend-component-presentation/spec.md).
+[FRONTEND-ARCH-002](../../../../packages/domains/frontend/architecture/presenter-composition.md)
+и [контракте #78](../../../specs/frontend-component-presentation/spec.md).
 В recipe будет полный pinned GitHub URL на FRONTEND-ARCH-002 из main f0a936c,
 с revision/status и точными разделами о вычислениях и отображении. Проверенная
 копия той же ревизии также подходит. При недоступном источнике агент указывает,
@@ -519,3 +519,55 @@ reviews contain no additional findings. This local type visibility correction
 changes no runtime behaviour; native/browser evidence from the previous round
 is retained, not rerun for this type-only edit. Final diff/type consumers checked;
 no external ViewState consumers. Owner authorized merge after this correction.
+
+## Archive and spec sync — 2026-11-06
+
+Owner selected synchronization and archival after PR85 merged to main
+`f3af7def9479ac9d8f035fc925f92cc748cb5ff3`. All artifacts complete, tasks 6/6.
+New main component-presentation-development copies Purpose and all 7 requirements/
+15 scenarios verbatim, except canonical H1/Requirements headers. The four other
+main specs remain untouched. Metadata and delta are unchanged; proposal/tasks
+only rebase relative links where needed. Full change retained with all review
+closures and historical evidence. Runtime, all plugin/fixture/package content,
+versions and proposed/Pending status unchanged.
+
+Incoming repository links and moved artifacts' relative links are rebased.
+Handoff/product overview/roadmap expose the main spec and actual implementation
+merge. Historical planning/review passages in this archive describe their stage,
+not current delivery. Archive delivery is a separate PR, with a stable link once
+created. Release/tag/public-host verification and app adoption remain separate.
+
+### Archive GitHub issue edits and delivery
+
+#79 current checkpoint links the archive PR and evidence; original criteria and
+open status retained until delivery. After owner-authorized archive merge, verify
+actual main commit, refresh the issue checkpoint and close #79. Current tracked
+PR references remain valid across merge; no guessed merge SHA or direct main
+commit is needed. No release, normative acceptance or consumer migration implied.
+
+Archive verification: exact normalized main spec (7 requirements / 15 scenarios),
+unchanged metadata/proposal/tasks/delta, change absent from active list; strict
+main specs 5/5, whitespace and fresh full check 114/114 on Node 26.11.1 pass.
+Root check includes real package packs/external consumers. All runtime/plugin/
+fixture/package trees and other four main specs unchanged. Separate complete
+diff/unchanged-contract/link audit: 136 tracked Markdown, 242 path links,
+3 same-file anchors, 0 errors. Path-list SHA256:
+`23f188bc8993d7d9b5007de844cc4de503e34297af59d1945cb2875cdf6f00b5`.
+Method: Git ls-tree paths at reviewed tree, select .md, JavaScript default sort,
+UTF-8 joined with LF and final LF. Link counting uses marked 18.1.1 tokens,
+excluding code examples, URI/absolute targets; tracked paths/anchors validated.
+Earlier runtime/native evaluation is retained as historical evidence, not rerun
+for this documentation-only move. Known unfinished #71 draft remains outside scope.
+
+### Independent archive review
+
+Fresh-context reviewer read the complete staged diff, archived artifacts/current
+tracking, all public PR85 comments/reviews/replies and #79. Prior closures retained.
+No actionable findings. Independently reran exact 7/15 normalized transfer,
+metadata/proposal/tasks/delta equality, unchanged other four main specs, strict
+5/5 and whitespace. Full 114/114/link evidence inspected rather than rerun.
+Implementation merge f3af7de verified; archive PR and issue publication follow.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public [#79](https://github.com/antonsmolko/gost-spec/issues/79) completed scope | Complete sync/archive result | Full archive diff | No actionable findings | Independent byte/strict checks and review with limits above |

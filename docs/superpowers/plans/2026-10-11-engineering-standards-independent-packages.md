@@ -160,18 +160,21 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 сохраняет Purpose и все7 требований/15 сценариев из reviewed delta.
 Это документационный outcome; proposed/Pending, plugin/runtime и пять версий
 не меняются. Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), main `f0a936c`; #78 закрыта.
-#75 уже доставлен PR82/main d4ea4ac и закрыт; далее план #79 без реализации skill.
+#75 доставлен PR82/main d4ea4ac и закрыт; #79 реализован PR85/main f3af7de.
 
 ## Pure view presenter skill — #79
 
-[План add-presenter-skill](../../../openspec/changes/add-presenter-skill/proposal.md)
+[План add-presenter-skill](../../../openspec/changes/archive/2026-11-06-add-presenter-skill/proposal.md)
 описывает skill выделения и изменения чистых функций подготовки представления.
 Компонент отображает готовые результаты; unit-тесты проверяют вычисления.
-Полный пример будет в reference плагина, рабочая Svelte5 проверка — в
+Полный пример находится в reference плагина, рабочая Svelte5 проверка — в
 `fixtures/view-presenter/`. Выбран отдельный `gost-view-presenter` 0.1.0 unreleased
 в marketplace gost. Поставка и поведение skill проверяются отдельно.
-[Design](../../../openspec/changes/add-presenter-skill/design.md),
-[tasks](../../../openspec/changes/add-presenter-skill/tasks.md), реализация 6/6.
+[Design](../../../openspec/changes/archive/2026-11-06-add-presenter-skill/design.md),
+[tasks](../../../openspec/changes/archive/2026-11-06-add-presenter-skill/tasks.md), реализация 6/6.
 План доставлен PR84/main `2add3a8`; skill/пример/поставка реализованы, full 114/114
 на обоих Node и native loopback проверены. Независимое review без findings; реализация — [PR85](https://github.com/antonsmolko/gost-spec/pull/85).
-#78 archive доставлен PR83/main f0a936c. Выпуск — отдельное действие.
+#78 archive доставлен PR83/main f0a936c. #79 implementation доставлен PR85/main f3af7de.
+По выбору владельца #79 синхронизирован и перенесён в архив:
+[основная spec](../../../openspec/specs/component-presentation-development/spec.md),
+7 требований / 15 сценариев. Доставка архива — отдельный PR; выпуск — отдельное действие.
