@@ -9,7 +9,7 @@ Move view-data calculations into pure functions. The component displays their
 results; ordinary input/output tests check the calculations.
 
 Read [the complete example](references/view-presenter.md) before editing. It
-shows the original component, independent and composed functions, colocated
+shows the original component, a typed presenter with named parameters, colocated
 unit tests and reactive use of the result. Follow its source links for the
 selected presentation guidance; record the revision and proposed status.
 
@@ -29,10 +29,12 @@ Pass data and relevant context, such as locale or labels, explicitly. Keep
 functions deterministic and preserve their inputs. Keep I/O and hidden reads of
 stores, current time or mutable globals outside the calculation.
 
-Group related outputs when they share work. Keep independent functions narrow;
-a combining presenter can call them. Use ready fields, boolean conditions and
+Name functions `<name>Presenter`. Use a named-parameter object and an explicit
+view-result type, for
+example `catalogPresenter({ input, labels }): ViewState`. A presenter prepares
+its complete result directly; do not call another presenter from it. A component may call several independent presenters. Use ready fields, boolean conditions and
 rows in markup. In Svelte 5, a reactive presenter call such as
-`$derived(presentCatalog(input, labels))` retains updates; a one-time snapshot
+`$derived(catalogPresenter({ input, labels }))` retains updates; a one-time snapshot
 will not. Moving the calculation to a component helper or derived expression
 alone does not extract its responsibility.
 
@@ -45,7 +47,7 @@ and do not hide missing required data with assertions or guessed defaults.
 ## Verify and report
 
 Colocate ordinary function tests using the project's runner. Cover outputs,
-explicit context, documented variants, composition and input preservation.
+explicit context, documented variants, the complete view result and input preservation.
 Separately check reactive changes in displayed text/branches/rows and existing
 callbacks in the client runtime. Run applicable type/Svelte checks, build and
 existing approved lint commands. Manually trace calculation sources and explain

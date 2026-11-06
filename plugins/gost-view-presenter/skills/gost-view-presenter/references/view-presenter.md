@@ -7,12 +7,13 @@ validation or a convention to invent for other applications.
 
 ## Source and applicability
 
-The [pure/composition/rendering guidance](https://github.com/antonsmolko/gost-spec/blob/f0a936c36458225dd58a896e7f5f6257dcf99821/packages/domains/frontend/architecture/presenter-composition.md#requirement)
+The [pure/rendering guidance](https://github.com/antonsmolko/gost-spec/blob/f0a936c36458225dd58a896e7f5f6257dcf99821/packages/domains/frontend/architecture/presenter-composition.md#requirement)
 is FRONTEND-ARCH-002, revision f0a936c, proposed/Pending. Read its Requirement,
-Applicability, independent/composed example and Verification sections for those
+Applicability and Verification sections for those
 responsibilities. The broader document also discusses project-specific state/event
-architecture; retain the target project's already-adopted applicability. This
-recipe illustrates using the guidance and does not accept or redefine the standard.
+architecture; retain the target project's already-adopted applicability. The source permits broader function composition; this skill uses independent
+component-level presenters. The recipe illustrates the selected convention and
+does not accept or redefine the standard.
 If the pinned source is unavailable, use a verified copy of that revision or
 report the dependent policy verification incomplete.
 
@@ -61,35 +62,45 @@ export type CatalogInput = {
 export type CatalogLabels = { readonly untitled: string; readonly errorFallback: string };
 ```
 
-## Independent functions and composition
+## One presenter prepares the view
 
-`presentRows` only needs items and one label. `presentStatus` groups related
-flags. `presentCatalog` combines the two results without owning state.
+`catalogPresenter` receives a named parameter object and returns the explicit
+`ViewState`. It prepares flags, text and rows directly. Other presenters, when
+needed, are called independently by the component. A presenter does not call
+other presenters.
 
 ### catalog.presenter.ts
 
 ```ts
 import type { CatalogInput, CatalogLabels } from './catalog.ts';
 
-export const presentRows = (items: CatalogInput['items'], labels: Pick<CatalogLabels, 'untitled'>) =>
-  items.map(({ id, title }) => ({ id, title: title?.trim() || labels.untitled }));
+type Params = {
+  input: CatalogInput;
+  labels: CatalogLabels;
+};
 
-export const presentStatus = (input: CatalogInput, labels: Pick<CatalogLabels, 'errorFallback'>) => ({
+export type ViewState = {
+  isLoading: boolean;
+  isError: boolean;
+  isEmpty: boolean;
+  isLoaded: boolean;
+  errorMessage: string;
+  rows: { id: string; title: string }[];
+};
+
+export const catalogPresenter = ({ input, labels }: Params): ViewState => ({
   isLoading: input.status === 'loading',
   isError: input.status === 'error',
   isEmpty: input.status === 'ready' && input.items.length === 0,
   isLoaded: input.status === 'ready' && input.items.length > 0,
   errorMessage: input.error?.trim() || labels.errorFallback,
-});
-
-export const presentCatalog = (input: CatalogInput, labels: CatalogLabels) => ({
-  ...presentStatus(input, labels), rows: presentRows(input.items, labels),
+  rows: input.items.map(({ id, title }) => ({ id, title: title?.trim() || labels.untitled })),
 });
 ```
 
 ## Colocated unit tests
 
-Run these tests with Node26 using `node --test src/catalog.presenter.test.ts`,
+Run these tests with Node 26 using `node --test src/catalog.presenter.test.ts`,
 or adapt to the project's existing runner. They call functions directly and
 check a static table of expected flags, explicit context and frozen inputs.
 
@@ -98,7 +109,7 @@ check a static table of expected flags, explicit context and frozen inputs.
 ```ts
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { presentCatalog, presentRows, presentStatus } from './catalog.presenter.ts';
+import { catalogPresenter } from './catalog.presenter.ts';
 import type { CatalogInput } from './catalog.ts';
 
 const labels = { untitled: 'Untitled', errorFallback: 'Please retry' };
@@ -117,30 +128,30 @@ describe('catalog presenter', () => {
     ['error', [{ id: 'a', title: ' Old ' }], [false, true, false, false]],
   ] as const) {
     test(`${status}, ${items.length} rows: ready display flags`, () => {
-      const result = presentStatus(input({ status, items }), labels);
+      const result = catalogPresenter({ input: input({ status, items }), labels });
       assert.deepEqual([result.isLoading, result.isError, result.isEmpty, result.isLoaded], flags);
     });
   }
-  test('prepares rows independently with supplied nullable/blank fallback', () => {
-    assert.deepEqual(presentRows([
+  test('prepares rows with supplied nullable/blank fallback', () => {
+    assert.deepEqual(catalogPresenter({ input: input({ status: 'ready', items: [
       { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
-    ], labels), [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }]);
+    ] }), labels }).rows, [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }]);
   });
   test('uses explicit context and error text', () => {
-    assert.equal(presentStatus(input({ status: 'error', error: ' Offline ' }), labels).errorMessage, 'Offline');
-    assert.equal(presentStatus(input({ status: 'error' }), { ...labels, errorFallback: 'Try again' }).errorMessage, 'Try again');
-    assert.equal(presentRows([{ id: 'a', title: null }], { untitled: 'Unnamed' })[0].title, 'Unnamed');
+    assert.equal(catalogPresenter({ input: input({ status: 'error', error: ' Offline ' }), labels }).errorMessage, 'Offline');
+    assert.equal(catalogPresenter({ input: input({ status: 'error' }), labels: { ...labels, errorFallback: 'Try again' } }).errorMessage, 'Try again');
+    assert.equal(catalogPresenter({ input: input({ items: [{ id: 'a', title: null }] }), labels: { ...labels, untitled: 'Unnamed' } }).rows[0].title, 'Unnamed');
   });
-  test('composes independent results and preserves frozen inputs', () => {
+  test('returns the complete view state and preserves frozen inputs', () => {
     const before = Object.freeze(input({ status: 'ready', items: Object.freeze([
       Object.freeze({ id: 'a', title: ' Alpha ' }),
     ]) }));
     const context = Object.freeze({ ...labels });
-    const result = presentCatalog(before, context);
-    assert.deepEqual(result, { ...presentStatus(before, context), rows: presentRows(before.items, context) });
+    const result = catalogPresenter({ input: before, labels: context });
+    assert.deepEqual(result, { isLoading: false, isError: false, isEmpty: false, isLoaded: true, errorMessage: 'Please retry', rows: [{ id: 'a', title: 'Alpha' }] });
     assert.deepEqual(result.rows, [{ id: 'a', title: 'Alpha' }]);
     assert.equal(before.items[0].title, ' Alpha ');
-    assert.deepEqual(presentCatalog(before, context), result);
+    assert.deepEqual(catalogPresenter({ input: before, labels: context }), result);
     assert.notEqual(result.rows, before.items);
   });
 });
@@ -152,12 +163,12 @@ describe('catalog presenter', () => {
 
 ```svelte
 <script lang="ts">
-  import { presentCatalog } from './catalog.presenter.js';
+  import { catalogPresenter } from './catalog.presenter.js';
   import type { CatalogInput, CatalogLabels } from './catalog.js';
   let { input, labels, onRefresh }: {
     input: CatalogInput; labels: CatalogLabels; onRefresh: () => void;
   } = $props();
-  const view = $derived(presentCatalog(input, labels));
+  const view = $derived(catalogPresenter({ input, labels }));
 </script>
 
 <section aria-label="Catalog">
@@ -199,7 +210,7 @@ updates. Keep the store/data source, dependencies and event behaviour in place.
 
 ## Recognize incomplete extractions
 
-- `const view = presentCatalog(input, labels)` runs once in a Svelte script; use
+- `const view = catalogPresenter({ input, labels })` runs once in a Svelte script; use
   a reactive call for changing props. Successful TypeScript compilation is not
   evidence of updates.
 - A component-local `$derived(input.status === "ready")` or helper named

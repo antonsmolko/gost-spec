@@ -93,7 +93,7 @@ Content acceptance и release остаются отдельными решени
 [Reference](../../plugins/gost-view-presenter/skills/gost-view-presenter/references/view-presenter.md)
 содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5 проверку.
 Реализация 6/6: skill/пример и третья поставка готовы, native loopback проверен
-в Codex/Claude. Full check114/114 на обоих Node; независимое review без findings.
+в Codex/Claude. Full check 114/114 на обоих Node; независимое review без findings.
 Реализация — [PR #85](https://github.com/antonsmolko/gost-spec/pull/85), статус доставки проверяется по PR.
 Реальные release/tag и применение к asc-admin остаются отдельными.
 Технические работы не блокируют описание skills:

@@ -3,7 +3,7 @@
 Extract view-data calculations into pure functions, test their results and use
 ready values in components. The English [skill](skills/gost-view-presenter/SKILL.md)
 and [complete example](skills/gost-view-presenter/references/view-presenter.md)
-cover the original component, independent/composed functions, colocated unit tests
+cover the original component, a typed presenter with named parameters, colocated unit tests
 and reactive rendering. TypeScript calculations and Svelte 5 binding are verified
 separately. Existing data sources, callbacks and dependencies stay in place.
 
@@ -45,7 +45,7 @@ The complete example has ordinary function tests and separate Chromium checks
 for reactive text/branches/rows and existing callbacks. Source links record the
 proposed guidance and revision; missing inputs or source verification are
 reported explicitly. Compiler success does not establish arbitrary purity.
-Codex 0.166.0 and Claude Code 2.1.308 were checked in disposable profiles against
+Codex 0.167.0 and Claude Code 2.1.308 were checked in disposable profiles against
 a full loopback HTTP Git URL selecting a temporary fixture tag. Separate install,
 repeat, coexistence, fresh discovery and installed bytes were checked. This is
 native loopback evidence; public GitHub installation and a real release remain

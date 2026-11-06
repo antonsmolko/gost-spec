@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { presentCatalog } from './catalog.presenter.js';
+  import { catalogPresenter } from './catalog.presenter.js';
   import type { CatalogInput, CatalogLabels } from './catalog.js';
   let { input, labels, onRefresh }: {
     input: CatalogInput; labels: CatalogLabels; onRefresh: () => void;
   } = $props();
-  const view = $derived(presentCatalog(input, labels));
+  const view = $derived(catalogPresenter({ input, labels }));
 </script>
 
 <section aria-label="Catalog">

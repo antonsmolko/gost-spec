@@ -133,7 +133,7 @@ Private root не имеет release-версии. Пакеты независи
 ## Pure view presenter skill — #79
 
 [План](../../../openspec/changes/add-presenter-skill/proposal.md) описывает перенос
-логики подготовки данных для отображения в чистые функции, их композицию,
+логики подготовки данных для отображения в чистые presenter-функции,
 unit-тесты и использование результатов компонентом. Reference содержит полный
 пример, отдельная Svelte5 fixture проверяет обновление отображения.
 [Skill](../../../plugins/gost-view-presenter/skills/gost-view-presenter/SKILL.md)

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { presentCatalog, presentRows, presentStatus } from './catalog.presenter.ts';
+import { catalogPresenter } from './catalog.presenter.ts';
 import type { CatalogInput } from './catalog.ts';
 
 const labels = { untitled: 'Untitled', errorFallback: 'Please retry' };
@@ -19,30 +19,30 @@ describe('catalog presenter', () => {
     ['error', [{ id: 'a', title: ' Old ' }], [false, true, false, false]],
   ] as const) {
     test(`${status}, ${items.length} rows: ready display flags`, () => {
-      const result = presentStatus(input({ status, items }), labels);
+      const result = catalogPresenter({ input: input({ status, items }), labels });
       assert.deepEqual([result.isLoading, result.isError, result.isEmpty, result.isLoaded], flags);
     });
   }
-  test('prepares rows independently with supplied nullable/blank fallback', () => {
-    assert.deepEqual(presentRows([
+  test('prepares rows with supplied nullable/blank fallback', () => {
+    assert.deepEqual(catalogPresenter({ input: input({ status: 'ready', items: [
       { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
-    ], labels), [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }]);
+    ] }), labels }).rows, [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }]);
   });
   test('uses explicit context and error text', () => {
-    assert.equal(presentStatus(input({ status: 'error', error: ' Offline ' }), labels).errorMessage, 'Offline');
-    assert.equal(presentStatus(input({ status: 'error' }), { ...labels, errorFallback: 'Try again' }).errorMessage, 'Try again');
-    assert.equal(presentRows([{ id: 'a', title: null }], { untitled: 'Unnamed' })[0].title, 'Unnamed');
+    assert.equal(catalogPresenter({ input: input({ status: 'error', error: ' Offline ' }), labels }).errorMessage, 'Offline');
+    assert.equal(catalogPresenter({ input: input({ status: 'error' }), labels: { ...labels, errorFallback: 'Try again' } }).errorMessage, 'Try again');
+    assert.equal(catalogPresenter({ input: input({ items: [{ id: 'a', title: null }] }), labels: { ...labels, untitled: 'Unnamed' } }).rows[0].title, 'Unnamed');
   });
-  test('composes independent results and preserves frozen inputs', () => {
+  test('returns the complete view state and preserves frozen inputs', () => {
     const before = Object.freeze(input({ status: 'ready', items: Object.freeze([
       Object.freeze({ id: 'a', title: ' Alpha ' }),
     ]) }));
     const context = Object.freeze({ ...labels });
-    const result = presentCatalog(before, context);
-    assert.deepEqual(result, { ...presentStatus(before, context), rows: presentRows(before.items, context) });
+    const result = catalogPresenter({ input: before, labels: context });
+    assert.deepEqual(result, { isLoading: false, isError: false, isEmpty: false, isLoaded: true, errorMessage: 'Please retry', rows: [{ id: 'a', title: 'Alpha' }] });
     assert.deepEqual(result.rows, [{ id: 'a', title: 'Alpha' }]);
     assert.equal(before.items[0].title, ' Alpha ');
-    assert.deepEqual(presentCatalog(before, context), result);
+    assert.deepEqual(catalogPresenter({ input: before, labels: context }), result);
     assert.notEqual(result.rows, before.items);
   });
 });
