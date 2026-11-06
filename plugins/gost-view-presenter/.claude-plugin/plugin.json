@@ -1,0 +1,10 @@
+{
+  "name": "gost-view-presenter",
+  "version": "0.1.0",
+  "description": "Extract view-data calculations into testable pure functions and use their results in components.",
+  "author": {
+    "name": "Anton Smolko"
+  },
+  "license": "MIT",
+  "icon": "./assets/icon.png"
+}

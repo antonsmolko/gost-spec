@@ -28,11 +28,17 @@ Features reuse application effects and receivers; their handlers remain at app l
 Its [Public API recipe](plugins/gost-functional-core/skills/gost-functional-core/references/functional-core.md)
 records verified artifacts and API constraints; missing inputs remain explicit.
 
+[Prepare view data](plugins/gost-view-presenter/skills/gost-view-presenter/SKILL.md)
+guides extracting calculations into pure functions, testing their results and
+using ready values in components. Its [complete example](plugins/gost-view-presenter/skills/gost-view-presenter/references/view-presenter.md)
+shows the original component, presenter, unit tests and reactive Svelte 5 binding.
+
 Skill sources are separate from the five document workspaces. The
-[shell plugin](plugins/gost-svelte-shell/README.md) and
-[functional-core plugin](plugins/gost-functional-core/README.md) have independent
+[shell](plugins/gost-svelte-shell/README.md),
+[functional-core](plugins/gost-functional-core/README.md) and
+[view-presenter](plugins/gost-view-presenter/README.md) plugins have independent
 unreleased versions and share native Codex and Claude Code marketplace catalogs.
-Either can be installed independently from the selected snapshot. Reading or installing document
+Each can be installed independently from the selected snapshot. Reading or installing document
 packages does not apply the skill or install runtime libraries.
 
 ## Documentation

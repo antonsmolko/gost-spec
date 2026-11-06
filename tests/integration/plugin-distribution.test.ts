@@ -86,8 +86,8 @@ test("native marketplace catalogs select the same plugin directory", async () =>
   const claude = await json(claudePath);
   assert.equal(codex.name, "gost");
   assert.equal(claude.name, codex.name);
-  assert.equal(codex.plugins.length, 2);
-  assert.equal(claude.plugins.length, 2);
+  assert.equal(codex.plugins.length, 3);
+  assert.equal(claude.plugins.length, 3);
   assert.equal(catalogEntry(codex, "gost-svelte-shell").source.path, `./${pluginPath}`);
   assert.equal(catalogEntry(claude, "gost-svelte-shell").source, `./${pluginPath}`);
   assert.equal(catalogEntry(codex, "gost-functional-core").name, "gost-functional-core");
@@ -301,3 +301,38 @@ for (const [label, source] of [
     assert.equal(await readFile(path, "utf8"), JSON.stringify(catalog), "validation must not repair the rejected source");
   });
 }
+
+test("presenter is an independent third plugin with contained references", async (t) => {
+  const root = await fixture(t);
+  const presenter = "plugins/gost-view-presenter";
+  const codex = await json(join(root, presenter, ".codex-plugin/plugin.json"));
+  const claude = await json(join(root, presenter, ".claude-plugin/plugin.json"));
+  assert.equal(codex.name, "gost-view-presenter");
+  assert.equal(codex.version, "0.1.0");
+  assert.equal(claude.name, codex.name);
+  assert.equal(claude.version, codex.version);
+  assert.deepEqual(await checkPluginDistribution(root), []);
+  const skill = join(root, presenter, "skills/gost-view-presenter/SKILL.md");
+  await writeFile(skill, (await readFile(skill, "utf8")) + "\n[Sibling](../../../gost-functional-core/README.md)\n");
+  assert.match((await checkPluginDistribution(root)).join("\n"), /gost-view-presenter.*invalid local link/);
+});
+
+test("presenter catalog and content failures are diagnosed independently", async (t) => {
+  const root = await fixture(t);
+  const directory = join(root, "plugins/gost-view-presenter");
+  await rm(directory, { recursive: true, force: true });
+  assert.match((await checkPluginDistribution(root)).join("\n"), /gost-view-presenter/);
+  await cp(join(repository, "plugins/gost-view-presenter"), directory, { recursive: true });
+  const manifest = join(directory, ".claude-plugin/plugin.json");
+  const value = await json(manifest);
+  value.version = "0.9.0";
+  await writeFile(manifest, JSON.stringify(value));
+  assert.match((await checkPluginDistribution(root)).join("\n"), /gost-view-presenter.*versions differ/);
+  value.version = "0.1.0";
+  await writeFile(manifest, JSON.stringify(value));
+  const catalogPath = join(root, ".agents/plugins/marketplace.json");
+  const catalog = await json(catalogPath);
+  catalog.plugins.push(catalogEntry(catalog, "gost-view-presenter"));
+  await writeFile(catalogPath, JSON.stringify(catalog));
+  assert.match((await checkPluginDistribution(root)).join("\n"), /plugin entries must contain exactly one gost-view-presenter/);
+});

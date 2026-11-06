@@ -10,6 +10,11 @@
       "name": "gost-functional-core",
       "source": "./plugins/gost-functional-core",
       "description": "Develop business features with the framework-independent gost-kit functional core."
+    },
+    {
+      "name": "gost-view-presenter",
+      "source": "./plugins/gost-view-presenter",
+      "description": "Prepare view data with pure presentation functions."
     }
   ],
   "owner": {

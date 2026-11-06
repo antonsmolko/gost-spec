@@ -171,5 +171,7 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 `fixtures/view-presenter/`. Выбран отдельный `gost-view-presenter` 0.1.0 unreleased
 в marketplace gost. Поставка и поведение skill проверяются отдельно.
 [Design](../../../openspec/changes/add-presenter-skill/design.md),
-[tasks](../../../openspec/changes/add-presenter-skill/tasks.md), реализация 0/6.
-#78 archive доставлен PR83/main f0a936c. После review плана — отдельный apply.
+[tasks](../../../openspec/changes/add-presenter-skill/tasks.md), реализация 6/6.
+План доставлен PR84/main `2add3a8`; skill/пример/поставка реализованы, full 114/114
+на обоих Node и native loopback проверены. Независимое review без findings; реализация — [PR85](https://github.com/antonsmolko/gost-spec/pull/85).
+#78 archive доставлен PR83/main f0a936c. Выпуск — отдельное действие.
