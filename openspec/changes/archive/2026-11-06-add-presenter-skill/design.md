@@ -91,8 +91,8 @@ casts или случайными defaults.
 ### Источники рекомендаций
 
 Чистые функции и готовые данные описаны в
-[FRONTEND-ARCH-002](../../../packages/domains/frontend/architecture/presenter-composition.md)
-и [контракте #78](../../specs/frontend-component-presentation/spec.md).
+[FRONTEND-ARCH-002](../../../../packages/domains/frontend/architecture/presenter-composition.md)
+и [контракте #78](../../../specs/frontend-component-presentation/spec.md).
 В recipe будет полный pinned GitHub URL на FRONTEND-ARCH-002 из main f0a936c,
 с revision/status и точными разделами о вычислениях и отображении. Проверенная
 копия той же ревизии также подходит. При недоступном источнике агент указывает,
@@ -519,3 +519,110 @@ reviews contain no additional findings. This local type visibility correction
 changes no runtime behaviour; native/browser evidence from the previous round
 is retained, not rerun for this type-only edit. Final diff/type consumers checked;
 no external ViewState consumers. Owner authorized merge after this correction.
+
+## Archive and spec sync — 2026-11-06
+
+Owner selected synchronization and archival after PR85 merged to main
+`f3af7def9479ac9d8f035fc925f92cc748cb5ff3`. All artifacts complete, tasks 6/6.
+New main component-presentation-development copies Purpose and all 7 requirements/
+15 scenarios verbatim, except canonical H1/Requirements headers. The four other
+main specs remain untouched. Metadata, delta, proposal and tasks are byte-identical; proposal/tasks required
+no link rebases. Full change retains verified review dispositions and historical
+evidence. GitHub thread resolution is recorded in PR86 R1 below. Runtime, all plugin/fixture/package content,
+versions and proposed/Pending status unchanged.
+
+Incoming repository links and moved artifacts' relative links are rebased.
+Handoff/product overview/roadmap expose the main spec and actual implementation
+merge. Historical planning/review passages in this archive describe their stage,
+not current delivery. Archive delivery is tracked in
+[PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
+Release/tag/public-host verification and app adoption remain separate.
+
+### Archive GitHub issue edits and delivery
+
+#79 current checkpoint links the archive PR and evidence; original criteria and
+open status retained until delivery. After owner-authorized archive merge, verify
+actual main commit, refresh the issue checkpoint and close #79. Current tracked
+PR references remain valid across merge; no guessed merge SHA or direct main
+commit is needed. No release, normative acceptance or consumer migration implied.
+
+Archive verification: exact normalized main spec (7 requirements / 15 scenarios),
+unchanged metadata/proposal/tasks/delta, change absent from active list; strict
+main specs 5/5, whitespace and fresh full check 114/114 on Node 26.11.1 pass.
+Root check includes real package packs/external consumers. All runtime/plugin/
+fixture/package trees and other four main specs unchanged. Separate complete
+diff/unchanged-contract/link audit: 136 tracked Markdown, 242 path links,
+3 same-file anchors, 0 errors. Path-list SHA256:
+`23f188bc8993d7d9b5007de844cc4de503e34297af59d1945cb2875cdf6f00b5`.
+Method: Git ls-tree paths at reviewed tree, select .md, JavaScript default sort,
+UTF-8 joined with LF and final LF. Link counting uses marked 18.1.1 tokens,
+excluding code examples, URI/absolute targets; tracked paths/anchors validated.
+Earlier runtime/native evaluation is retained as historical evidence, not rerun
+for this documentation-only move. Known unfinished #71 draft remains outside scope.
+
+### Independent archive review
+
+Fresh-context reviewer read the complete staged diff, archived artifacts/current
+tracking, all public PR85 comments/reviews/replies and #79. Prior closures retained.
+No actionable findings. Independently reran exact 7/15 normalized transfer,
+metadata/proposal/tasks/delta equality, unchanged other four main specs, strict
+5/5 and whitespace. Full 114/114/link evidence inspected rather than rerun.
+Implementation merge f3af7de verified; archive PR and issue publication follow.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis); public [#79](https://github.com/antonsmolko/gost-spec/issues/79) completed scope | Complete sync/archive result | Full archive diff | No actionable findings | Independent byte/strict checks and review with limits above |
+
+Archive delivery checkpoint: [PR #86](https://github.com/antonsmolko/gost-spec/pull/86)
+contains the sync/archive result. The #79 current checkpoint links this PR and
+the committed evidence; criteria and closure gates are retained.
+
+## PR86 published review — 2026-11-07
+
+Read all pages of PR86 inline comments, four summary reviews (empty bodies),
+PR comments and #79 comments (none), plus all 13 PR85 threads and their replies.
+Prior verified dispositions are retained. This round changes wording and tracker
+state only; no requirement, gate, runtime, plugin or version changes.
+
+### PR86 R1 — GitHub thread resolution
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Open PR85 threads](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501383645) | Ledger dispositions did not match unresolved GitHub state | PR85/archive ledger | Fixed | Read all 13 original comments and existing disposition replies; confirmed retained R1–R13 fixes and owner-authorized implementation merge f3af7de. Resolved all 13 threads; GraphQL mutation returned isResolved:true for each. Earlier archive review confirmed dispositions, not tracker resolution |
+
+### PR86 R2 — roadmap repetition
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated deliveries](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501384665) | Adjacent sections repeat PR83/PR85 delivery | Roadmap | Fixed | Removed repeated transition sentences; PR85/main f3af7de is stated once in its own section |
+
+### PR86 R3 — overview repetition
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated implementation](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501385690) | PR85 delivery repeated across adjacent sections | Product design | Fixed | Removed the #79 transition from the #78 section; complete delivery remains in #79 |
+
+### PR86 R4 — exact archive description
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Unchanged proposal/tasks](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501386644) | Link-rebase wording ambiguous for unchanged files | Archive design | Fixed | Explicit byte equality and no rebases needed; Git rename 100% for metadata/proposal/tasks/delta |
+
+### PR86 R5 — spacing
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Spacing](https://github.com/antonsmolko/gost-spec/pull/86#issuecomment-6705876933) | Words joined to counts/hashes | Roadmap/product design/#79 | Fixed | Restored tasks 6/6, все 7, main 82eda95 and содержит 7; #79 checkpoint refresh also corrects joined main hashes and version spacing |
+
+### PR86 review GitHub issue edits and verification
+
+#79 keeps its criteria, dependencies and open status pending archive delivery.
+Its checkpoint links this round's committed ledger; spacing edits preserve facts
+and historical checkpoints. PR description and each review reply use the same
+committed dispositions. No merge, acceptance or release performed.
+
+Complete PR diff and relevant unchanged documents/#79 inspected separately from
+runtime tests. Exact normalized 7/15 transfer, unchanged archived metadata/
+proposal/tasks/delta and other four main specs rechecked. Strict main specs 5/5,
+whitespace, full check 114/114 and Markdown link audit pass. Runtime/native/browser
+results from implementation remain historical; no rerun needed for wording.

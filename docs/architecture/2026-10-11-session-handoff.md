@@ -84,9 +84,9 @@ main `82eda95`. По запросу владельца #78 синхронизи�
 Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83),
 main `f0a936c`; #78 закрыта после проверки доставки.
 Content acceptance и release остаются отдельными решениями.
-Текущий outcome — план [#79](https://github.com/antonsmolko/gost-spec/issues/79),
-[add-presenter-skill](../../openspec/changes/add-presenter-skill/proposal.md),
-План доставлен PR84/main `2add3a8`. Ветка реализации
+Завершённый skill outcome — [#79](https://github.com/antonsmolko/gost-spec/issues/79).
+[План add-presenter-skill](../../openspec/changes/archive/2026-11-06-add-presenter-skill/proposal.md)
+доставлен PR84/main `2add3a8`. Ветка реализации
 `feature/gost-spec-79-view-presenter-implementation`, prefix `[gost-spec-79]`.
 Выбран отдельный plugin `gost-view-presenter` 0.1.0 unreleased. Presenter выносит
 логику подготовки данных для отображения в чистые функции с unit-тестами.
@@ -94,7 +94,11 @@ Content acceptance и release остаются отдельными решени
 содержит полный пример, `fixtures/view-presenter/` — рабочую Svelte5 проверку.
 Реализация 6/6: skill/пример и третья поставка готовы, native loopback проверен
 в Codex/Claude. Full check 114/114 на обоих Node; независимое review без findings.
-Реализация — [PR #85](https://github.com/antonsmolko/gost-spec/pull/85), статус доставки проверяется по PR.
+Реализация доставлена [PR #85](https://github.com/antonsmolko/gost-spec/pull/85),
+main `f3af7de`. Change синхронизирован и перенесён в архив
+`2026-11-06-add-presenter-skill`; основной
+[контракт skill](../../openspec/specs/component-presentation-development/spec.md)
+содержит 7 требований и 15 сценариев. Доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
 Реальные release/tag и применение к asc-admin остаются отдельными.
 Технические работы не блокируют описание skills:
 [#71](https://github.com/antonsmolko/gost-spec/issues/71) — упрощение до четырёх

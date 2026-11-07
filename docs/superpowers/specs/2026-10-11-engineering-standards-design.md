@@ -124,19 +124,22 @@ Private root не имеет release-версии. Пакеты независи
 
 ## Учёт завершения component/presenter-контракта — #78
 
-После реализации PR81 (main82eda95) выполнен запрошенный sync/archive #78:
+После реализации PR81 (main `82eda95`) выполнен запрошенный sync/archive #78:
 [основная spec](../../../openspec/specs/frontend-component-presentation/spec.md)
-содержит7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
+содержит 7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
 сохраняет planning/review/evidence. Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), main `f0a936c`; #78 закрыта. Нормативные документы остаются proposed/Pending.
-#79 получает отдельный план; archive не создаёт skill или release.
 
 ## Pure view presenter skill — #79
 
-[План](../../../openspec/changes/add-presenter-skill/proposal.md) описывает перенос
+[План](../../../openspec/changes/archive/2026-11-06-add-presenter-skill/proposal.md) описывает перенос
 логики подготовки данных для отображения в чистые presenter-функции,
 unit-тесты и использование результатов компонентом. Reference содержит полный
 пример, отдельная Svelte5 fixture проверяет обновление отображения.
 [Skill](../../../plugins/gost-view-presenter/skills/gost-view-presenter/SKILL.md)
 поставляется как `gost-view-presenter` в общем маркетплейсе; English content,
 версия 0.1.0 unreleased. План доставлен PR84, реализация 6/6; проверки и границы
-записаны в [evidence](../../../openspec/changes/add-presenter-skill/design.md#implementation-evidence).
+записаны в [evidence](../../../openspec/changes/archive/2026-11-06-add-presenter-skill/design.md#implementation-evidence).
+
+Основной [контракт skill](../../../openspec/specs/component-presentation-development/spec.md)
+создан при sync/archive #79: 7 требований / 15 сценариев. Реализация доставлена
+PR85/main f3af7de; доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
