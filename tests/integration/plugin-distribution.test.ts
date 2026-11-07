@@ -115,7 +115,7 @@ test("two independent plugin trees pass with local sources and distinct versions
   const core = await json(join(root, functionalCorePath, ".codex-plugin/plugin.json"));
   assert.equal(core.name, "gost-functional-core");
   assert.equal(core.version, "0.1.0");
-  assert.equal(shell.version, "0.2.0");
+  assert.equal(shell.version, "0.2.1");
   assert.deepEqual(await checkPluginDistribution(root), []);
 });
 

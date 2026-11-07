@@ -32,13 +32,15 @@ Each external evaluation copy must retain this web-server policy.
 
 For an evaluation, copy this directory to an external temporary directory,
 excluding `node_modules`, `dist`, `test-results` and `playwright-report`. Install
-dependencies there. Supply real `@gost-kit/common` and `@gost-kit/svelte`
-tarballs from one recorded revision as separate inputs. Let the agent perform
+dependencies there. Use registry packages `@gost-kit/common@0.2.1` and `@gost-kit/svelte@0.1.1`
+for the published baseline (Node 26, Svelte 5.57.2). Record actual installed
+metadata and integrity. Supplied tarballs from a recorded revision remain an
+alternative with separately verified compatibility. Let the agent perform
 the integration in the copy, using this identical request with and without the
 skill:
 
 > Connect the gost-kit fc/shell state foundation to this existing Svelte 5 SPA.
-> Use the supplied common and Svelte tarballs. Preserve the existing greeting;
+> Use the selected real published common and Svelte packages or supplied verified tarballs. Preserve the existing greeting;
 > add the application composition point and shared store access, without
 > migrating business code or adding business modules. Run applicable checks and
 > report changed files, dependency versions and any limitations.
@@ -52,3 +54,10 @@ invocation for duplicate connections and a clean copy with missing artifacts
 for an explicit incomplete outcome. Keep generated evaluation results outside
 the baseline fixture and outside distributed skills. Record observations in the
 OpenSpec design's implementation evidence.
+
+The updated [store/context recipe](../../plugins/gost-svelte-shell/skills/gost-svelte-shell/references/foundation.md)
+keeps full root contracts in store and bootstrap/provider in the application.
+Its [disposable probe](../../plugins/gost-svelte-shell/skills/gost-svelte-shell/references/foundation.md#disposable-context-probe)
+contains code and browser tests for two slices, two consumers, independent roots
+and missing provider. Copy it only to the temporary connected evaluation, not to
+this baseline or the final consumer connection. Preserve all legacy source bytes.

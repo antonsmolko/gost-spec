@@ -6,7 +6,7 @@ updating this plugin does not run the skill or change an application.
 
 Read [the skill](skills/gost-svelte-shell/SKILL.md) and its
 [Public API recipe](skills/gost-svelte-shell/references/foundation.md).
-The recipe records the verified development artifacts. Plugin version 0.2.0
+The recipe records the verified published package baseline. Plugin version 0.2.1
 does not imply a corresponding gost-kit release or support for arbitrary versions.
 Missing library artifacts must be supplied before applying the skill.
 
@@ -18,7 +18,7 @@ libraries. Both catalogs read the local plugin directory within the selected
 marketplace snapshot. A tag selects the whole marketplace snapshot, rather than
 resolving independent versions of individual catalog entries.
 
-Version 0.2.0 is unreleased. The release-tag examples below become usable only
+Version 0.2.1 is unreleased. The release-tag examples below become usable only
 after that tag is explicitly approved and published. There is no published
 previous release tag to assume when preparing the first release.
 
@@ -30,12 +30,12 @@ CLI 0.166.0 and Claude Code 2.1.308. Installation from the public GitHub host ha
 not been verified; the release tag must exist there before these examples work.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.2.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.2.1
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.2.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.2.1'
 claude plugin install gost-svelte-shell@gost
 ```
 
@@ -153,3 +153,9 @@ available, report legacy rollback as unavailable. Do not invent a previous tag
 or promise an arbitrary Claude SHA selector. Refresh/re-register that available
 legacy catalog, reinstall the old ID and verify its old skill/recipe with no
 active new skill. The current release catalog keeps its local source.
+
+The updated recipe keeps root composition and typed access in a separate store
+module, with one provider per application root. Its disposable probe covers
+shared descendants, effect result actions, isolated roots and missing provider.
+The published-package baseline is common 0.2.1 / Svelte binding 0.1.1 on Node 26;
+check the recipe and consumer environment before integration.

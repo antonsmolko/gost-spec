@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 (unreleased)
+
+- Verify published common 0.2.1 / Svelte binding 0.1.1 and document engine/peer checks.
+- Add a separate store/context recipe with full root state and dispatch access.
+- Add a disposable two-slice browser probe for shared access, effect completion,
+  root isolation and missing-provider diagnostics; preserve empty integration.
+
 ## 0.2.0 (unreleased)
 
 - Select the same versioned marketplace tag in Codex and Claude Code; both
