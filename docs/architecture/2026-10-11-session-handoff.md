@@ -12,6 +12,12 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 
 ## Откуда продолжать
 
+Актуальная очередь — [таблица со статусами](2026-11-07-asc-admin-readiness.md).
+Сейчас #87: [OpenSpec-план](../../openspec/changes/connect-store-context-and-published-packages/proposal.md)
+обновления shell recipe под опубликованные пакеты и отдельный src/store/context.
+Реализация ещё не начата. #79 закрыта после доставки архива PR86/main `92d7edd`.
+Датированные записи ниже сохраняют историю предыдущих этапов.
+
 Archive/spec sync #55 доставлен в main через
 [PR #65](https://github.com/antonsmolko/gost-spec/pull/65), commit `c7c879c`.
 Повторно архивировать или искать незакоммиченный локальный перенос не требуется.
