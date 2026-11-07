@@ -124,11 +124,10 @@ Private root не имеет release-версии. Пакеты независи
 
 ## Учёт завершения component/presenter-контракта — #78
 
-После реализации PR81 (main82eda95) выполнен запрошенный sync/archive #78:
+После реализации PR81 (main `82eda95`) выполнен запрошенный sync/archive #78:
 [основная spec](../../../openspec/specs/frontend-component-presentation/spec.md)
-содержит7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
+содержит 7 требований/15 сценариев; [архив](../../../openspec/changes/archive/2026-11-05-clarify-component-presenter-contract/design.md)
 сохраняет planning/review/evidence. Архив доставлен [PR #83](https://github.com/antonsmolko/gost-spec/pull/83), main `f0a936c`; #78 закрыта. Нормативные документы остаются proposed/Pending.
-#79 реализован через отдельный план и PR85; сведения приведены ниже.
 
 ## Pure view presenter skill — #79
 

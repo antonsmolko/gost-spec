@@ -526,9 +526,9 @@ Owner selected synchronization and archival after PR85 merged to main
 `f3af7def9479ac9d8f035fc925f92cc748cb5ff3`. All artifacts complete, tasks 6/6.
 New main component-presentation-development copies Purpose and all 7 requirements/
 15 scenarios verbatim, except canonical H1/Requirements headers. The four other
-main specs remain untouched. Metadata and delta are unchanged; proposal/tasks
-only rebase relative links where needed. Full change retained with all review
-closures and historical evidence. Runtime, all plugin/fixture/package content,
+main specs remain untouched. Metadata, delta, proposal and tasks are byte-identical; proposal/tasks required
+no link rebases. Full change retains verified review dispositions and historical
+evidence. GitHub thread resolution is recorded in PR86 R1 below. Runtime, all plugin/fixture/package content,
 versions and proposed/Pending status unchanged.
 
 Incoming repository links and moved artifacts' relative links are rebased.
@@ -576,3 +576,53 @@ Implementation merge f3af7de verified; archive PR and issue publication follow.
 Archive delivery checkpoint: [PR #86](https://github.com/antonsmolko/gost-spec/pull/86)
 contains the sync/archive result. The #79 current checkpoint links this PR and
 the committed evidence; criteria and closure gates are retained.
+
+## PR86 published review — 2026-11-07
+
+Read all pages of PR86 inline comments, four summary reviews (empty bodies),
+PR comments and #79 comments (none), plus all 13 PR85 threads and their replies.
+Prior verified dispositions are retained. This round changes wording and tracker
+state only; no requirement, gate, runtime, plugin or version changes.
+
+### PR86 R1 — GitHub thread resolution
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Open PR85 threads](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501383645) | Ledger dispositions did not match unresolved GitHub state | PR85/archive ledger | Fixed | Read all 13 original comments and existing disposition replies; confirmed retained R1–R13 fixes and owner-authorized implementation merge f3af7de. Resolved all 13 threads; GraphQL mutation returned isResolved:true for each. Earlier archive review confirmed dispositions, not tracker resolution |
+
+### PR86 R2 — roadmap repetition
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated deliveries](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501384665) | Adjacent sections repeat PR83/PR85 delivery | Roadmap | Fixed | Removed repeated transition sentences; PR85/main f3af7de is stated once in its own section |
+
+### PR86 R3 — overview repetition
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated implementation](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501385690) | PR85 delivery repeated across adjacent sections | Product design | Fixed | Removed the #79 transition from the #78 section; complete delivery remains in #79 |
+
+### PR86 R4 — exact archive description
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Unchanged proposal/tasks](https://github.com/antonsmolko/gost-spec/pull/86#discussion_r4501386644) | Link-rebase wording ambiguous for unchanged files | Archive design | Fixed | Explicit byte equality and no rebases needed; Git rename 100% for metadata/proposal/tasks/delta |
+
+### PR86 R5 — spacing
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Spacing](https://github.com/antonsmolko/gost-spec/pull/86#issuecomment-6705876933) | Words joined to counts/hashes | Roadmap/product design/#79 | Fixed | Restored tasks 6/6, все 7, main 82eda95 and содержит 7; #79 checkpoint refresh also corrects joined main hashes and version spacing |
+
+### PR86 review GitHub issue edits and verification
+
+#79 keeps its criteria, dependencies and open status pending archive delivery.
+Its checkpoint links this round's committed ledger; spacing edits preserve facts
+and historical checkpoints. PR description and each review reply use the same
+committed dispositions. No merge, acceptance or release performed.
+
+Complete PR diff and relevant unchanged documents/#79 inspected separately from
+runtime tests. Exact normalized 7/15 transfer, unchanged archived metadata/
+proposal/tasks/delta and other four main specs rechecked. Strict main specs 5/5,
+whitespace, full check 114/114 and Markdown link audit pass. Runtime/native/browser
+results from implementation remain historical; no rerun needed for wording.
