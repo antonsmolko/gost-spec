@@ -143,3 +143,13 @@ unit-тесты и использование результатов компо�
 Основной [контракт skill](../../../openspec/specs/component-presentation-development/spec.md)
 создан при sync/archive #79: 7 требований / 15 сценариев. Реализация доставлена
 PR85/main f3af7de; доставка архива — [PR #86](https://github.com/antonsmolko/gost-spec/pull/86).
+
+## Обновление shell recipe — #87
+
+[План](../../../openspec/changes/connect-store-context-and-published-packages/proposal.md)
+описывает проверку опубликованных пакетов и доступ к полному store через context
+из отдельного src/store. Bootstrap остаётся в app; это согласованная модульная
+адаптация, применяемая с учётом архитектуры потребителя. Ход работы —
+[общая очередь и статусы](../../architecture/2026-11-07-asc-admin-readiness.md).
+Reset/API mapper/routing/persistence выполняются отдельно в gost-kit. Этот этап
+не принимает нормативное содержание и не обновляет asc-admin автоматически.
