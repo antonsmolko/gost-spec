@@ -121,7 +121,8 @@ fixture/evaluation и согласованные metadata/changelog. Измен�
 
 ## Planning verification and independent review
 
-План: 4/4 artifacts, реализация 0/6. Strict change и все 5 main specs проходят;
+Проверка плана на 2026-11-07: 4/4 artifacts, реализация тогда 0/6.
+Текущее выполнение — в таблице очереди. Strict change и все 5 main specs проходят;
 full npm run check 114/114 на Node 26.11.1, whitespace чист. Проверка ссылок
 отдельна от runtime suite: 141 tracked Markdown, 255 локальных ссылок, 0 ошибок
 (marked link/image tokens, без code/URI, проверка путей и heading anchors).
@@ -139,3 +140,41 @@ state/title #33 проверены. Native/runtime compatibility не запус
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis), paired with public [#87](https://github.com/antonsmolko/gost-spec/issues/87) requirements | Complete planning consistency | Nine-file plan/tracking diff | No material findings | Independent checks and limits above |
+
+## PR90 published review
+
+Прочитаны все страницы inline threads/replies, три review с пустыми summary bodies
+и [итоговый комментарий](https://github.com/antonsmolko/gost-spec/pull/90#issuecomment-6711924229).
+Замечания относятся к wording/tracking; требования дельты и шесть задач реализации
+сохранены. Предыдущие verified dispositions не переоткрываются.
+
+### PR90 R1 — dated handoff
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Handoff date](https://github.com/antonsmolko/gost-spec/pull/90#discussion_r4503404277) | New checkpoint had no date below historical stamp | Session handoff | Fixed | Snapshot explicitly dated 2026-11-07; old date remains historical; current execution points to readiness table |
+
+### PR90 R2 — one current execution counter
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Repeated progress](https://github.com/antonsmolko/gost-spec/pull/90#discussion_r4503405236) | Volatile status duplicated in overview documents | Roadmap/product design/handoff, public gost-spec #87/#88 and PR90 | Fixed | Overviews and current GitHub presentation point to readiness table; dated planning verification retains historical task count |
+
+### PR90 R3 — bookkeeping scope
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Proposal scope](https://github.com/antonsmolko/gost-spec/pull/90#discussion_r4503405826) | Internal queue listed as capability behaviour | proposal/design/tasks | Fixed | Queue moved to Impact as carrier bookkeeping; task 3.2 still updates evidence/tracking, not a new capability requirement |
+
+### PR90 review GitHub issue edits and verification
+
+Current gost-spec #87/#88/PR90 wording uses the readiness table for execution status.
+Public pinned evidence points to this corrected ledger; gost-spec #88 retains
+its own scope and links the same queue. All inline and summary replies point to
+R1–R3 here. This is wording/link-only, so a second independent contract review
+is not required by AGENTS.md section 6.
+
+Complete final diff and relevant unchanged spec/task/skill and issue boundaries
+checked separately from tests. Strict change/main specs, whitespace and Markdown
+path/anchor audit pass. Runtime/full-suite result above remains the planning
+baseline, not a rerun for editorial corrections. No implementation or release.
