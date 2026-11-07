@@ -268,7 +268,8 @@ R1–R3 closures сохранены. Историческая запись PR90 
 review; три empty-body reply reviews также прочитаны, требований они не добавляют.
 Таблица очереди обновлена; gost-kit #32–#35 остаются open по свежему API snapshot.
 Текущее выполнение публикуется в таблице; #87 фиксирует результат и границы,
-ссылка на delivery PR/pinned evidence добавляется после создания PR.
+доставка представлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91);
+актуальные pinned evidence и таблица связаны с ним через gost-spec #87/#88.
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
@@ -278,3 +279,9 @@ Task 3.2: полный diff, неизменённые main specs/packages/дру
 imports и ссылки проверены отдельно от runtime tests. Shell content version
 0.2.1 unreleased, остальные версии сохранены. Merge, sync/archive, принятие
 нормативного содержания и выпуск остаются отдельными решениями владельца.
+
+Implementation presentation: [PR #91](https://github.com/antonsmolko/gost-spec/pull/91)
+содержит весь результат #87; шесть задач выполнены. Таблица использует стабильную
+ссылку доставки, GitHub issue/PR presentation указывает последнюю полную ревизию
+ledger. Main specs, нормативные статусы и release gates не менялись; отдельные
+merge/archive/release решения не подразумеваются представлением реализации.

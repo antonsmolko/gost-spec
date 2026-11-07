@@ -7,7 +7,7 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 
 | Очередь | Репозиторий / задача | Статус | Результат / зависимость |
 | --- | --- | --- | --- |
-| S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Реализация готова, 6/6; подготовка PR для review | [План](../../openspec/changes/connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context. Не зависит от новых API gost-kit |
+| S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Реализация готова, 6/6; [доставка PR #91](https://github.com/antonsmolko/gost-spec/pull/91) | [План](../../openspec/changes/connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context. Не зависит от новых API gost-kit |
 | S2 | gost-spec — актуализировать FC recipe, issue ещё не создана | В очереди | Исправить receiverSuccess/receiverError на текущие onSuccess/onError и проверить примеры; не ждать mapper extension |
 | S3 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | В очереди | Рецепт middleware после реализации gost-kit #33 |
 | S4 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Требования согласованы в обсуждении; реализация не начата | Skill модульной фичи и код к каждому правилу; API-пример зависит от gost-kit #35, context от #87, routing recipe отдельно в #89 |
