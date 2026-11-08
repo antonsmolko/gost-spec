@@ -391,8 +391,8 @@ whitespace чисты. Отдельно от runtime suite проверены п
 точное слияние дельты, неизменность остальных requirement blocks/Purpose/title,
 bytes четырёх исходных artifacts и отсутствие изменений plugins/packages/
 fixture/runtime. Все пять файлов распознаны Git как rename; change отсутствует
-в активном списке. Markdown-аудит: 141 tracked файл / 262 локальные ссылки и
-anchors / 0 ошибок. Ссылки на прежний активный путь отсутствуют.
+в активном списке. Markdown-аудит: 141 tracked файл / 262 локальные ссылки
+(24 содержат fragment) / 0 ошибок путей и anchors. Ссылки на прежний активный путь отсутствуют.
 
 Независимый reviewer получил требования и полный diff без авторской переписки.
 Самостоятельно подтвердил exact-delta/untouched-byte проверки, 9/15, 6/6,
@@ -406,3 +406,66 @@ closures сохранены. Ссылки #87/#88 на архив обновля
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis), paired with public [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87), [merged PR91](https://github.com/antonsmolko/gost-spec/pull/91) and archived delta | Complete sync/archive consistency | Full staged archive/spec/tracking result | No material findings | Independent exact-content, bytes, counts, strict validation, links and limits above |
+
+## PR92 published review — 2026-11-08
+
+Прочитаны все страницы reviews, inline threads/replies и PR comments: один review
+с пустым summary, один inline thread и один итоговый комментарий. GitHub body
+ревью случайно опубликованы как JSON-escaped строки; декодированы только при
+чтении, чужие комментарии не редактировались. Прежние closures сохранены.
+
+### PR92 R1 — reproducible link audit
+
+Методика: `git ls-files '*.md'` задаёт 141 исходный документ; `marked@18.1.1`
+через `lexer`/`walkTokens` выделяет только Markdown `link`/`image` tokens.
+Code blocks, inline code и raw text не сканируются как ссылки. URI со схемой
+и protocol-relative URLs исключены. Локальные пути разрешаются относительно
+каталога документа; проверяются существование цели и heading fragment (с
+учётом повторных headings). Link с fragment считается одной ссылкой, а его
+anchor проверяется дополнительно: 262 ссылки, из них 24 с fragment, 0 images,
+0 ошибок. Проверка не ограничивает цели tracked-файлами и не имеет отдельного
+исключения для node_modules.
+
+Две строки `node_modules/...` из docs/usage.md находятся внутри fenced
+`markdown`-примера для AGENTS.md потребителя. Это consumer-root пути примера,
+а не Markdown link tokens самого документа. Их текстовый подсчёт даёт 264;
+парсинг документа — 262. Изменение docs/usage.md не требуется.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Inline review](https://github.com/antonsmolko/gost-spec/pull/92#discussion_r4506909678) | Scope/counting method of 141/262/0 audit not explicit | Archive evidence above | Fixed wording; count retained | Reproduced with marked tokens: 141 files, 262 links, 24 fragments, 0 images/errors; two consumer paths are inside a fenced code example |
+
+### PR92 R2 — empty local change directory
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary, item 2](https://github.com/antonsmolko/gost-spec/pull/92#issuecomment-6723989629) | Local untracked empty directory makes validate --all fail | Local openspec/changes/simplify-standard-package-layout directory only | Fixed locally; no committed change | Confirmed zero tracked entries, files or symlinks; removed only empty directories with rmdir. Strict --all now 12 passed / 0 failed, instead of 12/1 |
+
+Это очистка локальной пустой структуры, не реализация/отмена #71 и не новый
+capability outcome. Не добавлялись `skip_specs` или фиктивные artifacts.
+
+### PR92 R3 — delivery checkpoint after merge
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Summary, item 3](https://github.com/antonsmolko/gost-spec/pull/92#issuecomment-6723989629) | Current pending delivery wording needs refresh after merge | Readiness, handoff, roadmap/product design, archive ledger, PR92 and #87/#88 | Accepted as conditional delivery procedure; no current defect | PR92 is open. After separately authorized merge, verify actual main SHA and archive/spec delivery, update the current queue/issue checkpoint, close #87 only after confirming its completion. Subsequent repository status edits go through a PR; dated pre-merge evidence remains historical |
+
+Ссылки #87/#88 на архив/таблицу уже обновлены при создании PR92; эта операция
+завершена, а отдельное разрешение merge/archive delivery ещё не получено.
+Исторические формулировки выше описывают checkpoint подготовки, не утверждают
+текущее состояние GitHub после будущего merge. На дату этого review PR92 открыт.
+
+### PR92 review verification and GitHub issue edits
+
+Это уточнение evidence и локальная очистка без изменений контрактов; повторное
+независимое contract review не требуется по AGENTS.md п. 6. Главная spec,
+архивная дельта и plugin/package/runtime bytes сохранены. GitHub issue edits
+этого раунда — только ссылки #87/#88 на обновлённый ledger/таблицу; критерии,
+зависимости и scope не менялись. Ответ inline и summary ссылается на R1–R3 здесь.
+
+Проверки раунда: fresh npm run check 114/114 на Node 26.11.1; strict main specs
+5/5, strict --all 12/12 после удаления пустых локальных директорий; whitespace
+чист. Полный итоговый diff и связанные неизменённые spec/usage/tracking и issue
+representations сверены отдельно от runtime suite. Повторный Markdown-аудит
+подтвердил 141/262/24 fragments/0 ошибок по описанной методике. Повторный browser/
+native запуск для wording-only правки не требовался. Merge не выполнялся.
