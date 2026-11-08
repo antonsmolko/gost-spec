@@ -2,8 +2,10 @@
 
 ## 0.1.1 (unreleased)
 
-- Correct the API recipe to published common 0.2.1: typed method/body,
-  onSuccess/onError and the application-level createApiHandler.
+- Update the API recipe to published common 0.3.0: mapped API operations,
+  createApiEffect and the application-level createApiEffector.
+- Check distinct response/action types, async mapping and failure boundaries
+  against the real npm artifact.
 - Verify reducer examples and API success/error/defaultError flow with real
   public artifacts; keep pure reducer tests separate from effect execution.
 

@@ -6,7 +6,8 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc",
-    "probe": "npm run build && node checks/feature.mjs"
+    "probe": "npm run build && node checks/feature.mjs",
+    "probe:api": "npm run build && node --test checks/api.mjs"
   },
   "devDependencies": { "typescript": "5.9.3", "@types/node": "26.6.5" }
 }

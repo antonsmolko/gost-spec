@@ -45,6 +45,11 @@ For an empty foundation use empty state and `never` actions/effects, as in the
 recipe. Preserve reducers as pure immutable transitions; they describe effects,
 while application effect handlers execute side effects. Svelte reactivity stays
 at the shell/UI boundary. Keep the store object when reading its reactive state.
+Pass a fresh zero-argument factory as `initState`. Use explicit `reset()` or
+`reset({ excluded: [...] })` with root keys, never automatic navigation resets
+or shell-stored exclusion settings. Follow the recipe for fixed-root type
+restrictions, reference preservation and synchronous `StoreError` reporting;
+initial factory throws and reset failures have different boundaries.
 
 Existing authentication, API clients and features retain their business logic.
 Modals, alerts and new feature slices join the composition only when separately
@@ -59,7 +64,9 @@ An empty store test cannot exercise dispatch. In an isolated disposable copy,
 extend the connected composition with a synthetic state/action and an effect
 that dispatches a result action. In a browser, verify UI → action → reducer → UI
 and completion of that effect's result action through the same store. Use the
-recipe's probe guidance. Keep those demonstration features out of the consumer
+recipe's complete probe guidance, including full/excluded reset reactivity,
+fresh references, factory call counts, creation/reset/dispatch failures and type
+restrictions. Keep those demonstration features out of the consumer
 result. On repeated invocation, verify the existing connection without adding
 another store/provider. Report failed checks and partial changes explicitly.
 

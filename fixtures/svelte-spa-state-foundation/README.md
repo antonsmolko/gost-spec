@@ -32,7 +32,7 @@ Each external evaluation copy must retain this web-server policy.
 
 For an evaluation, copy this directory to an external temporary directory,
 excluding `node_modules`, `dist`, `test-results` and `playwright-report`. Install
-dependencies there. Use registry packages `@gost-kit/common@0.2.1` and `@gost-kit/svelte@0.1.1`
+dependencies there. Use registry packages `@gost-kit/common@0.3.0` and `@gost-kit/svelte@0.2.0`
 for the published baseline (Node 26, Svelte 5.57.2). Record actual installed
 metadata and integrity. Supplied tarballs from a recorded revision remain an
 alternative with separately verified compatibility. Let the agent perform
@@ -59,5 +59,5 @@ The updated [store/context recipe](../../plugins/gost-svelte-shell/skills/gost-s
 keeps full root contracts in store and bootstrap/provider in the application.
 Its [disposable probe](../../plugins/gost-svelte-shell/skills/gost-svelte-shell/references/foundation.md#disposable-context-probe)
 contains code and browser tests for two slices, two consumers, independent roots
-and missing provider. Copy it only to the temporary connected evaluation, not to
-this baseline or the final consumer connection. Preserve all legacy source bytes.
+and missing provider, plus factory/reset/error/type checks. Copy it only to the
+temporary connected evaluation, not to this baseline or the final consumer connection. Preserve all legacy source bytes.
