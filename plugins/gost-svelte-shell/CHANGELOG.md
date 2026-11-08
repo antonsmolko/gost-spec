@@ -7,16 +7,12 @@
 - Add a disposable two-slice browser probe for shared access, effect completion,
   root isolation and missing-provider diagnostics; preserve empty integration.
 
-## 0.2.0 (unreleased)
-
 - Select the same versioned marketplace tag in Codex and Claude Code; both
   catalogs now use the shared local plugin tree within that snapshot.
 - Remove the separate same-repository content SHA and merge-history requirement.
 - Existing installations must explicitly change their marketplace registration
   to a released tag and reinstall the plugin; see README for update and rollback.
 - Keep the existing skill, Public API recipe and Svelte 5 SPA compatibility.
-
-## 0.1.0 (unreleased)
 
 - Rename the previous `gost-svelte-spa-state` plugin and skill to
   `gost-svelte-shell`; existing installations require explicit uninstall/install.

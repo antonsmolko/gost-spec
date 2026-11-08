@@ -111,11 +111,20 @@ test("catalog validation accepts both independent entries in either order", asyn
 const functionalCorePath = "plugins/gost-functional-core";
 test("two independent plugin trees pass with local sources and distinct versions", async (t) => {
   const root = await fixture(t);
+  for (const [directory, version] of [[pluginPath, "7.8.9"], [functionalCorePath, "1.2.3"]]) {
+    for (const harness of [".codex-plugin", ".claude-plugin"]) {
+      const path = join(root, directory, harness, "plugin.json");
+      const manifest = await json(path);
+      manifest.version = version;
+      await writeFile(path, JSON.stringify(manifest));
+    }
+    const changelog = join(root, directory, "CHANGELOG.md");
+    await writeFile(changelog, `# Changelog\n\n## ${version} (unreleased)\n\n- Synthetic version for this test.\n`);
+  }
   const shell = await json(join(root, pluginPath, ".codex-plugin/plugin.json"));
   const core = await json(join(root, functionalCorePath, ".codex-plugin/plugin.json"));
   assert.equal(core.name, "gost-functional-core");
-  assert.equal(core.version, "0.1.0");
-  assert.equal(shell.version, "0.2.1");
+  assert.notEqual(core.version, shell.version);
   assert.deepEqual(await checkPluginDistribution(root), []);
 });
 
