@@ -7,7 +7,7 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 
 | Очередь | Репозиторий / задача | Статус | Результат / зависимость |
 | --- | --- | --- | --- |
-| S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Реализация готова, 6/6; [доставка PR #91](https://github.com/antonsmolko/gost-spec/pull/91) | [План](../../openspec/changes/connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context. Не зависит от новых API gost-kit |
+| S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Реализация доставлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91), main 97bbc04; 6/6; sync/archive подготовлен к review | [Архив](../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context. Не зависит от новых API gost-kit |
 | S2 | gost-spec — актуализировать FC recipe, issue ещё не создана | В очереди | Исправить receiverSuccess/receiverError на текущие onSuccess/onError и проверить примеры; не ждать mapper extension |
 | S3 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | В очереди | Рецепт middleware после реализации gost-kit #33 |
 | S4 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Требования согласованы в обсуждении; реализация не начата | Skill модульной фичи и код к каждому правилу; библиотечная зависимость API-примера gost-kit #35 выполнена, пример ещё требует проверки на выбранном артефакте; context от #87, routing recipe отдельно в #89 |
@@ -18,11 +18,14 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 
 ## Текущий checkpoint — #87
 
-Ветка feature/gost-spec-87-shell-context-implementation; change
-connect-store-context-and-published-packages, spec-driven. План доставлен [PR #90](https://github.com/antonsmolko/gost-spec/pull/90), main `aaf21f4`.
-Реализация подготовлена; публикация и обновление потребителей выполняются отдельно. Published metadata для common@0.2.1
-и svelte@0.1.1 доступны, engines обоих ^26.0.0; совместная runtime-проверка прошла во внешнем SPA;
-независимое итоговое review завершилось без существенных замечаний. [Решения и evidence](../../openspec/changes/connect-store-context-and-published-packages/design.md).
+План доставлен [PR #90](https://github.com/antonsmolko/gost-spec/pull/90), main `aaf21f4`;
+реализация — [PR #91](https://github.com/antonsmolko/gost-spec/pull/91), main `97bbc04`.
+По выбору владельца подготовлены синхронизация основной spec и архив
+`2026-11-08-connect-store-context-and-published-packages` на ветке
+feature/gost-spec-87-shell-context-archive. Все 6/6 задач завершены; основная spec
+содержит 9 требований / 15 сценариев. Доставка archive PR ожидает review/merge.
+Проверенная связка common@0.2.1/svelte@0.1.1, shell plugin 0.2.1 unreleased и
+реализация skill не менялись. [Решения и evidence](../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/design.md).
 
 После #87 и обновления FC recipe можно отдельно доставить skills и возобновить
 подключение пустой основы в asc-admin. Проверить среду реального потребителя
