@@ -208,7 +208,7 @@ paths; синхронизация не выполнялась, main specs сох
 не вернули дополнительных context/operationGuidance.
 
 Все четыре файла включая .openspec.yaml перенесены; proposal/tasks/metadata
-сохраняются побайтово, design получает только этот dated checkpoint. Входящие
+сохраняются побайтово, design дополнен датированными archive/review checkpoints. Входящие
 ссылки и handoff/таблица переведены на архив; таблица фиксирует доставку PR94,
 архивный PR отдельно ожидает review/merge. По свежему GitHub snapshot gost-kit
 #32 закрыта, #33 открыта; закрытие #32 не выдаётся за публикацию её API в ранее
@@ -218,11 +218,11 @@ paths; синхронизация не выполнялась, main specs сох
 независимое review контрактов не требуется по AGENTS.md п. 6. Прежние review
 closures и ограничения сохранены. Runtime, plugins/версии, fixtures, scripts/
 tests и пять npm-пакетов не менялись. Native/browser/model evidence не
-перезапускались для этого documentary outcome. GitHub #93/#88 получат ссылки
-на архив/текущую очередь и archive PR; criteria/dependencies сохраняются.
+перезапускались для этого documentary outcome. GitHub #93/#88 получили ссылки
+на архив/текущую очередь и PR95 при его представлении; criteria/dependencies сохраняются.
 #93 остаётся открытой до доставки archive PR; release/tag и asc-admin отдельно.
 
-Проверки archive outcome: fresh npm run check 114/114 на Node26.11.1;
+Проверки archive outcome: fresh npm run check 114/114 на Node 26.11.1;
 strict --all 12/12 (завершённый change больше не активен); whitespace чист.
 Проверены полный итоговый diff, четыре rename, неизменность трёх artifacts и
 append-only design, отсутствие изменений specs/distribution/runtime, GitHub
@@ -232,3 +232,42 @@ code/URI исключены, пути относительно документ�
 Ссылок на прежний активный путь не осталось. Review dispositions R1–R5 не
 переоткрывались. Представление archive PR и pinned issue links завершает учёт;
 merge этого PR остаётся отдельным решением владельца.
+
+После отдельно разрешённого merge PR95 необходимо проверить фактический main SHA
+и доставленный архив, обновить текущий статус в readiness и GitHub #93/#88/PR95,
+затем закрыть #93 только после подтверждения его критериев. Handoff остаётся
+указателем на readiness, без отдельной копии статусов. Репозиторные обновления
+доставки проходят через PR; датированные pre-merge checkpoints остаются историей.
+
+## PR95 published review — 2026-11-08
+
+Прочитаны все страницы summary reviews, inline comments/threads/replies и PR
+comments: один содержательный review, четыре inline threads и один PR-level
+комментарий. Подтверждены прежние archive-byte/rename/3-of-3, validation/114-of-114,
+ссылки/anchors и GitHub-state evidence; эти closures не переоткрываются.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [R1 dated closure](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630239) | K2 closure lacks its own date | Readiness K2 | Fixed | Row now records 2026-11-08; public closure timestamp is 19:06:28 UTC |
+| [R2 delivery link](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630246) | Archive delivery has no PR95 link | Readiness S2/checkpoint | Fixed | Both point directly to the open archive PR95 |
+| [R3 duplicated status](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630252) | Handoff repeats queue status and three table pointers | Handoff entry section | Fixed | One queue pointer and one archive/evidence pointer; no duplicated delivery/count/version/next-step snapshot |
+| [R4 spacing](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630259) | Node26.11.1 / section6 in prose | Archive checkpoint / PR95 body | Fixed wording | Node 26.11.1 and AGENTS.md section 6 |
+| [R5 post-merge procedure](https://github.com/antonsmolko/gost-spec/pull/95#issuecomment-6726511838) | No explicit post-merge refresh obligation | Archive checkpoint; delivery lifecycle | Recorded conditional procedure | Verify actual main/archive, refresh canonical queue/GitHub and close #93 by its criterion; merge is not implied by this review round |
+
+### PR95 review GitHub issue edits
+
+#93/#88 и PR95 получают актуальные pinned ссылки на ledger/очередь; criteria,
+dependencies и scope сохраняются. Ответы каждому thread и обоим summary sources
+ссылаются на эти dispositions. Это wording/link-only correction без нового
+контракта или gate, независимое contract review по AGENTS.md п. 6 не требуется.
+Metadata/proposal/tasks, main specs, plugin/fixture/runtime/package bytes не менялись.
+
+Проверки редакционного раунда: full npm run check 114/114 на Node 26.11.1,
+strict --all 12/12, whitespace чист. Полный итоговый diff, прежние сохранённые
+artifacts, связанные неизменённые документы и GitHub representations сверены
+отдельно от runtime tests. Parser-аудит: 144 tracked Markdown / 265 local links /
+24 fragments / 0 ошибок; число 266 выше относится к snapshot до сокращения
+handoff, откуда удалена одна локальная ссылка-дубликат. Metadata/proposal/tasks
+побайтово совпадают с implementation main; historical design prefix сохранён,
+меняются только archive/review checkpoints. Native/browser/model повторно не
+запускались. Merge не выполнялся.
