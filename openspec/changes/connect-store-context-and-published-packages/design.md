@@ -266,7 +266,11 @@ Repo-wide link parser reviewer не повторял: прочитал резу�
 Все страницы public gost-spec #87 и PR90 threads/replies/reviews/comments прочитаны;
 R1–R3 closures сохранены. Историческая запись PR90 уточняет три первоначальных
 review; три empty-body reply reviews также прочитаны, требований они не добавляют.
-Таблица очереди обновлена; gost-kit #32–#35 остаются open по свежему API snapshot.
+При первоначальной подготовке реализации gost-kit #32–#35 были open.
+Повторная проверка 2026-11-08: #32–#34 остаются open; #35 закрыта в 07:37:51 UTC
+после merge [gost-kit PR #36](https://github.com/antonsmolko/gost-kit/pull/36).
+Таблица очереди отражает этот новый checkpoint; закрытие библиотечной задачи
+не подтверждает публикацию расширения в проверенных здесь common@0.2.1/svelte@0.1.1.
 Текущее выполнение публикуется в таблице; #87 фиксирует результат и границы,
 доставка представлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91);
 актуальные pinned evidence и таблица связаны с ним через gost-spec #87/#88.
@@ -285,3 +289,34 @@ Implementation presentation: [PR #91](https://github.com/antonsmolko/gost-spec/p
 ссылку доставки, GitHub issue/PR presentation указывает последнюю полную ревизию
 ledger. Main specs, нормативные статусы и release gates не менялись; отдельные
 merge/archive/release решения не подразумеваются представлением реализации.
+
+## PR91 published review — 2026-11-08
+
+Прочитаны все страницы PR91 reviews, inline comments, review threads и issue
+comments: reviews/threads/inline пусты, опубликован один комментарий ниже.
+Прочитаны актуальные bodies/comments gost-spec #87/#88, gost-kit #35 и timeline
+закрытия; merge PR36 и open-состояние #32/#33/#34 подтверждены API.
+Прежние PR90 R1–R3 dispositions сохранены.
+
+### PR91 R1 — API dependency checkpoint
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Published review](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6718962507) | Status snapshot still called gost-kit #35 open and S4 implementation blocked | This ledger, readiness table S4/K1, gost-spec #88 body | Fixed | [gost-kit PR36](https://github.com/antonsmolko/gost-kit/pull/36) merged 2026-11-08 07:37:50 UTC, #35 closed 07:37:51 UTC; library dependency fulfilled, consumer artifact/example verification still separate |
+
+### PR91 review GitHub issue edits and verification
+
+gost-spec #88: заменены устаревшие формулировки о будущей библиотечной реализации
+в разделах API/domain и зависимости #35 на факт merge/closure. Согласованный
+поток, критерии, scope/closure и проверка публичного артефакта сохранены.
+gost-spec #87 и PR91 получают ссылки на актуальные ledger/таблицу; их критерии
+и release approvals не меняются. Handoff уже направляет в таблицу, proposal,
+delta/tasks и опубликованный shell recipe не требуют изменения.
+
+Полный итоговый diff PR и связанные неизменённые документы/issue bodies проверены
+отдельно от тестов; противоречий текущему checkpoint не осталось. Проверка
+141 tracked Markdown / 260 локальных ссылок и anchors: 0 ошибок. Свежий полный
+npm run check — 114/114, Node 26.11.1; strict change и main specs 5/5, whitespace
+чисты. Этот раунд меняет только wording/tracking; независимое review контрактов
+повторно не требуется по AGENTS.md п. 6. Runtime, artifacts, версии и прежние
+consumer/browser evidence не менялись; merge/archive/release не выполнялись.
