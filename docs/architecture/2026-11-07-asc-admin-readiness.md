@@ -27,7 +27,10 @@ refresh-functional-core-api-recipe. Узкий implementation PR исправл�
 reducer unit tests и API success/error/defaultError probes во внешнем consumer.
 [План и evidence](../../openspec/changes/refresh-functional-core-api-recipe/design.md).
 Результат — [PR #94](https://github.com/antonsmolko/gost-spec/pull/94), 3/3 задач;
-independent review без замечаний. FC plugin 0.1.1 unreleased; merge/archive и
+Independent review без существенных замечаний; reviewer повторил consumer/unit/
+integration/full suite. Native/model install, strict OpenSpec и полный link audit
+он не повторял — это evidence автора; подробности и ограничения в ledger выше.
+FC plugin 0.1.1 unreleased; merge/archive и
 выпуск требуют отдельных решений. Остальные версии сохранены.
 
 После #87 и обновления FC recipe можно отдельно доставить skills и возобновить

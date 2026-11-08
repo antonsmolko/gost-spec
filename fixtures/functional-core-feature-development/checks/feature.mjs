@@ -59,6 +59,8 @@ assert.deepEqual(failed.errors, []);
 for (const fetch of [
   async () => { throw new Error('offline'); },
   async () => Response.json({}, { status: 500 }),
+  async () => new Response('ok', { status: 200, headers: { 'content-type': 'text/plain' } }),
+  async () => { throw new DOMException('aborted', 'AbortError'); },
 ]) {
   const fallback = createApplication({ fetch });
   await fallback.dispatch({ scope: 'directory', type: 'LoadStaffAction' });

@@ -13,7 +13,7 @@ A feature's FC consists of `state.ts`, `action.ts`, `reducer.ts` and
 `reducer.test.ts`. Keep the surrounding project layout. Import the application's
 existing root contracts; do not add feature effect types or a feature effector.
 `AppEffector`/`RootEffector` owns the shared handlers. For example, a reducer
-returns an existing `ApiEffect` whose receivers produce result actions; the
+returns an existing `ApiEffect` whose callbacks produce result actions; the
 application handler performs the request and dispatches those returned actions.
 
 The example assumes an existing app contract exposing `RootState`, `RootAction`,
@@ -35,6 +35,7 @@ import type { UserState } from '../features/user/fc/state.js';
 export type { AppError as ApiError } from '@gost-kit/common';
 export type User = { id: string; name: string };
 export type Paths = {
+  '/staff': { get: { responses: { 200: { content: { 'application/json': User[] } } } } };
   '/user': {
     post: {
       requestBody: { content: { 'application/json': { email: string } } };
@@ -49,25 +50,51 @@ export type RootEffect = ApiEffect<Paths, RootAction>;
 
 Use generated API types in a real app. This small handwritten schema makes the
 example checkable; schema-derived types do not validate response shapes at runtime.
+The extra `/staff` endpoint keeps `RootEffect` a multi-endpoint union even though
+the feature below only sends POST `/user`.
 
 The existing app-level handler uses the public library implementation:
 
 ```ts
 // src/app/effector.ts
-import { createApiClient, createApiHandler, effecting } from '@gost-kit/common';
+import {
+  createApiClient, createApiHandler, effecting, guard,
+  type ApiClientOptions, type AppError,
+} from '@gost-kit/common';
 import type { Paths, RootAction, RootEffect } from './contracts.js';
 
-const api = createApiClient<Paths>({ baseUrl: 'https://api.example.invalid' });
-const apiHandlers = createApiHandler<Paths, RootAction>(api);
-export const rootEffector = effecting<RootAction, RootEffect, readonly [typeof apiHandlers]>(apiHandlers);
+// This example backend returns { errors: [{ code, message, path }] }.
+const mapErrors = (body: unknown): AppError[] => {
+  if (!guard.record(body) || !guard.array(body.errors)) return [];
+  return body.errors.filter((error): error is AppError =>
+    guard.record(error) && guard.string(error.code) && guard.string(error.message)
+    && guard.array(error.path) && error.path.every(guard.string));
+};
+
+export const createRootEffector = (options: ApiClientOptions) => {
+  const api = createApiClient<Paths>({
+    ...options,
+    mapErrors: options.mapErrors ?? mapErrors,
+  });
+  const apiHandlers = createApiHandler<Paths, RootAction>(api);
+  return effecting<RootAction, RootEffect, readonly [typeof apiHandlers]>(apiHandlers);
+};
 ```
 
-Keep any existing client configuration and other global handlers. No request
+Use the application's actual base URL and keep its existing client configuration,
+backend error mapper and other global handlers. The mapper above validates only
+the illustrated error envelope; adapt it to the backend contract. Without a
+configured mapper, the library reports HTTP failures with an empty errors array.
+For tests, pass a fake `fetch` in `options` when constructing the effector, before
+any dispatch. Replacing `globalThis.fetch` after client construction does not
+replace that client's captured transport. `https://api.example.invalid` is an
+illustrative URL, not a service to call. No request
 runs when the effect description is constructed. The callbacks are
 `onSuccess(data)` and `onError(errors, failure)`; both return result actions.
 The first error argument is `AppError[]`, and the second is `ApiFailure` with
 kind `http`, `network`, `contract` or `aborted`. Nonempty backend errors are
-passed through; an empty error array becomes `[defaultError]`.
+passed through after `mapErrors` adapts the backend response; an empty error
+array becomes `[defaultError]`.
 The handler awaits dispatch of the returned action. Omitting `onSuccess` skips
 success dispatch; omitting `onError` reports the failure through the existing
 store error reporter. Callback/dispatch exceptions are execution failures,
@@ -173,7 +200,8 @@ describe('userReducer', () => {
     });
     test('callbacks describe result actions without executing the request', () => {
       const [effect] = effects;
-      assert.ok(effect.type === 'ApiEffect' && effect.onSuccess && effect.onError);
+      assert.ok(effect.type === 'ApiEffect' && effect.method === 'post' && effect.url === '/user');
+      assert.ok(effect.onSuccess && effect.onError);
       const response = { id: 'one', name: 'Ada' };
       const errors = [{ code: 'OFFLINE', message: 'offline', path: [] }];
       assert.deepEqual(effect.onSuccess(response), {
@@ -240,8 +268,13 @@ and an action, then checks returned state/effect descriptions. Result actions
 are supplied directly, without chaining a request and its response. There is no
 store, dispatcher, request or effect execution in these unit tests. Use the
 project's test runner (`describe.each` when available); the loop above uses the
-built-in Node runner. Check actual request/receiver/dispatch flow separately at
+built-in Node runner. Check actual request/callback/dispatch flow separately at
 the application integration boundary.
+
+Before calling an API callback in a test, narrow its effect by `method` and
+`url`, as above. `type === 'ApiEffect'` alone does not select one response type
+when generated `Paths` contains several endpoints; their callback signatures
+form a union.
 
 ## FC contracts that matter
 

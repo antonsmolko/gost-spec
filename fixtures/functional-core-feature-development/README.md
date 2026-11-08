@@ -57,6 +57,7 @@ honestly, separately from the intentionally failing missing-feature probe.
 The integration probe injects only fetch. Real common code handles requests,
 backend errors and defaultError fallback; reducer unit tests execute none of it.
 Callbacks are onSuccess(data) and onError(errors, failure). mapErrors validates
-the synthetic backend error envelope at the application boundary. A network or
-empty backend-error failure uses [defaultError]; this does not recover the raw
+the synthetic backend error envelope at the application boundary. Network,
+contract (non-JSON success), aborted and empty backend-error failures use
+[defaultError]; this does not recover the raw
 transport exception message. No external HTTP request is sent by the probes.

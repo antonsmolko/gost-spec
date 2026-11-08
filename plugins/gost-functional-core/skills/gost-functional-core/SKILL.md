@@ -8,7 +8,7 @@ description: Use when creating or changing business feature state, actions, redu
 Implement the requested business feature inside the application's existing FC
 composition. A feature owns state, actions and pure reducers. Reducers return
 descriptions of existing application effects; application-level handlers execute
-them and dispatch the actions returned by receivers. No UI framework is required.
+them and dispatch the actions returned by callbacks. No UI framework is required.
 
 Read [the public API recipe](references/functional-core.md) before writing
 handlers or changing composition. It records the verified published common 0.2.1
@@ -39,7 +39,7 @@ prerequisites. Limit changes to the requested feature and its root composition.
   differ. Read root state through handler arguments, without hidden store imports.
 - Reuse existing application effect contracts, such as `ApiEffect`, `ModalEffect`,
   `AlertEffect` and `NavigateEffect`. Features do not define effect types or
-  effectors. For an existing API effect, its success/error receivers convert the
+  effectors. For an existing API effect, its success/error callbacks convert the
   response or API errors into feature result actions; the application handler
   invokes `dispatch` with those actions. In the verified published API,
   `onSuccess(data)` and `onError(errors, failure)` return actions;

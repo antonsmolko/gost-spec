@@ -39,7 +39,7 @@ It does not bootstrap a new store, migrate unrelated features, prescribe FSD or
 implement presenter/UI architecture. Compatible application bindings are a
 separate prerequisite. The current recipe is checked with registry-installed
 common@0.2.1 on Node 26; other artifacts/environment combinations need their own verification.
-Feature reducers use existing application effects and receivers; effect contracts
+Feature reducers use existing application effects and callbacks; effect contracts
 and `AppEffector`/`RootEffector` remain application-level prerequisites.
 Reducer unit tests use existing state factories with scenario overrides to check
 the pure state/action → state/effects transition; app integration is checked separately.
