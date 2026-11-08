@@ -246,12 +246,34 @@ comments: один содержательный review, четыре inline thre
 комментарий. Подтверждены прежние archive-byte/rename/3-of-3, validation/114-of-114,
 ссылки/anchors и GitHub-state evidence; эти closures не переоткрываются.
 
+### PR95 R1 — dated closure
+
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | [R1 dated closure](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630239) | K2 closure lacks its own date | Readiness K2 | Fixed | Row now records 2026-11-08; public closure timestamp is 19:06:28 UTC |
+
+### PR95 R2 — archive delivery link
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
 | [R2 delivery link](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630246) | Archive delivery has no PR95 link | Readiness S2/checkpoint | Fixed | Both point directly to the open archive PR95 |
+
+### PR95 R3 — single status source
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
 | [R3 duplicated status](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630252) | Handoff repeats queue status and three table pointers | Handoff entry section | Fixed | One queue pointer and one archive/evidence pointer; no duplicated delivery/count/version/next-step snapshot |
+
+### PR95 R4 — prose spacing
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
 | [R4 spacing](https://github.com/antonsmolko/gost-spec/pull/95#discussion_r4507630259) | Node26.11.1 / section6 in prose | Archive checkpoint / PR95 body | Fixed wording | Node 26.11.1 and AGENTS.md section 6 |
+
+### PR95 R5 — post-merge refresh
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
 | [R5 post-merge procedure](https://github.com/antonsmolko/gost-spec/pull/95#issuecomment-6726511838) | No explicit post-merge refresh obligation | Archive checkpoint; delivery lifecycle | Recorded conditional procedure | Verify actual main/archive, refresh canonical queue/GitHub and close #93 by its criterion; merge is not implied by this review round |
 
 ### PR95 review GitHub issue edits
