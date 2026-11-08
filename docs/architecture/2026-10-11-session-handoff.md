@@ -16,9 +16,12 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 #87 завершена: реализация [PR #91](https://github.com/antonsmolko/gost-spec/pull/91),
 архив и sync [PR #92](https://github.com/antonsmolko/gost-spec/pull/92), main `ae92862`.
 Основная spec содержит 9 требований / 15 сценариев; [архив](../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md) сохранён.
-Текущая работа — [#93](https://github.com/antonsmolko/gost-spec/issues/93),
-[короткий план обновления FC recipe](../../openspec/changes/refresh-functional-core-api-recipe/proposal.md)
-под опубликованный onSuccess/onError. Публикация и изменение asc-admin отдельно.
+Обновление FC recipe [#93](https://github.com/antonsmolko/gost-spec/issues/93)
+доставлено [PR #94](https://github.com/antonsmolko/gost-spec/pull/94), main `8b7a7b1`.
+Подготовлен [архив change](../../openspec/changes/archive/2026-11-08-refresh-functional-core-api-recipe/proposal.md)
+без изменения main specs; статус доставки — в таблице очереди.
+Следующий предлагаемый шаг — подготовка выпуска обновлённых skills для asc-admin;
+публикация и изменение приложения выполняются отдельно.
 Текущее выполнение проверять по таблице. #79 закрыта после доставки архива PR86/main `92d7edd`.
 Датированные записи ниже сохраняют историю предыдущих этапов.
 

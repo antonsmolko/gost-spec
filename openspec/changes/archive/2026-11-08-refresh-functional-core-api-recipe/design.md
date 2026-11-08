@@ -196,3 +196,39 @@ presentation шаг, не новое изменение контракта.
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
 | Separate agent (private input, not a public basis), paired with [public PR94 review](https://github.com/antonsmolko/gost-spec/pull/94#pullrequestreview-5819165323) and [#93](https://github.com/antonsmolko/gost-spec/issues/93) | Complete R1–R5 correction consistency | Full result | No material findings | Independent reruns, unchanged contract/dependency checks and limitations above |
+
+## Archive checkpoint — 2026-11-08
+
+Реализация и R1–R5 доставлены [PR #94](https://github.com/antonsmolko/gost-spec/pull/94),
+main `8b7a7b1133782320a5e74f7d1f0e5b86f11312a6`; post-merge full check 114/114.
+По явному запросу владельца change перенесён в
+`2026-11-08-refresh-functional-core-api-recipe`. Schema spec-driven, proposal/
+design/tasks done, specs skipped, задачи 3/3. Status JSON не содержит delta
+paths; синхронизация не выполнялась, main specs сохранены. Archive instructions
+не вернули дополнительных context/operationGuidance.
+
+Все четыре файла включая .openspec.yaml перенесены; proposal/tasks/metadata
+сохраняются побайтово, design получает только этот dated checkpoint. Входящие
+ссылки и handoff/таблица переведены на архив; таблица фиксирует доставку PR94,
+архивный PR отдельно ожидает review/merge. По свежему GitHub snapshot gost-kit
+#32 закрыта, #33 открыта; закрытие #32 не выдаётся за публикацию её API в ранее
+проверенной baseline. Следующий предлагаемый шаг — подготовка выпуска skills.
+
+Это перенос/ссылки и статусы без новых контрактов или gate changes; отдельное
+независимое review контрактов не требуется по AGENTS.md п. 6. Прежние review
+closures и ограничения сохранены. Runtime, plugins/версии, fixtures, scripts/
+tests и пять npm-пакетов не менялись. Native/browser/model evidence не
+перезапускались для этого documentary outcome. GitHub #93/#88 получат ссылки
+на архив/текущую очередь и archive PR; criteria/dependencies сохраняются.
+#93 остаётся открытой до доставки archive PR; release/tag и asc-admin отдельно.
+
+Проверки archive outcome: fresh npm run check 114/114 на Node26.11.1;
+strict --all 12/12 (завершённый change больше не активен); whitespace чист.
+Проверены полный итоговый diff, четыре rename, неизменность трёх artifacts и
+append-only design, отсутствие изменений specs/distribution/runtime, GitHub
+merge/issue/dependency snapshot и связанные unchanged documents. Parser-аудит:
+144 tracked Markdown / 266 local link tokens / 24 fragments / 0 ошибок;
+code/URI исключены, пути относительно документа, как определено в PR92 ledger.
+Ссылок на прежний активный путь не осталось. Review dispositions R1–R5 не
+переоткрывались. Представление archive PR и pinned issue links завершает учёт;
+merge этого PR остаётся отдельным решением владельца.
