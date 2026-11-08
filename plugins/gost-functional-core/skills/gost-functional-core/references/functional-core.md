@@ -73,7 +73,9 @@ The POST returns a DTO with `user_id`/`full_name`; its operation mapper produces
 shape (an array). Keep DTOs/mappers/operations in the application's existing data
 or API layer; the app paths here illustrate existing prerequisites, not a required
 feature layout. Data definitions import domain types only; do not import reducers
-or actions into an operation. The example's cross-file imports are type-only.
+or actions into an operation. Cross-file imports between these app contract
+modules are type-only. The feature reducer imports its existing operation as a runtime value; unit tests
+import the existing state factories as runtime values.
 
 The existing app-level handler uses the public library implementation:
 

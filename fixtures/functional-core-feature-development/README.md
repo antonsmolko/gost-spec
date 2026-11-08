@@ -4,9 +4,12 @@ Private synthetic evaluation input, outside distributed plugins. The baseline ha
 an existing framework-free common composition and application API/alert handlers;
 the requested staff feature is deliberately absent. `checks/feature.mjs` is an
 explicit probe, so root test discovery cannot execute an unprepared consumer.
-`src/app/contracts.ts` and `src/app/effector.ts` supply a small synthetic existing
-application boundary using the published `ApiEffect<AppApiOperation, AppAction, AppAction>`,
-`defineApiOperation`, `createApiEffect`, `createApiClient` and `createApiEffector`; there is no replacement effect type/handler.
+`src/app/api.ts`, `src/app/contracts.ts` and `src/app/effector.ts` supply a small
+synthetic existing application boundary using the published
+`ApiEffect<AppApiOperation, AppAction, AppAction>`, `defineApiOperation`,
+`createApiClient` and `createApiEffector`; there is no replacement effect type/handler.
+The evaluated feature uses `createApiEffect` with the supplied operation. The
+separate API probe also checks that factory directly.
 Feature application may extend root action/state composition but must preserve
 the existing effect contracts, `src/app/api.ts` and `src/app/effector.ts` bytes.
 The operation maps wire DTO `{ staff_id, full_name }` to domain `{ id, name }`;
