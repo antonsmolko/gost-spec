@@ -150,7 +150,7 @@ test("FC version mismatch and cross-plugin references report the affected plugin
   const root = await fixture(t);
   const path = join(root, functionalCorePath, ".claude-plugin/plugin.json");
   const manifest = await json(path);
-  manifest.version = "0.1.1";
+  manifest.version = `${manifest.version}-mismatch`;
   await writeFile(path, JSON.stringify(manifest));
   await writeFile(join(root, functionalCorePath, "skills/gost-functional-core/SKILL.md"),
     "[shell](../../../gost-svelte-shell/README.md)\n");

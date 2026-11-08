@@ -9,13 +9,13 @@ are self-contained. Installation does not run the skill or change an application
 
 ## Install a released snapshot
 
-Version 0.1.0 is unreleased; these commands require a separately approved,
+Version 0.1.1 is unreleased; these commands require a separately approved,
 existing release tag. Do not treat them as evidence of a public release.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.1.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.1.1
 codex plugin add gost-functional-core@gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-functional-core-v0.1.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-functional-core-v0.1.1'
 claude plugin install gost-functional-core@gost
 ```
 
@@ -37,15 +37,17 @@ commit/catalog pin or special merge method is needed.
 The skill checks actual installed artifacts and reports unavailable integration.
 It does not bootstrap a new store, migrate unrelated features, prescribe FSD or
 implement presenter/UI architecture. Compatible application bindings are a
-separate prerequisite. Registry publication of common is not assumed.
-Feature reducers use existing application effects and receivers; effect contracts
+separate prerequisite. The current recipe is checked with registry-installed
+common@0.2.1 on Node 26; other artifacts/environment combinations need their own verification.
+Feature reducers use existing application effects and callbacks; effect contracts
 and `AppEffector`/`RootEffector` remain application-level prerequisites.
 Reducer unit tests use existing state factories with scenario overrides to check
 the pure state/action → state/effects transition; app integration is checked separately.
 The icon deliberately shares the GOST brand with the shell plugin; plugin names
 and descriptions distinguish their purposes.
 
-Codex 0.166.0 and Claude Code 2.1.308 were checked in disposable profiles with a
+Historical native evidence for plugin 0.1.0: Codex 0.166.0 and Claude Code
+2.1.308 were checked in disposable profiles with a
 full loopback HTTP Git URL in place of the GitHub URL above, selecting a temporary
 `gost-functional-core-v0.1.0` fixture tag. Independent install, repeat and
 coexistence with shell, fresh discovery and all packaged file bytes were checked.

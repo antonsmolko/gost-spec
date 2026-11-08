@@ -11,7 +11,12 @@ const freeze = (value) => {
 const rows = [{ id: 'one', name: 'Ada' }];
 let calls = 0;
 let resolveLoad;
-const app = createApplication({ loadStaff: () => { calls++; return new Promise((resolve) => { resolveLoad = resolve; }); } });
+const app = createApplication({ fetch: async (request) => {
+  calls++;
+  assert.equal(request.method, 'GET');
+  assert.equal(request.url, 'https://api.example.invalid/staff');
+  return new Promise((resolve) => { resolveLoad = resolve; });
+} });
 const before = freeze(app.readState());
 assert.ok(before.staff, 'requested staff feature is missing');
 assert.equal(before.staff.status, 'idle');
@@ -23,18 +28,20 @@ assert.deepEqual(commit.state.preferences, before.preferences);
 assert.deepEqual(commit.state.audit, before.audit);
 assert.equal(commit.effects.length, 1);
 assert.equal(commit.effects[0].type, 'ApiEffect', 'feature must reuse the application API effect');
-assert.deepEqual(commit.effects[0].receiverSuccess(rows), {
+assert.equal(commit.effects[0].method, 'get');
+assert.equal(commit.effects[0].url, '/staff');
+assert.deepEqual(commit.effects[0].onSuccess(rows), {
   scope: 'directory', type: 'StaffLoadedAction', rows,
 });
 const apiErrors = [{ code: 'OFFLINE', message: 'offline', path: ['staff'] }];
-assert.deepEqual(commit.effects[0].receiverError(apiErrors), {
+assert.deepEqual(commit.effects[0].onError(apiErrors, { kind: 'http', status: 422, errors: apiErrors }), {
   scope: 'directory', type: 'StaffFailedAction', errors: apiErrors,
 });
 assert.equal(before.staff.status, 'idle');
 const pending = app.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
 assert.equal(app.readState().staff.status, 'loading');
 assert.equal(calls, 1);
-resolveLoad(rows);
+resolveLoad(Response.json(rows));
 await pending;
 assert.equal(app.readState().staff.status, 'ready');
 assert.deepEqual(app.readState().staff.rows, rows);
@@ -43,10 +50,23 @@ await app.dispatch({ type: 'SetThemeAction', theme: 'light' });
 assert.equal(app.readState().preferences.theme, 'light');
 assert.deepEqual(app.readState().staff.rows, rows);
 assert.deepEqual(app.readState().audit, { marker: 'keep' });
-const failed = createApplication({ loadStaff: async () => { throw new Error('offline'); } });
+const failed = createApplication({ fetch: async () => Response.json({ errors: apiErrors }, { status: 422 }) });
 await failed.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
 assert.equal(failed.readState().staff.status, 'error');
-assert.deepEqual(failed.readState().staff.errors, [{ code: 'OFFLINE', message: 'offline', path: [] }]);
+assert.deepEqual(failed.readState().staff.errors, apiErrors);
 assert.deepEqual(failed.alerts, ['offline']);
 assert.deepEqual(failed.errors, []);
+for (const fetch of [
+  async () => { throw new Error('offline'); },
+  async () => Response.json({}, { status: 500 }),
+  async () => new Response('ok', { status: 200, headers: { 'content-type': 'text/plain' } }),
+  async () => { throw new DOMException('aborted', 'AbortError'); },
+]) {
+  const fallback = createApplication({ fetch });
+  await fallback.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
+  assert.equal(fallback.readState().staff.status, 'error');
+  assert.deepEqual(fallback.readState().staff.errors, [commit.effects[0].defaultError]);
+  assert.deepEqual(fallback.alerts, [commit.effects[0].defaultError.message]);
+  assert.deepEqual(fallback.errors, []);
+}
 console.log('FC feature probes passed: pure transitions, full state, scoped routing, effects/results, existing global handler and neighbours');
