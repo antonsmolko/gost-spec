@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { loadStaff } from '../dist/app/api.js';
 import { createApplication, reducer } from '../dist/application.js';
 
 const freeze = (value) => {
@@ -8,7 +9,8 @@ const freeze = (value) => {
   }
   return value;
 };
-const rows = [{ id: 'one', name: 'Ada' }];
+const wireRows = [{ staff_id: 1, full_name: 'Ada' }];
+const rows = [{ id: '1', name: 'Ada' }];
 let calls = 0;
 let resolveLoad;
 const app = createApplication({ fetch: async (request) => {
@@ -30,6 +32,7 @@ assert.equal(commit.effects.length, 1);
 assert.equal(commit.effects[0].type, 'ApiEffect', 'feature must reuse the application API effect');
 assert.equal(commit.effects[0].method, 'get');
 assert.equal(commit.effects[0].url, '/staff');
+assert.equal(commit.effects[0].operation, loadStaff, 'effect must reference the existing typed operation');
 assert.deepEqual(commit.effects[0].onSuccess(rows), {
   scope: 'directory', type: 'StaffLoadedAction', rows,
 });
@@ -41,7 +44,7 @@ assert.equal(before.staff.status, 'idle');
 const pending = app.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
 assert.equal(app.readState().staff.status, 'loading');
 assert.equal(calls, 1);
-resolveLoad(Response.json(rows));
+resolveLoad(Response.json(wireRows));
 await pending;
 assert.equal(app.readState().staff.status, 'ready');
 assert.deepEqual(app.readState().staff.rows, rows);
@@ -61,6 +64,7 @@ for (const fetch of [
   async () => Response.json({}, { status: 500 }),
   async () => new Response('ok', { status: 200, headers: { 'content-type': 'text/plain' } }),
   async () => { throw new DOMException('aborted', 'AbortError'); },
+  async () => Response.json(null), // mapper rejects invalid collection; contract failure
 ]) {
   const fallback = createApplication({ fetch });
   await fallback.dispatch({ scope: 'directory', type: 'LoadStaffAction' });

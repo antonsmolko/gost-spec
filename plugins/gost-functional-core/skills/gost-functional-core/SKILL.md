@@ -11,7 +11,7 @@ descriptions of existing application effects; application-level handlers execute
 them and dispatch the actions returned by callbacks. No UI framework is required.
 
 Read [the public API recipe](references/functional-core.md) before writing
-handlers or changing composition. It records the verified published common 0.2.1
+handlers or changing composition. It records the verified published common 0.3.0
 baseline; compatibility with the consumer's installed version is checked separately.
 
 ## Establish the available contracts
@@ -43,7 +43,10 @@ prerequisites. Limit changes to the requested feature and its root composition.
   response or API errors into feature result actions; the application handler
   invokes `dispatch` with those actions. In the verified published API,
   `onSuccess(data)` and `onError(errors, failure)` return actions;
-  `createApiHandler` owns dispatch and the `defaultError` fallback. Inspect the actual contract and field
+  `createApiEffect` binds one existing operation to parameters and callbacks;
+  `createApiEffector` owns execution, dispatch and the `defaultError` fallback.
+  DTO→domain mapping belongs to the operation definition, before `onSuccess`;
+  creating an effect in a reducer does not execute that mapping. Inspect the actual contract and field
   names rather than designing a replacement API or transport adapter.
 - Keep `AppEffector`/`RootEffector` and all handler tables at application level.
   Preserve compatible handlers. If a necessary shared effect/handler is missing,

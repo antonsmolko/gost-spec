@@ -2,14 +2,14 @@
 
 ## Verified published baseline
 
-Checked with registry-installed `@gost-kit/common@0.2.1` and
-`@gost-kit/svelte@0.1.1`, using their public package roots. Both packages declare
-Node `^26.0.0`; the shell depends on common `^0.2.0` and peers on Svelte `^5.57.2`.
+Checked with registry-installed `@gost-kit/common@0.3.0` and
+`@gost-kit/svelte@0.2.0`, using their public package roots. Both packages declare
+Node `^26.0.0`; the shell depends on common `^0.3.0` and peers on Svelte `^5.57.2`.
 The checked consumer used Node `26.11.1`, Svelte `5.57.2`, TypeScript `5.9.3`,
 Vite `8.3.5` and `@sveltejs/vite-plugin-svelte@7.3.1`.
 
 ```sh
-npm install --save-exact @gost-kit/common@0.2.1 @gost-kit/svelte@0.1.1
+npm install --save-exact @gost-kit/common@0.3.0 @gost-kit/svelte@0.2.0
 ```
 
 Use the consumer's package manager. Confirm installed versions, public exports,
@@ -19,8 +19,8 @@ the mismatch instead of silently upgrading the environment. Supplied development
 tarballs remain valid inputs when their actual metadata and compatibility are
 checked; development version numbers alone do not identify published releases.
 
-[Published common](https://www.npmjs.com/package/@gost-kit/common/v/0.2.1) and
-[published shell](https://www.npmjs.com/package/@gost-kit/svelte/v/0.1.1) identify
+[Published common](https://www.npmjs.com/package/@gost-kit/common/v/0.3.0) and
+[published shell](https://www.npmjs.com/package/@gost-kit/svelte/v/0.2.0) identify
 the baseline. Other versions require their own verification. Do not use
 workspace/source imports as evidence of external consumption.
 
@@ -47,12 +47,24 @@ export const rootEffector: Effector<RootAction, RootEffect> = effecting();
 ```ts
 // src/store/create-store.ts
 import { createStore } from '@gost-kit/svelte';
+import type { StoreError } from '@gost-kit/common';
+import type { RootAction, RootEffect } from './core';
 import { rootState, rootReducer, rootEffector } from './core';
 
+// Synchronous infrastructure reporting; connect the application's logger here.
+export const reportStoreError = (failure: StoreError<RootAction, RootEffect>): void => {
+  if (failure.kind === 'reset') {
+    console.error('Store reset failed', failure.error);
+  } else {
+    console.error('Store dispatch failed', failure.kind, failure.action, failure.error);
+  }
+};
+
 export const createApplicationStore = () => createStore({
-  initState: rootState(),
+  initState: rootState,
   reducer: rootReducer,
   effector: rootEffector,
+  onError: reportStoreError,
 });
 ```
 
@@ -133,6 +145,48 @@ client smoke test. Context access happens during component initialization, not
 inside arbitrary effect handlers or router callbacks. Pass store explicitly to
 such infrastructure. This recipe covers client SPAs, not SSR lifecycle design.
 
+## Factories, explicit reset and errors
+
+Pass the zero-argument synchronous factory itself as `initState`, not its result.
+Every call must allocate fresh nested defaults; compose scope factories rather
+than reusing an object containing mutable arrays or objects. `define.state`
+with a factory can help; its object form shares nested defaults. Caller-supplied
+overrides are shallow replacements used by reference, not deep clones.
+
+`store.reset()` replaces the complete root with fresh defaults. For a fixed
+object root, `store.reset({ excluded: ['auth'] })` preserves the current `auth`
+reference and resets other scopes. Exclusions are readonly root keys, independent
+of action routing namespaces. An absent or empty list performs a full reset.
+Primitive, array, function and union roots support full reset only in the public
+types; a union inside an individual scope is permitted. Do not erase those
+restrictions with assertions or widening. Runtime cannot detect TypeScript unions.
+
+The root factory runs once per reset, including for excluded scopes, before one
+state publication. An exclusion preserves a key only when it is an own property
+of both the current and initial roots. Missing, inherited or deleted optional
+scopes take their presence/value from the fresh root. The store and dispatch
+identities stay the same. Both descendants must observe the replacement through
+the same store; keep reactive access rather than destructuring a snapshot.
+
+Configure the shared synchronous `onError` reporter at store creation. Its
+`StoreError` discriminant `kind: 'reset'` has no action; dispatch failures carry
+an action and kinds such as `reducer` or `effect`. This infrastructure reporter
+is different from an API effect's `onError` callback, which maps an API failure
+to an ordinary action. Do not make the reporter an asynchronous recovery flow.
+
+If the factory throws during initial creation, creation throws and returns no
+store. During reset, factory/validation failures are reported as reset failures
+and leave the current state unchanged. Reset returns void and reports failures
+instead of throwing outward. Without a custom reporter the library logs them.
+The store captures its factory/reporter at creation; editing the original config
+does not replace them.
+
+Reset is an explicit application operation, separate from routing. It does not
+cancel pending effects or suppress late result actions, and promises no flicker
+or navigation ordering guarantees. Call reset from an explicitly chosen handler;
+do not add automatic reset on navigation or store exclusion configuration in the
+shell. The exclusion list belongs to each reset call.
+
 ## Extending the composition
 
 State contains the combined application snapshot. Global UI modules and feature
@@ -196,7 +250,7 @@ import {
 
 type CounterState = { value: number };
 type CompletionState = { completed: boolean };
-type CounterAction = { type: 'IncrementAction' };
+type CounterAction = { type: 'IncrementAction' } | { type: 'FailAction' };
 type CompletionAction = { type: 'RunProbeAction' } | { type: 'ProbeCompletedAction' };
 export type RootState = { counter: CounterState; completion: CompletionState };
 export type RootAction = ScopedActions<{ counter: CounterAction; completion: CompletionAction }>;
@@ -207,6 +261,7 @@ export const rootState = (): RootState => ({
 });
 const counter = define.reducer<CounterState, CounterAction, RootEffect, RootState>()({
   IncrementAction: ({ state }) => ({ state: { value: state.value + 1 } }),
+  FailAction: () => { throw new Error('probe reducer failure'); },
 });
 const completion = define.reducer<CompletionState, CompletionAction, RootEffect, RootState>()({
   RunProbeAction: () => ({ effects: { type: 'ProbeEffect' } }),
@@ -239,23 +294,80 @@ The consumer reads both slices through the public accessor:
 <span data-testid="completed">{String(completed)}</span>
 <button onclick={() => store.dispatch({ scope: 'counter', type: 'IncrementAction' })}>Increment</button>
 <button onclick={() => store.dispatch({ scope: 'completion', type: 'RunProbeAction' })}>Run effect</button>
+<button onclick={() => store.reset()}>Reset all</button>
+<button onclick={() => store.reset({ excluded: ['counter'] })}>Keep counter</button>
+<button onclick={() => store.dispatch({ scope: 'counter', type: 'FailAction' })}>Fail dispatch</button>
 ```
 
-Each root provides once and renders two consumers:
+Each probe root provides once and renders two consumers. The following
+instrumented construction replaces the ordinary factory only in this disposable
+harness, to observe factory calls, fresh references and reporter behavior. The
+empty connection continues to use the factory module above.
 
 ```svelte
 <!-- src/app/ProbeRoot.svelte -->
 <script lang="ts">
-  import { createApplicationStore } from '../store/create-store';
+  import { createStore } from '@gost-kit/svelte';
+  import type { StoreError } from '@gost-kit/common';
+  import { rootState, rootReducer, rootEffector, type RootAction, type RootEffect } from '../store/core';
   import { provideStore } from '../store/context';
   import Consumer from '../features/probe/ui/Consumer.svelte';
   let { id }: { id: string } = $props();
-  provideStore(createApplicationStore());
+  let calls = $state(0);
+  let lastFailure = $state('none');
+  let invariant = $state('unchecked');
+  let failFactory = false;
+  const factory = () => {
+    calls += 1;
+    if (failFactory) throw new Error('probe factory failure');
+    return rootState();
+  };
+  const report = (failure: StoreError<RootAction, RootEffect>): void => {
+    lastFailure = failure.kind;
+  };
+  const store = createStore({
+    initState: factory, reducer: rootReducer, effector: rootEffector, onError: report,
+  });
+  const originalStore = store;
+  const dispatch = store.dispatch;
+  provideStore(store);
+
+  function verifyReset(excluded: boolean) {
+    const before = store.state;
+    const beforeCalls = calls;
+    store.reset(excluded ? { excluded: ['counter'] } : undefined);
+    invariant = String(store === originalStore && store.dispatch === dispatch
+      && calls === beforeCalls + 1 && store.state !== before
+      && store.state.completion !== before.completion
+      && (excluded ? store.state.counter === before.counter : store.state.counter !== before.counter));
+  }
+  function failedReset() {
+    const before = store.state;
+    failFactory = true;
+    store.reset();
+    failFactory = false;
+    invariant = String(store.state === before && lastFailure === 'reset');
+  }
+  function failedCreation() {
+    try {
+      createStore({ initState: () => { throw new Error('initial failure'); }, reducer: rootReducer, effector: rootEffector });
+      invariant = 'false';
+    } catch (error) {
+      invariant = String(error instanceof Error && error.message === 'initial failure');
+    }
+  }
 </script>
 
 <section data-testid={id}>
   <Consumer />
   <Consumer />
+  <span data-testid="calls">{calls}</span>
+  <span data-testid="failure">{lastFailure}</span>
+  <span data-testid="invariant">{invariant}</span>
+  <button onclick={() => verifyReset(false)}>Verify full reset</button>
+  <button onclick={() => verifyReset(true)}>Verify partial reset</button>
+  <button onclick={failedReset}>Fail reset</button>
+  <button onclick={failedCreation}>Fail creation</button>
 </section>
 ```
 
@@ -312,12 +424,74 @@ test('effect dispatch updates both consumers of the same store', async ({ page }
   await expect(page.getByTestId('root-b').getByTestId('completed')).toHaveText(['false', 'false']);
 });
 
+test('full and excluded resets replace the root reactively and retain store identities', async ({ page }) => {
+  await page.goto('/');
+  const root = page.getByTestId('root-a');
+  await root.getByRole('button', { name: 'Increment', exact: true }).first().click();
+  await root.getByRole('button', { name: 'Run effect', exact: true }).first().click();
+  await root.getByRole('button', { name: 'Verify partial reset', exact: true }).click();
+  await expect(root.getByTestId('count')).toHaveText(['1', '1']);
+  await expect(root.getByTestId('completed')).toHaveText(['false', 'false']);
+  await expect(root.getByTestId('invariant')).toHaveText('true');
+  await expect(root.getByTestId('calls')).toHaveText('2');
+  await root.getByRole('button', { name: 'Verify full reset', exact: true }).click();
+  await expect(root.getByTestId('count')).toHaveText(['0', '0']);
+  await expect(root.getByTestId('invariant')).toHaveText('true');
+  await expect(root.getByTestId('calls')).toHaveText('3');
+  await expect(page.getByTestId('root-b').getByTestId('calls')).toHaveText('1');
+});
+
+test('initial factory throws; failed reset retains state and reports separately from dispatch', async ({ page }) => {
+  await page.goto('/');
+  const root = page.getByTestId('root-a');
+  await root.getByRole('button', { name: 'Increment', exact: true }).first().click();
+  await root.getByRole('button', { name: 'Fail reset', exact: true }).click();
+  await expect(root.getByTestId('failure')).toHaveText('reset');
+  await expect(root.getByTestId('count')).toHaveText(['1', '1']);
+  await expect(root.getByTestId('invariant')).toHaveText('true');
+  await expect(root.getByTestId('calls')).toHaveText('2');
+  await root.getByRole('button', { name: 'Fail dispatch', exact: true }).first().click();
+  await expect(root.getByTestId('failure')).toHaveText('reducer');
+  await root.getByRole('button', { name: 'Fail creation', exact: true }).click();
+  await expect(root.getByTestId('invariant')).toHaveText('true');
+});
+
 test('missing provider reports context failure without a fallback store', async ({ page }) => {
   const failure = page.waitForEvent('pageerror');
   await page.goto('/?missing');
   expect((await failure).message).toMatch(/missing_context|Context was not set/);
   await expect(page.getByTestId('count')).toHaveCount(0);
 });
+```
+
+Also compile this file without executing it. `@ts-expect-error` must remain
+satisfied by the selected public declarations, including primitive and union
+roots. It is a type probe, not application code.
+
+```ts
+// src/store/contracts.ts
+import type { Store, StoreConfig } from '@gost-kit/common';
+import type { RootState, RootAction, RootEffect } from './core';
+import { rootState, rootReducer, rootEffector } from './core';
+function check(store: Store<RootState, RootAction>, primitive: Store<number, never>, union: Store<{ a: number } | { b: number }, never>) {
+  store.reset();
+  store.reset({ excluded: ['counter'] as const });
+  // @ts-expect-error exclusions name root scopes
+  store.reset({ excluded: ['absent'] });
+  primitive.reset();
+  primitive.reset({ excluded: [] }); // empty exclusions still mean full reset
+  // @ts-expect-error primitive roots permit full reset only
+  primitive.reset({ excluded: ['value'] });
+  union.reset();
+  // @ts-expect-error union roots permit full reset only
+  union.reset({ excluded: ['a'] });
+}
+const invalid: StoreConfig<RootState, RootAction, RootEffect> = {
+  // @ts-expect-error initState requires a zero-argument factory
+  initState: rootState(), reducer: rootReducer, effector: rootEffector,
+};
+void check;
+void invalid;
 ```
 
 Run type/Svelte checks, build and browser checks. Verify both descendants change

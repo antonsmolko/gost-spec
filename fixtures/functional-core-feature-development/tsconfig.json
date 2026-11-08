@@ -5,6 +5,7 @@
     "moduleResolution": "NodeNext",
     "strict": true,
     "outDir": "dist",
+    "rootDir": "src",
     "skipLibCheck": false
   },
   "include": ["src/**/*.ts"]
