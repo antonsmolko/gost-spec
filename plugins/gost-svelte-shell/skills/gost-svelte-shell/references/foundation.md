@@ -1,77 +1,137 @@
 # Public API recipe
 
-## Verified compatibility
+## Verified published baseline
 
-This recipe was checked against gost-kit development commit
-`7eca0ea447843e1ae97d4e63b0ca3c273a430d1e`: `@gost-kit/common@0.0.0` and
-`@gost-kit/svelte@0.0.0`, installed as real tarballs. The Svelte peer is
-`^5.57.2`; evaluation used Svelte `5.57.2`, TypeScript `5.9.3` and Vite `8.3.5`
-with `@sveltejs/vite-plugin-svelte@7.3.1`. These development version numbers alone
-do not identify an available registry release or a unique artifact. Check actual
-package metadata, exported declarations and installation source for the target
-project. [gost-kit source](https://github.com/antonsmolko/gost-kit) is a discovery
-link; this recipe does not promise that the commit or version is published.
+Checked with registry-installed `@gost-kit/common@0.2.1` and
+`@gost-kit/svelte@0.1.1`, using their public package roots. Both packages declare
+Node `^26.0.0`; the shell depends on common `^0.2.0` and peers on Svelte `^5.57.2`.
+The checked consumer used Node `26.11.1`, Svelte `5.57.2`, TypeScript `5.9.3`,
+Vite `8.3.5` and `@sveltejs/vite-plugin-svelte@7.3.1`.
 
-Use ordinary package-manager installation of verified artifacts. Supply both
-common and shell tarballs together when testing a development build: shell has
-a common dependency and a Svelte peer. Avoid source-path imports or workspace
-links as evidence of external consumption. Stop dependent steps if installation
-or compatibility checks fail; report which input or check is missing.
+```sh
+npm install --save-exact @gost-kit/common@0.2.1 @gost-kit/svelte@0.1.1
+```
+
+Use the consumer's package manager. Confirm installed versions, public exports,
+engines and peer range before changing integration. An incompatible Node/Svelte
+version or unavailable artifact makes dependent integration incomplete; report
+the mismatch instead of silently upgrading the environment. Supplied development
+tarballs remain valid inputs when their actual metadata and compatibility are
+checked; development version numbers alone do not identify published releases.
+
+[Published common](https://www.npmjs.com/package/@gost-kit/common/v/0.2.1) and
+[published shell](https://www.npmjs.com/package/@gost-kit/svelte/v/0.1.1) identify
+the baseline. Other versions require their own verification. Do not use
+workspace/source imports as evidence of external consumption.
 
 ## Empty application composition
 
-The module paths below illustrate roles, not a mandatory directory tree. All
-imports from gost-kit use package roots.
+Keep root contracts, composition, store construction and context in `src/store`.
+The application bootstrap owns provider installation. Reuse the existing root
+component: its file may already be `src/App.svelte` rather than `src/app/`.
+The paths below illustrate roles; preserve an existing compatible connection.
 
 ```ts
-// app/state/core.ts — ordinary TypeScript, no Svelte imports
+// src/store/core.ts
 import { effecting, reducing, type Effector, type Reducer } from '@gost-kit/common';
 
-export type AppState = Record<string, never>;
-export type AppAction = never;
-export type AppEffect = never;
+export type RootState = Record<string, never>;
+export type RootAction = never;
+export type RootEffect = never;
 
-export const initialState = (): AppState => ({});
-export const reducer: Reducer<AppState, AppAction, AppEffect> = reducing({});
-export const effector: Effector<AppAction, AppEffect> = effecting();
+export const rootState = (): RootState => ({});
+export const rootReducer: Reducer<RootState, RootAction, RootEffect> = reducing({});
+export const rootEffector: Effector<RootAction, RootEffect> = effecting();
 ```
 
 ```ts
-// app/state/application.ts — application composition point
+// src/store/create-store.ts
 import { createStore } from '@gost-kit/svelte';
-import { initialState, reducer, effector, type AppState, type AppAction, type AppEffect } from './core';
+import { rootState, rootReducer, rootEffector } from './core';
 
-export const createApplication = () => createStore<AppState, AppAction, AppEffect>({
-  initState: initialState(),
-  reducer,
-  effector,
+export const createApplicationStore = () => createStore({
+  initState: rootState(),
+  reducer: rootReducer,
+  effector: rootEffector,
 });
 ```
 
-Choose the project's access convention. For example, with Svelte context:
+## Typed public access
+
+The context module imports root contracts as types. It does not import the store
+factory or feature UI at runtime. Its module-level context key is shared; each
+application root provides its own store value.
 
 ```ts
-// app/state/context.ts
+// src/store/context.ts
 import { createContext } from 'svelte';
-import type { createApplication } from './application';
+import type { Store } from '@gost-kit/common';
+import type { RootState, RootAction } from './core';
 
-export const [useApplication, provideApplication] =
-  createContext<ReturnType<typeof createApplication>>();
+export const [useStore, provideStore] = createContext<Store<RootState, RootAction>>();
 ```
 
-During the existing root component's initialization, call
-`provideApplication(createApplication())` once. Descendants call
-`const app = useApplication()` during initialization and read
-`app.state` in their reactive UI. This empty root has nothing to render yet;
-existing features are not moved into it. A SPA module accessor is also valid
-when consistent with the consumer; do not add a second provider alongside an
-existing shared store. This recipe covers client SPAs, not SSR lifecycle design.
+```ts
+// src/store/index.ts
+export { useStore } from './context';
+```
 
-The shell stores raw immutable snapshots and replaces complete state. Reading
-`const { state } = app` once loses the live getter. Select a feature with
-`$derived(app.state.feature)` and then derive its presentation separately.
-Shell compilation uses normal Svelte tooling; importing its runes in an
-uncompiled Node process is not a valid client smoke test.
+Bootstrap imports the factory and provider directly and calls them once during
+root component initialization, before descendants initialize. For example, this
+existing synthetic root retains its greeting:
+
+```svelte
+<!-- src/App.svelte -->
+<script lang="ts">
+  import Greeting from './legacy/Greeting.svelte';
+  import { createApplicationStore } from './store/create-store';
+  import { provideStore } from './store/context';
+
+  provideStore(createApplicationStore());
+</script>
+
+<main>
+  <h1>Existing SPA</h1>
+  <Greeting />
+</main>
+```
+
+A business component imports the public accessor and calls it during component
+initialization:
+
+```ts
+import { useStore } from '../../../store';
+const store = useStore();
+```
+
+It reads the full typed `store.state` and uses the same `store.dispatch`; there
+is no separate store per feature. The empty example has `never` actions/effects.
+[The disposable probe](#disposable-context-probe) demonstrates two slices and dispatch.
+Without a provider, the context getter reports Svelte's missing-context error;
+do not construct a fallback store in the accessor.
+
+## Module boundaries and reactivity
+
+Business components can import the store accessor; the bootstrap and root
+composition remain private to their owners. The accessor entrypoint exports
+neither the factory, reducers nor feature UI. Root composition imports only
+business core entrypoints. Inspect actual imports, including aliases, to avoid
+runtime cycles. Keep root contracts in store rather than moving the assembled
+feature graph into shared. Shared UI receives ready props and callbacks.
+
+This is an explicit adaptation for projects choosing a common root store;
+[standard FSD import direction](https://feature-sliced.design/docs/reference/layers)
+does not grant it automatically. Respect the consumer's architecture decisions;
+record the exception when that profile applies. Other compatible project layouts
+and access conventions remain valid.
+
+The shell keeps immutable snapshots behind a reactive getter and replaces state.
+Keep the store object: `const { state } = store` captures one snapshot. Select a
+slice through `$derived(store.state.feature)` and derive presentation separately.
+Use normal Svelte compilation; importing rune code in uncompiled Node is not a
+client smoke test. Context access happens during component initialization, not
+inside arbitrary effect handlers or router callbacks. Pass store explicitly to
+such infrastructure. This recipe covers client SPAs, not SSR lifecycle design.
 
 ## Extending the composition
 
@@ -95,21 +155,14 @@ effector receives the effect and dispatches ordinary result actions. Composition
 uses statically known handler maps/tables with coverage checks; inspect the
 selected version's declarations when extending them.
 
-## Disposable browser probe
+## Disposable browser verification
 
-Copy the integrated project to a temporary evaluation directory. In that copy,
-add a synthetic root state such as `{ count: 0, completed: false }`,
-`IncrementAction`, `RunProbeAction`, `ProbeCompletedAction` and `ProbeEffect`.
-Connect them through the existing root reducer and effector composition.
-Increment returns a fresh state; RunProbe emits ProbeEffect; its handler awaits
-dispatch of ProbeCompletedAction, which changes completed to true.
-
-Render count and completed in a temporary probe component using the same shared
-application access as ordinary descendants. Drive buttons in Chromium, checking
-the count update and the completed result. Also verify two descendants receive
-the same store and the original consumer behavior still works. Run the consumer's
-type/Svelte checks and build with the probe. Keep the final consumer integration
-free of this synthetic state/UI, with its checks rerun after verification.
+Use [the complete two-slice probe](#disposable-context-probe) in an isolated copy of the
+connected consumer. Verify shared state, effect result actions, two independent
+roots, missing provider and existing behavior. Keep its demonstration modules
+out of the final application connection. Repeat the skill against the empty
+connection to check reuse without a second store/provider. Missing artifact
+checks must report incomplete integration, rather than substituting a store.
 
 Dispatch commits state synchronously before starting effects and returns a
 `Promise<void>` that awaits effects and their awaited nested dispatches. Execution
@@ -122,3 +175,156 @@ that the selected library does not provide.
 Only this state foundation is mandatory for the initial connection. Additional
 shared modules and updates to an already connected app require explicit scope
 and compatible versions; this recipe does not install speculative future APIs.
+
+## Disposable context probe
+
+Use this only in a temporary copy after connecting the empty foundation from
+[the API recipe](#empty-application-composition). Replace its `src/store/core.ts` with the probe
+below; keep the verified factory/context/accessor modules. Run the consumer's
+checks/build and Chromium tests. Retain `reuseExistingServer: false` so an old
+Vite server cannot supply evidence for a new copy.
+
+The two slices are synthetic and unrelated to production business features.
+The root owns composition; this single file is a probe, not the feature layout.
+
+```ts
+// src/store/core.ts
+import {
+  define, effecting, reducing, scope,
+  type Effector, type Reducer, type ScopedActions,
+} from '@gost-kit/common';
+
+type CounterState = { value: number };
+type CompletionState = { completed: boolean };
+type CounterAction = { type: 'IncrementAction' };
+type CompletionAction = { type: 'RunProbeAction' } | { type: 'ProbeCompletedAction' };
+export type RootState = { counter: CounterState; completion: CompletionState };
+export type RootAction = ScopedActions<{ counter: CounterAction; completion: CompletionAction }>;
+export type RootEffect = { type: 'ProbeEffect' };
+
+export const rootState = (): RootState => ({
+  counter: { value: 0 }, completion: { completed: false },
+});
+const counter = define.reducer<CounterState, CounterAction, RootEffect, RootState>()({
+  IncrementAction: ({ state }) => ({ state: { value: state.value + 1 } }),
+});
+const completion = define.reducer<CompletionState, CompletionAction, RootEffect, RootState>()({
+  RunProbeAction: () => ({ effects: { type: 'ProbeEffect' } }),
+  ProbeCompletedAction: () => ({ state: { completed: true } }),
+});
+export const rootReducer: Reducer<RootState, RootAction, RootEffect> = reducing({
+  counter: scope('counter', counter),
+  completion: scope('completion', completion),
+});
+const handlers = define.effector<RootAction, RootEffect>({
+  ProbeEffect: async ({ dispatch }) => {
+    await dispatch({ scope: 'completion', type: 'ProbeCompletedAction' });
+  },
+});
+export const rootEffector: Effector<RootAction, RootEffect> = effecting(handlers);
+```
+
+The consumer reads both slices through the public accessor:
+
+```svelte
+<!-- src/features/probe/ui/Consumer.svelte -->
+<script lang="ts">
+  import { useStore } from '../../../store';
+  const store = useStore();
+  const count = $derived(store.state.counter.value);
+  const completed = $derived(store.state.completion.completed);
+</script>
+
+<span data-testid="count">{count}</span>
+<span data-testid="completed">{String(completed)}</span>
+<button onclick={() => store.dispatch({ scope: 'counter', type: 'IncrementAction' })}>Increment</button>
+<button onclick={() => store.dispatch({ scope: 'completion', type: 'RunProbeAction' })}>Run effect</button>
+```
+
+Each root provides once and renders two consumers:
+
+```svelte
+<!-- src/app/ProbeRoot.svelte -->
+<script lang="ts">
+  import { createApplicationStore } from '../store/create-store';
+  import { provideStore } from '../store/context';
+  import Consumer from '../features/probe/ui/Consumer.svelte';
+  let { id }: { id: string } = $props();
+  provideStore(createApplicationStore());
+</script>
+
+<section data-testid={id}>
+  <Consumer />
+  <Consumer />
+</section>
+```
+
+Mount two roots to test isolation. The missing-provider case intentionally
+renders a consumer outside either root. This synthetic harness uses the browser
+query string rather than adding a router to the consumer:
+
+```svelte
+<!-- src/App.svelte -->
+<script lang="ts">
+  import Greeting from './legacy/Greeting.svelte';
+  import ProbeRoot from './app/ProbeRoot.svelte';
+  import Consumer from './features/probe/ui/Consumer.svelte';
+  const missing = new URLSearchParams(window.location.search).has('missing');
+</script>
+
+<main>
+  <h1>Existing SPA</h1>
+  <Greeting />
+  {#if missing}
+    <Consumer />
+  {:else}
+    <ProbeRoot id="root-a" />
+    <ProbeRoot id="root-b" />
+  {/if}
+</main>
+```
+
+With Playwright and the existing fixture server configuration:
+
+```ts
+// checks/foundation.pw.ts
+import { test, expect } from '@playwright/test';
+
+test('two descendants share state and dispatch within one provider', async ({ page }) => {
+  await page.goto('/');
+  const root = page.getByTestId('root-a');
+  await expect(root.getByTestId('count')).toHaveText(['0', '0']);
+  await root.getByRole('button', { name: 'Increment' }).first().click();
+  await expect(root.getByTestId('count')).toHaveText(['1', '1']);
+});
+
+test('application roots have independent stores', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('root-a').getByRole('button', { name: 'Increment' }).first().click();
+  await expect(page.getByTestId('root-b').getByTestId('count')).toHaveText(['0', '0']);
+});
+
+test('effect dispatch updates both consumers of the same store', async ({ page }) => {
+  await page.goto('/');
+  const root = page.getByTestId('root-a');
+  await root.getByRole('button', { name: 'Run effect' }).first().click();
+  await expect(root.getByTestId('completed')).toHaveText(['true', 'true']);
+  await expect(page.getByTestId('root-b').getByTestId('completed')).toHaveText(['false', 'false']);
+});
+
+test('missing provider reports context failure without a fallback store', async ({ page }) => {
+  const failure = page.waitForEvent('pageerror');
+  await page.goto('/?missing');
+  expect((await failure).message).toMatch(/missing_context|Context was not set/);
+  await expect(page.getByTestId('count')).toHaveCount(0);
+});
+```
+
+Run type/Svelte checks, build and browser checks. Verify both descendants change
+together, another root stays unchanged, and the effect result action updates
+state. A missing-provider error is expected only in that negative case; it must
+not silently create a store. The original greeting check must still pass.
+
+An occupied Vite URL must stop the run, not reuse a server. Record real package
+versions/source and limitations alongside the results. Remove the probe from
+the final consumer result and recheck the empty connection and existing behavior.

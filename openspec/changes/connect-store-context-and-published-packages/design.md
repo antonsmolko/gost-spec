@@ -143,7 +143,7 @@ state/title #33 проверены. Native/runtime compatibility не запус
 
 ## PR90 published review
 
-Прочитаны все страницы inline threads/replies, три review с пустыми summary bodies
+Прочитаны все страницы inline threads/replies, три первоначальных review с пустыми summary bodies
 и [итоговый комментарий](https://github.com/antonsmolko/gost-spec/pull/90#issuecomment-6711924229).
 Замечания относятся к wording/tracking; требования дельты и шесть задач реализации
 сохранены. Предыдущие verified dispositions не переоткрываются.
@@ -178,3 +178,179 @@ Complete final diff and relevant unchanged spec/task/skill and issue boundaries
 checked separately from tests. Strict change/main specs, whitespace and Markdown
 path/anchor audit pass. Runtime/full-suite result above remains the planning
 baseline, not a rerun for editorial corrections. No implementation or release.
+
+## Implementation evidence — published baseline
+
+PR90 доставлен main `aaf21f4bd25cb8092550990454483aa29e808e01`; apply на
+feature/gost-spec-87-shell-context-implementation. Исходный full check 114/114.
+Pre-flight: task1 артефакты → task2 imports/types; task2 content → task3 metadata/
+discovery; interfaces совпадают, изменений контракта плана не требуется.
+
+Task 1.1: внешний npm install точных published common@0.2.1/svelte@0.1.1,
+Svelte 5.57.2, Node 26.11.1, TS 5.9.3, Vite 8.3.5. Public declarations проверены;
+пустой store/context реально собраны bundler. Consumer check: 0 errors/warnings,
+build pass, Chromium legacy 1/1. Это отдельная внешняя копия, не workspace import.
+Исходный baseline fixture в репозитории не получает бизнес-состояния.
+
+Контроль без skill: агент разместил Root contracts в shared/store, composition
+в app. Check/build/legacy прошли, но при добавлении реальных slices shared должен
+был бы знать состав приложения; это наблюдаемая причина нового recipe.
+Probe RED: без подключения отсутствуют два context-потребителя; браузерная
+проверка shared state падает. После подключения два slices, effect/result,
+изоляция roots и missing provider проходят. Первые диагностические output
+элементы probe конфликтовали с legacy getByRole(status); заменены на span,
+legacy source/assertions сохранены. Нет изменения библиотечного runtime.
+
+### Context, forward evaluation and native installation
+
+Tasks 2.1–2.3: обновлены English skill/reference и baseline instructions.
+10 полных source modules побайтово совпадают с проверенными empty/probe modules
+(отдельно показаны import-фрагмент и shell-команда);
+Svelte autofixer для трёх probe components: issues/suggestions пусты. Validator
+skill-creator: valid (PyYAML только в disposable venv). Обнаружен фиксированный
+allowlist одного recipe: probe оставлен в foundation.md, без расширения checker.
+
+Probe: consumer check 0 errors/warnings, build pass, Chromium 5/5: shared
+updates, другой root не меняется, effect/result action, missing provider и legacy.
+Независимый агент применил skill к чистому SPA и получил отдельный src/store,
+пустой результат, check/build и legacy 1/1; дополнительный empty-accessor probe
+прошёл 2/2 без page errors, full two-slice probe 5/5. Повтор сохранил все 14
+source/config hashes и один factory/provider. Недоступная shell 999.0.0 дала
+registry E404/incomplete, без замены и без создания foundation.
+
+Отдельный metadata-only сценарий target Node ^24.0.0 дал incomplete из-за
+library engines ^26.0.0; engines/config/dependencies не изменены. Harness был
+Node 26: исполнение на Node 24 не заявляется. Первый legacy run независимой
+оценки transiently получил visitor вместо Ada; неизменённые повторный run,
+финальный repeat и оба probes прошли. Причина не воспроизведена; возможный dev
+reload не выдаётся за диагноз. Browser evidence — Vite dev, не preview/SSR.
+Исходный greeting и assertions сохранены.
+
+Артефакты registry install (lock integrity):
+
+| Package | Source | Integrity |
+| --- | --- | --- |
+| @gost-kit/common@0.2.1 | https://registry.npmjs.org/@gost-kit/common/-/common-0.2.1.tgz | sha512-HzWGY9dgaD7lSsyFLlOuLE00pyTX5AOU8e4RukS7mJwNZIoEg5UVryFcLS2DPLN1hq1CblkFyPE6xTHLqNPm/w== |
+| @gost-kit/svelte@0.1.1 | https://registry.npmjs.org/@gost-kit/svelte/-/svelte-0.1.1.tgz | sha512-3svjz72GU9h7j3RRfimA4sXjVH5kF/3opeCv9rPHR6l5HmdtFxOaXWtkhFvy81I4jVsP8GM7VQthT3w35Z+QWg== |
+
+Task 3.1: shell plugin 0.2.1 unreleased в двух manifests/changelog/README.
+Version expectation RED (0.2.0 ≠ 0.2.1), GREEN и distribution gate проходят.
+Codex 0.167.0 / Claude 2.1.308 установили local marketplace snapshot в fresh
+CODEX_HOME/CLAUDE_CONFIG_DIR: один shell skill, repeat без дубля, coexistence
+с FC/presenter. Все 8 файлов каждого из трёх plugins точны в обоих профилях;
+остальные plugin/package/catalog trees побайтово равны main aaf21f4.
+
+Codex initialize → skills/list(forceReload) и plugin/read показывают активный
+shell 0.2.1; после coexistence найдены ровно три gost plugin skills. Claude
+plugin details: shell 0.2.1, Skills(1), без agents/hooks/MCP. Config hash до/после
+Codex discovery совпал; personal config/registry fingerprints сохранены.
+Первый plugin/read probe передал directory вместо catalog file; исправление
+helper дало успешный результат, это не дефект Codex/плагина. Установка проверена
+из local directory snapshot, не public GitHub/release tag и не model invocation.
+Публичный release/tag не создавался. Raw logs/source copies — disposable
+/tmp/gost87-kvv4Tn; committed recipe и этот ledger фиксируют воспроизводимые
+inputs/checks и ограничения.
+
+### Final implementation verification and GitHub issue edits
+
+Независимый reviewer получил полный staged diff и требования без рабочей
+переписки: no material findings. Самостоятельно выполнены full npm run check
+114/114 (Node 26.11.1, реальные packs/external consumers), strict change/main
+specs 5/5, distribution gate/whitespace, external check/build/Chromium 5/5 и
+Svelte autofixer. Проверены фактический ациклический граф imports, десять полных
+source modules (кроме import-фрагмента и shell-команды), legacy/config bytes
+и 8 файлов × 3 plugins × 2 профиля. Native discovery
+проверено по existing local profiles/evidence, не повторялось reviewer.
+Repo-wide link parser reviewer не повторял: прочитал результат 141 Markdown /
+260 локальных ссылок / 0 ошибок. Preview/SSR/public-host/model invocation не
+проверялись. Ни один исходный бизнес-модуль не перенесён.
+
+Все страницы public gost-spec #87 и PR90 threads/replies/reviews/comments прочитаны;
+R1–R3 closures сохранены. Историческая запись PR90 уточняет три первоначальных
+review; три empty-body reply reviews также прочитаны, требований они не добавляют.
+При первоначальной подготовке реализации gost-kit #32–#35 были open.
+Повторная проверка 2026-11-08: #32–#34 остаются open; #35 закрыта в 07:37:51 UTC
+после merge [gost-kit PR #36](https://github.com/antonsmolko/gost-kit/pull/36).
+Таблица очереди отражает этот новый checkpoint; закрытие библиотечной задачи
+не подтверждает публикацию расширения в проверенных здесь common@0.2.1/svelte@0.1.1.
+Текущее выполнение публикуется в таблице; #87 фиксирует результат и границы,
+доставка представлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91);
+актуальные pinned evidence и таблица связаны с ним через gost-spec #87/#88.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| Separate agent (private input, not a public basis), public [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) requirements | Complete implementation consistency | Full eleven-file result | No material findings | Independent reruns, exact bytes and limits above |
+
+Task 3.2: полный diff, неизменённые main specs/packages/другие plugins/catalogs,
+imports и ссылки проверены отдельно от runtime tests. Shell content version
+0.2.1 unreleased, остальные версии сохранены. Merge, sync/archive, принятие
+нормативного содержания и выпуск остаются отдельными решениями владельца.
+
+Implementation presentation: [PR #91](https://github.com/antonsmolko/gost-spec/pull/91)
+содержит весь результат #87; шесть задач выполнены. Таблица использует стабильную
+ссылку доставки, GitHub issue/PR presentation указывает последнюю полную ревизию
+ledger. Main specs, нормативные статусы и release gates не менялись; отдельные
+merge/archive/release решения не подразумеваются представлением реализации.
+
+## PR91 published review — 2026-11-08
+
+При первом проходе прочитаны все страницы PR91 reviews, inline comments, review
+threads и issue comments: reviews/threads/inline были пусты, опубликован один
+комментарий ниже. Дополнительный раунд учтён отдельно в конце этого ledger.
+Прочитаны актуальные bodies/comments gost-spec #87/#88, gost-kit #35 и timeline
+закрытия; merge PR36 и open-состояние #32/#33/#34 подтверждены API.
+Прежние PR90 R1–R3 dispositions сохранены.
+
+### PR91 R1 — API dependency checkpoint
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Published review](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6718962507) | Status snapshot still called gost-kit #35 open and S4 implementation blocked | This ledger, readiness table S4/K1, gost-spec #88 body | Fixed | [gost-kit PR36](https://github.com/antonsmolko/gost-kit/pull/36) merged 2026-11-08 07:37:50 UTC, #35 closed 07:37:51 UTC; library dependency fulfilled, consumer artifact/example verification still separate |
+
+### PR91 review GitHub issue edits and verification
+
+gost-spec #88: заменены устаревшие формулировки о будущей библиотечной реализации
+в разделах API/domain и зависимости #35 на факт merge/closure. Согласованный
+поток, критерии, scope/closure и проверка публичного артефакта сохранены.
+gost-spec #87 и PR91 получают ссылки на актуальные ledger/таблицу; их критерии
+и release approvals не меняются. Handoff уже направляет в таблицу, proposal,
+delta/tasks и опубликованный shell recipe не требуют изменения.
+
+Полный итоговый diff PR и связанные неизменённые документы/issue bodies проверены
+отдельно от тестов; противоречий текущему checkpoint не осталось. Проверка
+141 tracked Markdown / 260 локальных ссылок и anchors: 0 ошибок. Свежий полный
+npm run check — 114/114, Node 26.11.1; strict change и main specs 5/5, whitespace
+чисты. Этот раунд меняет только wording/tracking; независимое review контрактов
+повторно не требуется по AGENTS.md п. 6. Runtime, artifacts, версии и прежние
+consumer/browser evidence не менялись; merge/archive/release не выполнялись.
+
+### PR91 R2–R5 — changelog, test versions and wording
+
+Дополнительный источник — [коррекция review](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6721194742)
+и предоставленное владельцем описание оставшихся замечаний. Сохраняются закрытие
+R1, отзыв R3 и понижение R4 до необязательного уточнения.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Correction, standing finding 2](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6721194742) | Multiple unreleased changelog sections; proposed minor bump | Shell CHANGELOG, manifests, README; version decision in design/task 3.1 | Changelog fixed; minor bump declined | All pending entries retained under one 0.2.1 heading. The [Changesets policy](../../../.changeset/README.md) covers five document packages and specifies minor for breaking 0.x changes, not every new example. This compatible recipe update preserves existing connections, empty integration and public library contracts; shell 0.2.1 remains unreleased. |
+| [Correction, finding 3 retracted](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6721194742) | Markdown audit count | Existing audit evidence | Retracted by reviewer; no change | Tracked-file scope and count remain correct; untracked files are outside that audit. |
+| [Correction, finding 4 downgraded](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6721194742) | Ten source blocks excludes an import fragment | Implementation evidence above | Wording clarified | Ten complete source modules; import fragment and shell command identified separately. |
+| [Correction, standing finding 5](https://github.com/antonsmolko/gost-spec/pull/91#issuecomment-6721194742) | Integration test repeats current plugin versions | tests/integration/plugin-distribution.test.ts | Fixed | Temporary fixture sets shell 7.8.9 and FC 1.2.3 in both manifests and corresponding changelogs. Distinct versions and successful real distribution validation are asserted, without relying on repository release numbers. |
+
+Тест сохраняет прежний контракт приёмки разных версий; обязательного различия
+версий реальных plugins не вводится. Production checker, manifest versions и
+проверенный shell recipe не менялись. Это test/wording correction, не изменение
+контракта; повторное независимое contract review по AGENTS.md п. 6 не требуется.
+GitHub issue edits этого раунда: только актуальные ссылки на evidence/таблицу
+в #87/#88; критерии и зависимости сохранены. PR91 и ответ reviewer ссылаются на
+эти dispositions. Merge, archive и выпуск не выполнялись.
+
+Проверки дополнительного раунда: distribution tests 56/56, полный npm run check
+114/114 (Node 26.11.1), strict change/main specs 5/5 и whitespace проходят.
+Отдельно просмотрен полный итоговый PR diff и связанные неизменённые
+spec/design/task/README/issue representations; версия 0.2.1 согласована.
+Markdown-аудит: 141 tracked файл / 261 локальная ссылка и anchor / 0 ошибок.
+Предыдущие 260 относятся к прошлому checkpoint; добавлена ссылка на versioning
+policy. Native/browser проверки не повторялись для editorial changelog/test
+правки: прежние hashes native profiles относятся к snapshot до объединения
+changelog, а содержимое skill/reference и manifests осталось прежним.

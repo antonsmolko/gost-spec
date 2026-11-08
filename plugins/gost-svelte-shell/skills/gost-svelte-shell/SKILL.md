@@ -31,9 +31,15 @@ Adapt module names and paths to the existing project. Provide:
 
 - Framework-independent initial state and root action/effect contracts.
 - Root reducer and application effector composition using the public common API.
-- Store construction through the public Svelte shell API.
+- Store construction through the public Svelte shell API, with root contracts and
+  composition in a separate store module for the agreed modular layout.
 - Initialization once per application instance and shared access through the
-  project's existing convention, a SPA accessor or typed Svelte context.
+  project's existing compatible convention or typed Svelte context.
+
+For the modular recipe, bootstrap provides once, business components import
+`useStore` from the store public entrypoint and receive full state/dispatch. Keep
+root contracts out of shared; shared UI uses props/callbacks. Follow the recipe's
+import boundaries and record the adaptation when FSD rules apply.
 
 For an empty foundation use empty state and `never` actions/effects, as in the
 recipe. Preserve reducers as pure immutable transitions; they describe effects,
@@ -58,7 +64,7 @@ result. On repeated invocation, verify the existing connection without adding
 another store/provider. Report failed checks and partial changes explicitly.
 
 The completion report contains: changed integration files; artifact versions and
-source; preserved existing behavior; client/shared-access checks; synthetic
+source and environment compatibility; preserved existing behavior; client/shared-access checks; synthetic
 transition/effect evidence; limitations. Missing evidence stays visible rather
 than being inferred from a successful build or skill-format check.
 
