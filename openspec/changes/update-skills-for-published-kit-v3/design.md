@@ -24,7 +24,7 @@
 
 ## Migration Plan
 
-Поставить только через implementation PR #96, независимое ревью полного результата; merge требует решения владельца. #97 подготавливает конкретные release candidates после доставки. Применение к asc-admin — в его сессии. Откат content PR не откатывает потребительские приложения автоматически.
+Поставить только через [implementation PR #98](https://github.com/antonsmolko/gost-spec/pull/98) для #96, независимое ревью полного результата; merge требует решения владельца. #97 подготавливает конкретные release candidates после доставки. Применение к asc-admin — в его сессии. Откат content PR не откатывает потребительские приложения автоматически.
 
 ## Verification and review ledger
 
@@ -44,9 +44,9 @@ Evidence заполняется по фактическим результата
 | common0.3.0 | [tarball](https://registry.npmjs.org/@gost-kit/common/-/common-0.3.0.tgz) | `sha512-XRKHjbW3/31u38SxF09tJBzIMLk23FyAOI6JoKtSqMOJGc9X9B5/0YIITb5aVEsvpsoWxJnJPE8obKuu+4oBWw==` |
 | svelte0.2.0 | [tarball](https://registry.npmjs.org/@gost-kit/svelte/-/svelte-0.2.0.tgz) | `sha512-7nSr5Tz2UF2BxSX/Y8o05nxzRmsBud2RLxa6e2DFWqiOi1Yd02lryDEJELubQnKtBti/jyv0elM9ljE42lakQA==` |
 
-All264 common and8 shell installed files match inspected tarball bytes. Fresh external install uses lockfile registry source/integrity; source fixture remains intentionally unconnected, without kit dependencies. FC external consumer installs exact common itself.
+All 264 common and 8 shell installed files match inspected tarball bytes. Fresh external install uses lockfile registry source/integrity; source fixture remains intentionally unconnected, without kit dependencies. FC external consumer installs exact common itself.
 
-- RED: old FC blocks fail against common0.3.0: ApiEffect needs3 generics; createApiHandler is absent. Old shell empty recipe fails: initState value is not factory. Captured before edits to the respective recipes.
+- RED: old FC blocks fail against common0.3.0: ApiEffect needs 3 generics; createApiHandler is absent. Old shell empty recipe fails: initState value is not factory. Captured before edits to the respective recipes.
 - FC GREEN: seven complete copied TS blocks compile; reducer unit13/13; exact recipe app effector integration6 cases (mapped success, backend errors, network, empty HTTP errors, nonJSON, mapper failure); preferences preserved and pure reducer performs no request. Separate committed fixture `probe:api`12/12 checks multiple response types, async mapper, failure categories, callback/dispatch exceptions and omitted callbacks. Negative compile cases preserve body/result/action-role/operation correlation.
 - Shell GREEN: extracted empty recipe check/build and Chromium1/1; disposable probe check/build and Chromium7/7. Svelte5.57.2, Vite8.3.5, plugin7.3.1, Playwright1.64.1. Two consumers, isolated roots, effect result dispatch, full/excluded reset references and factory count, reset/factory/reducer failures, missing provider. Autofixer clean on all three Svelte components. Occupied4187 rejected before cases. Re-extracted empty connection passes again; repeat produces identical four store modules and one provider. Missing artifacts produce unresolved public imports with no fallback. These last two are deterministic checks, not separate natural-language shell agent executions.
 - Tooling boundary: Svelte official context/state documentation retrieved with maintained `@sveltejs/mcp` CLI. Existing Vite fixture remains upstream baseline; no custom state/reset implementation added.
@@ -57,4 +57,19 @@ All264 common and8 shell installed files match inspected tarball bytes. Fresh ex
 
 Independent agent application (private input, not a public basis; actionable public basis — [#96 acceptance criteria](https://github.com/antonsmolko/gost-spec/issues/96)): fresh framework-free consumer with exact common0.3.0 passes check/build,8 factory-built pure reducer cases, feature integration and12 API cases. Existing API operations/effector bytes preserved; initial missing-feature probe fails before implementation. Follow-up and repeat preserve unrelated modules and one registration. Fresh missing-artifact and missing-composition inputs explicitly remain incomplete without a fallback. The latter typechecks remaining files but fails integration, illustrating the distinction. No separate no-skill model control or new-session repeat measurement is claimed.
 
-Repository checks: npm run check114/114 on Node26.0.0 and26.11.1, both skill validators, strict change and all5 main specs pass. Parser-based repository audit at pre-review snapshot:149 tracked Markdown,268 local links,24 fragments,0 failures. Full changed diff and relevant unchanged published contracts/issue bodies inspected separately from runtime tests; historical archived baselines remain dated. Existing npm standards package versions/manifests, marketplace catalogs and presenter plugin unchanged. Fixture baselines intentionally omit the target feature/connection, and dependencies are installed only in external copies; no source lockfile update is required.
+Repository checks: npm run check 114/114 on Node26.0.0 and26.11.1, both skill validators, strict change and all 5 main specs pass. Parser-based repository audit at pre-review snapshot:149 tracked Markdown,268 local links,24 fragments,0 failures. Full changed diff and relevant unchanged published contracts/issue bodies inspected separately from runtime tests; historical archived baselines remain dated. Existing npm standards package versions/manifests, marketplace catalogs and presenter plugin unchanged. Fixture baselines intentionally omit the target feature/connection, and dependencies are installed only in external copies; no source lockfile update is required.
+
+
+### Independent review — round 1
+
+Independent agent reviewed complete diff and requirements without author's working conversation. Source reports are private input, not a public basis; each actionable finding is grounded in public #96 requirements or public #88/PR98 representations below. Read all pages of #96/#97 comments (empty) and PR98 inline comments/reviews/issue comments (empty), issue88 current body, existing main specs and relevant unchanged consumer docs. Existing #88 R1–R3 reviewer-confirmed closures retained. Targeted reviewer checks: fresh FC typecheck/API12, shell check and parser audit pass; browser/full suite evidence above is implementation evidence, not a claimed independent rerun.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#88 public requirements/representations](https://github.com/antonsmolko/gost-spec/issues/88), independent agent private input, not a public basis | R1: remaining paragraphs call0.2.1 the current baseline and routing a library task | #88 body | Fixed | Previous0.2.1 labelled historical, current0.3/#96 made explicit; canonical asc-admin72 application-first wording and deferred89 restored; criteria and prior closures preserved |
+| [#96 compatibility criteria](https://github.com/antonsmolko/gost-spec/issues/96), independent agent private input, not a public basis | R2: root README calls checked shell artifacts development artifacts | README.md | Fixed | Source skills now names checked npm artifacts/environment/limits, matching recipe |
+| [PR98 public description](https://github.com/antonsmolko/gost-spec/pull/98), independent agent private input, not a public basis | R3: ledger URL in PR prose is repository-relative | PR98 description | Fixed | Absolute branch blob URL used for the committed design ledger |
+
+Additional wording correction: migration plan distinguishes issue96 from implementation PR98. Issue88 current queue link selects the active #96 branch table; its dated old archive checkpoints remain historical. #96/#97 now link implementation PR98; closure remains delivery-dependent.
+
+Scoped confirmation: independent reviewer reread live #88 and PR98, inspected the entire representation-fix diff and confirmed R1–R3 fixed with no new/open findings. Final outcome: spec compliance PASS, quality PASS; release checks remain #97. Full PR diff and unchanged-contract conflict audit completed separately from runtime checks.

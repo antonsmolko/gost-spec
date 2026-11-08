@@ -9,7 +9,7 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | --- | --- | --- | --- |
 | S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Завершена: реализация PR #91, archive/sync [PR #92](https://github.com/antonsmolko/gost-spec/pull/92), main ae92862; 6/6 | [Архив](../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context |
 | S2 | [gost-spec #93](https://github.com/antonsmolko/gost-spec/issues/93) | Завершена: реализация [PR #94](https://github.com/antonsmolko/gost-spec/pull/94), архив [PR #95](https://github.com/antonsmolko/gost-spec/pull/95), main 839c7c8; 3/3; issue закрыта | [Архив](../../openspec/changes/archive/2026-11-08-refresh-functional-core-api-recipe/proposal.md); onSuccess/onError, реальный published ApiEffect/createApiHandler и проверка примеров; не зависит от mapper extension |
-| S3 | [gost-spec #96](https://github.com/antonsmolko/gost-spec/issues/96) | В работе: compatibility implementation | FC operations/factory/createApiEffector и shell factory/reset/onError на npm common@0.3.0/svelte@0.2.0; [план](../../openspec/changes/update-skills-for-published-kit-v3/proposal.md) |
+| S3 | [gost-spec #96](https://github.com/antonsmolko/gost-spec/issues/96) | Реализация — [PR #98](https://github.com/antonsmolko/gost-spec/pull/98), проверки пройдены; ожидает review/merge | FC operations/factory/createApiEffector и shell factory/reset/onError на npm common@0.3.0/svelte@0.2.0; [план](../../openspec/changes/update-skills-for-published-kit-v3/proposal.md) |
 | S4 | [gost-spec #97](https://github.com/antonsmolko/gost-spec/issues/97) | Ожидает доставку #96 | Независимые plugin версии/changelog, native/public-host установка и релизные теги после approval конкретного выпуска |
 | S5 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | Отложена | После проверки навигации в asc-admin #72 и решения о выносе общего контракта; middleware не предписана |
 | S6 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Требования согласованы в обсуждении; реализация не начата | Skill модульной фичи и код к каждому правилу; библиотечная зависимость API-примера gost-kit #35 выполнена, пример ещё требует проверки на выбранном артефакте; context от #87, routing recipe отдельно в #89 |
@@ -24,8 +24,9 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 main `839c7c8`; issue закрыта. Check main — 114/114. Это история baseline
 common@0.2.1; [evidence](../../openspec/changes/archive/2026-11-08-refresh-functional-core-api-recipe/design.md) сохранены.
 
-Сейчас выполняется #96: проверка новых published contracts и обновление двух
-skills/fixtures одним compatibility outcome. [Короткий design и evidence](../../openspec/changes/update-skills-for-published-kit-v3/design.md).
+Реализация #96 представлена [PR #98](https://github.com/antonsmolko/gost-spec/pull/98):
+два skills/fixtures проверены на новых published contracts; ожидается решение
+владельца по review/merge. [Короткий design и evidence](../../openspec/changes/update-skills-for-published-kit-v3/design.md).
 Пакеты действительно доступны в npm; common требует Node ^26.0.0, shell —
 common ^0.3.0 и Svelte ^5.57.2. Среду asc-admin нужно проверить отдельно;
 обновлять её молча нельзя. Native/public-host проверка выпуска — #97.

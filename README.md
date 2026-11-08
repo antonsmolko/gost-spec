@@ -17,7 +17,7 @@ validation uses local tarballs.
 [Connect a Svelte SPA state foundation](plugins/gost-svelte-shell/skills/gost-svelte-shell/SKILL.md)
 guides an agent through adding gost-kit fc/shell to an existing Svelte 5 SPA.
 It preserves existing business logic and verifies the connection with synthetic
-probes. Its Public API recipe records the tested development artifacts and limits.
+probes. Its Public API recipe records the tested npm artifacts, environment and limits.
 The [capability specification](openspec/specs/svelte-spa-state-foundation/spec.md)
 records its current requirements and scenarios.
 
