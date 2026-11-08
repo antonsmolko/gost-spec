@@ -11,8 +11,8 @@ descriptions of existing application effects; application-level handlers execute
 them and dispatch the actions returned by receivers. No UI framework is required.
 
 Read [the public API recipe](references/functional-core.md) before writing
-handlers or changing composition. It records a verified development artifact,
-not a promise that a package version is published or compatible with this app.
+handlers or changing composition. It records the verified published common 0.2.1
+baseline; compatibility with the consumer's installed version is checked separately.
 
 ## Establish the available contracts
 
@@ -41,7 +41,9 @@ prerequisites. Limit changes to the requested feature and its root composition.
   `AlertEffect` and `NavigateEffect`. Features do not define effect types or
   effectors. For an existing API effect, its success/error receivers convert the
   response or API errors into feature result actions; the application handler
-  invokes `dispatch` with those actions. Inspect the actual contract and field
+  invokes `dispatch` with those actions. In the verified published API,
+  `onSuccess(data)` and `onError(errors, failure)` return actions;
+  `createApiHandler` owns dispatch and the `defaultError` fallback. Inspect the actual contract and field
   names rather than designing a replacement API or transport adapter.
 - Keep `AppEffector`/`RootEffector` and all handler tables at application level.
   Preserve compatible handlers. If a necessary shared effect/handler is missing,

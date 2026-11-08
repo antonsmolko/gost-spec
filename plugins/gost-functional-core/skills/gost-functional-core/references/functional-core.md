@@ -1,11 +1,11 @@
 # Public API recipe
 
-The public FC API was checked with a real `@gost-kit/common@0.1.0` tarball from
-[gost-kit fbf8a518](https://github.com/antonsmolko/gost-kit/tree/fbf8a5182a87fd279ce541edff098d5ec3135e6d/packages/common/src/fc).
-This does not establish registry availability. Inspect the project's installed
-exports/types before adapting code. The maintained
-[functional-core example](https://github.com/antonsmolko/gost-kit/tree/fbf8a5182a87fd279ce541edff098d5ec3135e6d/examples/functional-core)
-keeps feature state/actions/reducers separate from the application effector.
+Checked against registry-installed `@gost-kit/common@0.2.1` on Node `26.11.1`,
+TypeScript `5.9.3` and `@types/node@26.6.5`. The package requires Node `^26.0.0`.
+The [published package](https://www.npmjs.com/package/@gost-kit/common/v/0.2.1)
+is the verified baseline; inspect the consumer's installed exports/types and
+environment before adapting code. Other versions require their own checks.
+Do not silently upgrade a consumer to match this example.
 
 ## Ownership and prerequisites
 
@@ -17,14 +17,62 @@ returns an existing `ApiEffect` whose receivers produce result actions; the
 application handler performs the request and dispatches those returned actions.
 
 The example assumes an existing app contract exposing `RootState`, `RootAction`,
-`RootEffect`, `ApiError` and the response entity `User`. Its existing API effect
-accepts the request fields used below and success/error receivers. Existing
-`ApiError` has `code: string`, `message: string`, `path: string[]`.
-These are application prerequisites, not exports added to common by this skill.
-The actual `ApiEffect` API, transport and execution are a separate gost-kit/app
-concern. This recipe neither defines nor implements them. If the target contract
-differs, inspect it and adapt the feature; if unavailable, report incomplete
-integration instead of creating `FetchUserEffect` or a transport handler.
+`RootEffect`, `ApiError` and the response entity `User`. Reuse the public
+`ApiEffect<Paths, RootAction>`; `Paths` is the application's OpenAPI paths type.
+Here `ApiError` aliases public `AppError`, whose `path` is `readonly string[]`.
+The application owns the client, backend error mapping and `createApiHandler`.
+If those prerequisites are unavailable, report incomplete integration rather
+than creating a feature effect or transport handler.
+
+For this synthetic POST `/user` example, the existing contracts are:
+
+```ts
+// src/app/contracts.ts
+import type { ApiEffect, ScopedActions } from '@gost-kit/common';
+import type { UserAction } from '../features/user/fc/action.js';
+import type { UserState } from '../features/user/fc/state.js';
+
+export type { AppError as ApiError } from '@gost-kit/common';
+export type User = { id: string; name: string };
+export type Paths = {
+  '/user': {
+    post: {
+      requestBody: { content: { 'application/json': { email: string } } };
+      responses: { 200: { content: { 'application/json': User } } };
+    };
+  };
+};
+export type RootState = { user: UserState; preferences: { theme: string } };
+export type RootAction = ScopedActions<{ users: UserAction }>;
+export type RootEffect = ApiEffect<Paths, RootAction>;
+```
+
+Use generated API types in a real app. This small handwritten schema makes the
+example checkable; schema-derived types do not validate response shapes at runtime.
+
+The existing app-level handler uses the public library implementation:
+
+```ts
+// src/app/effector.ts
+import { createApiClient, createApiHandler, effecting } from '@gost-kit/common';
+import type { Paths, RootAction, RootEffect } from './contracts.js';
+
+const api = createApiClient<Paths>({ baseUrl: 'https://api.example.invalid' });
+const apiHandlers = createApiHandler<Paths, RootAction>(api);
+export const rootEffector = effecting<RootAction, RootEffect, readonly [typeof apiHandlers]>(apiHandlers);
+```
+
+Keep any existing client configuration and other global handlers. No request
+runs when the effect description is constructed. The callbacks are
+`onSuccess(data)` and `onError(errors, failure)`; both return result actions.
+The first error argument is `AppError[]`, and the second is `ApiFailure` with
+kind `http`, `network`, `contract` or `aborted`. Nonempty backend errors are
+passed through; an empty error array becomes `[defaultError]`.
+The handler awaits dispatch of the returned action. Omitting `onSuccess` skips
+success dispatch; omitting `onError` reports the failure through the existing
+store error reporter. Callback/dispatch exceptions are execution failures,
+not API business errors. This recipe uses the published DTO response directly;
+it does not assume the newer operation/response-mapper extension.
 
 ## Feature example
 
@@ -74,11 +122,12 @@ export const userReducer = define.reducer<UserState, UserAction, RootEffect, Roo
     state: { ...state, status: 'loading', errors: [] },
     effects: {
       type: 'ApiEffect',
+      method: 'post',
       url: '/user',
       body: { email: state.email },
       defaultError: { code: 'USER_LOAD_FAILED', message: 'Could not load user', path: [] },
-      receiverSuccess: (response) => ({ scope: 'users', type: 'SuccessReceiveAction', response }),
-      receiverError: (errors) => ({ scope: 'users', type: 'ErrorReceiveAction', errors }),
+      onSuccess: (response) => ({ scope: 'users', type: 'SuccessReceiveAction', response }),
+      onError: (errors) => ({ scope: 'users', type: 'ErrorReceiveAction', errors }),
     },
   }),
   SuccessReceiveAction: ({ state, action }) => ({
@@ -115,8 +164,24 @@ describe('userReducer', () => {
       assert.equal(effects.length, 1);
       const [effect] = effects;
       assert.ok(effect.type === 'ApiEffect');
+      assert.equal(effect.method, 'post');
       assert.equal(effect.url, '/user');
       assert.deepEqual(effect.body, { email: 'user@example.invalid' });
+      assert.deepEqual(effect.defaultError, {
+        code: 'USER_LOAD_FAILED', message: 'Could not load user', path: [],
+      });
+    });
+    test('callbacks describe result actions without executing the request', () => {
+      const [effect] = effects;
+      assert.ok(effect.type === 'ApiEffect' && effect.onSuccess && effect.onError);
+      const response = { id: 'one', name: 'Ada' };
+      const errors = [{ code: 'OFFLINE', message: 'offline', path: [] }];
+      assert.deepEqual(effect.onSuccess(response), {
+        scope: 'users', type: 'SuccessReceiveAction', response,
+      });
+      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), {
+        scope: 'users', type: 'ErrorReceiveAction', errors,
+      });
     });
     test('preserves the input and neighbouring state', () => {
       assert.equal(before.user.status, 'idle');

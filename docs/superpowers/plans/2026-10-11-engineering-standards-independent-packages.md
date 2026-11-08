@@ -180,8 +180,8 @@ shared-marketplace сценарий; итого 11 требований/28 сц�
 ## Обновление shell recipe — #87
 
 Реализация доставлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91),
-main `97bbc04`. Подготовлены sync основной spec (9 требований / 15 сценариев)
-и архив; доставка archive PR ожидает review/merge.
+main `97bbc04`. Sync основной spec (9 требований / 15 сценариев) и архив
+доставлены [PR #92](https://github.com/antonsmolko/gost-spec/pull/92), main `ae92862`.
 
 [План](../../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md)
 описывает проверку опубликованных пакетов и доступ к полному store через context

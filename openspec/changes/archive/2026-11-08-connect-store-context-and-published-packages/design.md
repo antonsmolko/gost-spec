@@ -469,3 +469,16 @@ capability outcome. Не добавлялись `skip_specs` или фиктив
 representations сверены отдельно от runtime suite. Повторный Markdown-аудит
 подтвердил 141/262/24 fragments/0 ошибок по описанной методике. Повторный browser/
 native запуск для wording-only правки не требовался. Merge не выполнялся.
+
+
+## Delivery checkpoint — PR92 merged
+
+После отдельного разрешения владельца archive/sync доставлен
+[PR #92](https://github.com/antonsmolko/gost-spec/pull/92), main
+`ae92862248bd1e59fba55352725545875bc5897c`. Архив, main spec 9/15 и сохранность
+runtime/plugin проверены в доставленном дереве. #87 закрывается после этой
+проверки; текущая очередь продолжена отдельной
+[#93](https://github.com/antonsmolko/gost-spec/issues/93). Предыдущие pending
+формулировки — датированные pre-merge checkpoints. Статусы handoff/таблицы/
+roadmap/product design актуализируются в implementation PR задачи #93, без изменения
+критериев закрытого #87. Release/tag и применение к asc-admin не выполнялись.
