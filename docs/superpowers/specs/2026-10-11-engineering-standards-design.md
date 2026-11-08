@@ -146,7 +146,11 @@ PR85/main f3af7de; доставка архива — [PR #86](https://github.com
 
 ## Обновление shell recipe — #87
 
-[План](../../../openspec/changes/connect-store-context-and-published-packages/proposal.md)
+Реализация доставлена [PR #91](https://github.com/antonsmolko/gost-spec/pull/91),
+main `97bbc04`. Подготовлены sync основной spec (9 требований / 15 сценариев)
+и архив; доставка archive PR ожидает review/merge.
+
+[План](../../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md)
 описывает проверку опубликованных пакетов и доступ к полному store через context
 из отдельного src/store. Bootstrap остаётся в app; это согласованная модульная
 адаптация, применяемая с учётом архитектуры потребителя. Ход работы —
