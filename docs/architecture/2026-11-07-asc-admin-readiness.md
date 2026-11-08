@@ -8,7 +8,7 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | Очередь | Репозиторий / задача | Статус | Результат / зависимость |
 | --- | --- | --- | --- |
 | S1 | [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) | Завершена: реализация PR #91, archive/sync [PR #92](https://github.com/antonsmolko/gost-spec/pull/92), main ae92862; 6/6 | [Архив](../../openspec/changes/archive/2026-11-08-connect-store-context-and-published-packages/proposal.md); опубликованная связка, src/store и context |
-| S2 | [gost-spec #93](https://github.com/antonsmolko/gost-spec/issues/93) | В работе | [План](../../openspec/changes/refresh-functional-core-api-recipe/proposal.md); onSuccess/onError, реальный published ApiEffect/createApiHandler и проверка примеров; не зависит от mapper extension |
+| S2 | [gost-spec #93](https://github.com/antonsmolko/gost-spec/issues/93) | Реализация готова, 3/3; [PR #94](https://github.com/antonsmolko/gost-spec/pull/94) ожидает review | [План](../../openspec/changes/refresh-functional-core-api-recipe/proposal.md); onSuccess/onError, реальный published ApiEffect/createApiHandler и проверка примеров; не зависит от mapper extension |
 | S3 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | В очереди | Рецепт middleware после реализации gost-kit #33 |
 | S4 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Требования согласованы в обсуждении; реализация не начата | Skill модульной фичи и код к каждому правилу; библиотечная зависимость API-примера gost-kit #35 выполнена, пример ещё требует проверки на выбранном артефакте; context от #87, routing recipe отдельно в #89 |
 | K1 | [gost-kit #35](https://github.com/antonsmolko/gost-kit/issues/35) | Реализована и закрыта 2026-11-08; [PR #36](https://github.com/antonsmolko/gost-kit/pull/36) вмержен | API-операция с mapper и доменным типом onSuccess; доступность в выбранном опубликованном пакете проверяется отдельно |
@@ -26,6 +26,9 @@ refresh-functional-core-api-recipe. Узкий implementation PR исправл�
 Старый пример даёт ожидаемый compiler RED; исправленный проходит typecheck,
 reducer unit tests и API success/error/defaultError probes во внешнем consumer.
 [План и evidence](../../openspec/changes/refresh-functional-core-api-recipe/design.md).
+Результат — [PR #94](https://github.com/antonsmolko/gost-spec/pull/94), 3/3 задач;
+independent review без замечаний. FC plugin 0.1.1 unreleased; merge/archive и
+выпуск требуют отдельных решений. Остальные версии сохранены.
 
 После #87 и обновления FC recipe можно отдельно доставить skills и возобновить
 подключение пустой основы в asc-admin. Проверить среду реального потребителя
