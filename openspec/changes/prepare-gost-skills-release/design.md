@@ -46,7 +46,56 @@ Both temporary profiles use distinct CODEX_HOME/CLAUDE_CONFIG_DIR, empty cwd and
 
 ### Preparation gates and remaining release work
 
-Root npm check114/114 on Node26.11.1, strict13/13; parser audit153 tracked Markdown/271 local links/24 fragments/0 errors (marked18.1.1 + git ls-files, fresh preparation snapshot). Existing distribution gate accepts both candidates and catalogs. No scripts/tests/runtime sources changed; native and npm standards checks use existing tooling. Final tag names are still absent; no released version, final-tag installation, release approval or real consumer update is claimed. Tasks4/5 remain pending by design, not marked complete by candidate evidence.
+Root npm check114/114 on Node26.11.1, strict13/13; parser audit153 tracked Markdown/271 local links/24 fragments/0 errors (marked18.1.1 + git ls-files, preparation working tree based on02591a2, captured before45aa5c1; later review-fix repeat named separately below). Existing distribution gate accepts both candidates and catalogs. No scripts/tests/runtime sources changed; native and npm standards checks use existing tooling. Final tag names are still absent; no released version, final-tag installation, release approval or real consumer update is claimed. Tasks4/5 remain pending by design, not marked complete by candidate evidence.
 
 
 Candidate payload identities (Git tree content only, not required history/pins): FC0.2.0 `685df0d310a7069a80e7cc7df3b363dd9181a975`, shell0.3.0 `4517cfafa96a7feef1cd63009c30acb1bf0a9e50`, unchanged presenter0.1.0 `c4ef014c81ad3f5bf8ea350ab1224639f77a97e1`. Any merge method is allowed: compare actual final main payload, not ancestry of45aa5c1. The source commit is verification evidence only. Both catalog files, all SKILL/references/fixtures and five npm packages are byte-identical to02591a2.
+
+
+### Retained native commands and installed identities
+
+All commands below ran from the same empty temporary cwd with isolated CODEX_HOME/CLAUDE_CONFIG_DIR. Profile paths are deliberately omitted; no config/auth contents are published. Baseline registration used Codex URL --ref02591a2 full SHA and Claude URL#main resolved to02591a2, followed by native install/repeat of all3. Exact successful candidate transition commands:
+
+```sh
+codex plugin remove gost-functional-core@gost --json
+codex plugin remove gost-svelte-shell@gost --json
+codex plugin marketplace remove gost --json
+codex plugin list --json
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref feature/gost-spec-97-skills-release --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+done
+codex plugin list --json
+claude plugin uninstall gost-functional-core@gost --json
+claude plugin uninstall gost-svelte-shell@gost --json
+claude plugin marketplace remove gost --json
+claude plugin list --json
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#feature/gost-spec-97-skills-release' --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+claude plugin list --json
+claude plugin details gost-functional-core@gost
+claude plugin details gost-svelte-shell@gost
+claude plugin details gost-view-presenter@gost
+```
+
+Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remote get-url origin`: public source above, commit45aa5c1. Equality method enumerated **all8 relative paths** in each installed plugin, calculated SHA256 of each file's bytes, and compared the full map with candidate checkout. The following digest is SHA256 of UTF-8 `json.dumps(path_to_sha256, sort_keys=True, separators=(',', ':'))`; Codex, Claude and source maps are identical:
+
+| Plugin | Version | Installed-content map SHA256 (both hosts) |
+| --- | --- | --- |
+| gost-functional-core | 0.2.0 | 97dd0b472b94bfbea24b62e161a545a62a0bd45dd00da9b1133114c1467f6913 |
+| gost-svelte-shell | 0.3.0 | 6264333e518af58fcf1ea9a19b119a14064728b499acb8fa3929d2a181408c13 |
+| gost-view-presenter | 0.1.0 | 7df3a69d9f03f9fed4e027b36b6b167702d1944214dbc3612ea914c639f045ea |
+
+Fresh Codex protocol sequence: initialize(clientInfo name/version), initialized notification, skills/list(cwds=[empty cwd],forceReload=true);3 expected enabled namespaced skills from CODEX_HOME cache,0 errors. Claude details each shows Skills(1), correct name/version. No model turn/API invocation. Baseline/removal/candidate inventories and file maps establish replacement/repeat/coexistence; native details alone do not establish bytes.
+
+### Independent review
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Distribution Verify before release contract](https://github.com/antonsmolko/gost-spec/blob/02591a250d0f24d2a4f3644a98813b00385162ec/openspec/specs/state-foundation-plugin-distribution/spec.md), independent agent private input, not a public basis | R1: native counts/source commit retained without exact successful commands and installed-content hashes | design ledger | Fixed | Sanitized exact native sequence, source/ref/commit, Git tree IDs, reproducible8-file-map digests and comparison method now retained; reviewer independently verified both public clones and caches |
+
+Scoped independent confirmation: R1 fixed. Reviewer independently recomputed all3 documented installed-content digests from source and both host caches (9 equal results), inspected retained exact commands/method, and found no new conflict. Preparation spec compliance PASS, quality PASS, no open findings. Final-main/tag checks remain separate pending tasks4/5.
