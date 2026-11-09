@@ -9,13 +9,13 @@ are self-contained. Installation does not run the skill or change an application
 
 ## Install a released snapshot
 
-Version 0.1.1 is unreleased; these commands require a separately approved,
+Version 0.2.0 is prepared; these commands require a separately approved,
 existing release tag. Do not treat them as evidence of a public release.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.1.1
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.2.0
 codex plugin add gost-functional-core@gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-functional-core-v0.1.1'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-functional-core-v0.2.0'
 claude plugin install gost-functional-core@gost
 ```
 
@@ -52,6 +52,34 @@ full loopback HTTP Git URL in place of the GitHub URL above, selecting a tempora
 `gost-functional-core-v0.1.0` fixture tag. Independent install, repeat and
 coexistence with shell, fresh discovery and all packaged file bytes were checked.
 Personal profiles and the synthetic application remained unchanged. This is
-native loopback evidence; public GitHub installation and a real release tag
-remain unverified. Feature behaviour was evaluated separately with real common
+historical native loopback evidence, not proof of a current public release.
+Verify the selected public tag and installation separately. Feature behaviour was evaluated separately with real common
 artifacts in a framework-free consumer.
+
+
+## Update and rollback
+
+Changing a pinned marketplace to another release requires explicit
+re-registration and reinstall. First record other installed GOST plugins and
+any data/options to preserve: marketplace removal can remove their caches too.
+If this plugin is installed, remove it before changing the source:
+
+```sh
+codex plugin remove gost-functional-core@gost
+codex plugin marketplace remove gost
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref <selected-release-tag>
+codex plugin add gost-functional-core@gost
+```
+
+```sh
+claude plugin uninstall gost-functional-core@gost
+claude plugin marketplace remove gost
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#<selected-release-tag>'
+claude plugin install gost-functional-core@gost
+```
+
+Restore other deliberately retained plugins, start a fresh session and check
+actual versions/file bytes. Use an earlier existing tag for rollback; no previous
+public release is assumed. A missing tag or failed install is incomplete even
+when an old cached plugin is still visible. Selecting a new snapshot does not
+silently upgrade another plugin.

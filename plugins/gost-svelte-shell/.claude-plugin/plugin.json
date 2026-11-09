@@ -1,6 +1,6 @@
 {
   "name": "gost-svelte-shell",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Connect gost-kit fc/shell foundations to an existing Svelte 5 SPA.",
   "author": {
     "name": "Anton Smolko"
