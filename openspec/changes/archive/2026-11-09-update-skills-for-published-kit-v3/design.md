@@ -90,3 +90,16 @@ Read all pages of PR98 inline comments (4), summary reviews (1), PR issue commen
 [Published summary](https://github.com/antonsmolko/gost-spec/pull/98#pullrequestreview-5819697560) reconciled with all four entries; its compatibility evidence is retained. Runtime/source blocks, probes, dependencies, main specs and plugin versions are unchanged by these editorial fixes. The additional aborted run extended only the external verification harness. Source links and complete final diff/conflict checks are verified separately from runtime tests.
 
 Round2 verification: npm run check114/114 on Node26.11.1, strict OpenSpec13/13, parser audit149 Markdown/268 local links/24 fragments/0 errors, whitespace clean. Independent review of the complete final PR diff, public requirements, live issue97/PR98 and relevant unchanged contracts confirms R4–R7 fixed, R1–R3 retained closed, spec compliance PASS and quality PASS. Reviewer independently repeated exact-recipe integration7/7 including aborted. Supplemental agent report is private input, not a public basis; public actionable sources remain the four inline comments and summary linked above. Delivery/release and owner approval boundaries are unchanged.
+
+
+## Archive and spec sync — 2026-11-09
+
+Implementation delivered through [PR98](https://github.com/antonsmolko/gost-spec/pull/98), main6ca71a6; merge approved by owner and merged main check114/114. Owner explicitly requested archive and selected sync+archive. All artifacts done, tasks5/5; no warnings/incomplete work. Archive/schema: `2026-11-09-update-skills-for-published-kit-v3`, spec-driven; metadata/proposal/tasks/deltas preserved.
+
+Inline spec sync reused the current specs-rule snapshot (no extra rules). Existing titles/Purpose preserved; no new capability created. FC: one existing requirement's API-result scenario updated verbatim from delta and one requirement added, yielding8 requirements/22 scenarios. Shell: one requirement added, yielding10/18. Every delta block compared against its main block after sync: identical; unaffected requirement blocks unchanged. No delta operation headers copied into main specs. Only after successful comparison and strict spec validation was the complete change directory moved, including `.openspec.yaml`.
+
+Delivery is a separate issue96 archive PR. Issue96 remains open until that PR reaches main; release preparation97 remains separate. This sync/archive does not change plugin/fixture/package bytes, library compatibility, versions or release approval. Consumer/browser/native evidence above belongs to implementation; those checks are not claimed as repeated for the documentation move.
+
+### Archive GitHub issue edits
+
+Current issue96/97 checkpoints and issue88 pointers will name this archive and its PR, preserving their own criteria, prior review closures and release gates. Historical implementation checkpoints remain labelled; mutable current pointers must not target the removed active directory. Queue/handoff current pointers updated in this archive outcome.
