@@ -13,7 +13,7 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 ## Откуда продолжать
 
 Актуальная очередь и статусы — [таблица со статусами](2026-11-07-asc-admin-readiness.md).
-План и evidence #93 сохранены в [архиве FC recipe](../../openspec/changes/archive/2026-11-08-refresh-functional-core-api-recipe/design.md).
+План и evidence #96 сохранены в [архиве совместимости skills](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
 Датированные записи ниже сохраняют историю предыдущих этапов.
 
 Archive/spec sync #55 доставлен в main через

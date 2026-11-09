@@ -42,7 +42,7 @@ Reducers MUST выполнять чистые детерминированные
 
 #### Scenario: Complete an asynchronous business operation
 - **WHEN** запрошенная фича использует внешний эффект
-- **THEN** reducer описывает существующий эффект приложения; его receivers преобразуют тело ответа или ApiError[] в actions фичи, а общий обработчик приложения исполняет эффект и dispatch-ит эти actions через ту же композицию
+- **THEN** reducer описывает существующий эффект приложения; его callbacks преобразуют результат API-операции (после mapper, если он задан) или ApiError[] в actions фичи, а общий обработчик приложения исполняет эффект и dispatch-ит эти actions через ту же композицию
 - **AND** бизнес-успех/ошибка проверяются по соответствующему состоянию, а не выводятся из завершения dispatch
 
 #### Scenario: Distinguish routing from state location
@@ -121,3 +121,21 @@ Plugin `gost-functional-core` SHALL иметь собственные SemVer/cha
 - **WHEN** одна entry отсутствует, продублирована, выбирает другой source либо reference уходит в соседний plugin
 - **THEN** проверка сообщает файл и причину и не объявляет поставку готовой
 - **AND** прежние metadata/privacy/URI/containment проверки shell plugin сохраняются
+
+### Requirement: Mapped API operation guidance
+Для совместимого опубликованного API skill SHALL показывать описание операции с DTO→domain mapper, чистое создание эффекта reducer и исполнение общим effector приложения. Успешный callback MUST получать результат mapper; ошибка MUST преобразовываться в action по фактическому контракту пакета. Примеры SHALL проверять типы и выполнение нескольких операций, сохраняя разделение reducer unit и app integration tests.
+
+#### Scenario: Domain result from an API operation
+- **WHEN** опубликованный API поддерживает операцию с mapper
+- **THEN** reducer возвращает описание эффекта без выполнения mapper или запроса
+- **AND** общий обработчик выполняет запрос и преобразование, затем dispatch-ит action с доменной моделью
+
+#### Scenario: Failed request or mapping
+- **WHEN** запрос либо mapper завершается ошибкой
+- **THEN** проверка подтверждает error action и фактическую категорию ошибки без ложного success action
+- **AND** исключения callbacks/dispatch различаются с ошибками запроса или mapper
+
+#### Scenario: Multiple response types
+- **WHEN** root effect объединяет операции с разными ответами
+- **THEN** проверки типов сохраняют связь операции, параметров, результата mapper и result actions
+- **AND** несовместимость не скрывается any, assertions или частными imports

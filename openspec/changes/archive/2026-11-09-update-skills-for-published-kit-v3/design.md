@@ -90,3 +90,42 @@ Read all pages of PR98 inline comments (4), summary reviews (1), PR issue commen
 [Published summary](https://github.com/antonsmolko/gost-spec/pull/98#pullrequestreview-5819697560) reconciled with all four entries; its compatibility evidence is retained. Runtime/source blocks, probes, dependencies, main specs and plugin versions are unchanged by these editorial fixes. The additional aborted run extended only the external verification harness. Source links and complete final diff/conflict checks are verified separately from runtime tests.
 
 Round2 verification: npm run check114/114 on Node26.11.1, strict OpenSpec13/13, parser audit149 Markdown/268 local links/24 fragments/0 errors, whitespace clean. Independent review of the complete final PR diff, public requirements, live issue97/PR98 and relevant unchanged contracts confirms R4–R7 fixed, R1–R3 retained closed, spec compliance PASS and quality PASS. Reviewer independently repeated exact-recipe integration7/7 including aborted. Supplemental agent report is private input, not a public basis; public actionable sources remain the four inline comments and summary linked above. Delivery/release and owner approval boundaries are unchanged.
+
+
+## Archive and spec sync — 2026-11-09
+
+Implementation delivered through [PR98](https://github.com/antonsmolko/gost-spec/pull/98), main6ca71a6; merge approved by owner and merged main check114/114. Owner explicitly requested archive and selected sync+archive. All artifacts done, tasks5/5; no warnings/incomplete work. Archive/schema: `2026-11-09-update-skills-for-published-kit-v3`, spec-driven; metadata/proposal/tasks/deltas preserved.
+
+Inline spec sync reused the current specs-rule snapshot (no extra rules). Existing titles/Purpose preserved; no new capability created. FC: one existing requirement's API-result scenario updated verbatim from delta and one requirement added, yielding8 requirements/22 scenarios. Shell: one requirement added, yielding10/18. Every delta block compared against its main block after sync: identical; unaffected requirement blocks unchanged. No delta operation headers copied into main specs. Only after successful comparison and strict spec validation was the complete change directory moved, including `.openspec.yaml`.
+
+Delivery is [archive PR99](https://github.com/antonsmolko/gost-spec/pull/99) for issue96. Issue96 remains open until that PR reaches main; release preparation97 remains separate. This sync/archive does not change plugin/fixture/package bytes, library compatibility, versions or release approval. Consumer/browser/native evidence above belongs to implementation; those checks are not claimed as repeated for the documentation move.
+
+### Archive GitHub issue edits
+
+Updated issue96/97 checkpoints to name archive PR99 and pending delivery; issue88 current table pointer selects the archive branch and its active queue paragraph distinguishes merged implementation98, pending archive99 and subsequent release97. Their own criteria, prior review closures and release gates are preserved. Historical implementation checkpoints remain labelled; mutable current pointers must not target the removed active directory. Queue/handoff current pointers updated in this archive outcome.
+
+Archive verification: full suite114/114 on Node26.11.1, strict12/12, whitespace clean. Fresh post-move link audit repeated on2026-11-09 at clean head `ee0258c79c382c0a2219f841f182e08857a636ec`: parser scan using marked18.1.1 lexer/walkTokens over git-tracked Markdown (`git ls-files`); URI links excluded, relative targets and heading fragments checked with dependencies installed. Result:149 tracked Markdown/268 local links/24 fragments/0 errors. This is a fresh post-move run at that snapshot, not reused implementation pre-review evidence. All six artifacts compared to implementation6ca71a6: metadata/proposal/tasks/deltas byte-identical, existing design prefix preserved with archive evidence appended. Plugin/fixture/package/catalog files unchanged. Independent reviewer inspected complete diff, exact delta/main comparison, unaffected blocks and pointers: spec compliance PASS, quality PASS, no findings. Supplemental review report is private input, not a public basis; public actionable basis is issue96 and merged implementation PR98. Current GitHub checkpoint edits are listed above; issue96 remains open pending archive delivery.
+
+Scoped independent confirmation after PR99 creation: live issues96/97/88 match final queue/design pointers and pending delivery; prior public-pointer limitation resolved, no new findings.
+
+
+### Post-merge delivery follow-up
+
+Owner: the agent performing the explicitly owner-approved merge of PR99 in this gost-spec session. After merge, verify PR99's merged commit is on origin/main, update the local main checkout and run its applicable checks. Only after successful delivery verification, refresh live issue96/97/88 checkpoints and their current queue/ledger pointers to the delivered main snapshot; close issue96 as completed. Issue88 criteria/prior closures remain unchanged, and issue97 proceeds separately with its existing release gate.
+
+Repository tracking must go through a PR: the first PR for issue97 refreshes S3/current checkpoint and handoff with the delivered archive, delivery evidence and closed96 status. Until then the queue states the PR/dependency and delivery rule rather than claiming an already-merged PR is awaiting review. This is status bookkeeping under97's existing queue/handoff criterion, not an additional release outcome or authorization to merge/publish.
+
+### PR99 published review
+
+Read all PR99 thread pages (2 threads, hasNextPage false), all summary reviews (1) and PR comments (0) on2026-11-09 at head ee0258c. [Published summary](https://github.com/antonsmolko/gost-spec/pull/99#pullrequestreview-5831859978) independently confirms sync preservation,8/22 and10/18 counts, full114/114, strict12/12 and CI on both Node versions; its evidence remains attributed to that review. Prior R1–R7 closures remain closed.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Post-merge follow-up](https://github.com/antonsmolko/gost-spec/pull/99#discussion_r4517313231) | R8: pending wording becomes stale after merge; no explicit owner/step for delivery refresh and96 closure | queue, archive ledger, live96/97/88 follow-up | Fixed | Queue states dependency/delivery rule; named merge agent verifies main, refreshes live checkpoints/pointers and closes96. First97 PR records persistent S3/handoff delivery status; no direct-main edit or release implied |
+| [Audit provenance](https://github.com/antonsmolko/gost-spec/pull/99#discussion_r4517313242) | R9: link counts lack method/snapshot and could be mistaken for historical results | archive ledger, PR99 description | Fixed | Fresh clean-head post-move parser scan at ee0258c recorded above; review-fix candidate is scanned again with method/snapshot and current counts recorded below and in PR description |
+
+### Review GitHub issue edits
+
+Issue96/97 follow-up points to the explicit post-merge owner/steps above; current pending delivery state stays factual until delivery is verified. Issue88's existing acceptance criteria and prior closures remain untouched; its live pointers refresh in the assigned post-merge step. PR99 audit line identifies parser method and checked snapshot. No changes to synced requirements, archived source artifacts, plugin versions, packages or release approval.
+
+Review-fix verification2026-11-09: fresh post-move parser audit of the candidate working tree based on head ee0258c (including these delivery/provenance edits), marked18.1.1 lexer/walkTokens + git-tracked Markdown, installed dependencies, filesystem targets and heading-fragment validation:149 Markdown/268 local links/25 fragments/0 errors. The added delivery-follow-up fragment explains24→25; the149/268/24 snapshot above is explicitly the earlier clean-head run. Full npm check114/114 on Node26.11.1, strict12/12, whitespace clean. Complete final PR diff inspected; relevant unchanged specs, queue, public96/97 criteria/dependencies and handoff freshness rule checked separately from runtime tests. Only delivery wording/provenance clarified, with no changed requirements or approval gates; the wording-only exception in AGENTS6 applies, so no additional independent contract review is required. Published reviewer-confirmed sync preservation and R1–R7 closures retained.
