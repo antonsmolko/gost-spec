@@ -14,7 +14,7 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 
 Актуальная очередь и статусы — [таблица со статусами](2026-11-07-asc-admin-readiness.md).
 Совместимость #96 доставлена и закрыта; [архив/evidence](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
-Следующая работа #97 — [подготовка выпуска](../../openspec/changes/prepare-gost-skills-release/design.md).
+Выпуск #97 — [отчёт проверенных тегов](../../openspec/changes/prepare-gost-skills-release/design.md#published-release-verification).
 Датированные записи ниже сохраняют историю предыдущих этапов.
 
 Archive/spec sync #55 доставлен в main через

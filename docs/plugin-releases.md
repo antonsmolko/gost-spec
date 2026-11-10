@@ -1,7 +1,9 @@
 # GOST plugin releases
 
-The prepared versions are `gost-functional-core@0.2.0` and
-`gost-svelte-shell@0.3.0`. `gost-view-presenter@0.1.0` is unchanged.
+The published pair is `gost-functional-core@0.2.0` and
+`gost-svelte-shell@0.3.0`. Both tags select checked main commit
+`64714fcc9929ce3eb0ea7676dfabaa883f5069f7`; installation from each tag was verified
+in isolated Codex 0.167.0 and Claude Code 2.1.308 profiles. `gost-view-presenter@0.1.0` is unchanged.
 A manifest/changelog describes versioned content; publication is established by
 an approved immutable tag on the checked final main commit. Confirm the tag exists
 before running installation examples. Missing tags mean the release is unavailable.
@@ -13,7 +15,7 @@ plugins; do not add two marketplaces with the same name `gost`.
 
 ## Install the released pair
 
-After the release is approved and both tags exist, use one of them consistently.
+The pair has been approved and both tags exist. Use one of them consistently.
 For a fresh marketplace registration:
 
 ```sh
@@ -94,6 +96,6 @@ invocation or application behavior.
 
 Use supported native commands, based on [OpenAI packaging documentation](https://developers.openai.com/plugins/build/plugins)
 and [Claude marketplace documentation](https://code.claude.com/docs/en/plugin-marketplaces).
-Public GitHub candidate-ref checks precede release; final-tag checks happen only
-after approved publication. Neither local/loopback evidence nor a version string
-substitutes for those checks.
+Public GitHub candidate-ref checks preceded this release; the final-tag checks
+for both tags and both harnesses passed after approved publication. Neither
+local/loopback evidence nor a version string substitutes for those checks.
