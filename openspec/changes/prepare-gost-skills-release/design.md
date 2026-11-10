@@ -54,7 +54,7 @@ Candidate payload identities (Git tree content only, not required history/pins):
 
 ### Historical retained native commands and installed identities
 
-All commands below ran from the same empty temporary cwd with isolated CODEX_HOME/CLAUDE_CONFIG_DIR. Profile paths are deliberately omitted; no config/auth contents are published. Baseline registration used Codex URL --ref02591a2 full SHA and Claude URL#main resolved to `02591a2`, followed by native install/repeat of all 3. Exact successful candidate transition commands:
+All commands below ran from the same empty temporary cwd with isolated CODEX_HOME/CLAUDE_CONFIG_DIR. Profile paths are deliberately omitted; no config/auth contents are published. Baseline registration used the full Codex SHA ref `02591a250d0f24d2a4f3644a98813b00385162ec` and Claude URL#main resolved to that commit, followed by native install/repeat of all 3. Exact successful candidate transition commands:
 
 ```sh
 codex plugin remove gost-functional-core@gost --json
@@ -82,7 +82,7 @@ claude plugin details gost-svelte-shell@gost
 claude plugin details gost-view-presenter@gost
 ```
 
-Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remote get-url origin`: public source above, commit45aa5c1. Equality method enumerated **all 8 relative paths** in each installed plugin, calculated SHA256 of each file's bytes, and compared the full map with candidate checkout. The following digest is SHA256 of UTF-8 `json.dumps(path_to_sha256, sort_keys=True, separators=(',', ':'))`; Codex, Claude and source maps are identical:
+Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remote get-url origin`: public source above, commit `45aa5c1`. Equality method enumerated **all 8 relative paths** in each installed plugin, calculated SHA256 of each file's bytes, and compared the full map with candidate checkout. The following digest is SHA256 of UTF-8 `json.dumps(path_to_sha256, sort_keys=True, separators=(',', ':'))`; Codex, Claude and source maps are identical:
 
 | Plugin | Version | Installed-content map SHA256 (both hosts) |
 | --- | --- | --- |
@@ -119,3 +119,25 @@ Sources read: all six inline threads (hasNextPage=false), all six summary review
 | [README formatting](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530007388) | R7: unwrapped line/double blank in distributed FC README | FC README | Fixed | Paragraph wrapping restored and duplicate blank removed |
 
 Because README bytes changed, the original `45aa5c1` trees/digests above are historical receipts, not current-payload claims. Both affected installed payloads must be rechecked from the updated public candidate before readiness is claimed. Only documentation/formatting changed: native command blocks, plugin versions, SKILL/recipes, catalogs, runtime and approval gates remain unchanged. Final release tasks 4/5 remain pending.
+
+
+### Fresh verification after published-review payload fixes
+
+Actual public source `https://github.com/antonsmolko/gost-spec.git`, candidate branch resolved to `55266a52bb1c5521aedb8cced0ad35268b075698` in both native checkouts. Fresh temporary profiles first installed public `5492d31` (Codex full SHA ref; Claude candidate branch verified at that commit), then followed the retained re-registration sequence above after the fix push. Added `plugin marketplace list --json` before each transition to confirm an existing `gost` registration. Removed the pair and marketplace, observed empty inventories, registered the updated ref, reinstalled/restored all three plugins and repeated each installation. All commands succeeded; no local/loopback source substituted.
+
+Codex 0.167.0 and Claude 2.1.308 each expose exactly one enabled FC 0.2.0, shell 0.3.0 and presenter 0.1.0. Every installed 8-file map equals the corresponding source map. Codex fresh initialize/initialized/skills-list process reports three enabled namespaced skills from isolated caches, zero discovery errors; Claude fresh plugin-details calls each report one skill with correct identity/version. No model turn. Personal profile fingerprints unchanged; HOME retained and profiles/cwd isolated. The historical commands still apply, and both updated README self-links resolve to their own update procedure.
+
+Current payload identities (Git tree and reproducible installed-map digest formula above):
+
+| Plugin | Version | Git tree | Installed-content map SHA256 (both hosts) |
+| --- | --- | --- | --- |
+| gost-functional-core | 0.2.0 | `2dd204209ddf9c7f00a5c1e70d9518ac0178a7ea` | `d344caaaa7b97e714e46d2af00858626a9de247b1f49ddf4e26cbad99427c0cf` |
+| gost-svelte-shell | 0.3.0 | `2da690afd1f38a3a3dfc15255b05492c8fafa678` | `399b22999f56bc37ee42d239284f7e943f737ea7c0361996d60b43cc71fcd281` |
+| gost-view-presenter | 0.1.0 | `c4ef014c81ad3f5bf8ea350ab1224639f77a97e1` | `7df3a69d9f03f9fed4e027b36b6b167702d1944214dbc3612ea914c639f045ea` |
+
+Only the two README payloads changed from the original receipt; presenter and all manifests/changelogs/SKILL/recipes/catalogs/runtime/npm packages are unchanged by this review round. These current identities replace the old receipt for future final-main comparison. Same candidate versions are intentional: no release tag has been published. Final-main approval and actual final-tag installation remain pending tasks 4/5.
+
+
+Published-review verification: full npm check 114/114 on Node 26.11.1, strict OpenSpec 13/13, whitespace clean. Fresh marked 18.1.1 lexer/walkTokens scan over git-tracked Markdown, with installed dependencies and heading-fragment checks, at the review-fix working tree based on `55266a5`: 153 files / 274 local links / 27 fragments / 0 errors. The three new same-file guards/procedure links explain the increase from the historical 271/24. Exact historical native command blocks and all prior digest values were retained unchanged while surrounding prose was spaced.
+
+Complete final PR diff and relevant unchanged main contract/issue criteria checked separately from native/runtime verification. Public issue #97 and PR description now distinguish the old receipt from the renewed payload, with readable version/count tokens. All six threads and the published summary have dispositions R2–R7; prior R1 closure is retained. These are documentation clarifications of existing behavior, not contract or gate changes; the wording-only exception in AGENTS §6 applies. No additional independent contract review is claimed; renewed native checks above cover the changed installed bytes. Final tasks 4/5 and separate release approval remain unchanged.
