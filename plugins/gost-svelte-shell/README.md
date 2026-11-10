@@ -29,6 +29,10 @@ forms below target Codex CLI and Claude Code. The release tag must exist on
 public GitHub before these examples work; candidate-ref checks alone do not
 prove availability of that tag.
 
+These commands are for a fresh `gost` registration. If `gost` is already
+registered, follow [Update and rollback](#update-and-rollback) to select the
+intended snapshot explicitly before installing.
+
 ```sh
 codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.3.0
 codex plugin add gost-svelte-shell@gost

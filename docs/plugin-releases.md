@@ -82,8 +82,12 @@ invocation or application behavior.
    to the owner. Obtain explicit release approval for that candidate.
 4. Confirm both tag names are absent, then create and push immutable tags on that
    main commit. Never move an existing release tag.
-5. Verify remote tags and install from each final tag in fresh profiles of both
-   harnesses. Record actual versions, files, repeat/update/coexistence and source.
+5. Verify remote tags and install each final tag in a separate fresh profile of
+   each harness: one `gost` registration per profile. When reusing a profile for
+   the second tag, follow [Change an existing registration](#change-an-existing-registration)
+   first, substituting the other tag for the procedure's example tag, and restore
+   deliberately retained plugins. Record actual versions, files,
+   repeat/update/coexistence and source.
 6. Update release checkpoints and the asc-admin instructions with actual evidence.
    If final-tag checks fail, the issue remains incomplete; do not silently change
    the tag or substitute a different snapshot.

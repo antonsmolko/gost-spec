@@ -12,6 +12,10 @@ are self-contained. Installation does not run the skill or change an application
 Version 0.2.0 is prepared; these commands require a separately approved,
 existing release tag. Do not treat them as evidence of a public release.
 
+These commands are for a fresh `gost` registration. If `gost` is already
+registered, follow [Update and rollback](#update-and-rollback) to select the
+intended snapshot explicitly before installing.
+
 ```sh
 codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.2.0
 codex plugin add gost-functional-core@gost
@@ -53,9 +57,8 @@ full loopback HTTP Git URL in place of the GitHub URL above, selecting a tempora
 coexistence with shell, fresh discovery and all packaged file bytes were checked.
 Personal profiles and the synthetic application remained unchanged. This is
 historical native loopback evidence, not proof of a current public release.
-Verify the selected public tag and installation separately. Feature behaviour was evaluated separately with real common
-artifacts in a framework-free consumer.
-
+Verify the selected public tag and installation separately. Feature behaviour
+was evaluated separately with real common artifacts in a framework-free consumer.
 
 ## Update and rollback
 

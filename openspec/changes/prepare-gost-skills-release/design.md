@@ -2,13 +2,13 @@
 
 ## Context and baseline
 
-[#97](https://github.com/antonsmolko/gost-spec/issues/97) после #96: реализация PR98 и архив PR99 доставлены, main02591a2,96 закрыта. Применяется существующий distribution contract; новые packaging механизмы не нужны.
+[#97](https://github.com/antonsmolko/gost-spec/issues/97) после #96: реализация PR #98 и архив PR #99 доставлены, main `02591a2`; #96 закрыта. Применяется существующий distribution contract; новые packaging механизмы не нужны.
 
 Официальная baseline: [OpenAI packaging](https://developers.openai.com/plugins/build/plugins), [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) и поддерживаемый [Anthropic catalog example](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json). Нужда проекта — проверить общий каталог с локальными plugin sources из выбранного Git snapshot в двух CLI. Legacy Codex manifest остаётся поддерживаемым; переход к другому формату не входит.
 
 ## Decisions
 
-FC0.2.0 и shell0.3.0 — независимые minor bumps с содержательными обновлениями API operations и factory/reset. Старые0.1.1/0.2.1 были unreleased placeholders, не релизами. Presenter0.1.0 и npm versions сохраняются. Оба native manifests и changelog получают одну candidate version каждого plugin; version headings описывают подготовленное содержимое, а нейтральная status note отличает его от публикации, которая подтверждается matching immutable tag. Это позволяет проверить окончательные plugin bytes до approval и тегировать тот же main без промежуточной правки changelog; catalogs продолжают выбирать local tree snapshot, без SHA pins.
+FC 0.2.0 и shell 0.3.0 — независимые minor bumps с содержательными обновлениями API operations и factory/reset. Старые 0.1.1/0.2.1 были unreleased placeholders, не релизами. Presenter 0.1.0 и npm versions сохраняются. Оба native manifests и changelog получают одну candidate version каждого plugin; version headings описывают подготовленное содержимое, а нейтральная status note отличает его от публикации, которая подтверждается matching immutable tag. Это позволяет проверить окончательные plugin bytes до approval и тегировать тот же main без промежуточной правки changelog; catalogs продолжают выбирать local tree snapshot, без SHA pins.
 
 Проверка: native CLI в disposable CODEX_HOME/CLAUDE_CONFIG_DIR, без смены HOME и без вызова моделей. Сначала public GitHub baseline snapshot, затем candidate feature ref; install/repeat/update/coexistence/discovery подтверждаются CLI inventory и сравнением всех installed bytes. CLI listing не выдаётся за model invocation. Личные профили/потребители не меняются. Неуспешный публичный доступ не заменяется loopback evidence. Unavailable source/ref/version/hash mismatch означает failed/incomplete, без выдуманной установки или обхода проверки.
 
@@ -24,37 +24,37 @@ Sources/findings: Source | Finding | Affected files/issues | Disposition | Evide
 
 ## GitHub issue edits
 
-#97 будет фиксировать candidate versions, preparation PR, native evidence и отдельный release approval checkpoint. #96 delivery closure/queue обновляются этим первым PR97 по плану PR99; критерии88 не расширяются.
+#97 будет фиксировать candidate versions, preparation PR, native evidence и отдельный release approval checkpoint. #96 delivery closure/queue обновляются этим первым PR по задаче #97 по плану PR #99; критерии 88 не расширяются.
 
 
 ### Native baseline — 2026-11-10
 
-Codex0.167.0 / Claude2.1.308, Node26.11.1. Fresh isolated profiles and empty working directory; HOME unchanged, inherited HERDR/CODEX_THREAD_ID stripped; no model/API invocation. Public GitHub checkout of02591a2 confirmed in each native marketplace clone. Both installed FC0.1.1, shell0.2.1 and presenter0.1.0, then repeated all three installs. All8 files per plugin in each installed cache match that actual Git snapshot. These are previous unpublished draft versions, not old release tags.
+Codex 0.167.0 / Claude 2.1.308, Node 26.11.1. Fresh isolated profiles and empty working directory; HOME unchanged, inherited HERDR/CODEX_THREAD_ID stripped; no model/API invocation. Public GitHub checkout of `02591a2` confirmed in each native marketplace clone. Both installed FC 0.1.1, shell 0.2.1 and presenter 0.1.0, then repeated all three installs. All 8 files per plugin in each installed cache match that actual Git snapshot. These are previous unpublished draft versions, not old release tags.
 
-Codex accepted --ref commit SHA. Claude URL#SHA failed because its clone expects a branch/tag; retried URL#main and verified resolved02591a2. The failed SHA attempt is not install evidence and does not support SHA URLs for Claude. Consumer commands use version tags. No GOST tags returned by git ls-remote --tags at preparation start; no previous public rollback tag assumed.
+Codex accepted --ref commit SHA. Claude URL#SHA failed because its clone expects a branch/tag; retried URL#main and verified resolved `02591a2`. The failed SHA attempt is not install evidence and does not support SHA URLs for Claude. Consumer commands use version tags. No GOST tags returned by git ls-remote --tags at preparation start; no previous public rollback tag assumed.
 
 
-### Public GitHub candidate verification
+### Historical public GitHub candidate verification — before published review
 
-Public source `https://github.com/antonsmolko/gost-spec.git`, branch `feature/gost-spec-97-skills-release`; both native clones resolved45aa5c1eb1284d560a72c3cdcc23a7373f0a0a8f. This is candidate-ref evidence, not final-tag/main-release evidence. Logs record actual source/checkout; no loopback/local directory substitute.
+Public source `https://github.com/antonsmolko/gost-spec.git`, branch `feature/gost-spec-97-skills-release`; both native clones resolved `45aa5c1eb1284d560a72c3cdcc23a7373f0a0a8f`. This is candidate-ref evidence, not final-tag/main-release evidence. Logs record actual source/checkout; no loopback/local directory substitute.
 
-In each isolated profile, removed the installed FC/shell pair and marketplace using the documented native commands; subsequent inventory was empty (marketplace removal also removed presenter). Registered public candidate branch and installed/restored all3; repeated each install. Fresh process inventories show exactly one enabled entry per plugin: FC0.2.0, shell0.3.0, presenter0.1.0. Every8-file installed tree matches candidate source in both hosts; presenter bytes match baseline too. This verifies actual replacement0.1.1→0.2.0 and0.2.1→0.3.0, repeat and coexistence without changing the unchanged plugin's contents.
+In each isolated profile, removed the installed FC/shell pair and marketplace using the documented native commands; subsequent inventory was empty (marketplace removal also removed presenter). Registered public candidate branch and installed/restored all 3; repeated each install. Fresh process inventories show exactly one enabled entry per plugin: FC 0.2.0, shell 0.3.0, presenter 0.1.0. Every 8-file installed tree matches candidate source in both hosts; presenter bytes match baseline too. This verifies actual replacement 0.1.1→0.2.0 and 0.2.1→0.3.0, repeat and coexistence without changing the unchanged plugin's contents.
 
-Codex fresh app-server handshake then `skills/list` with empty cwd and forceReload=true reports exactly3 enabled namespaced GOST skills from the isolated cache paths; no model turn started. This uses the [supported discovery protocol](https://learn.chatgpt.com/docs/app-server). Claude fresh `plugin details <id>` reports Skills(1) with correct name for each installed plugin. `details --json` is unsupported in2.1.308; that failed attempt is not evidence, the plain command succeeds. Native discovery differs from invoking a model/applying a skill; no model completion or asc-admin behavior is claimed.
+Codex fresh app-server handshake then `skills/list` with empty cwd and forceReload=true reports exactly 3 enabled namespaced GOST skills from the isolated cache paths; no model turn started. This uses the [supported discovery protocol](https://learn.chatgpt.com/docs/app-server). Claude fresh `plugin details <id>` reports Skills (1) with correct name for each installed plugin. `details --json` is unsupported in 2.1.308; that failed attempt is not evidence, the plain command succeeds. Native discovery differs from invoking a model/applying a skill; no model completion or asc-admin behavior is claimed.
 
 Both temporary profiles use distinct CODEX_HOME/CLAUDE_CONFIG_DIR, empty cwd and unchanged HOME. Fingerprints of personal Codex config, Claude settings/installed-plugin/marketplace records are unchanged after all CLI/app-server checks. No personal source/cache was modified. Only temporary verification helpers/logs exist outside repository; no new distribution tooling introduced.
 
 ### Preparation gates and remaining release work
 
-Root npm check114/114 on Node26.11.1, strict13/13; parser audit153 tracked Markdown/271 local links/24 fragments/0 errors (marked18.1.1 + git ls-files, preparation working tree based on02591a2, captured before45aa5c1; later review-fix repeat named separately below). Existing distribution gate accepts both candidates and catalogs. No scripts/tests/runtime sources changed; native and npm standards checks use existing tooling. Final tag names are still absent; no released version, final-tag installation, release approval or real consumer update is claimed. Tasks4/5 remain pending by design, not marked complete by candidate evidence.
+Root npm check 114/114 on Node 26.11.1, strict 13/13; parser audit 153 tracked Markdown/271 local links/24 fragments/0 errors (marked 18.1.1 + git ls-files, preparation working tree based on `02591a2`, captured before `45aa5c1`; later review-fix repeat named separately below). Existing distribution gate accepts both candidates and catalogs. No scripts/tests/runtime sources changed; native and npm standards checks use existing tooling. Final tag names are still absent; no released version, final-tag installation, release approval or real consumer update is claimed. Tasks 4/5 remain pending by design, not marked complete by candidate evidence.
 
 
-Candidate payload identities (Git tree content only, not required history/pins): FC0.2.0 `685df0d310a7069a80e7cc7df3b363dd9181a975`, shell0.3.0 `4517cfafa96a7feef1cd63009c30acb1bf0a9e50`, unchanged presenter0.1.0 `c4ef014c81ad3f5bf8ea350ab1224639f77a97e1`. Any merge method is allowed: compare actual final main payload, not ancestry of45aa5c1. The source commit is verification evidence only. Both catalog files, all SKILL/references/fixtures and five npm packages are byte-identical to02591a2.
+Candidate payload identities (Git tree content only, not required history/pins): FC 0.2.0 `685df0d310a7069a80e7cc7df3b363dd9181a975`, shell 0.3.0 `4517cfafa96a7feef1cd63009c30acb1bf0a9e50`, unchanged presenter 0.1.0 `c4ef014c81ad3f5bf8ea350ab1224639f77a97e1`. Any merge method is allowed: compare actual final main payload, not ancestry of `45aa5c1`. The source commit is verification evidence only. Both catalog files, all SKILL/references/fixtures and five npm packages are byte-identical to `02591a2`.
 
 
-### Retained native commands and installed identities
+### Historical retained native commands and installed identities
 
-All commands below ran from the same empty temporary cwd with isolated CODEX_HOME/CLAUDE_CONFIG_DIR. Profile paths are deliberately omitted; no config/auth contents are published. Baseline registration used Codex URL --ref02591a2 full SHA and Claude URL#main resolved to02591a2, followed by native install/repeat of all3. Exact successful candidate transition commands:
+All commands below ran from the same empty temporary cwd with isolated CODEX_HOME/CLAUDE_CONFIG_DIR. Profile paths are deliberately omitted; no config/auth contents are published. Baseline registration used Codex URL --ref02591a2 full SHA and Claude URL#main resolved to `02591a2`, followed by native install/repeat of all 3. Exact successful candidate transition commands:
 
 ```sh
 codex plugin remove gost-functional-core@gost --json
@@ -82,7 +82,7 @@ claude plugin details gost-svelte-shell@gost
 claude plugin details gost-view-presenter@gost
 ```
 
-Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remote get-url origin`: public source above, commit45aa5c1. Equality method enumerated **all8 relative paths** in each installed plugin, calculated SHA256 of each file's bytes, and compared the full map with candidate checkout. The following digest is SHA256 of UTF-8 `json.dumps(path_to_sha256, sort_keys=True, separators=(',', ':'))`; Codex, Claude and source maps are identical:
+Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remote get-url origin`: public source above, commit45aa5c1. Equality method enumerated **all 8 relative paths** in each installed plugin, calculated SHA256 of each file's bytes, and compared the full map with candidate checkout. The following digest is SHA256 of UTF-8 `json.dumps(path_to_sha256, sort_keys=True, separators=(',', ':'))`; Codex, Claude and source maps are identical:
 
 | Plugin | Version | Installed-content map SHA256 (both hosts) |
 | --- | --- | --- |
@@ -90,16 +90,32 @@ Both marketplace Git HEADs were checked with `git rev-parse HEAD` and `git remot
 | gost-svelte-shell | 0.3.0 | 6264333e518af58fcf1ea9a19b119a14064728b499acb8fa3929d2a181408c13 |
 | gost-view-presenter | 0.1.0 | 7df3a69d9f03f9fed4e027b36b6b167702d1944214dbc3612ea914c639f045ea |
 
-Fresh Codex protocol sequence: initialize(clientInfo name/version), initialized notification, skills/list(cwds=[empty cwd],forceReload=true);3 expected enabled namespaced skills from CODEX_HOME cache,0 errors. Claude details each shows Skills(1), correct name/version. No model turn/API invocation. Baseline/removal/candidate inventories and file maps establish replacement/repeat/coexistence; native details alone do not establish bytes.
+Fresh Codex protocol sequence: initialize(clientInfo name/version), initialized notification, skills/list(cwds=[empty cwd],forceReload=true); 3 expected enabled namespaced skills from CODEX_HOME cache, 0 errors. Claude details each shows Skills (1), correct name/version. No model turn/API invocation. Baseline/removal/candidate inventories and file maps establish replacement/repeat/coexistence; native details alone do not establish bytes.
 
 ### Independent review
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| [Distribution Verify before release contract](https://github.com/antonsmolko/gost-spec/blob/02591a250d0f24d2a4f3644a98813b00385162ec/openspec/specs/state-foundation-plugin-distribution/spec.md), independent agent private input, not a public basis | R1: native counts/source commit retained without exact successful commands and installed-content hashes | design ledger | Fixed | Sanitized exact native sequence, source/ref/commit, Git tree IDs, reproducible8-file-map digests and comparison method now retained; reviewer independently verified both public clones and caches |
+| [Distribution Verify before release contract](https://github.com/antonsmolko/gost-spec/blob/02591a250d0f24d2a4f3644a98813b00385162ec/openspec/specs/state-foundation-plugin-distribution/spec.md), independent agent private input, not a public basis | R1: native counts/source commit retained without exact successful commands and installed-content hashes | design ledger | Fixed | Sanitized exact native sequence, source/ref/commit, Git tree IDs, reproducible 8-file-map digests and comparison method now retained; reviewer independently verified both public clones and caches |
 
-Scoped independent confirmation: R1 fixed. Reviewer independently recomputed all3 documented installed-content digests from source and both host caches (9 equal results), inspected retained exact commands/method, and found no new conflict. Preparation spec compliance PASS, quality PASS, no open findings. Final-main/tag checks remain separate pending tasks4/5.
+Scoped independent confirmation: R1 fixed. Reviewer independently recomputed all 3 documented installed-content digests from source and both host caches (9 equal results), inspected retained exact commands/method, and found no new conflict. Preparation spec compliance PASS, quality PASS, no open findings. Final-main/tag checks remain separate pending tasks 4/5.
 
-Preparation delivery is [PR100](https://github.com/antonsmolko/gost-spec/pull/100); issue97 current checkpoint records chosen candidates and public native evidence, preserves final-main/release approval and pending tasks4/5. Historical placeholder note in issue97 now names concrete candidates without claiming publication. This PR fulfills PR99’s required persistent S3/handoff update for delivered/closed96. After owner-approved merge, the merging agent verifies actual main/payload and presents that concrete release candidate for separate tag approval; issue97 stays open until final-tag checks succeed. Repository checkpoints remain PR-mediated, while live issue97 is updated per release step.
+Preparation delivery is [PR #100](https://github.com/antonsmolko/gost-spec/pull/100); issue #97 current checkpoint records chosen candidates and public native evidence, preserves final-main/release approval and pending tasks 4/5. Historical placeholder note in issue #97 now names concrete candidates without claiming publication. This PR fulfills PR #99’s required persistent S3/handoff update for delivered/closed 96. After owner-approved merge, the merging agent verifies actual main/payload and presents that concrete release candidate for separate tag approval; issue #97 stays open until final-tag checks succeed. Repository checkpoints remain PR-mediated, while live issue #97 is updated per release step.
 
-Final preparation checks: npm check114/114 on Node26.11.1, strict13/13; fresh marked18.1.1/git-tracked Markdown scan of review-fixed working tree based on35d63fd:153/271/24 with0 errors, dependencies installed and heading fragments checked. Complete final PR diff/unchanged-document and issue-contract/dependency checks completed separately from native/runtime checks. Plugin payload remains exactly45aa5c1; only bookkeeping/evidence changed afterwards.
+Final preparation checks: npm check 114/114 on Node 26.11.1, strict 13/13; fresh marked 18.1.1/git-tracked Markdown scan of review-fixed working tree based on `35d63fd`: 153/271/24 with 0 errors, dependencies installed and heading fragments checked. Complete final PR diff/unchanged-document and issue-contract/dependency checks completed separately from native/runtime checks. At the pre-review snapshot, plugin payload matched `45aa5c1`; the published-review README corrections below require renewed native verification.
+
+
+### Published PR #100 review
+
+Sources read: all six inline threads (hasNextPage=false), all six summary reviews (empty bodies) and both PR comments including the [full review summary](https://github.com/antonsmolko/gost-spec/pull/100#issuecomment-6778215206), at head `5492d31`. Published verification of counts, prior hashes and source compatibility is retained as evidence for that snapshot; R1 remains closed. The following minor fixes do not change requirements or release gates.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Ledger spacing](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4529995442) | R2: glued identifiers/versions/counts in canonical prose | design, proposal, public checkpoint text | Fixed | Spaces and readable PR/issue identifiers restored; recorded commands, hashes and versions preserved |
+| [Queue spacing](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530006486) | R3: queue checkpoint has glued counts/versions | readiness queue | Fixed | Status/count/version tokens separated without changing evidence values |
+| [Existing registration](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530006668) | R4: plugin install blocks do not route existing gost registration to explicit selection | both plugin READMEs | Fixed | Fresh-registration guard links each plugin's self-contained update/rollback section; no implicit ref substitution |
+| [Second tag](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530006875) | R5: final-tag checklist leaves second tag selection ambiguous | release guide | Fixed | Separate fresh profile per tag/host, or explicit re-registration procedure before second tag; retained plugins restored |
+| [Impact](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530007082) | R6: affected-representation list omits root README and handoff | proposal Impact | Fixed | Root README, session handoff, queue, guide and change artifacts named; scope unchanged |
+| [README formatting](https://github.com/antonsmolko/gost-spec/pull/100#discussion_r4530007388) | R7: unwrapped line/double blank in distributed FC README | FC README | Fixed | Paragraph wrapping restored and duplicate blank removed |
+
+Because README bytes changed, the original `45aa5c1` trees/digests above are historical receipts, not current-payload claims. Both affected installed payloads must be rechecked from the updated public candidate before readiness is claimed. Only documentation/formatting changed: native command blocks, plugin versions, SKILL/recipes, catalogs, runtime and approval gates remain unchanged. Final release tasks 4/5 remain pending.
