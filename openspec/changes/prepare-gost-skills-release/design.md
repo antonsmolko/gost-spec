@@ -205,7 +205,7 @@ Issue #97 stays open pending delivery of the final verification PR; release publ
 
 ### Release verification GitHub issue edits
 
-Live #96/#97/#88 checkpoints were refreshed after final-tag checks: both tags are published on the approved main and native verification passed; approval/final-tag work is no longer described as pending. Only durable verification-report delivery remains pending. Issue #96 stays closed, #97 stays open until report delivery, and #88 criteria/prior closures remain unchanged. [Public publication/checkpoint receipt](https://github.com/antonsmolko/gost-spec/issues/97#issuecomment-6779307093) records the tags, revision, matrix and follow-up. The verification PR link will be added once created.
+Live #96/#97/#88 checkpoints were refreshed after final-tag checks: both tags are published on the approved main and native verification passed; approval/final-tag work is no longer described as pending. Only durable verification-report delivery remains pending. Issue #96 stays closed, #97 stays open until report delivery, and #88 criteria/prior closures remain unchanged. [Public publication/checkpoint receipt](https://github.com/antonsmolko/gost-spec/issues/97#issuecomment-6779307093) records the tags, revision, matrix and follow-up. Final verification report: [PR #101](https://github.com/antonsmolko/gost-spec/pull/101); #97 closes only after approved merge and delivery verification. This report link is also recorded in #96/#97/#88 checkpoints.
 
 ### Final verification review
 
