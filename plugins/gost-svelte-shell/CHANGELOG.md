@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.2.1 (unreleased)
+Entries describe prepared version contents. A version is published only when its
+matching immutable release tag is available.
+
+## 0.3.0
 
 - Verify published common 0.3.0 / Svelte binding 0.2.0 and document engine/peer checks.
 - Use factory initState and document explicit reset exclusions, fresh defaults

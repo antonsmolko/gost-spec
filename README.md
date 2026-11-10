@@ -37,12 +37,13 @@ Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),
 [functional-core](plugins/gost-functional-core/README.md) and
 [view-presenter](plugins/gost-view-presenter/README.md) plugins have independent
-unreleased versions and share native Codex and Claude Code marketplace catalogs.
+versions and share native Codex and Claude Code marketplace catalogs.
 Each can be installed independently from the selected snapshot. Reading or installing document
 packages does not apply the skill or install runtime libraries.
 
 ## Documentation
 
+- [Plugin release and installation](docs/plugin-releases.md)
 - [Manual publication](docs/publication.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security reporting](SECURITY.md)

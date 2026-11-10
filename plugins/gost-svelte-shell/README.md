@@ -6,7 +6,7 @@ updating this plugin does not run the skill or change an application.
 
 Read [the skill](skills/gost-svelte-shell/SKILL.md) and its
 [Public API recipe](skills/gost-svelte-shell/references/foundation.md).
-The recipe records the verified published package baseline. Plugin version 0.2.1
+The recipe records the verified published package baseline. Plugin version 0.3.0
 does not imply a corresponding gost-kit release or support for arbitrary versions.
 Missing library artifacts must be supplied before applying the skill.
 
@@ -18,24 +18,28 @@ libraries. Both catalogs read the local plugin directory within the selected
 marketplace snapshot. A tag selects the whole marketplace snapshot, rather than
 resolving independent versions of individual catalog entries.
 
-Version 0.2.1 is unreleased. The release-tag examples below become usable only
+Version 0.3.0 is prepared. The release-tag examples below become usable only
 after that tag is explicitly approved and published. There is no published
 previous release tag to assume when preparing the first release.
 
 ## Install
 
 Select the same existing release tag in both harnesses. The full Git URL command
-forms below were exercised against a disposable loopback Git origin with Codex
-CLI 0.166.0 and Claude Code 2.1.308. Installation from the public GitHub host has
-not been verified; the release tag must exist there before these examples work.
+forms below target Codex CLI and Claude Code. The release tag must exist on
+public GitHub before these examples work; candidate-ref checks alone do not
+prove availability of that tag.
+
+These commands are for a fresh `gost` registration. If `gost` is already
+registered, follow [Update and rollback](#update-and-rollback) to select the
+intended snapshot explicitly before installing.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.2.1
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.3.0
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.2.1'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.3.0'
 claude plugin install gost-svelte-shell@gost
 ```
 
