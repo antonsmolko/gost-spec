@@ -1,0 +1,10 @@
+{
+  "name": "gost-feature",
+  "version": "0.1.0",
+  "description": "Develop modular frontend features with shared common code and independent scenarios.",
+  "author": {
+    "name": "Anton Smolko"
+  },
+  "license": "MIT",
+  "icon": "./assets/icon.png"
+}

@@ -27,12 +27,12 @@ Packaging baseline проверена 2026-11-14: [OpenAI packaging](https://dev
 
 ### Поставка и архитектурный документ
 
-Предложение автора: отдельный plugin/skill `gost-feature@0.1.0` unreleased,
+Выбран отдельный plugin/skill `gost-feature@0.1.0` unreleased,
 одна общая исходная папка для двух manifests и локальные entries обоих catalogs.
 Добавление в FC plugin смешало бы чистые reducers с layout/UI; shell plugin
 отвечает за однократное подключение основы. Отдельная поставка следует уже
-используемому разделению; имя/версия являются предложением плана, не ранее
-полученным согласованием владельца.
+используемому разделению. Имя/версия были предложением плана PR #103,
+подтверждённого merge и явным apply; это не разрешение на публикацию.
 
 В `packages/domains/frontend/architecture/modular-features.md` — английский
 FRONTEND-ARCH-003, proposed, применимый только к выбранной модульной архитектуре.
@@ -211,3 +211,325 @@ FC/shell/presenter/distribution контракты просмотрены отд
 покрытие каталога/mapper/ссылок сверено с live gost-spec #88. Счётчики прежние:
 8 требований, 16 сценариев, 0 из 7 implementation tasks. Packages, plugins,
 catalogs, fixtures, scripts/tests и опубликованные теги не менялись.
+
+
+## Initial implementation — 2026-11-14
+
+Owner invoked apply after plan merge PR #103/main `985bd04`; work branch
+`feature/gost-spec-88-modular-feature-implementation`, prefix [gost-spec-88].
+Plan's plugin name/independent 0.1.0 preparation is selected; proposed content
+and publication still require separate approval. Initial full check 114/114.
+
+Task 1.1: FRONTEND-ARCH-003, frontend README/changelog/minor changeset, inventory
+and Pending row added for review of the actual text. npm pack dry-run includes
+all three architecture documents; other four packages and package versions
+unchanged. Runtime implementation and native evidence are tracked below.
+
+Ruling: root test discovery explicitly includes tests/**/*.test.* and the existing
+view-presenter/src/catalog.presenter.test.ts because Node 26's
+default discovery executes colocated fixture reducer tests before the external
+consumer dependencies exist. Observed RED: requested list reducer missing via
+root discovery. The fixture retains colocated reducer.test.ts; explicit fixture
+commands exercise them in prepared consumers. Initial narrowed glob exposed 104 rather than baseline 114 tests; retaining the
+existing presenter cases restores all 114 original tests. No modular-feature fixture behavior is counted as root-suite evidence.
+
+Task 1.2: external npm ci succeeded; real registry tarballs inspected. Common
+0.3.0 integrity sha512-XRKHjbW3/31u38SxF09tJBzIMLk23FyAOI6JoKtSqMOJGc9X9B5/0YIITb5aVEsvpsoWxJnJPE8obKuu+4oBWw==;
+svelte 0.2.0 integrity sha512-7nSr5Tz2UF2BxSX/Y8o05nxzRmsBud2RLxa6e2DFWqiOi1Yd02lryDEJELubQnKtBti/jyv0elM9ljE42lakQA==.
+Both public root exports and engines checked; no workspace library imports.
+RED requested reducer missing; factory-built reducer tests GREEN (11 cases).
+App API/navigation integration plus concrete import-graph checks GREEN (8 cases);
+tsc includes operation/mapper/action negative cases. EnterAction separately
+RED→GREEN verifies opening resets query while refresh LoadAction preserves it.
+Type-only store contracts/context reuse the existing foundation pattern.
+
+Task 1.3: presenter tests RED before implementation; browser RED on the absent
+Users heading in the existing foundation. GREEN: 19 unit cases (11 reducer,
+8 presenter), 8 app/import checks, Svelte/tsc 0 errors/0 warnings, build succeeds,
+4 Chromium checks (reactive filter/empty rows, validation + creation + new fetch
+and fresh query/form, HTTP error, missing provider). Expected missing-provider
+console/page error is asserted only in its negative test. No real router/reset
+timing guarantee claimed. Initial transport-prop capture warning was removed
+with a transport closure without recreating store/provider.
+
+Task 2.2: missing fourth delivery RED was observed before checker changes.
+Existing descriptors now declare an explicit references array so the new plugin
+requires both recipe and complete source listing; file whitelist/containment
+gates remain intact. No broad checker refactor. Both catalogs append one local
+entry; old plugin payloads untouched. GREEN: 63 distribution cases, full root
+check 121/121 (114 originals + 7 new). New cases cover absent/duplicate/redirected
+entry, mismatched versions, missing full example, external URI and sibling escape.
+Quick skill validator succeeded in an isolated PyYAML venv; no validation
+dependency was added to the product. Shared brand icon/license reused.
+
+Skill evaluation control: independent no-skill application succeeded (8 unit,
+6 integration, 1 Chromium, check/build). Its initial missing-module test was
+reported as such, not an assertion failure. The request itself gave the layout;
+no comparative advantage is claimed. Owner-requested reference guidance remains
+the product; the with-skill/change/repeat and prerequisite passes are separate.
+
+Task 2.1: concise English skill plus primary recipe and 53 complete tested source
+blocks (including configurations/tests). External parity check covers every src
+module; both references are contained in the plugin. The architecture URL pins
+public draft commit f1d6e56; references explicitly link gost-spec #87/#89.
+Independent prerequisite tests inspected three separate consumers: missing
+artifacts, missing provider invocation and missing application handler. All
+reported incomplete before dependent edits, with all supplied source hashes
+unchanged. Provider/handler copies compiled, illustrating why compilation alone
+does not establish runtime readiness; zero discovered unit tests were explicitly
+not counted as evidence. The missing handler throw was asserted before any
+transport call. These reports are private input, not a public basis; public
+actionable basis is #88 plus this change's prerequisite scenarios.
+Architecture-source fetch was outside the isolated agent evaluation boundary
+and is recorded unverified there, not silently claimed as read.
+
+With-skill forward application: independent agent used the same synthetic request
+and foundation, plus only the copied skill/recipes. Initial checks/build, 19 unit,
+9 integration/import and 2 applicable Chromium cases passed. A separate filtered
+count change was assertion RED→GREEN, with 20 unit/9 integration/2 browser cases;
+delta was limited to list presenter/test/component/browser test. Reapplication
+retained count and changed no source bytes; provider/store, slices/namespaces,
+exports and app API/navigation tables remained unique. Fourteen baseline
+infrastructure/health/schema/demo/lock/config files were preserved by hash.
+The two demo-only URL diagnostic cases were not applicable to the existing
+consumer main and initially failed; the agent removed those cases rather than
+modifying existing bootstrap just for diagnostics. Requested errors remain
+covered by API/unit tests; browser API-error behavior in this adapted consumer
+was not separately demonstrated. The author's complete fixture separately
+checks API-error/missing-provider browser diagnostics. A failed 4195-port run
+was discarded; an owned 4297 strictPort/reuseExistingServer:false config passed.
+These limits do not certify real routing/reset timing, persistence or health
+request execution. Agent reports are private input, not a public basis; #88
+and its application/repeat scenarios are the public actionable requirement.
+No superiority over the passing no-skill control is claimed.
+
+
+### Historical Task 2.3 native candidate evidence — before PR #104 review
+
+Public source https://github.com/antonsmolko/gost-spec.git, branch
+feature/gost-spec-88-modular-feature-implementation; both native clone HEADs
+resolved to `3562e575dea3cfd790930b60c0419046a8188674`. Codex 0.169.0 and Claude
+Code 2.1.308 used distinct fresh CODEX_HOME/CLAUDE_CONFIG_DIR, an empty cwd and
+unchanged HOME. Only temporary profiles were mutated; personal config/settings/
+installed-plugin/marketplace hashes remained unchanged. No model turn was run.
+
+Successful command pattern (each host in its own isolated profile):
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref feature/gost-spec-88-modular-feature-implementation --json
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#feature/gost-spec-88-modular-feature-implementation' --json
+for plugin_name in gost-svelte-shell gost-functional-core gost-view-presenter gost-feature; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+codex plugin list --json
+claude plugin list --json
+```
+
+Each inventory contained four unique enabled entries with versions shell 0.3.0,
+FC 0.2.0, presenter 0.1.0 and feature 0.1.0. All files in all eight installed
+plugin trees matched git-show bytes at that exact candidate, not local workspace
+imports. Native selected refs were checked in Codex's [marketplaces.gost].ref
+and Claude known_marketplaces source.ref, plus actual clone HEAD.
+
+| Plugin | Files per host | Installed map SHA256 (both hosts) |
+| --- | --- | --- |
+| gost-svelte-shell | 8 | 399b22999f56bc37ee42d239284f7e943f737ea7c0361996d60b43cc71fcd281 |
+| gost-functional-core | 8 | d344caaaa7b97e714e46d2af00858626a9de247b1f49ddf4e26cbad99427c0cf |
+| gost-view-presenter | 8 | 7df3a69d9f03f9fed4e027b36b6b167702d1944214dbc3612ea914c639f045ea |
+| gost-feature | 9 | 1d975651592284e461891ccd1375d0122bbde12f11f058ef4fc6698d84c48db4 |
+
+Map digest = SHA256 of UTF-8 json.dumps(relative-path → file SHA256,
+sort_keys=True,separators=(',',':')). Codex fresh app-server initialize/initialized
+then skills/list(cwds=[empty cwd],forceReload=true) returned four enabled namespaced
+GOST skills from isolated plugin caches, zero discovery errors. Generic personal
+skill metadata may also be listed by the native discovery protocol; it was not
+changed or counted as a GOST result. Claude plugin details for each entry reported
+Skills (1) with expected identity/version and readable local references.
+
+Standalone follow-up removed only the three old plugins through native commands,
+leaving gost-feature installed in each profile. Fresh discovery/details then
+confirmed only that GOST skill; all its references stayed inside its own cache.
+Restored the three deliberately retained plugins, confirmed four enabled entries
+again and rechecked complete installed maps. No source selector was changed.
+
+An initial harness call failed because its newly selected CODEX_HOME directory
+had not been created. That failed command is not installation evidence; profiles
+were recreated with existing directories and the complete successful sequence
+above rerun. The only candidate payload change before native checks was removal
+of an extra EOF blank line in the full listing; its complete code blocks were
+unchanged from the independent application input. Draft checks do not imply
+publication: no gost-feature release tag was created, old tags/payloads remain
+unchanged. Source candidate receipts do not certify asc-admin or a final release.
+
+### Implementation GitHub issue edits
+
+Live gost-spec #88 checkpoint records explicit apply authorization, branch/prefix
+and task progress; source criteria and related issue closures remain unchanged.
+The current queue and handoff point to implementation. After independent review
+and final checks, the implementation PR link and final counts are recorded here
+and in #88. Proposed acceptance and future release remain separate.
+
+
+### Independent implementation review
+
+Sources: [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88),
+all approved change artifacts, complete implementation diff and relevant unchanged
+contracts; independent report is private input, not a public basis. Prior closed
+requirements/plan findings remain closed. The reviewer independently reran root
+121/121 and external consumer checks and inspected native payload evidence.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#88 accurate checkpoints](https://github.com/antonsmolko/gost-spec/issues/88); independent review private input, not a public basis | I1: queue S6 still described the already verified example as requiring artifact verification | readiness S6/current checkpoint | Fixed; independently rechecked | S6 records actual npm common 0.3.0 / svelte 0.2.0 verification; at focused rereview status stayed 6/7 pending final PR presentation |
+
+
+Independent final review PASS: no open findings after I1 focused rereview. The
+reviewer independently ran root 121/121, external Svelte/tsc (0 errors/warnings),
+19 unit and 9 integration/import/parity cases, strict 14/14 and marked link audit
+165 Markdown/293 local links/28 fragments/0 errors. All 53 complete blocks matched
+fixture/consumer; all 8 native installed maps matched source and recorded digests.
+Browser/build and agent evaluation evidence were inspected, not independently
+rerun by that reviewer; their existing limits remain stated above. The private
+report is not a public basis; #88 and this change's requirements are the public
+acceptance basis. All earlier closures are retained. This PASS concerns
+implementation readiness, not normative acceptance, merge or publication.
+
+Final author checks: root 121/121; strict 14/14; full concrete consumer check,
+19 unit/9 integration/4 Chromium/build; marked 165 Markdown / 293 local links / 28 fragments / 0 errors and diff --check clean.
+Old three plugin payloads and four other normative packages are unchanged from
+main 985bd04; all five package versions remain 0.1.0. Frontend's minor changeset is
+pending. Candidate source 3562e57 is the native-verified payload; subsequent
+receipt/status edits do not change it. No real release tag or asc-admin change.
+
+
+### Implementation PR checkpoint
+
+[PR #104](https://github.com/antonsmolko/gost-spec/pull/104) presents this one
+verified outcome. Task 3.1 is complete: 7/7 implementation tasks; no merge,
+publication or proposed-content acceptance performed. Queue/handoff and live
+#88 record the PR and current counts. Issue #88 stays open pending approved
+delivery; archive/sync and future releases are separate workflow steps.
+Only receipt/status/link prose changed after the native-verified payload.
+
+
+## PR #104 review round
+
+Read all five inline threads (hasNextPage=false), all five summary reviews
+(empty bodies), complete [PR-level review](https://github.com/antonsmolko/gost-spec/pull/104#issuecomment-6883841307)
+and PR description. Prior I1 and all requirements/plan closures are retained.
+The earlier implementation PASS/native receipts describe their named snapshot;
+R3 changes the verification code/listing payload and needs renewed checks.
+Tasks 2.1, 2.3 and 3.1 are reopened until that evidence and replies are complete.
+
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr104-r1"></a> [PR104-R1](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542875) | Both proposed revisions became ambiguous after the third frontend row | requirements-inventory | Fixed | Names FRONTEND-ARCH-001/002 explicitly; no normative wording/status changed |
+| <a id="pr104-r2"></a> [PR104-R2](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542935) | Four-plugin list had two coordinating ands | root README | Fixed | Comma series followed by one final and |
+| <a id="pr104-r3"></a> [PR104-R3](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542976) | Source-to-listing completeness ignored checks/configs and runtime check discovery was hardcoded | fixture checks/package.json, packaged recipe/listing | Fixed; renewed native checks and independent review passed | Three real assertion RED cases now GREEN; src/checks/root configs require blocks, checks have explicit runtime/type/browser roles, recursive runtime discovery replaces enumerated filenames |
+| <a id="pr104-r4"></a> [PR104-R4](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543016) | Repo-relative listing link breaks in the instructed consumer copy | fixture README | Fixed | Uses local users-example.md or GOST_FEATURE_EXAMPLE, matching the actual parity input; no outside-consumer link |
+| <a id="pr104-r5"></a> [PR104-R5](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543085) | Lowercase sentence start and glued counts in canonical ledger | design | Fixed | Sentence capitalization and All 53 / marked 165 Markdown, 293 local links, 28 fragments, 0 errors made explicit |
+| [AGENTS review handling](https://github.com/antonsmolko/gost-spec/blob/main/AGENTS.md#review-handling); independent review private input, not a public basis | I2: individual replies initially linked the whole review table rather than their entries | canonical ledger and five PR replies | Fixed | Each R1–R5 row now has its own anchor and each reply targets that entry; aggregate keeps the round anchor |
+
+### R3 verification contract and evidence
+
+The fixture gate takes a maintainer-prepared consumer directory and listing text
+from users-example.md or the explicit GOST_FEATURE_EXAMPLE file. It parses code
+blocks as text, never evaluates Markdown. Block-to-file equality and in-consumer
+path checks remain. Reverse completeness now walks src/ and checks/ recursively,
+plus root TS/JSON/HTML configuration files; package-lock.json remains a separately
+supplied artifact, not a source block. Missing/duplicate blocks, mismatched file
+text, missing required source blocks or unsupported check roles fail with the
+file/reason, not a readiness claim. Missing reference input still fails explicitly.
+
+Runtime checks are checks/**/*.test.ts, Playwright checks are *.pw.ts, and
+compile-only negative type cases are *.types.ts. Unknown TypeScript check roles
+fail completeness even when listed; this prevents new checks silently running
+nowhere. Existing integration/import/parity files were renamed accordingly,
+without feature/app behavior changes or a new runner. There is no generic lint
+product or change to consumer architecture requirements.
+
+RED: three actual assert.throws cases reported Missing expected exception under
+the previous src-only gate: an unlisted checks/unlisted.test.ts, an unlisted
+future.config.ts and a listed but unclassified checks/unclassified.ts. GREEN:
+12 integration/import/parity cases; 19 pure unit cases, Svelte/tsc 0 errors and
+warnings, build and 4 Chromium checks. The complete listing still has 53 blocks,
+regenerated from the checked renamed files/config. Root 121/121 remains unchanged.
+The skill entrypoint and business/app source are byte-identical; previous
+independent application/change/repeat/prerequisite evidence remains limited to
+its recorded input, while current listing/gate/native evidence is renewed.
+
+### GitHub issue edits for PR #104 review
+
+Only checkpoint progress/current evidence is updated in gost-spec #88; criteria,
+related issue scope/closures and proposed/release gates remain unchanged. Earlier
+7/7 and native receipts refer to the pre-review snapshot, not proof of the changed
+listing. Tasks 2.1/2.3/3.1 were reopened; 2.1 is complete after current parity/type/
+consumer checks, leaving 5/7 until renewed native delivery and independent review.
+
+
+### Renewed native evidence for PR104-R3
+
+Candidate source `21a89d387498be877b1f4886635d4483d89c9524` was pushed before
+verification. Fresh isolated profiles selected the public GitHub branch
+`feature/gost-spec-88-modular-feature-implementation` through native marketplace
+commands. Actual native configs retain this ref and both marketplace clones
+resolve to that exact commit. Codex 0.169.0 and Claude 2.1.308 each installed and
+repeated all four plugins; Codex app-server skills/list discovers four enabled
+GOST skills without errors, and Claude details reports one skill per plugin.
+Removing the old three proves standalone gost-feature discovery; restoring them
+proves coexistence. All eight installed file maps match Git source exactly after
+restoration. The changed gost-feature map has nine files and digest
+`a988c8a4f1ab4b3a6001971ee7c70ad875d7fead0c51bbb13759fa7e61fe9384`
+in both harnesses, using the same map/digest formula as the historical receipt.
+The three unchanged plugin digests remain those recorded above.
+
+No model turns, release tags, personal-profile changes or asc-admin changes were
+performed. Personal file fingerprints match before/after. A first scratch
+post-check assertion incorrectly called endswith on nullable pluginId metadata;
+that helper failure did not establish discovery evidence. After handling null
+metadata, complete fresh-process discovery/map/ref checks passed, then passed
+again after restoration. No product code was changed by this helper correction.
+Task 2.3 is complete again (6/7); the unchanged skill/business source retains its
+previous independently evaluated application/change/repeat evidence and limits.
+Current changed listing/gate evidence is explicitly the new snapshot above.
+
+
+### PR #104 final review checkpoint
+
+All five findings are fixed; every inline thread has an individual reply linked
+to its canonical disposition, with one aggregate response covering the PR-level
+review and its five empty summary reviews. Prior confirmed closures remain closed.
+No requirements, release gates, normative acceptance or dependent scopes changed.
+The separate independent review (private input, not a public basis) used the
+public #88/PR #104 requirements, all artifacts and the complete final diff rather
+than the author's working conversation. No actionable findings remain.
+
+The reviewer personally reran root 121/121, external Svelte/tsc (0 errors/warnings),
+19 unit/12 integration and strict 14/14; inspected the pack and independently
+recomputed eight installed maps against Git 21a89d3. Native source/ref/discovery,
+standalone/restoration and personal fingerprints were independently checked.
+Build and 4 Chromium results were inspected, not rerun by this reviewer; author
+checks passed them. Earlier application/control evaluation limits still apply.
+
+Separate contract/document audit: inspected complete final PR diff, unchanged
+FC/presenter/distribution specifications and live #87/#89/#102 for conflicts;
+no conflicts found. Current marked audit: 165 Markdown / 292 local links /
+28 fragments / 0 errors (R4 removed one link); diff --check clean. Source listing
+has 53 complete blocks. Old three plugin payloads, four other normative packages,
+five package versions and release tags remain unchanged. Only receipts/status
+changed after native-verified payload 21a89d3. No merge, release or asc-admin edit.
+
+GitHub edits in this round: #88 checkpoint and PR #104 body now reference the
+renewed snapshot, current test/link counts and completed review; criteria and
+closure semantics retained. Task 3.1 and review round complete: 7/7. The next
+workflow step requires owner review/merge approval, then separate archive/sync
+and release preparation; no publication or content acceptance is inferred.
+
+Final independent bookkeeping reconciliation PASS: all five live reply targets
+resolve to unique R1–R5 ledger anchors; I2 is fixed and retained in the canonical
+table. The reviewer checked the final status/receipt diff and live #88/PR #104
+body/aggregate. No open findings. This reconciliation changes no plugin payload.

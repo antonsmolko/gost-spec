@@ -43,6 +43,7 @@ content review нового ID — Pending row в content-approval. Новая p
 
 База — main `2923ff04ee5ac04dbf02453555e577a65b82d12b`;
 ветка `feature/gost-spec-88-modular-feature-skill`, префикс `[gost-spec-88]`.
-Этот PR содержит план; реализация следует после согласования. Reset timing,
+План доставлен PR #103/main `985bd04`; по apply-запросу владельца начата
+реализация в `feature/gost-spec-88-modular-feature-implementation`. Reset timing,
 реальный router/guard, persisted state, миграция asc-admin и выпуск — отдельные
 работы. Подробности — в design и tasks этого change.
