@@ -1,0 +1,29 @@
+{
+  "name": "gost-modular-feature-fixture",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^26.0.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc --noEmit",
+    "build": "vite build",
+    "test:unit": "node --test 'src/**/*.test.ts'",
+    "test:integration": "node --test checks/integration.ts checks/imports.ts checks/reference.ts",
+    "test:browser": "playwright test"
+  },
+  "dependencies": {
+    "@gost-kit/common": "0.3.0",
+    "@gost-kit/svelte": "0.2.0",
+    "svelte": "5.57.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "@types/node": "26.6.5",
+    "svelte-check": "4.7.7",
+    "typescript": "5.9.3",
+    "vite": "8.3.5"
+  }
+}

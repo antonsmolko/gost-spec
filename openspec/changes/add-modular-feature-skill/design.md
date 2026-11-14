@@ -211,3 +211,59 @@ FC/shell/presenter/distribution контракты просмотрены отд
 покрытие каталога/mapper/ссылок сверено с live gost-spec #88. Счётчики прежние:
 8 требований, 16 сценариев, 0 из 7 implementation tasks. Packages, plugins,
 catalogs, fixtures, scripts/tests и опубликованные теги не менялись.
+
+
+## Implementation — 2026-11-14
+
+Owner invoked apply after plan merge PR #103/main `985bd04`; work branch
+`feature/gost-spec-88-modular-feature-implementation`, prefix [gost-spec-88].
+Plan's plugin name/independent 0.1.0 preparation is selected; proposed content
+and publication still require separate approval. Initial full check 114/114.
+
+Task 1.1: FRONTEND-ARCH-003, frontend README/changelog/minor changeset, inventory
+and Pending row added for review of the actual text. npm pack dry-run includes
+all three architecture documents; other four packages and package versions
+unchanged. Runtime implementation and native evidence are tracked below.
+
+Ruling: root test discovery explicitly includes tests/**/*.test.* and the existing
+view-presenter/src/catalog.presenter.test.ts because Node 26's
+default discovery executes colocated fixture reducer tests before the external
+consumer dependencies exist. Observed RED: requested list reducer missing via
+root discovery. The fixture retains colocated reducer.test.ts; explicit fixture
+commands exercise them in prepared consumers. Initial narrowed glob exposed 104 rather than baseline 114 tests; retaining the
+existing presenter cases restores all 114 original tests. no fixture behavior is counted as root-suite evidence.
+
+Task 1.2: external npm ci succeeded; real registry tarballs inspected. Common
+0.3.0 integrity sha512-XRKHjbW3/31u38SxF09tJBzIMLk23FyAOI6JoKtSqMOJGc9X9B5/0YIITb5aVEsvpsoWxJnJPE8obKuu+4oBWw==;
+svelte 0.2.0 integrity sha512-7nSr5Tz2UF2BxSX/Y8o05nxzRmsBud2RLxa6e2DFWqiOi1Yd02lryDEJELubQnKtBti/jyv0elM9ljE42lakQA==.
+Both public root exports and engines checked; no workspace library imports.
+RED requested reducer missing; factory-built reducer tests GREEN (11 cases).
+App API/navigation integration plus concrete import-graph checks GREEN (8 cases);
+tsc includes operation/mapper/action negative cases. EnterAction separately
+RED→GREEN verifies opening resets query while refresh LoadAction preserves it.
+Type-only store contracts/context reuse the existing foundation pattern.
+
+Task 1.3: presenter tests RED before implementation; browser RED on the absent
+Users heading in the existing foundation. GREEN: 19 unit cases (11 reducer,
+8 presenter), 8 app/import checks, Svelte/tsc 0 errors/0 warnings, build succeeds,
+4 Chromium checks (reactive filter/empty rows, validation + creation + new fetch
+and fresh query/form, HTTP error, missing provider). Expected missing-provider
+console/page error is asserted only in its negative test. No real router/reset
+timing guarantee claimed. Initial transport-prop capture warning was removed
+with a transport closure without recreating store/provider.
+
+Task 2.2: missing fourth delivery RED was observed before checker changes.
+Existing descriptors now declare an explicit references array so the new plugin
+requires both recipe and complete source listing; file whitelist/containment
+gates remain intact. No broad checker refactor. Both catalogs append one local
+entry; old plugin payloads untouched. GREEN: 63 distribution cases, full root
+check 121/121 (114 originals + 7 new). New cases cover absent/duplicate/redirected
+entry, mismatched versions, missing full example, external URI and sibling escape.
+Quick skill validator succeeded in an isolated PyYAML venv; no validation
+dependency was added to the product. Shared brand icon/license reused.
+
+Skill evaluation control: independent no-skill application succeeded (8 unit,
+6 integration, 1 Chromium, check/build). Its initial missing-module test was
+reported as such, not an assertion failure. The request itself gave the layout;
+no comparative advantage is claimed. Owner-requested reference guidance remains
+the product; the with-skill/change/repeat and prerequisite passes are separate.

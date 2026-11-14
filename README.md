@@ -33,10 +33,17 @@ guides extracting calculations into pure functions, testing their results and
 using ready values in components. Its [complete example](plugins/gost-view-presenter/skills/gost-view-presenter/references/view-presenter.md)
 shows the original component, presenter, unit tests and reactive Svelte 5 binding.
 
+[Develop modular features](plugins/gost-feature/skills/gost-feature/SKILL.md)
+guides common code and independent scenarios, mapped API operations, functional
+core, presenters and pages. Its [recipe](plugins/gost-feature/skills/gost-feature/references/modular-feature.md)
+links every rule to a complete synthetic users/list/create example. This new
+plugin is a prepared candidate; existing release snapshots do not contain it.
+
 Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),
 [functional-core](plugins/gost-functional-core/README.md) and
-[view-presenter](plugins/gost-view-presenter/README.md) plugins have independent
+[view-presenter](plugins/gost-view-presenter/README.md) and
+[feature](plugins/gost-feature/README.md) plugins have independent
 versions and share native Codex and Claude Code marketplace catalogs.
 Each can be installed independently from the selected snapshot. Reading or installing document
 packages does not apply the skill or install runtime libraries.
@@ -70,10 +77,14 @@ passing infrastructure tests does not approve content or authorize a release.
 Use Node 26. The development version in `.node-version` is `26.11.1`; verification
 also covers the supported minimum `26.0.0`. Run `npm ci --ignore-scripts` with registry
 access to prepare dependencies/cache, then `npm run check`. The current check runs
-typecheck, exact workspace lock/version checks, then the full suite, including
+typecheck, exact workspace lock/version checks, then the full maintainer suite, including
 installed document indexes, local links and manual adoption examples. Consumer
 tests install tarballs offline; an empty cache gives preparation guidance.
-TypeScript scripts/helpers are checked without generating JS.
+TypeScript scripts/helpers are checked without generating JS. Root test discovery
+explicitly includes tests/ and the existing pure view-presenter unit cases;
+modular-feature reducer/presenter tests run through that fixture's commands in
+an external consumer with its pinned npm dependencies. [Fixture instructions](fixtures/modular-feature/README.md)
+cover separate unit/API/import/reference/browser checks.
 
 With nvm: `nvm install "$(cat .node-version)"` and `nvm use "$(cat .node-version)"`.
 nvm does not read `.node-version` automatically.
