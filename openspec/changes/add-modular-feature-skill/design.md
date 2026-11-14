@@ -432,7 +432,6 @@ Tasks 2.1, 2.3 and 3.1 are reopened until that evidence and replies are complete
 | <a id="pr104-r3"></a> [PR104-R3](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542976) | Source-to-listing completeness ignored checks/configs and runtime check discovery was hardcoded | fixture checks/package.json, packaged recipe/listing | Fixed; renewed native checks and independent review passed | Three real assertion RED cases now GREEN; src/checks/root configs require blocks, checks have explicit runtime/type/browser roles, recursive runtime discovery replaces enumerated filenames |
 | <a id="pr104-r4"></a> [PR104-R4](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543016) | Repo-relative listing link breaks in the instructed consumer copy | fixture README | Fixed | Uses local users-example.md or GOST_FEATURE_EXAMPLE, matching the actual parity input; no outside-consumer link |
 | <a id="pr104-r5"></a> [PR104-R5](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543085) | Lowercase sentence start and glued counts in canonical ledger | design | Fixed | Sentence capitalization and All 53 / marked 165 Markdown, 293 local links, 28 fragments, 0 errors made explicit |
-
 | [AGENTS review handling](https://github.com/antonsmolko/gost-spec/blob/main/AGENTS.md#review-handling); independent review private input, not a public basis | I2: individual replies initially linked the whole review table rather than their entries | canonical ledger and five PR replies | Fixed | Each R1–R5 row now has its own anchor and each reply targets that entry; aggregate keeps the round anchor |
 
 ### R3 verification contract and evidence
@@ -529,3 +528,8 @@ renewed snapshot, current test/link counts and completed review; criteria and
 closure semantics retained. Task 3.1 and review round complete: 7/7. The next
 workflow step requires owner review/merge approval, then separate archive/sync
 and release preparation; no publication or content acceptance is inferred.
+
+Final independent bookkeeping reconciliation PASS: all five live reply targets
+resolve to unique R1–R5 ledger anchors; I2 is fixed and retained in the canonical
+table. The reviewer checked the final status/receipt diff and live #88/PR #104
+body/aggregate. No open findings. This reconciliation changes no plugin payload.
