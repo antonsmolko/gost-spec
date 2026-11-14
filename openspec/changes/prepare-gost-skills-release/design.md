@@ -217,3 +217,44 @@ Live #96/#97/#88 checkpoints were refreshed after final-tag checks: both tags ar
 Independent final review completed on 2026-11-11: specification compliance and quality PASS, no open findings. The reviewer independently read remote tag objects/peels, recomputed all 12 installed file maps, checked retained native inventory/discovery/transition receipts and personal-file fingerprints, and refreshed all three live checkpoints to confirm R8 closure. This agent report is private input, not a public basis; the public release/checkpoint criteria and publication receipt above are its actionable basis. Prior R1–R7 closures are retained. No further merge/publication authority is implied.
 
 Final documentation verification on this branch: full npm check 114/114 on Node 26.11.1; strict OpenSpec 13/13; whitespace clean. Fresh marked 18.1.1 lexer/walkTokens scan over git-tracked Markdown with local heading-fragment checks: 153 files / 273 local links / 29 fragments / 0 errors. The complete five-file diff and relevant unchanged contracts were reviewed separately from runtime/native checks; plugins, catalogs, packages, fixtures, scripts and tests remain unchanged from the approved release commit.
+
+
+### PR #101 published review — 2026-11-14
+
+Read all PR #101 inline threads (2, hasNextPage=false), both summary reviews
+(empty bodies), all PR comments (none), the PR description and live #97 criteria.
+Prior R1–R8 closures are retained. The earlier independent PASS records that
+review round; it does not claim R9/R10 were absent from the later public review.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [R9 owner review](https://github.com/antonsmolko/gost-spec/pull/101#discussion_r4542354695) | Frozen READMEs retain prepared/unreleased wording; presenter example selects an absent tag | consumer guide, release ledger, #97; next-release README work #102 | Fixed current disclosure; embedded README correction explicitly deferred by owner request to next substantive release | Guide now distinguishes publication from frozen preparation wording, explains changelog tag condition and gives presenter installation from an existing pair snapshot; [follow-up #102](https://github.com/antonsmolko/gost-spec/issues/102) records owner agreement, responsible next-release maintainer and acceptance criteria. No existing tag or payload changed |
+| [R10 owner review](https://github.com/antonsmolko/gost-spec/pull/101#discussion_r4542357303) | S4 result column still reads as a pending approval dependency | readiness S4 | Fixed | Result now states versions/changelog, native installation and tags were checked after separate approval; asc-admin update remains next |
+
+R9 boundary: both pair tags exist and peel to the approved release commit;
+`gost-view-presenter-v0.1.0` is absent. Presenter bytes are available through the
+shared pair snapshot; its own README command is not an available tag-install
+path. Preparation wording in immutable FC/shell READMEs does not negate existing
+tags, but is a consumer-facing limitation and must be disclosed. Current guide
+clarifies this now; #102 changes future payload in its own release PR. #97
+criteria/closure remain unchanged. No tag movement or new publication is allowed
+by this documentation fix.
+
+#### GitHub issue edits for PR #101 review
+
+Created #102 from the owner's public R9 request, linked carrier #97 / PR #101,
+retained [gost-spec-97] for this report branch and preserved carrier criteria.
+Updated #97 checkpoint with the limitation, follow-up and actual report PR link.
+Consumer documentation contains the actionable limitation only, not review or
+roadmap details. These are wording/disclosure corrections, not contract/gate
+changes; AGENTS §6 wording-only exception applies to this review round.
+
+
+Review-fix verification: npm check 114/114 on Node 26.11.1; strict OpenSpec
+13/13; git diff --check clean. Fresh marked lexer/walkTokens scan of 153 tracked
+Markdown files: 273 local links / 29 fragments / 0 errors. Complete final PR diff
+inspected with unchanged distribution spec, proposal, root README and live #97
+criteria checked separately for conflicts. Remote tag objects/peels unchanged;
+no presenter-specific tag returned. Plugin/catalog/package/fixture/script/test
+bytes remain identical to the approved release commit. No renewed native install
+is claimed or needed for this documentation-only clarification.

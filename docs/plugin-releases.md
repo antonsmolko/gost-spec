@@ -13,6 +13,20 @@ For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
 select the same final commit. Register one snapshot, then install either or both
 plugins; do not add two marketplaces with the same name `gost`.
 
+## README status in this snapshot
+
+The frozen plugin READMEs still describe FC 0.2.0 and shell 0.3.0 as prepared.
+Those statements describe preparation; the two existing tags above establish
+publication and the commands below are verified against them. Changelog version
+entries describe content; their neutral tag condition determines publication.
+
+Presenter 0.1.0 is included and installable from either pair tag, but has no
+separate `gost-view-presenter-v0.1.0` tag. Its frozen README shows that unavailable
+tag; use the selected pair snapshot and `codex plugin add gost-view-presenter@gost`
+or `claude plugin install gost-view-presenter@gost` instead. For an existing
+registration, follow the change procedure below first. The published snapshots
+remain immutable; their embedded wording cannot be corrected in place.
+
 ## Install the released pair
 
 The pair has been approved and both tags exist. Use one of them consistently.
