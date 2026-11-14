@@ -10,7 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc --noEmit",
     "build": "vite build",
     "test:unit": "node --test 'src/**/*.test.ts'",
-    "test:integration": "node --test checks/integration.ts checks/imports.ts checks/reference.ts",
+    "test:integration": "node --test 'checks/**/*.test.ts'",
     "test:browser": "playwright test"
   },
   "dependencies": {

@@ -41,7 +41,7 @@ plugin is a prepared candidate; existing release snapshots do not contain it.
 
 Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),
-[functional-core](plugins/gost-functional-core/README.md) and
+[functional-core](plugins/gost-functional-core/README.md),
 [view-presenter](plugins/gost-view-presenter/README.md) and
 [feature](plugins/gost-feature/README.md) plugins have independent
 versions and share native Codex and Claude Code marketplace catalogs.

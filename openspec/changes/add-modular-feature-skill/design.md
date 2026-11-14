@@ -213,7 +213,7 @@ FC/shell/presenter/distribution контракты просмотрены отд
 catalogs, fixtures, scripts/tests и опубликованные теги не менялись.
 
 
-## Implementation — 2026-11-14
+## Initial implementation — 2026-11-14
 
 Owner invoked apply after plan merge PR #103/main `985bd04`; work branch
 `feature/gost-spec-88-modular-feature-implementation`, prefix [gost-spec-88].
@@ -231,7 +231,7 @@ default discovery executes colocated fixture reducer tests before the external
 consumer dependencies exist. Observed RED: requested list reducer missing via
 root discovery. The fixture retains colocated reducer.test.ts; explicit fixture
 commands exercise them in prepared consumers. Initial narrowed glob exposed 104 rather than baseline 114 tests; retaining the
-existing presenter cases restores all 114 original tests. no fixture behavior is counted as root-suite evidence.
+existing presenter cases restores all 114 original tests. No modular-feature fixture behavior is counted as root-suite evidence.
 
 Task 1.2: external npm ci succeeded; real registry tarballs inspected. Common
 0.3.0 integrity sha512-XRKHjbW3/31u38SxF09tJBzIMLk23FyAOI6JoKtSqMOJGc9X9B5/0YIITb5aVEsvpsoWxJnJPE8obKuu+4oBWw==;
@@ -304,7 +304,7 @@ and its application/repeat scenarios are the public actionable requirement.
 No superiority over the passing no-skill control is claimed.
 
 
-### Task 2.3 native candidate evidence
+### Historical Task 2.3 native candidate evidence — before PR #104 review
 
 Public source https://github.com/antonsmolko/gost-spec.git, branch
 feature/gost-spec-88-modular-feature-implementation; both native clone HEADs
@@ -389,7 +389,7 @@ requirements/plan findings remain closed. The reviewer independently reran root
 Independent final review PASS: no open findings after I1 focused rereview. The
 reviewer independently ran root 121/121, external Svelte/tsc (0 errors/warnings),
 19 unit and 9 integration/import/parity cases, strict 14/14 and marked link audit
-165 Markdown/293 local links/28 fragments/0 errors. All53 complete blocks matched
+165 Markdown/293 local links/28 fragments/0 errors. All 53 complete blocks matched
 fixture/consumer; all 8 native installed maps matched source and recorded digests.
 Browser/build and agent evaluation evidence were inspected, not independently
 rerun by that reviewer; their existing limits remain stated above. The private
@@ -398,7 +398,7 @@ acceptance basis. All earlier closures are retained. This PASS concerns
 implementation readiness, not normative acceptance, merge or publication.
 
 Final author checks: root 121/121; strict 14/14; full concrete consumer check,
-19 unit/9 integration/4 Chromium/build; marked165/293/28/0 and diff --check clean.
+19 unit/9 integration/4 Chromium/build; marked 165 Markdown / 293 local links / 28 fragments / 0 errors and diff --check clean.
 Old three plugin payloads and four other normative packages are unchanged from
 main 985bd04; all five package versions remain 0.1.0. Frontend's minor changeset is
 pending. Candidate source 3562e57 is the native-verified payload; subsequent
@@ -413,3 +413,58 @@ publication or proposed-content acceptance performed. Queue/handoff and live
 #88 record the PR and current counts. Issue #88 stays open pending approved
 delivery; archive/sync and future releases are separate workflow steps.
 Only receipt/status/link prose changed after the native-verified payload.
+
+
+## PR #104 review round
+
+Read all five inline threads (hasNextPage=false), all five summary reviews
+(empty bodies), complete [PR-level review](https://github.com/antonsmolko/gost-spec/pull/104#issuecomment-6883841307)
+and PR description. Prior I1 and all requirements/plan closures are retained.
+The earlier implementation PASS/native receipts describe their named snapshot;
+R3 changes the verification code/listing payload and needs renewed checks.
+Tasks 2.1, 2.3 and 3.1 are reopened until that evidence and replies are complete.
+
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [PR104-R1](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542875) | Both proposed revisions became ambiguous after the third frontend row | requirements-inventory | Fixed | Names FRONTEND-ARCH-001/002 explicitly; no normative wording/status changed |
+| [PR104-R2](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542935) | Four-plugin list had two coordinating ands | root README | Fixed | Comma series followed by one final and |
+| [PR104-R3](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542976) | Source-to-listing completeness ignored checks/configs and runtime check discovery was hardcoded | fixture checks/package.json, packaged recipe/listing | Fixed; renewed payload/native/review checks in progress | Three real assertion RED cases now GREEN; src/checks/root configs require blocks, checks have explicit runtime/type/browser roles, recursive runtime discovery replaces enumerated filenames |
+| [PR104-R4](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543016) | Repo-relative listing link breaks in the instructed consumer copy | fixture README | Fixed | Uses local users-example.md or GOST_FEATURE_EXAMPLE, matching the actual parity input; no outside-consumer link |
+| [PR104-R5](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543085) | Lowercase sentence start and glued counts in canonical ledger | design | Fixed | Sentence capitalization and All 53 / marked 165 Markdown, 293 local links, 28 fragments, 0 errors made explicit |
+
+### R3 verification contract and evidence
+
+The fixture gate takes a maintainer-prepared consumer directory and listing text
+from users-example.md or the explicit GOST_FEATURE_EXAMPLE file. It parses code
+blocks as text, never evaluates Markdown. Block-to-file equality and in-consumer
+path checks remain. Reverse completeness now walks src/ and checks/ recursively,
+plus root TS/JSON/HTML configuration files; package-lock.json remains a separately
+supplied artifact, not a source block. Missing/duplicate blocks, mismatched file
+text, missing required source blocks or unsupported check roles fail with the
+file/reason, not a readiness claim. Missing reference input still fails explicitly.
+
+Runtime checks are checks/**/*.test.ts, Playwright checks are *.pw.ts, and
+compile-only negative type cases are *.types.ts. Unknown TypeScript check roles
+fail completeness even when listed; this prevents new checks silently running
+nowhere. Existing integration/import/parity files were renamed accordingly,
+without feature/app behavior changes or a new runner. There is no generic lint
+product or change to consumer architecture requirements.
+
+RED: three actual assert.throws cases reported Missing expected exception under
+the previous src-only gate: an unlisted checks/unlisted.test.ts, an unlisted
+future.config.ts and a listed but unclassified checks/unclassified.ts. GREEN:
+12 integration/import/parity cases; 19 pure unit cases, Svelte/tsc 0 errors and
+warnings, build and 4 Chromium checks. The complete listing still has 53 blocks,
+regenerated from the checked renamed files/config. Root 121/121 remains unchanged.
+The skill entrypoint and business/app source are byte-identical; previous
+independent application/change/repeat/prerequisite evidence remains limited to
+its recorded input, while current listing/gate/native evidence is renewed.
+
+### GitHub issue edits for PR #104 review
+
+Only checkpoint progress/current evidence is updated in gost-spec #88; criteria,
+related issue scope/closures and proposed/release gates remain unchanged. Earlier
+7/7 and native receipts refer to the pre-review snapshot, not proof of the changed
+listing. Tasks 2.1/2.3/3.1 were reopened; 2.1 is complete after current parity/type/
+consumer checks, leaving 5/7 until renewed native delivery and independent review.

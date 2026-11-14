@@ -125,11 +125,14 @@ the installed exports and run check, test:unit, test:integration, build and
 Chromium checks. The demo transport is synthetic test infrastructure, not a
 replacement API client to copy into a consumer.
 
-Compile `checks/contracts.ts` to check invalid request parameters, wire fields
-on mapped output and invalid action routing. Run `checks/imports.ts` for actual
+Compile `checks/contracts.types.ts` to check invalid request parameters, wire fields
+on mapped output and invalid action routing. Run `checks/imports.test.ts` for actual
 source edges and its negative cases; it is fixture-specific verification, not a
 consumer lint product. The reference parity check compares complete listing blocks
-with actual consumer files. Unit, app integration and browser evidence are separate.
+with actual consumer files and checks completeness for src/, checks/ and root
+TS/JSON/HTML configuration files, excluding the separately supplied lockfile.
+Runtime checks use checks/**/*.test.ts, browser checks *.pw.ts, and compile-only
+negative cases *.types.ts; unclassified TypeScript checks fail the parity gate. Unit, app integration and browser evidence are separate.
 
 For a change, extend the relevant scenario and its tests, then review callers of
 its public entrypoints. A new update scenario gets its own state/action/reducer

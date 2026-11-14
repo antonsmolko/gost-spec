@@ -36,7 +36,7 @@ are intentional; FC/data entrypoints and UI entrypoints are separate.
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc --noEmit",
     "build": "vite build",
     "test:unit": "node --test 'src/**/*.test.ts'",
-    "test:integration": "node --test checks/integration.ts checks/imports.ts checks/reference.ts",
+    "test:integration": "node --test 'checks/**/*.test.ts'",
     "test:browser": "playwright test"
   },
   "dependencies": {
@@ -860,7 +860,7 @@ export const rootState = define.state<RootState>((options = {}) => ({
 <Users />
 ```
 
-### `checks/contracts.ts`
+### `checks/contracts.types.ts`
 
 ```ts
 import { createApiEffect } from '@gost-kit/common';
@@ -886,7 +886,7 @@ const invalid: RootAction = { scope: 'directory', type: 'CreatedAction', user: {
 void invalid;
 ```
 
-### `checks/imports.ts`
+### `checks/imports.test.ts`
 
 ```ts
 import assert from 'node:assert/strict';
@@ -970,7 +970,7 @@ test('audit detects peer imports and runtime cycles', () => {
 });
 ```
 
-### `checks/integration.ts`
+### `checks/integration.test.ts`
 
 ```ts
 import assert from 'node:assert/strict';
@@ -1028,16 +1028,16 @@ test('network failure uses the configured fallback', async () => {
 });
 ```
 
-### `checks/reference.ts`
+### `checks/reference.test.ts`
 
 ```ts
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 
-test('every complete source block matches the checked consumer file', () => {
-  const source = readFileSync(process.env.GOST_FEATURE_EXAMPLE ?? 'users-example.md', 'utf8');
+const parseBlocks = (source: string) => {
   const blocks = new Map<string, string>();
   let filename = '', body: string[] | undefined;
   for (const line of source.split('\n')) {
@@ -1052,20 +1052,63 @@ test('every complete source block matches the checked consumer file', () => {
     } else if (body) body.push(line);
   }
   assert.ok(blocks.size > 0, 'no complete source blocks');
+  return blocks;
+};
+
+const verifyListing = (directory: string, source: string) => {
+  const blocks = parseBlocks(source);
   for (const [filename, text] of blocks) {
-    const target = path.resolve(filename);
-    assert.ok(!path.relative(process.cwd(), target).startsWith('..'), 'source path leaves consumer');
+    const target = path.resolve(directory, filename);
+    assert.ok(!path.relative(directory, target).startsWith('..'), 'source path leaves consumer');
     assert.equal(text.trimEnd(), readFileSync(target, 'utf8').trimEnd(), `${filename} differs from recipe`);
   }
-  const verify = (directory: string) => {
-    for (const entry of readdirSync(directory, { withFileTypes: true })) {
-      const filename = path.posix.join(directory, entry.name);
+  const requireBlock = (filename: string) => {
+    if (filename.startsWith('checks/') && filename.endsWith('.ts')) {
+      assert.match(filename, /\.(test|types|pw)\.ts$/, `unclassified check file: ${filename}`);
+    }
+    assert.ok(blocks.has(filename), `source missing from recipe: ${filename}`);
+  };
+  const verify = (relativeDirectory: string) => {
+    for (const entry of readdirSync(path.join(directory, relativeDirectory), { withFileTypes: true })) {
+      const filename = path.posix.join(relativeDirectory, entry.name);
       if (entry.isDirectory()) verify(filename);
-      else if (/\.(ts|svelte)$/.test(filename)) assert.ok(blocks.has(filename), `source missing from recipe: ${filename}`);
+      else if (/\.(ts|svelte|json|html)$/.test(filename)) requireBlock(filename);
     }
   };
   verify('src');
+  verify('checks');
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (entry.isFile() && /\.(ts|json|html)$/.test(entry.name) && entry.name !== 'package-lock.json') {
+      requireBlock(entry.name);
+    }
+  }
+};
+
+const source = () => readFileSync(process.env.GOST_FEATURE_EXAMPLE ?? 'users-example.md', 'utf8');
+test('every complete source block matches and covers the checked consumer files', () => {
+  verifyListing(process.cwd(), source());
 });
+
+for (const scenario of [
+  { filename: 'checks/unlisted.test.ts', listed: false, diagnostic: /source missing from recipe/ },
+  { filename: 'future.config.ts', listed: false, diagnostic: /source missing from recipe/ },
+  { filename: 'checks/unclassified.ts', listed: true, diagnostic: /unclassified check file/ },
+]) {
+  test(`parity rejects ${scenario.filename}`, (t) => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'gost-listing-gate-'));
+    t.after(() => rmSync(directory, { recursive: true, force: true }));
+    let listing = source();
+    for (const filename of parseBlocks(listing).keys()) {
+      const target = path.join(directory, filename);
+      mkdirSync(path.dirname(target), { recursive: true });
+      copyFileSync(path.resolve(filename), target);
+    }
+    const content = 'export const unused = true;';
+    writeFileSync(path.join(directory, scenario.filename), content);
+    if (scenario.listed) listing += '\n### `' + scenario.filename + '`\n\n```ts\n' + content + '\n```\n';
+    assert.throws(() => verifyListing(directory, listing), scenario.diagnostic);
+  });
+}
 ```
 
 ### `checks/users.pw.ts`
