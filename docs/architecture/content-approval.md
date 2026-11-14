@@ -27,6 +27,7 @@ table when their content review starts, not merely because they exist in a packa
 | standards-svelte-spa | SVELTE-SPA-ARCH-001 | Pending        | No content approval recorded                                                                          |
 | standards-frontend   | FRONTEND-ARCH-001   | Pending        | Proposed revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval      |
 | standards-frontend   | FRONTEND-ARCH-002   | Pending        | Proposed revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval      |
+| standards-frontend   | FRONTEND-ARCH-003   | Pending        | Proposed text for review [#88](https://github.com/antonsmolko/gost-spec/issues/88); no content approval |
 | standards-svelte     | SVELTE-STATE-001    | Pending        | Compatibility revision [#78](https://github.com/antonsmolko/gost-spec/issues/78); no content approval |
 | standards-typescript | TS-TYPES-002        | Pending        | Proposed text; no content approval recorded                                                           |
 | standards-typescript | TS-COMMON-001       | Pending        | Proposed text; no content approval recorded                                                           |
