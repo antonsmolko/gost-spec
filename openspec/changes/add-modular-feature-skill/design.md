@@ -427,11 +427,13 @@ Tasks 2.1, 2.3 and 3.1 are reopened until that evidence and replies are complete
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| [PR104-R1](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542875) | Both proposed revisions became ambiguous after the third frontend row | requirements-inventory | Fixed | Names FRONTEND-ARCH-001/002 explicitly; no normative wording/status changed |
-| [PR104-R2](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542935) | Four-plugin list had two coordinating ands | root README | Fixed | Comma series followed by one final and |
-| [PR104-R3](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542976) | Source-to-listing completeness ignored checks/configs and runtime check discovery was hardcoded | fixture checks/package.json, packaged recipe/listing | Fixed; renewed payload/native/review checks in progress | Three real assertion RED cases now GREEN; src/checks/root configs require blocks, checks have explicit runtime/type/browser roles, recursive runtime discovery replaces enumerated filenames |
-| [PR104-R4](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543016) | Repo-relative listing link breaks in the instructed consumer copy | fixture README | Fixed | Uses local users-example.md or GOST_FEATURE_EXAMPLE, matching the actual parity input; no outside-consumer link |
-| [PR104-R5](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543085) | Lowercase sentence start and glued counts in canonical ledger | design | Fixed | Sentence capitalization and All 53 / marked 165 Markdown, 293 local links, 28 fragments, 0 errors made explicit |
+| <a id="pr104-r1"></a> [PR104-R1](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542875) | Both proposed revisions became ambiguous after the third frontend row | requirements-inventory | Fixed | Names FRONTEND-ARCH-001/002 explicitly; no normative wording/status changed |
+| <a id="pr104-r2"></a> [PR104-R2](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542935) | Four-plugin list had two coordinating ands | root README | Fixed | Comma series followed by one final and |
+| <a id="pr104-r3"></a> [PR104-R3](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575542976) | Source-to-listing completeness ignored checks/configs and runtime check discovery was hardcoded | fixture checks/package.json, packaged recipe/listing | Fixed; renewed native checks and independent review passed | Three real assertion RED cases now GREEN; src/checks/root configs require blocks, checks have explicit runtime/type/browser roles, recursive runtime discovery replaces enumerated filenames |
+| <a id="pr104-r4"></a> [PR104-R4](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543016) | Repo-relative listing link breaks in the instructed consumer copy | fixture README | Fixed | Uses local users-example.md or GOST_FEATURE_EXAMPLE, matching the actual parity input; no outside-consumer link |
+| <a id="pr104-r5"></a> [PR104-R5](https://github.com/antonsmolko/gost-spec/pull/104#discussion_r4575543085) | Lowercase sentence start and glued counts in canonical ledger | design | Fixed | Sentence capitalization and All 53 / marked 165 Markdown, 293 local links, 28 fragments, 0 errors made explicit |
+
+| [AGENTS review handling](https://github.com/antonsmolko/gost-spec/blob/main/AGENTS.md#review-handling); independent review private input, not a public basis | I2: individual replies initially linked the whole review table rather than their entries | canonical ledger and five PR replies | Fixed | Each R1–R5 row now has its own anchor and each reply targets that entry; aggregate keeps the round anchor |
 
 ### R3 verification contract and evidence
 
@@ -468,3 +470,62 @@ related issue scope/closures and proposed/release gates remain unchanged. Earlie
 7/7 and native receipts refer to the pre-review snapshot, not proof of the changed
 listing. Tasks 2.1/2.3/3.1 were reopened; 2.1 is complete after current parity/type/
 consumer checks, leaving 5/7 until renewed native delivery and independent review.
+
+
+### Renewed native evidence for PR104-R3
+
+Candidate source `21a89d387498be877b1f4886635d4483d89c9524` was pushed before
+verification. Fresh isolated profiles selected the public GitHub branch
+`feature/gost-spec-88-modular-feature-implementation` through native marketplace
+commands. Actual native configs retain this ref and both marketplace clones
+resolve to that exact commit. Codex 0.169.0 and Claude 2.1.308 each installed and
+repeated all four plugins; Codex app-server skills/list discovers four enabled
+GOST skills without errors, and Claude details reports one skill per plugin.
+Removing the old three proves standalone gost-feature discovery; restoring them
+proves coexistence. All eight installed file maps match Git source exactly after
+restoration. The changed gost-feature map has nine files and digest
+`a988c8a4f1ab4b3a6001971ee7c70ad875d7fead0c51bbb13759fa7e61fe9384`
+in both harnesses, using the same map/digest formula as the historical receipt.
+The three unchanged plugin digests remain those recorded above.
+
+No model turns, release tags, personal-profile changes or asc-admin changes were
+performed. Personal file fingerprints match before/after. A first scratch
+post-check assertion incorrectly called endswith on nullable pluginId metadata;
+that helper failure did not establish discovery evidence. After handling null
+metadata, complete fresh-process discovery/map/ref checks passed, then passed
+again after restoration. No product code was changed by this helper correction.
+Task 2.3 is complete again (6/7); the unchanged skill/business source retains its
+previous independently evaluated application/change/repeat evidence and limits.
+Current changed listing/gate evidence is explicitly the new snapshot above.
+
+
+### PR #104 final review checkpoint
+
+All five findings are fixed; every inline thread has an individual reply linked
+to its canonical disposition, with one aggregate response covering the PR-level
+review and its five empty summary reviews. Prior confirmed closures remain closed.
+No requirements, release gates, normative acceptance or dependent scopes changed.
+The separate independent review (private input, not a public basis) used the
+public #88/PR #104 requirements, all artifacts and the complete final diff rather
+than the author's working conversation. No actionable findings remain.
+
+The reviewer personally reran root 121/121, external Svelte/tsc (0 errors/warnings),
+19 unit/12 integration and strict 14/14; inspected the pack and independently
+recomputed eight installed maps against Git 21a89d3. Native source/ref/discovery,
+standalone/restoration and personal fingerprints were independently checked.
+Build and 4 Chromium results were inspected, not rerun by this reviewer; author
+checks passed them. Earlier application/control evaluation limits still apply.
+
+Separate contract/document audit: inspected complete final PR diff, unchanged
+FC/presenter/distribution specifications and live #87/#89/#102 for conflicts;
+no conflicts found. Current marked audit: 165 Markdown / 292 local links /
+28 fragments / 0 errors (R4 removed one link); diff --check clean. Source listing
+has 53 complete blocks. Old three plugin payloads, four other normative packages,
+five package versions and release tags remain unchanged. Only receipts/status
+changed after native-verified payload 21a89d3. No merge, release or asc-admin edit.
+
+GitHub edits in this round: #88 checkpoint and PR #104 body now reference the
+renewed snapshot, current test/link counts and completed review; criteria and
+closure semantics retained. Task 3.1 and review round complete: 7/7. The next
+workflow step requires owner review/merge approval, then separate archive/sync
+and release preparation; no publication or content acceptance is inferred.
