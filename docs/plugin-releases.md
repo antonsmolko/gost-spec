@@ -1,7 +1,9 @@
 # GOST plugin releases
 
-The prepared versions are `gost-functional-core@0.2.0` and
-`gost-svelte-shell@0.3.0`. `gost-view-presenter@0.1.0` is unchanged.
+The published pair is `gost-functional-core@0.2.0` and
+`gost-svelte-shell@0.3.0`. Both tags select checked main commit
+`64714fcc9929ce3eb0ea7676dfabaa883f5069f7`; installation from each tag was verified
+in isolated Codex 0.167.0 and Claude Code 2.1.308 profiles. `gost-view-presenter@0.1.0` is unchanged.
 A manifest/changelog describes versioned content; publication is established by
 an approved immutable tag on the checked final main commit. Confirm the tag exists
 before running installation examples. Missing tags mean the release is unavailable.
@@ -11,9 +13,23 @@ For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
 select the same final commit. Register one snapshot, then install either or both
 plugins; do not add two marketplaces with the same name `gost`.
 
+## README status in this snapshot
+
+The frozen plugin READMEs still describe FC 0.2.0 and shell 0.3.0 as prepared.
+Those statements describe preparation; the two existing tags above establish
+publication and the commands below are verified against them. Changelog version
+entries describe content; their neutral tag condition determines publication.
+
+Presenter 0.1.0 is included and installable from either pair tag, but has no
+separate `gost-view-presenter-v0.1.0` tag. Its frozen README shows that unavailable
+tag; use the selected pair snapshot and `codex plugin add gost-view-presenter@gost`
+or `claude plugin install gost-view-presenter@gost` instead. For an existing
+registration, follow the change procedure below first. The published snapshots
+remain immutable; their embedded wording cannot be corrected in place.
+
 ## Install the released pair
 
-After the release is approved and both tags exist, use one of them consistently.
+The pair has been approved and both tags exist. Use one of them consistently.
 For a fresh marketplace registration:
 
 ```sh
@@ -94,6 +110,6 @@ invocation or application behavior.
 
 Use supported native commands, based on [OpenAI packaging documentation](https://developers.openai.com/plugins/build/plugins)
 and [Claude marketplace documentation](https://code.claude.com/docs/en/plugin-marketplaces).
-Public GitHub candidate-ref checks precede release; final-tag checks happen only
-after approved publication. Neither local/loopback evidence nor a version string
-substitutes for those checks.
+Public GitHub candidate-ref checks preceded this release; the final-tag checks
+for both tags and both harnesses passed after approved publication. Neither
+local/loopback evidence nor a version string substitutes for those checks.

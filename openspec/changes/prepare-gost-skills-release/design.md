@@ -1,5 +1,7 @@
 # Design
 
+Release result: both approved tags on `64714fcc9929ce3eb0ea7676dfabaa883f5069f7` are published and final-tag native checks passed. Earlier candidate/pending statements below describe their named pre-publication snapshots; current evidence is in Published release verification. Final documentation delivery is tracked separately.
+
 ## Context and baseline
 
 [#97](https://github.com/antonsmolko/gost-spec/issues/97) после #96: реализация PR #98 и архив PR #99 доставлены, main `02591a2`; #96 закрыта. Применяется существующий distribution contract; новые packaging механизмы не нужны.
@@ -44,7 +46,7 @@ Codex fresh app-server handshake then `skills/list` with empty cwd and forceRelo
 
 Both temporary profiles use distinct CODEX_HOME/CLAUDE_CONFIG_DIR, empty cwd and unchanged HOME. Fingerprints of personal Codex config, Claude settings/installed-plugin/marketplace records are unchanged after all CLI/app-server checks. No personal source/cache was modified. Only temporary verification helpers/logs exist outside repository; no new distribution tooling introduced.
 
-### Preparation gates and remaining release work
+### Historical preparation gates — before publication
 
 Root npm check 114/114 on Node 26.11.1, strict 13/13; parser audit 153 tracked Markdown/271 local links/24 fragments/0 errors (marked 18.1.1 + git ls-files, preparation working tree based on `02591a2`, captured before `45aa5c1`; later review-fix repeat named separately below). Existing distribution gate accepts both candidates and catalogs. No scripts/tests/runtime sources changed; native and npm standards checks use existing tooling. Final tag names are still absent; no released version, final-tag installation, release approval or real consumer update is claimed. Tasks 4/5 remain pending by design, not marked complete by candidate evidence.
 
@@ -141,3 +143,118 @@ Only the two README payloads changed from the original receipt; presenter and al
 Published-review verification: full npm check 114/114 on Node 26.11.1, strict OpenSpec 13/13, whitespace clean. Fresh marked 18.1.1 lexer/walkTokens scan over git-tracked Markdown, with installed dependencies and heading-fragment checks, at the review-fix working tree based on `55266a5`: 153 files / 274 local links / 27 fragments / 0 errors. The three new same-file guards/procedure links explain the increase from the historical 271/24. Exact historical native command blocks and all prior digest values were retained unchanged while surrounding prose was spaced.
 
 Complete final PR diff and relevant unchanged main contract/issue criteria checked separately from native/runtime verification. Public issue #97 and PR description now distinguish the old receipt from the renewed payload, with readable version/count tokens. All six threads and the published summary have dispositions R2–R7; prior R1 closure is retained. These are documentation clarifications of existing behavior, not contract or gate changes; the wording-only exception in AGENTS §6 applies. No additional independent contract review is claimed; renewed native checks above cover the changed installed bytes. Final tasks 4/5 and separate release approval remain unchanged.
+
+
+## Published release verification
+
+Owner explicitly approved the previously presented pair/main after PR #100 merge. The approval is private input, not a public basis; [public candidate checkpoint](https://github.com/antonsmolko/gost-spec/pull/100#issuecomment-6778794084) records the exact versions/tags/main before approval. Both absent names were created as annotated tags and pushed atomically without force. Remote annotated objects and peeled commit were independently read back; neither tag was moved.
+
+| Released tag | Remote tag object | Peeled release commit |
+| --- | --- | --- |
+| gost-functional-core-v0.2.0 | `d68e6718b821eb521cf3af1219d05c75ea25d09d` | `64714fcc9929ce3eb0ea7676dfabaa883f5069f7` |
+| gost-svelte-shell-v0.3.0 | `381952862d1527b73b22181118d9c88c5da0ca84` | `64714fcc9929ce3eb0ea7676dfabaa883f5069f7` |
+
+Exact tag publication commands after absence/manifests/changelog/source checks:
+
+```sh
+git tag -a gost-functional-core-v0.2.0 64714fcc9929ce3eb0ea7676dfabaa883f5069f7 -m '[gost-spec-97]: Release gost-functional-core 0.2.0'
+git tag -a gost-svelte-shell-v0.3.0 64714fcc9929ce3eb0ea7676dfabaa883f5069f7 -m '[gost-spec-97]: Release gost-svelte-shell 0.3.0'
+git -c http.version=HTTP/1.1 push --atomic origin refs/tags/gost-functional-core-v0.2.0 refs/tags/gost-svelte-shell-v0.3.0
+git ls-remote --tags origin 'gost-functional-core-v0.2.0*' 'gost-svelte-shell-v0.3.0*'
+```
+
+### Final native matrix
+
+Four fresh isolated profiles, one per tag/host, with empty cwd, distinct CODEX_HOME/CLAUDE_CONFIG_DIR and unchanged HOME. Native commands used the real public GitHub source; each checkout HEAD equalled the peeled release commit above. Each installed/restored FC 0.2.0, shell 0.3.0 and unchanged presenter 0.1.0, repeated each installation, then verified one enabled entry per plugin and exactly 8 files matching `git show <release-commit>:plugins/<name>/...`. All installed maps reproduce the three **current** digests in the renewed receipt above; historical `45aa5c1` digests were not used.
+
+| Source tag | Codex 0.167.0 | Claude Code 2.1.308 |
+| --- | --- | --- |
+| gost-functional-core-v0.2.0 | install/repeat/content/discovery PASS | install/repeat/content/details PASS |
+| gost-svelte-shell-v0.3.0 | install/repeat/content/discovery PASS | install/repeat/content/details PASS |
+
+For each tag value below, the commands ran in the corresponding fresh host/tag profile; paths/auth data are omitted. No local/loopback substitution:
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$tag" --json
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$tag" --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+codex plugin list --json
+claude plugin list --json
+claude plugin details gost-functional-core@gost
+claude plugin details gost-svelte-shell@gost
+claude plugin details gost-view-presenter@gost
+```
+
+`tag` was bound to each literal tag name in the matrix. Codex fresh initialize/initialized/skills-list(forceReload) returned three enabled namespaced GOST skills from isolated caches, zero errors. Claude details reported one expected skill per plugin. No model turn or asc-admin application was run.
+
+Both hosts additionally switched the first tag's profile to the second tag using the documented remove-pair/remove-marketplace/add-selected-ref/reinstall/restore sequence. Verified selected native ref, three unique versions, restored presenter and all 8-file maps again. These tags share contents; this proves deliberate source selection/re-registration, while actual earlier version upgrade evidence remains in the candidate receipt. No older published-version rollback is claimed.
+
+An initial probe incorrectly searched marketplace-list text for the selected tag; Codex listing omits ref and the profile path was a misleading match. That harness assertion was discarded. Corrected verification reads Codex's native `[marketplaces.gost].ref` and Claude's `known_marketplaces.json` source.ref, not path text. The first Codex profile was reset through native CLI and all four selections/discovery cases plus both explicit transitions were rerun successfully. No manual config writes, product failure or tag changes were involved. Personal config/settings/installed-plugin/marketplace fingerprints remained unchanged after the completed checks.
+
+Current Git trees and all three installed-content map SHA256 values match the renewed `55266a5` receipt and the approved release main. Plugin/catalog/package/fixture/skill bytes are unchanged by this verification branch. The guide now reports actual publication and verified final-tag installation; this ledger/handoff/queue and tasks record completed work, not additional release content. Tags remain on the approved commit even as documentation main advances.
+
+### Final GitHub checkpoint and delivery
+
+Issue #97 stays open pending delivery of the final verification PR; release publication/native checks themselves are complete, tasks 5/5. Current #96/#97/#88 checkpoints distinguish delivered preparation, published immutable tags and pending report delivery. After explicit approval to merge this report, the merging agent verifies main contains it and closes #97 as completed; no tag recreation/movement or second release approval is required. File checkpoints remain PR-mediated, live issue status updated per step. No application migration or normative-content acceptance is implied.
+
+
+### Release verification GitHub issue edits
+
+Live #96/#97/#88 checkpoints were refreshed after final-tag checks: both tags are published on the approved main and native verification passed; approval/final-tag work is no longer described as pending. Only durable verification-report delivery remains pending. Issue #96 stays closed, #97 stays open until report delivery, and #88 criteria/prior closures remain unchanged. [Public publication/checkpoint receipt](https://github.com/antonsmolko/gost-spec/issues/97#issuecomment-6779307093) records the tags, revision, matrix and follow-up. Final verification report: [PR #101](https://github.com/antonsmolko/gost-spec/pull/101); #97 closes only after approved merge and delivery verification. This report link is also recorded in #96/#97/#88 checkpoints.
+
+### Final verification review
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [Public #97 release/checkpoint criteria](https://github.com/antonsmolko/gost-spec/issues/97), independent agent private input, not a public basis | R8: old live checkpoints still described approval/tag checks as pending while final ledger claimed publication | #96/#97/#88, issue-edit ledger | Fixed | All three bodies now distinguish published/verified release and pending report delivery; dedicated issue-edit evidence and public receipt recorded above |
+
+
+Independent final review completed on 2026-11-11: specification compliance and quality PASS, no open findings. The reviewer independently read remote tag objects/peels, recomputed all 12 installed file maps, checked retained native inventory/discovery/transition receipts and personal-file fingerprints, and refreshed all three live checkpoints to confirm R8 closure. This agent report is private input, not a public basis; the public release/checkpoint criteria and publication receipt above are its actionable basis. Prior R1–R7 closures are retained. No further merge/publication authority is implied.
+
+Final documentation verification on this branch: full npm check 114/114 on Node 26.11.1; strict OpenSpec 13/13; whitespace clean. Fresh marked 18.1.1 lexer/walkTokens scan over git-tracked Markdown with local heading-fragment checks: 153 files / 273 local links / 29 fragments / 0 errors. The complete five-file diff and relevant unchanged contracts were reviewed separately from runtime/native checks; plugins, catalogs, packages, fixtures, scripts and tests remain unchanged from the approved release commit.
+
+
+### PR #101 published review — 2026-11-14
+
+Read all PR #101 inline threads (2, hasNextPage=false), both summary reviews
+(empty bodies), all PR comments (none), the PR description and live #97 criteria.
+Prior R1–R8 closures are retained. The earlier independent PASS records that
+review round; it does not claim R9/R10 were absent from the later public review.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [R9 owner review](https://github.com/antonsmolko/gost-spec/pull/101#discussion_r4542354695) | Frozen READMEs retain prepared/unreleased wording; presenter example selects an absent tag | consumer guide, release ledger, #97; next-release README work #102 | Fixed current disclosure; embedded README correction explicitly deferred by owner request to next substantive release | Guide now distinguishes publication from frozen preparation wording, explains changelog tag condition and gives presenter installation from an existing pair snapshot; [follow-up #102](https://github.com/antonsmolko/gost-spec/issues/102) records owner agreement, responsible next-release maintainer and acceptance criteria. No existing tag or payload changed |
+| [R10 owner review](https://github.com/antonsmolko/gost-spec/pull/101#discussion_r4542357303) | S4 result column still reads as a pending approval dependency | readiness S4 | Fixed | Result now states versions/changelog, native installation and tags were checked after separate approval; asc-admin update remains next |
+
+R9 boundary: both pair tags exist and peel to the approved release commit;
+`gost-view-presenter-v0.1.0` is absent. Presenter bytes are available through the
+shared pair snapshot; its own README command is not an available tag-install
+path. Preparation wording in immutable FC/shell READMEs does not negate existing
+tags, but is a consumer-facing limitation and must be disclosed. Current guide
+clarifies this now; #102 changes future payload in its own release PR. #97
+criteria/closure remain unchanged. No tag movement or new publication is allowed
+by this documentation fix.
+
+#### GitHub issue edits for PR #101 review
+
+Created #102 from the owner's public R9 request, linked carrier #97 / PR #101,
+retained [gost-spec-97] for this report branch and preserved carrier criteria.
+Updated #97 checkpoint with the limitation, follow-up and actual report PR link.
+Consumer documentation contains the actionable limitation only, not review or
+roadmap details. These are wording/disclosure corrections, not contract/gate
+changes; AGENTS §6 wording-only exception applies to this review round.
+
+
+Review-fix verification: npm check 114/114 on Node 26.11.1; strict OpenSpec
+13/13; git diff --check clean. Fresh marked lexer/walkTokens scan of 153 tracked
+Markdown files: 273 local links / 29 fragments / 0 errors. Complete final PR diff
+inspected with unchanged distribution spec, proposal, root README and live #97
+criteria checked separately for conflicts. Remote tag objects/peels unchanged;
+no presenter-specific tag returned. Plugin/catalog/package/fixture/script/test
+bytes remain identical to the approved release commit. No renewed native install
+is claimed or needed for this documentation-only clarification.

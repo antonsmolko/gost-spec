@@ -6,5 +6,5 @@
 
 ## Release after approval
 
-- [ ] 4. После merge и явного approval конкретного выпуска согласовать финальный main snapshot и создать неизменяемые release tags.
-- [ ] 5. Проверить remote tags/commit и native installation финальных тегов в обоих харнесах; обновить статусы и инструкцию asc-admin по фактическому выпуску.
+- [x] 4. После merge и явного approval конкретного выпуска согласовать финальный main snapshot и создать неизменяемые release tags.
+- [x] 5. Проверить remote tags/commit и native installation финальных тегов в обоих харнесах; обновить статусы и инструкцию asc-admin по фактическому выпуску.
