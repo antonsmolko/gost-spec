@@ -83,6 +83,7 @@ Skill SHALL создавать и изменять запрошенную мод
 #### Scenario: Bound routing and persistence claims
 - **WHEN** пример показывает create → list и открытие сценария
 - **THEN** он явно отделяет свои проверенные lifecycle условия от реального router/reset timing и отсутствия мерцаний
+- **AND** reference/пример явно ссылается на store/context [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87) и границы маршрутизации [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89), не выдавая незавершённый рецепт за доступный API
 - **AND** фильтры/формы не сохраняются по умолчанию; persistence и навигационная интеграция остаются отдельными задачами
 
 ### Requirement: Code-backed guidance and application evidence

@@ -36,8 +36,8 @@ Packaging baseline проверена 2026-11-14: [OpenAI packaging](https://dev
 
 В `packages/domains/frontend/architecture/modular-features.md` — английский
 FRONTEND-ARCH-003, proposed, применимый только к выбранной модульной архитектуре.
-Добавляются frontend README/changelog и minor changeset без запуска version
-или публикации; остальные четыре пакета не меняются. Inventory получает новый
+Дополняются существующие frontend README/changelog; добавляется minor changeset
+без запуска version или публикации; остальные четыре пакета не меняются. Inventory получает новый
 ID/применимость/обоснование; при начале review текста FRONTEND-ARCH-003 добавляется
 Pending row в content-approval по правилам этого файла. Утверждение плана не
 принимает нормативный текст и не заменяет его отдельное content review.
@@ -49,8 +49,11 @@ pinned public URL этого документа с revision/status после е
 
 `plugins/gost-feature/skills/gost-feature/SKILL.md` — короткий workflow.
 `references/modular-feature.md` — пути/код к правилам и цельный users-пример,
-включая необходимую app/store glue. Никаких файловых ссылок в соседние plugins
-или fixture: installed reference самодостаточен. Имена FC/presenter skills
+включая необходимую app/store glue. Reference явно ссылается на контракт
+store/context [gost-spec #87](https://github.com/antonsmolko/gost-spec/issues/87)
+и границы маршрутизации [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89),
+сохраняя различие реализованного API и отдельного навигационного рецепта.
+Никаких файловых ссылок в соседние plugins или fixture: installed reference самодостаточен. Имена FC/presenter skills
 могут помогать агенту, но их установка не обязательна для чтения примера.
 
 Проверяемые файлы находятся в `fixtures/modular-feature/`, вне поставки.
@@ -59,13 +62,17 @@ pinned public URL этого документа с revision/status после е
 ```text
 src/features/users/
   common/{data/{dto,mappers},domain/{entities,lib},ui/components}
-  list/{data/api,domain/fc,ui/{components,pages},app/routing}
-  create/{data/api,domain/fc,ui/{components,pages},app/routing}
+  list/{app/routing,data/{api,dto,mappers},domain/{entities,fc,lib},ui/{components,pages}}
+  create/{app/routing,data/{api,dto,mappers},domain/{entities,fc,lib},ui/{components,pages}}
+  update/{app/routing,data/{api,dto,mappers},domain/{entities,fc,lib},ui/{components,pages}}
 ```
 
-Это схема допустимых мест, не список обязательных пустых папок. Общие DTO и
-mapper действительно используются двумя операциями. Generated API types
-переиспользуются; тестовые фабрики, constants и helpers colocated по владельцу.
+Это полная схема допустимых мест сценариев, не список обязательных пустых
+папок. В данном примере полностью реализуются list/create; update показывает
+допустимое расширение. Mapper по умолчанию находится в data/mappers своего
+сценария и переносится в common только при реальном совместном использовании.
+В цельном примере общие DTO и mapper действительно используются двумя
+операциями. Generated API types переиспользуются; тестовые фабрики, constants и helpers colocated по владельцу.
 У каждого сценария публичный `index.ts`, собственные FC state/action/reducer и
 reducer.test.ts. UI не импортирует соседние сценарии; shared-инструменты — в
 src/shared. Корневая композиция — в существующем src/store, доступ из feature UI
@@ -128,7 +135,7 @@ queue и live #88 синхронизируются; данные review не в�
 - Дрейф reference/fixture → сверять source blocks и фактическое выполнение.
 - Полный root type создаёт ошибочные runtime зависимости → type-only imports,
   отдельные entrypoints и проверка конкретного import graph.
-- Skill принят за навигационную библиотеку → явный app adapter и scope #89/#72.
+- Skill принят за навигационную библиотеку → явный app adapter и scope gost-spec #89 / asc-admin #72.
 - Неизвестный API/harness → конкретный incomplete, без подмены доказательства.
 - Следующий выпуск snapshot затрагивает README-ограничение #102 → учитывать
   только в отдельном release outcome; #88 не меняет старые теги/плагины.
@@ -146,7 +153,8 @@ queue и live #88 синхронизируются; данные review не в�
 предлагаются имя/версия/поставка, implementation ещё не начата. Ссылки на план/PR
 доставлены в [плановом PR #103](https://github.com/antonsmolko/gost-spec/pull/103);
 live #88 содержит его ссылку. Критерии и закрытие #88 не менялись. S4 queue исправляется на доставленный PR #101,
-S6 — подготовленный план #88; #102 и отложенные #89/#34 остаются отдельными.
+S6 — подготовленный план gost-spec #88; gost-spec #102 и отложенные
+gost-spec #89 и gost-kit #34 остаются отдельными.
 
 
 ### Independent plan review — 2026-11-14
@@ -169,3 +177,37 @@ Packages, plugins, catalogs, fixtures, scripts/tests и release tags не мен
 Fresh marked lexer/walkTokens audit: 157 tracked Markdown / 277 local links /
 28 fragments / 0 errors; git diff --check clean. Это проверки плана, не evidence
 ещё не реализованного skill или его native установки.
+
+
+### PR #103 review response — 2026-11-14
+
+Прочитаны все четыре inline threads (hasNextPage=false), четыре summary reviews
+с пустыми body, полный [PR-level review](https://github.com/antonsmolko/gost-spec/pull/103#issuecomment-6882956382)
+и описание PR. Замечания сверены с полным body gost-spec #88 и его согласованным
+списком примеров; прошлые R1/R2/no-action R3 и independently closed F1 сохранены.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [R4 cross-repo reference](https://github.com/antonsmolko/gost-spec/pull/103#discussion_r4575311082) | Неоднозначный bare #34 в issue-edits section | design | Fixed | Явно указаны gost-spec #89 / gost-kit #34; gost-spec #102 также квалифицирована |
+| [R5 scenario layout](https://github.com/antonsmolko/gost-spec/pull/103#discussion_r4575311166) | Дерево допустимых мест пропускало scenario-local каталоги и update | design | Fixed | Дерево включает app/routing, data/api/dto/mappers, domain/entities/fc/lib, ui/components/pages для всех трёх сценариев; пример остаётся list/create, default mapper local с переносом в common по реальному reuse |
+| [R6 existing documents](https://github.com/antonsmolko/gost-spec/pull/103#discussion_r4575311220) | README/changelog описаны как добавляемые | design | Fixed | Существующие frontend README/changelog дополняются, новым является changeset |
+| [R7 explicit reference coverage](https://github.com/antonsmolko/gost-spec/pull/103#discussion_r4575311317) | Ссылки на gost-spec #87/#89 были только косвенным требованием | design, tasks 2.1, spec scenario | Fixed | Оба public URL явно входят в reference coverage, задачу 2.1 и Bound routing and persistence claims; доступный API и навигационный follow-up разделены |
+
+Это уточнения формулировок уже согласованного покрытия, не новый контракт или
+outcome. AGENTS §6 допускает wording-only exception; нового independent review
+этого раунда не заявляется. Предыдущий PASS относится к своему snapshot.
+
+#### GitHub issue edits for PR #103 review
+
+Критерии, scope и закрытие gost-spec #88 не меняются; исправления согласуют план
+с его существующим body. Checkpoint-комментарий после push связывает PR/commit
+с этой таблицей. Связанные задачи других репозиториев не редактируются.
+
+
+Review-fix verification: npm check 114/114 на Node 26.11.1, strict OpenSpec 14/14,
+157 tracked Markdown / 277 local links / 28 fragments / 0 errors (marked
+lexer/walkTokens), whitespace clean. Полный PR diff и релевантные неизменённые
+FC/shell/presenter/distribution контракты просмотрены отдельно от runtime tests;
+покрытие каталога/mapper/ссылок сверено с live gost-spec #88. Счётчики прежние:
+8 требований, 16 сценариев, 0 из 7 implementation tasks. Packages, plugins,
+catalogs, fixtures, scripts/tests и опубликованные теги не менялись.
