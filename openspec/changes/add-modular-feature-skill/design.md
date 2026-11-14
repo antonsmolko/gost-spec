@@ -383,23 +383,33 @@ requirements/plan findings remain closed. The reviewer independently reran root
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| [#88 accurate checkpoints](https://github.com/antonsmolko/gost-spec/issues/88); independent review private input, not a public basis | I1: queue S6 still described the already verified example as requiring artifact verification | readiness S6/current checkpoint | Fixed; independently rechecked | S6 now records npm common0.3.0/svelte0.2.0 external verification; implementation status stays 6/7 pending final review/PR |
+| [#88 accurate checkpoints](https://github.com/antonsmolko/gost-spec/issues/88); independent review private input, not a public basis | I1: queue S6 still described the already verified example as requiring artifact verification | readiness S6/current checkpoint | Fixed; independently rechecked | S6 records actual npm common 0.3.0 / svelte 0.2.0 verification; at focused rereview status stayed 6/7 pending final PR presentation |
 
 
 Independent final review PASS: no open findings after I1 focused rereview. The
-reviewer independently ran root121/121, external Svelte/tsc (0 errors/warnings),
-19 unit and9 integration/import/parity cases, strict14/14 and marked link audit
-165 Markdown/293 local links/28 fragments/0errors. All53 complete blocks matched
-fixture/consumer; all8 native installed maps matched source and recorded digests.
+reviewer independently ran root 121/121, external Svelte/tsc (0 errors/warnings),
+19 unit and 9 integration/import/parity cases, strict 14/14 and marked link audit
+165 Markdown/293 local links/28 fragments/0 errors. All53 complete blocks matched
+fixture/consumer; all 8 native installed maps matched source and recorded digests.
 Browser/build and agent evaluation evidence were inspected, not independently
 rerun by that reviewer; their existing limits remain stated above. The private
 report is not a public basis; #88 and this change's requirements are the public
 acceptance basis. All earlier closures are retained. This PASS concerns
 implementation readiness, not normative acceptance, merge or publication.
 
-Final author checks: root121/121; strict14/14; full concrete consumer check,
-19unit/9integration/4Chromium/build; marked165/293/28/0 and diff --check clean.
+Final author checks: root 121/121; strict 14/14; full concrete consumer check,
+19 unit/9 integration/4 Chromium/build; marked165/293/28/0 and diff --check clean.
 Old three plugin payloads and four other normative packages are unchanged from
-main985bd04; all five package versions remain0.1.0. Frontend's minor changeset is
-pending. Candidate source3562e57 is the native-verified payload; subsequent
+main 985bd04; all five package versions remain 0.1.0. Frontend's minor changeset is
+pending. Candidate source 3562e57 is the native-verified payload; subsequent
 receipt/status edits do not change it. No real release tag or asc-admin change.
+
+
+### Implementation PR checkpoint
+
+[PR #104](https://github.com/antonsmolko/gost-spec/pull/104) presents this one
+verified outcome. Task 3.1 is complete: 7/7 implementation tasks; no merge,
+publication or proposed-content acceptance performed. Queue/handoff and live
+#88 record the PR and current counts. Issue #88 stays open pending approved
+delivery; archive/sync and future releases are separate workflow steps.
+Only receipt/status/link prose changed after the native-verified payload.

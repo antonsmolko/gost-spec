@@ -14,7 +14,7 @@
 
 ## 3. Итоговая проверка
 
-- [ ] 3.1 Обновить root README, queue/handoff и live #88; выполнить full npm check, fixture checks, strict OpenSpec, link/contract audit и независимое review всего outcome; представить implementation PR без merge, content acceptance или release tags.
+- [x] 3.1 Обновить root README, queue/handoff и live #88; выполнить full npm check, fixture checks, strict OpenSpec, link/contract audit и независимое review всего outcome; представить implementation PR без merge, content acceptance или release tags.
 
 ## Workflow follow-up
 
