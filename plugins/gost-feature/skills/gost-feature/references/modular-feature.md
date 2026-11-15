@@ -1,8 +1,8 @@
 # Modular feature recipe
 
 Checked on Node 26.11.1, TypeScript 5.9.3, Svelte 5.57.2,
-[@gost-kit/common 0.3.0](https://www.npmjs.com/package/@gost-kit/common/v/0.4.0)
-and [@gost-kit/svelte 0.2.0](https://www.npmjs.com/package/@gost-kit/svelte/v/0.3.0).
+[@gost-kit/common 0.4.0](https://www.npmjs.com/package/@gost-kit/common/v/0.4.0)
+and [@gost-kit/svelte 0.3.0](https://www.npmjs.com/package/@gost-kit/svelte/v/0.3.0).
 Both gost-kit packages require Node ^26.0.0; shell's peer is Svelte ^5.57.2.
 Read the consumer's actual public exports/types before adapting this example.
 No library workspace import or automatic upgrade is needed.
