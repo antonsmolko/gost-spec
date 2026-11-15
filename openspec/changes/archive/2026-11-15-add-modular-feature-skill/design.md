@@ -533,3 +533,55 @@ Final independent bookkeeping reconciliation PASS: all five live reply targets
 resolve to unique R1–R5 ledger anchors; I2 is fixed and retained in the canonical
 table. The reviewer checked the final status/receipt diff and live #88/PR #104
 body/aggregate. No open findings. This reconciliation changes no plugin payload.
+
+
+## Archive and sync — 2026-11-15
+
+Owner explicitly approved merge of PR #104, delivered as main
+`f45ef7aa50cc3b5ea7451bb8b338edd369c608fc`. Its complete tree matches reviewed
+HEAD 69a46f2; plugin bytes match native-verified 21a89d3. After merge, main passed
+root 121/121, strict 14/14 and link audit 165/292/28/0. Live #88 was closed for
+delivered implementation; all six readiness checkboxes were completed without
+changing their wording or related scope. Earlier sections record named snapshots.
+
+The owner selected sync and archive. All artifacts and 7/7 tasks were complete;
+one ADDED-only delta introduced modular-feature-development. Its new main spec
+keeps Purpose and all 8 requirements / 16 scenarios verbatim, changing only H1
+and the Requirements section header. Post-sync comparison leaves nothing to
+apply. The whole change directory, including .openspec.yaml, moved to
+2026-11-15-add-modular-feature-skill. Incoming queue/handoff links and current
+statuses were updated. No plugin, fixture, normative package, version, tag,
+proposed-content acceptance or application changed in this documentation outcome.
+
+### Archive GitHub issue edits
+
+The closed #88 checkpoint will record this archive/sync PR and its verification;
+implementation criteria, closure reason and previous review dispositions stay
+unchanged. Delivery to main is reported only after separately approved merge.
+Release preparation is the next independent workflow step, including #102.
+
+
+### Archive verification
+
+Author checks pass: root npm run check 121/121; openspec validate --specs --strict
+6/6 and --all --strict 14/14; marked audit 166 Markdown / 294 local links /
+28 fragments / 0 errors; diff --check clean. Main spec equals the archived delta
+with only the two required header transformations. Active change list excludes
+add-modular-feature-skill. Git stages the complete move as five renames, preserving
+metadata and earlier records. Plugins, fixtures, packages, catalogs, changesets
+and root manifests/lockfile are byte-unchanged from main f45ef7a.
+
+Separate consistency audit covers the complete diff, all Markdown incoming paths,
+existing FC/presenter/distribution main specs and live #88 closure/checkpoint.
+No changed architecture contract or new release claim is introduced. Previous
+review findings/closures remain recorded in the archived canonical ledger.
+
+
+Independent archive review PASS, no actionable findings. Public basis: #88,
+merged PR #104 and this change's requirements; the separate review report is
+private input, not a public basis. The reviewer independently checked exact
+archive/main-spec bytes, complete diff and unchanged representations/products,
+strict 14/14, links 166/294/28/0, metadata/distribution and diff checks. The full
+121/121 author check log was inspected, not independently rerun. All five resolved
+PR #104 threads, ten empty summary reviews, two PR comments and five issue
+comments were reconciled; previous confirmed closures remain closed.
