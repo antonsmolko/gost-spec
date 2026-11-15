@@ -533,3 +533,138 @@ Final independent bookkeeping reconciliation PASS: all five live reply targets
 resolve to unique R1–R5 ledger anchors; I2 is fixed and retained in the canonical
 table. The reviewer checked the final status/receipt diff and live #88/PR #104
 body/aggregate. No open findings. This reconciliation changes no plugin payload.
+
+
+## Archive and sync — 2026-11-15
+
+Owner explicitly approved merge of PR #104, delivered as main
+`f45ef7aa50cc3b5ea7451bb8b338edd369c608fc`. Its complete tree matches reviewed
+HEAD 69a46f2; plugin bytes match native-verified 21a89d3. After merge, main passed
+root 121/121, strict 14/14 and link audit 165/292/28/0. Live #88 was closed for
+delivered implementation; all six readiness checkboxes were completed without
+changing their wording or related scope. Earlier sections record named snapshots.
+
+The owner selected sync and archive. All artifacts and 7/7 tasks were complete;
+one ADDED-only delta introduced modular-feature-development. Its new main spec
+keeps Purpose and all 8 requirements / 16 scenarios verbatim, changing only H1
+and the Requirements section header. Post-sync comparison leaves nothing to
+apply. The whole change directory, including .openspec.yaml, moved to
+2026-11-15-add-modular-feature-skill. Incoming queue/handoff links and current
+statuses were updated. No plugin, fixture, normative package, version, tag,
+proposed-content acceptance or application changed in this documentation outcome.
+
+### Archive GitHub issue edits
+
+The closed #88 checkpoint records archive/sync PR #105 and its verification;
+implementation criteria, closure reason and previous review dispositions stay
+unchanged. Delivery to main is reported only after separately approved merge.
+Release preparation is the next independent workflow step, including #102.
+
+
+### Archive verification
+
+Author checks pass: root npm run check 121/121; openspec validate --specs --strict
+6/6 and --all --strict 14/14; marked audit 166 Markdown / 294 local links /
+28 fragments / 0 errors; diff --check clean. Fragment checking uses marked
+lexer/walkTokens and GitHub-style heading slugs: remove HTML tags, lowercase,
+remove punctuation except Unicode letters/numbers, underscores, hyphens and
+whitespace, then replace each whitespace character with one hyphen (no whitespace
+collapsing). Repeated heading slugs receive -1, -2, etc. in document order.
+For example, Review round — 2026-11-01 resolves to review-round--2026-11-01.
+This describes this audit's method, not a replacement consumer tool.
+Main spec equals the archived delta
+with only the two required header transformations. Active change list excludes
+add-modular-feature-skill. Git stages the complete move as five renames, preserving
+metadata and earlier records. Plugins, fixtures, packages, catalogs, changesets
+and root manifests/lockfile are byte-unchanged from main f45ef7a.
+
+Separate consistency audit covers the complete diff, all Markdown incoming paths,
+existing FC/presenter/distribution main specs and live #88 closure/checkpoint.
+No changed architecture contract or new release claim is introduced. Previous
+review findings/closures remain recorded in the archived canonical ledger.
+
+
+Independent archive review PASS, no actionable findings. Public basis: #88,
+merged PR #104 and this change's requirements; the separate review report is
+private input, not a public basis. The reviewer independently checked exact
+archive/main-spec bytes, complete diff and unchanged representations/products,
+strict 14/14, links 166/294/28/0, metadata/distribution and diff checks. The full
+121/121 author check log was inspected, not independently rerun. All five resolved
+PR #104 threads, ten empty summary reviews, two PR comments and five issue
+comments were reconciled; previous confirmed closures remain closed.
+
+
+### Archive PR checkpoint
+
+[PR #105](https://github.com/antonsmolko/gost-spec/pull/105) presents the verified
+archive/sync outcome; it is not merged. Live #88 retains completed implementation
+closure and unchanged criteria, and records this PR/check counts. Its current
+canonical-ledger URL now targets this archive in the PR branch; historical
+review source links/records stay intact. Queue/handoff link the same PR and name
+release preparation as the next separate step. No release/content approval is
+inferred from this checkpoint update.
+
+#### Post-merge canonical-link follow-up
+
+The agent completing the separately approved PR #105 merge owns this follow-up
+in the same merge session, before branch cleanup; release preparation is not its
+carrier. Obtain the actual merge commit SHA from GitHub, fetch origin/main and
+verify the commit is delivered there and contains the archived design.md. Only
+then replace the current canonical-ledger URLs in closed #88 and PR #105 body
+with blob/<delivered-main-SHA>/openspec/changes/archive/2026-11-15-add-modular-feature-skill/design.md,
+preserving their fragments. Verify each target file/fragment against that exact
+commit, record delivery and link verification in #88/PR #105, and retain issue
+criteria, closure and earlier review source records. These immutable URLs must
+remain valid after deleting the head branch.
+
+If merge approval, confirmed SHA, main ancestry, file or fragment verification
+is missing, do not invent a delivered URL or report this follow-up complete.
+Keep it pending, retain the branch and state the failed check for retry in this
+merge workflow. No package/tag publication or proposed-content acceptance is
+included. This requirement applies to current canonical-ledger links, not a
+rewrite of historical comments or pinned review evidence.
+
+Initial independent final bookkeeping rereview PASS: the complete three-file link/status
+diff, live closed #88 with six unchanged checked criteria, open/unmerged PR #105
+and current archive-ledger URL agree. Links 166/294/28/0 and diff check were
+independently rerun; no open findings or spec/payload changes.
+
+
+## PR #105 review round
+
+Read both inline threads (hasNextPage=false), two empty summary reviews,
+PR description and the empty PR-comment list, plus current #88 body/comments.
+Previous confirmed findings and archive-review closures remain closed. This
+round changes documentation and the recorded merge follow-up only; no runtime,
+verification gate, specification text or plugin/package payload is changed.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr105-f1"></a> [PR105-F1](https://github.com/antonsmolko/gost-spec/pull/105#discussion_r4577472123) | Current canonical URLs depend on the PR branch with no recorded merge follow-up | archived design, handoff, #88 checkpoint, PR #105 body | Fixed | Explicit same-merge-session owner, verified delivered-main SHA, both URL replacements, file/fragment checks and pending/failure behavior; cleanup follows successful verification |
+| <a id="pr105-f2"></a> [PR105-F2](https://github.com/antonsmolko/gost-spec/pull/105#discussion_r4577472602) | Fragment audit results omit the slug algorithm | Archive verification and PR #105 validation notes | Fixed | Actual marked/heading method documented: one whitespace character to one hyphen, no collapsing, duplicate suffixes; current audit rerun with that method |
+
+### PR #105 review issue edits
+
+Closed #88 gains the explicit post-merge canonical-link follow-up for this PR;
+its current branch URL remains a truthful pre-merge target until delivery is
+verified. The PR body points to this canonical round and records the same
+follow-up/method. Six checked criteria, completed closure, dependencies and prior
+review dispositions remain unchanged. No release-preparation issue owns this
+link repair; the PR #105 merge session does.
+
+
+Review-round verification: root npm run check 121/121, strict OpenSpec 14/14,
+marked audit 166/294/28/0 using the method above; diff --check clean. Separate
+complete-diff/contract audit covers the new follow-up, handoff, current #88/PR
+#105 representations and existing main specs. No normative/specification text,
+source artifacts, package/plugin versions, release tags or issue criteria change.
+
+
+Independent review of the complete updated result PASS; no actionable findings.
+Public basis is PR105-F1/F2 and #88; the separate review report is private input,
+not a public basis. The reviewer read the full PR diff, live updated #88/PR #105,
+all new review sources and the actual audit implementation; independently ran
+strict 14/14, links 166/294/28/0, metadata/distribution and diff checks, and
+inspected the fresh 121/121 author log. Prior closures remain closed. Inline
+replies use each F1/F2 row's unique anchor; the aggregate covers both summaries.
+The post-merge URL follow-up is still pending separately approved PR #105 merge.
