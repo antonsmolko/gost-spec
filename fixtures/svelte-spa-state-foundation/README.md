@@ -32,7 +32,7 @@ Each external evaluation copy must retain this web-server policy.
 
 For an evaluation, copy this directory to an external temporary directory,
 excluding `node_modules`, `dist`, `test-results` and `playwright-report`. Install
-dependencies there. Use registry packages `@gost-kit/common@0.3.0` and `@gost-kit/svelte@0.2.0`
+dependencies there. Use registry packages `@gost-kit/common@0.4.0` and `@gost-kit/svelte@0.3.0`
 for the published baseline (Node 26, Svelte 5.57.2). Record actual installed
 metadata and integrity. Supplied tarballs from a recorded revision remain an
 alternative with separately verified compatibility. Let the agent perform

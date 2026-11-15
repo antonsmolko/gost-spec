@@ -6,9 +6,7 @@
   const view = $derived(usersPresenter({ input: store.state['users-list'], labels }));
 </script>
 
-<label>Search <input value={view.query} oninput={(event) => void store.dispatch({
-  scope: 'directory', type: 'QueryChangedAction', query: event.currentTarget.value,
-})} /></label>
+<label>Search <input value={view.query} oninput={(event) => void store.dispatch("directory/QueryChangedAction", { query: event.currentTarget.value })} /></label>
 {#if view.loading}<p>{view.message}</p>
 {:else if view.failed}<p role="alert">{view.message}</p>
 {:else if view.empty}<p>{view.message}</p>

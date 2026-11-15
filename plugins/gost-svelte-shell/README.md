@@ -168,5 +168,5 @@ The updated recipe keeps root composition and typed access in a separate store
 module, with one provider per application root. Its disposable probe covers
 shared descendants, effect result actions, explicit full/excluded reset, factory
 and reporter failures, isolated roots and missing provider.
-The published-package baseline is common 0.3.0 / Svelte binding 0.2.0 on Node 26;
+The published-package baseline is common 0.4.0 / Svelte binding 0.3.0 on Node 26;
 check the recipe and consumer environment before integration.

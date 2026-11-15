@@ -5,7 +5,7 @@ import { rootState } from './app/state.js';
 
 const handlers = define.reducer<AppState, AppAction, AppEffect>()({
   SetThemeAction: ({ state, action }) => ({
-    state: { ...state, preferences: { theme: action.theme } },
+    state: { ...state, preferences: { theme: action.payload.theme } },
   }),
 });
 export const reducer = reducing<AppState, AppAction, AppEffect>({ root: handlers });

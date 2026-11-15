@@ -1,8 +1,8 @@
 # Modular feature recipe
 
 Checked on Node 26.11.1, TypeScript 5.9.3, Svelte 5.57.2,
-[@gost-kit/common 0.3.0](https://www.npmjs.com/package/@gost-kit/common/v/0.3.0)
-and [@gost-kit/svelte 0.2.0](https://www.npmjs.com/package/@gost-kit/svelte/v/0.2.0).
+[@gost-kit/common 0.3.0](https://www.npmjs.com/package/@gost-kit/common/v/0.4.0)
+and [@gost-kit/svelte 0.2.0](https://www.npmjs.com/package/@gost-kit/svelte/v/0.3.0).
 Both gost-kit packages require Node ^26.0.0; shell's peer is Svelte ^5.57.2.
 Read the consumer's actual public exports/types before adapting this example.
 No library workspace import or automatic upgrade is needed.
@@ -85,7 +85,7 @@ negative common→scenario/peer/cycle cases, not just a successful compile.
 it performs no request or mapping. `createApiEffector` at application level uses
 the generic client and generated schema, applies the operation mapper and then
 dispatches the result of `onSuccess(domainData)`. `onError(errors, failure)` returns
-an error action. ApiError is the published AppError shape: code/message strings
+`{ action: namespaceAndAction, payload }` for the error result. ApiError is the published AppError shape: code/message strings
 and readonly string[] path. Raw client requests still return DTOs; operation
 mapping belongs to effect execution.
 
@@ -101,6 +101,17 @@ requests. The app integration harness uses real common client/effector with
 injected fetch. `store/application.ts` is the non-Svelte test harness, not another
 store for the UI. Browser code uses one real shell store from create-store.ts.
 `await dispatch` completing is not business success; check result actions/state.
+
+### Typed intents and reducer inputs
+
+UI calls use `store.dispatch('registration/NameChangedAction', { name })`.
+API callbacks return `{ action: 'registration/CreatedAction', payload: { user } }`;
+the application API handler dispatches that object. Reducers receive
+`{ scope, type, payload }` and read `action.payload.user`. Direct reducer unit tests
+use the internal shape; callback assertions use the dispatch shape. The complete
+example includes both call forms and negative payload/namespace/root-path type
+checks. Root paths are explicit `root/Action`; required payloads are mandatory,
+while no-data or all-optional payloads may be omitted.
 
 ### Opening and navigation
 

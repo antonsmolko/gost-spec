@@ -6,7 +6,7 @@ import { createState, type CreateState } from './state.ts';
 
 export const createReducer = define.reducer<CreateState, CreateAction, RootEffect, RootState>()({
   EnterAction: () => ({ state: createState() }),
-  NameChangedAction: ({ state, action }) => ({ state: { ...state, name: action.name } }),
+  NameChangedAction: ({ state, action }) => ({ state: { ...state, name: action.payload.name } }),
   SubmitAction: ({ state }) => {
     const name = state.name.trim();
     if (!name) return { state: { ...state, status: 'error', errors: [
@@ -17,14 +17,14 @@ export const createReducer = define.reducer<CreateState, CreateAction, RootEffec
       effects: createApiEffect(createUser, {
         body: { name },
         defaultError: { code: 'CREATE_FAILED', message: 'Could not create user', path: [] },
-        onSuccess: (user) => ({ scope: 'registration', type: 'CreatedAction', user }),
-        onError: (errors) => ({ scope: 'registration', type: 'FailedAction', errors }),
+        onSuccess: (user) => ({ action: 'registration/CreatedAction', payload: { user } }),
+        onError: (errors) => ({ action: 'registration/FailedAction', payload: { errors } }),
       }),
     };
   },
   CreatedAction: ({ state, action }) => ({
-    state: { ...state, status: 'ready', created: action.user, errors: [] },
+    state: { ...state, status: 'ready', created: action.payload.user, errors: [] },
     effects: { type: 'NavigateEffect', to: 'list' },
   }),
-  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', errors: action.errors } }),
+  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', errors: action.payload.errors } }),
 });

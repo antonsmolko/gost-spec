@@ -27,7 +27,7 @@ test('construction is pure; async mapper runs after request and yields domain ac
     return Response.json({ user_id: 7, full_name: 'Ada' });
   });
   assert.deepEqual(events, ['request', 'map']);
-  assert.deepEqual(actions, [{ type: 'UserLoadedAction', user: { id: '7', name: 'Ada' } }]);
+  assert.deepEqual(actions, [{ action: 'root/UserLoadedAction', payload: { user: { id: '7', name: 'Ada' } } }]);
 });
 
 test('same global handler executes another operation and distinct result type', async () => {
@@ -36,7 +36,7 @@ test('same global handler executes another operation and distinct result type', 
     assert.equal(request.url, 'https://api.example.invalid/total');
     return Response.json(42);
   });
-  assert.deepEqual(actions, [{ type: 'TotalLoadedAction', total: 42 }]);
+  assert.deepEqual(actions, [{ action: 'root/TotalLoadedAction', payload: { total: 42 } }]);
 });
 
 for (const [kind, fetch] of [
@@ -51,9 +51,9 @@ for (const [kind, fetch] of [
     const actions = await execute(effect, fetch);
     assert.equal(mappings, 0);
     assert.equal(actions.length, 1);
-    assert.equal(actions[0].type, 'LoadFailedAction');
-    assert.deepEqual(actions[0].errors, [defaultError]);
-    assert.equal(actions[0].failure.kind, kind);
+    assert.equal(actions[0].action, 'root/LoadFailedAction');
+    assert.deepEqual(actions[0].payload.errors, [defaultError]);
+    assert.equal(actions[0].payload.failure.kind, kind);
   });
 }
 for (const [name, mapper] of [
@@ -62,9 +62,7 @@ for (const [name, mapper] of [
 ]) {
   test(`mapper ${name} becomes contract failure with default error`, async () => {
     const actions = await execute(makeUserEffect(userOperation(mapper)), async () => Response.json({}));
-    assert.deepEqual(actions, [{
-      type: 'LoadFailedAction', errors: [defaultError], failure: { kind: 'contract', errors: [] },
-    }]);
+    assert.deepEqual(actions, [{ action: 'root/LoadFailedAction', payload: { errors: [defaultError], failure: { kind: 'contract', errors: [] } } }]);
   });
 }
 
@@ -73,7 +71,7 @@ test('callback exception propagates unchanged rather than becoming API error act
   let errorCalls = 0;
   const effect = createApiEffect(loadTotal, {
     defaultError, onSuccess: () => { throw error; },
-    onError: () => { errorCalls++; return { type: 'LoadFailedAction' }; },
+    onError: () => { errorCalls++; return { action: 'root/LoadFailedAction' }; },
   });
   await assert.rejects(execute(effect, async () => Response.json(1)), (actual) => actual === error);
   assert.equal(errorCalls, 0);

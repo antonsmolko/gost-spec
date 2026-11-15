@@ -6,8 +6,8 @@ import { listState, type ListState } from './state.ts';
 
 const loadEffect = () => createApiEffect(listUsers, {
       defaultError: { code: 'LIST_FAILED', message: 'Could not load users', path: [] },
-      onSuccess: (rows) => ({ scope: 'directory', type: 'LoadedAction', rows }),
-      onError: (errors) => ({ scope: 'directory', type: 'FailedAction', errors }),
+      onSuccess: (rows) => ({ action: 'directory/LoadedAction', payload: { rows } }),
+      onError: (errors) => ({ action: 'directory/FailedAction', payload: { errors } }),
     });
 
 export const listReducer = define.reducer<ListState, ListAction, RootEffect, RootState>()({
@@ -16,7 +16,7 @@ export const listReducer = define.reducer<ListState, ListAction, RootEffect, Roo
     state: { ...state, status: 'loading', rows: [], errors: [] },
     effects: loadEffect(),
   }),
-  QueryChangedAction: ({ state, action }) => ({ state: { ...state, query: action.query } }),
-  LoadedAction: ({ state, action }) => ({ state: { ...state, status: 'ready', rows: action.rows, errors: [] } }),
-  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', rows: [], errors: action.errors } }),
+  QueryChangedAction: ({ state, action }) => ({ state: { ...state, query: action.payload.query } }),
+  LoadedAction: ({ state, action }) => ({ state: { ...state, status: 'ready', rows: action.payload.rows, errors: [] } }),
+  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', rows: [], errors: action.payload.errors } }),
 });

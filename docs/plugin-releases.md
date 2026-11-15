@@ -25,6 +25,11 @@ list/discovery/details, selected ref/clone HEAD and every installed file of all
 four plugins. See the [release evidence](../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release).
 These checks do not invoke a model or apply a skill to asc-admin.
 
+Source candidates FC 0.3.0 / shell 0.4.0 / feature 0.2.0 update compatibility to
+common 0.4.0 / svelte 0.3.0. They are not published. Their source recipes must not
+be attributed to the immutable release listed above; upgrading marketplace
+registration to a nonexistent future tag is not an installation path.
+
 ## Install the current release
 
 For a fresh registration, the feature tag selects all four plugin versions:

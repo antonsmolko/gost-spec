@@ -30,9 +30,9 @@ describe('listReducer', () => {
       assert.ok(effect.type === 'ApiEffect' && effect.method === 'get');
       assert.equal(effect.url, '/users');
       assert.ok(effect.onSuccess && effect.onError);
-      assert.deepEqual(effect.onSuccess([user()]), { scope: 'directory', type: 'LoadedAction', rows: [user()] });
+      assert.deepEqual(effect.onSuccess([user()]), { action: 'directory/LoadedAction', payload: { rows: [user()] } });
       const errors = [{ code: 'OFFLINE', message: 'offline', path: [] }];
-      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), { scope: 'directory', type: 'FailedAction', errors });
+      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), { action: 'directory/FailedAction', payload: { errors } });
     });
     test('preserves input and neighbouring slices', () => {
       assert.equal(before['users-list'].status, 'idle');
@@ -43,7 +43,7 @@ describe('listReducer', () => {
   });
   describe('LoadedAction', () => {
     const { state, effects } = rootReducer(rootState({ 'users-list': listState({ status: 'loading' }) }),
-      { scope: 'directory', type: 'LoadedAction', rows: [user()] });
+      { scope: 'directory', type: 'LoadedAction', payload: { rows: [user()] } });
     test('stores domain rows and returns no effects', () => {
       assert.equal(state['users-list'].status, 'ready');
       assert.deepEqual(state['users-list'].rows, [user()]);
@@ -53,7 +53,7 @@ describe('listReducer', () => {
   describe('FailedAction', () => {
     const errors = [{ code: 'FAILED', message: 'Could not load', path: [] }];
     const { state } = rootReducer(rootState({ 'users-list': listState({ status: 'loading' }) }),
-      { scope: 'directory', type: 'FailedAction', errors });
+      { scope: 'directory', type: 'FailedAction', payload: { errors } });
     test('stores errors unchanged', () => {
       assert.equal(state['users-list'].status, 'error');
       assert.equal(state['users-list'].errors, errors);

@@ -1,8 +1,8 @@
 # Public API recipe
 
-Checked against registry-installed `@gost-kit/common@0.3.0` on Node `26.11.1`,
+Checked against registry-installed `@gost-kit/common@0.4.0` on Node `26.11.1`,
 TypeScript `5.9.3` and `@types/node@26.6.5`. The package requires Node `^26.0.0`.
-The [published package](https://www.npmjs.com/package/@gost-kit/common/v/0.3.0)
+The [published package](https://www.npmjs.com/package/@gost-kit/common/v/0.4.0)
 is the verified baseline; inspect the consumer's installed exports/types and
 environment before adapting code. Other versions require their own checks.
 Do not silently upgrade a consumer to match this example.
@@ -76,6 +76,19 @@ feature layout. Data definitions import domain types only; do not import reducer
 or actions into an operation. Cross-file imports between these app contract
 modules are type-only. The feature reducer imports its existing operation as a runtime value; unit tests
 import the existing state factories as runtime values.
+
+The existing root factory used by reducer tests composes fresh feature defaults:
+
+```ts
+// src/app/state.ts
+import { define } from '@gost-kit/common';
+import type { RootState } from './contracts.js';
+import { createUserState } from '../features/user/fc/state.js';
+
+export const rootState = define.state<RootState>((options = {}) => ({
+  user: createUserState(), preferences: { theme: 'dark' }, ...options,
+}));
+```
 
 The existing app-level handler uses the public library implementation:
 
@@ -160,8 +173,8 @@ import type { ApiError, User } from '../../../app/contracts.js';
 
 export type UserAction =
   | { type: 'LoadAction' }
-  | { type: 'SuccessReceiveAction'; response: User }
-  | { type: 'ErrorReceiveAction'; errors: ApiError[] };
+  | { type: 'SuccessReceiveAction'; payload: { response: User } }
+  | { type: 'ErrorReceiveAction'; payload: { errors: ApiError[] } };
 ```
 
 ### reducer.ts
@@ -179,15 +192,15 @@ export const userReducer = define.reducer<UserState, UserAction, RootEffect, Roo
     effects: createApiEffect(loadUser, {
       body: { email: state.email },
       defaultError: { code: 'USER_LOAD_FAILED', message: 'Could not load user', path: [] },
-      onSuccess: (response) => ({ scope: 'users', type: 'SuccessReceiveAction', response }),
-      onError: (errors) => ({ scope: 'users', type: 'ErrorReceiveAction', errors }),
+      onSuccess: (response) => ({ action: 'users/SuccessReceiveAction', payload: { response } }),
+      onError: (errors) => ({ action: 'users/ErrorReceiveAction', payload: { errors } }),
     }),
   }),
   SuccessReceiveAction: ({ state, action }) => ({
-    state: { ...state, status: 'ready', data: action.response, errors: [] },
+    state: { ...state, status: 'ready', data: action.payload.response, errors: [] },
   }),
   ErrorReceiveAction: ({ state, action }) => ({
-    state: { ...state, status: 'error', errors: action.errors },
+    state: { ...state, status: 'error', errors: action.payload.errors },
   }),
 });
 ```
@@ -203,7 +216,8 @@ import { rootState } from '../../../app/state.js';
 import { userReducer } from './reducer.js';
 import { createUserState } from './state.js';
 
-const reducer = reducing<RootState, RootAction, RootEffect>({ users: scope('user', userReducer) });
+type UserRoutedAction = Extract<RootAction, { scope: 'users' }>;
+const reducer = reducing<RootState, UserRoutedAction, RootEffect>({ users: scope('user', userReducer) });
 
 describe('userReducer', () => {
   describe('LoadAction', () => {
@@ -230,12 +244,8 @@ describe('userReducer', () => {
       assert.ok(effect.onSuccess && effect.onError);
       const response = { id: 'one', name: 'Ada' };
       const errors = [{ code: 'OFFLINE', message: 'offline', path: [] }];
-      assert.deepEqual(effect.onSuccess(response), {
-        scope: 'users', type: 'SuccessReceiveAction', response,
-      });
-      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), {
-        scope: 'users', type: 'ErrorReceiveAction', errors,
-      });
+      assert.deepEqual(effect.onSuccess(response), { action: 'users/SuccessReceiveAction', payload: { response } });
+      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), { action: 'users/ErrorReceiveAction', payload: { errors } });
     });
     test('preserves the input and neighbouring state', () => {
       assert.equal(before.user.status, 'idle');
@@ -248,7 +258,7 @@ describe('userReducer', () => {
     const response = { id: 'one', name: 'Ada' };
     const { state, effects } = reducer(
       rootState({ user: createUserState({ status: 'loading' }) }),
-      { scope: 'users', type: 'SuccessReceiveAction', response },
+      { scope: 'users', type: 'SuccessReceiveAction', payload: { response } },
     );
     test('sets ready status', () => {
       assert.equal(state.user.status, 'ready');
@@ -272,7 +282,7 @@ describe('userReducer', () => {
         const errors = [error];
         const { state, effects } = reducer(
           rootState({ user: createUserState({ status: 'loading' }) }),
-          { scope: 'users', type: 'ErrorReceiveAction', errors },
+          { scope: 'users', type: 'ErrorReceiveAction', payload: { errors } },
         );
         test('sets error status', () => {
           assert.equal(state.user.status, 'error');
@@ -302,6 +312,53 @@ Before calling an API callback in a test, narrow its effect by `method` and
 when root operations contain several response types; their callback signatures
 form a union. Pass one concrete operation to `createApiEffect`; narrow a union
 before construction rather than hiding its route/parameter correlation with a cast.
+
+Handler tables describe only their owned local action union. When an existing
+root union grows, keep its root handler table typed to root actions, rather than
+requiring it to handle every feature action. Reuse the existing complete root
+reducer in unit tests, or narrow a namespace-only test composition with
+`Extract<RootAction, { scope: 'users' }>` as above.
+
+## Dispatch inputs and reducer inputs
+
+Local declarations keep business data in `payload`. `ScopedActions` adds the
+routing namespace; it need not match the root state property. Prefer the string
+call form for UI and application intents:
+
+```ts
+// src/app/intents.ts
+import type { Dispatch } from '@gost-kit/common';
+import type { RootAction, User } from './contracts.js';
+
+export const requestUser = (dispatch: Dispatch<RootAction>) =>
+  dispatch('users/LoadAction');
+export const receiveUser = (dispatch: Dispatch<RootAction>, response: User) =>
+  dispatch('users/SuccessReceiveAction', { response });
+```
+
+The equivalent callback/object input is
+`{ action: 'users/SuccessReceiveAction', payload: { response } }`; it is typed by
+`DispatchAction<RootAction>`. `createApiEffect` infers callback dispatch objects;
+when supplying its generic success/error parameters explicitly, use the matching
+`DispatchAction<SuccessAction>` / `DispatchAction<ErrorAction>` types. The wider
+`ApiEffect<Operation, SuccessAction, ErrorAction>` contract still takes internal
+action unions. Do not substitute one generic contract for the other.
+
+Dispatch normalizes the path to `{ scope: 'users', type: 'SuccessReceiveAction',
+payload: { response } }` before calling the reducer. Direct reducer unit tests
+use that internal shape. API callback assertions check the external dispatch
+shape; they do not execute a request or dispatch. Callbacks are dispatched by
+the application `createApiEffector`, as in the existing example.
+
+An action without data omits payload. Required payloads cannot be omitted;
+all-optional object payloads may be omitted, so the reducer must handle an
+undefined payload in that case. Primitive and array payloads retain their
+declared types. Root calls use `root/Action`, including object callbacks. Keep
+namespace/action/payload correlated through public `Dispatch`/`DispatchAction`
+rather than maintaining a separate registry or widening to a generic string.
+Invalid runtime paths report `StoreError` kind `dispatch` with the original
+path and no normalized action. Execution failures have an internal action;
+business outcome still comes from result state/actions.
 
 ## FC contracts that matter
 

@@ -19,10 +19,10 @@ describe('createReducer', () => {
       assert.ok(effect.type === 'ApiEffect' && effect.method === 'post');
       assert.deepEqual(effect.body, { name: 'Ada' });
       assert.ok(effect.onSuccess && effect.onError);
-      assert.deepEqual(effect.onSuccess(user()), { scope: 'registration', type: 'CreatedAction', user: user() });
+      assert.deepEqual(effect.onSuccess(user()), { action: 'registration/CreatedAction', payload: { user: user() } });
       const errors = [{ code: 'INVALID', message: 'Invalid name', path: ['name'] }];
       assert.deepEqual(effect.onError(errors, { kind: 'http', errors, status: 400 }),
-        { scope: 'registration', type: 'FailedAction', errors });
+        { action: 'registration/FailedAction', payload: { errors } });
     });
   });
   describe('SubmitAction with blank name', () => {
@@ -35,7 +35,7 @@ describe('createReducer', () => {
   });
   describe('CreatedAction', () => {
     const { state, effects } = rootReducer(rootState({ 'users-create': createState({ status: 'loading' }) }),
-      { scope: 'registration', type: 'CreatedAction', user: user() });
+      { scope: 'registration', type: 'CreatedAction', payload: { user: user() } });
     test('stores domain result and describes app navigation', () => {
       assert.equal(state['users-create'].status, 'ready');
       assert.deepEqual(state['users-create'].created, user());
@@ -45,7 +45,7 @@ describe('createReducer', () => {
   describe('FailedAction', () => {
     const errors = [{ code: 'INVALID', message: 'Invalid name', path: ['name'] }];
     const { state, effects } = rootReducer(rootState({ 'users-create': createState({ status: 'loading' }) }),
-      { scope: 'registration', type: 'FailedAction', errors });
+      { scope: 'registration', type: 'FailedAction', payload: { errors } });
     test('stores API errors without navigation', () => {
       assert.equal(state['users-create'].status, 'error');
       assert.equal(state['users-create'].errors, errors);

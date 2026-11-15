@@ -17,7 +17,7 @@ export const createRootEffector = (transport: typeof fetch) => {
   // Synthetic application adapter. This is not a router/reset timing recipe.
   const navigation = define.effector<RootAction, NavigateEffect>({
     NavigateEffect: async ({ effect, dispatch }) => {
-      await dispatch({ scope: 'app', type: 'PageOpenedAction', page: effect.to });
+      await dispatch("app/PageOpenedAction", { page: effect.to });
       await dispatch(effect.to === 'list' ? enterList() : enterCreate());
     },
   });

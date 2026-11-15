@@ -40,6 +40,9 @@ links every rule to a complete synthetic users/list/create example. This new
 plugin is published as 0.1.0 alongside documentation patches FC 0.2.1,
 shell 0.3.1 and presenter 0.1.1 on the same immutable snapshot. See the
 [release guide](docs/plugin-releases.md) for availability before installation.
+The current source candidates update typed dispatch compatibility on
+common 0.4.0 / svelte 0.3.0: feature 0.2.0, FC 0.3.0 and shell 0.4.0.
+They are not yet released; the published tags above retain their original recipes.
 
 Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),

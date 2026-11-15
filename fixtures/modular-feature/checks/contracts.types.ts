@@ -13,9 +13,9 @@ createApiEffect(listUsers, {
   onSuccess: (rows) => {
     // @ts-expect-error mapped domain data does not expose wire fields
     rows[0].user_id;
-    return { type: 'ReceivedAction', rows };
+    return { action: 'root/ReceivedAction', payload: { rows } };
   },
 });
 // @ts-expect-error namespace and action membership are checked
-const invalid: RootAction = { scope: 'directory', type: 'CreatedAction', user: { id: '1', name: 'Ada' } };
+const invalid: RootAction = { scope: 'directory', type: 'CreatedAction', payload: { user: { id: '1', name: 'Ada' } } };
 void invalid;

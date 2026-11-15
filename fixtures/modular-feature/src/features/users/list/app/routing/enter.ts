@@ -1,2 +1,3 @@
+import type { DispatchAction } from '@gost-kit/common';
 import type { RootAction } from '../../../../../store/contracts.ts';
-export const enterList = (): RootAction => ({ scope: 'directory', type: 'EnterAction' });
+export const enterList = (): DispatchAction<RootAction> => ({ action: 'directory/EnterAction' });

@@ -40,8 +40,8 @@ are intentional; FC/data entrypoints and UI entrypoints are separate.
     "test:browser": "playwright test"
   },
   "dependencies": {
-    "@gost-kit/common": "0.3.0",
-    "@gost-kit/svelte": "0.2.0",
+    "@gost-kit/common": "0.4.0",
+    "@gost-kit/svelte": "0.3.0",
     "svelte": "5.57.2"
   },
   "devDependencies": {
@@ -196,8 +196,9 @@ export type { UserDto } from './data/dto/user.ts';
 ### `src/features/users/create/app/routing/enter.ts`
 
 ```ts
+import type { DispatchAction } from '@gost-kit/common';
 import type { RootAction } from '../../../../../store/contracts.ts';
-export const enterCreate = (): RootAction => ({ scope: 'registration', type: 'EnterAction' });
+export const enterCreate = (): DispatchAction<RootAction> => ({ action: 'registration/EnterAction' });
 ```
 
 ### `src/features/users/create/data/api/create-user.ts`
@@ -219,10 +220,10 @@ import type { AppError } from '@gost-kit/common';
 import type { User } from '../../../common/index.ts';
 export type CreateAction =
   | { type: 'EnterAction' }
-  | { type: 'NameChangedAction'; name: string }
+  | { type: 'NameChangedAction'; payload: { name: string } }
   | { type: 'SubmitAction' }
-  | { type: 'CreatedAction'; user: User }
-  | { type: 'FailedAction'; errors: AppError[] };
+  | { type: 'CreatedAction'; payload: { user: User } }
+  | { type: 'FailedAction'; payload: { errors: AppError[] } };
 ```
 
 ### `src/features/users/create/domain/fc/reducer.test.ts`
@@ -249,10 +250,10 @@ describe('createReducer', () => {
       assert.ok(effect.type === 'ApiEffect' && effect.method === 'post');
       assert.deepEqual(effect.body, { name: 'Ada' });
       assert.ok(effect.onSuccess && effect.onError);
-      assert.deepEqual(effect.onSuccess(user()), { scope: 'registration', type: 'CreatedAction', user: user() });
+      assert.deepEqual(effect.onSuccess(user()), { action: 'registration/CreatedAction', payload: { user: user() } });
       const errors = [{ code: 'INVALID', message: 'Invalid name', path: ['name'] }];
       assert.deepEqual(effect.onError(errors, { kind: 'http', errors, status: 400 }),
-        { scope: 'registration', type: 'FailedAction', errors });
+        { action: 'registration/FailedAction', payload: { errors } });
     });
   });
   describe('SubmitAction with blank name', () => {
@@ -265,7 +266,7 @@ describe('createReducer', () => {
   });
   describe('CreatedAction', () => {
     const { state, effects } = rootReducer(rootState({ 'users-create': createState({ status: 'loading' }) }),
-      { scope: 'registration', type: 'CreatedAction', user: user() });
+      { scope: 'registration', type: 'CreatedAction', payload: { user: user() } });
     test('stores domain result and describes app navigation', () => {
       assert.equal(state['users-create'].status, 'ready');
       assert.deepEqual(state['users-create'].created, user());
@@ -275,7 +276,7 @@ describe('createReducer', () => {
   describe('FailedAction', () => {
     const errors = [{ code: 'INVALID', message: 'Invalid name', path: ['name'] }];
     const { state, effects } = rootReducer(rootState({ 'users-create': createState({ status: 'loading' }) }),
-      { scope: 'registration', type: 'FailedAction', errors });
+      { scope: 'registration', type: 'FailedAction', payload: { errors } });
     test('stores API errors without navigation', () => {
       assert.equal(state['users-create'].status, 'error');
       assert.equal(state['users-create'].errors, errors);
@@ -296,7 +297,7 @@ import { createState, type CreateState } from './state.ts';
 
 export const createReducer = define.reducer<CreateState, CreateAction, RootEffect, RootState>()({
   EnterAction: () => ({ state: createState() }),
-  NameChangedAction: ({ state, action }) => ({ state: { ...state, name: action.name } }),
+  NameChangedAction: ({ state, action }) => ({ state: { ...state, name: action.payload.name } }),
   SubmitAction: ({ state }) => {
     const name = state.name.trim();
     if (!name) return { state: { ...state, status: 'error', errors: [
@@ -307,16 +308,16 @@ export const createReducer = define.reducer<CreateState, CreateAction, RootEffec
       effects: createApiEffect(createUser, {
         body: { name },
         defaultError: { code: 'CREATE_FAILED', message: 'Could not create user', path: [] },
-        onSuccess: (user) => ({ scope: 'registration', type: 'CreatedAction', user }),
-        onError: (errors) => ({ scope: 'registration', type: 'FailedAction', errors }),
+        onSuccess: (user) => ({ action: 'registration/CreatedAction', payload: { user } }),
+        onError: (errors) => ({ action: 'registration/FailedAction', payload: { errors } }),
       }),
     };
   },
   CreatedAction: ({ state, action }) => ({
-    state: { ...state, status: 'ready', created: action.user, errors: [] },
+    state: { ...state, status: 'ready', created: action.payload.user, errors: [] },
     effects: { type: 'NavigateEffect', to: 'list' },
   }),
-  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', errors: action.errors } }),
+  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', errors: action.payload.errors } }),
 });
 ```
 
@@ -384,8 +385,9 @@ export { default as CreatePage } from './pages/CreatePage.svelte';
 ### `src/features/users/list/app/routing/enter.ts`
 
 ```ts
+import type { DispatchAction } from '@gost-kit/common';
 import type { RootAction } from '../../../../../store/contracts.ts';
-export const enterList = (): RootAction => ({ scope: 'directory', type: 'EnterAction' });
+export const enterList = (): DispatchAction<RootAction> => ({ action: 'directory/EnterAction' });
 ```
 
 ### `src/features/users/list/data/api/list-users.ts`
@@ -412,9 +414,9 @@ import type { User } from '../../../common/index.ts';
 export type ListAction =
   | { type: 'EnterAction' }
   | { type: 'LoadAction' }
-  | { type: 'QueryChangedAction'; query: string }
-  | { type: 'LoadedAction'; rows: User[] }
-  | { type: 'FailedAction'; errors: AppError[] };
+  | { type: 'QueryChangedAction'; payload: { query: string } }
+  | { type: 'LoadedAction'; payload: { rows: User[] } }
+  | { type: 'FailedAction'; payload: { errors: AppError[] } };
 ```
 
 ### `src/features/users/list/domain/fc/reducer.test.ts`
@@ -452,9 +454,9 @@ describe('listReducer', () => {
       assert.ok(effect.type === 'ApiEffect' && effect.method === 'get');
       assert.equal(effect.url, '/users');
       assert.ok(effect.onSuccess && effect.onError);
-      assert.deepEqual(effect.onSuccess([user()]), { scope: 'directory', type: 'LoadedAction', rows: [user()] });
+      assert.deepEqual(effect.onSuccess([user()]), { action: 'directory/LoadedAction', payload: { rows: [user()] } });
       const errors = [{ code: 'OFFLINE', message: 'offline', path: [] }];
-      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), { scope: 'directory', type: 'FailedAction', errors });
+      assert.deepEqual(effect.onError(errors, { kind: 'network', errors: [] }), { action: 'directory/FailedAction', payload: { errors } });
     });
     test('preserves input and neighbouring slices', () => {
       assert.equal(before['users-list'].status, 'idle');
@@ -465,7 +467,7 @@ describe('listReducer', () => {
   });
   describe('LoadedAction', () => {
     const { state, effects } = rootReducer(rootState({ 'users-list': listState({ status: 'loading' }) }),
-      { scope: 'directory', type: 'LoadedAction', rows: [user()] });
+      { scope: 'directory', type: 'LoadedAction', payload: { rows: [user()] } });
     test('stores domain rows and returns no effects', () => {
       assert.equal(state['users-list'].status, 'ready');
       assert.deepEqual(state['users-list'].rows, [user()]);
@@ -475,7 +477,7 @@ describe('listReducer', () => {
   describe('FailedAction', () => {
     const errors = [{ code: 'FAILED', message: 'Could not load', path: [] }];
     const { state } = rootReducer(rootState({ 'users-list': listState({ status: 'loading' }) }),
-      { scope: 'directory', type: 'FailedAction', errors });
+      { scope: 'directory', type: 'FailedAction', payload: { errors } });
     test('stores errors unchanged', () => {
       assert.equal(state['users-list'].status, 'error');
       assert.equal(state['users-list'].errors, errors);
@@ -495,8 +497,8 @@ import { listState, type ListState } from './state.ts';
 
 const loadEffect = () => createApiEffect(listUsers, {
       defaultError: { code: 'LIST_FAILED', message: 'Could not load users', path: [] },
-      onSuccess: (rows) => ({ scope: 'directory', type: 'LoadedAction', rows }),
-      onError: (errors) => ({ scope: 'directory', type: 'FailedAction', errors }),
+      onSuccess: (rows) => ({ action: 'directory/LoadedAction', payload: { rows } }),
+      onError: (errors) => ({ action: 'directory/FailedAction', payload: { errors } }),
     });
 
 export const listReducer = define.reducer<ListState, ListAction, RootEffect, RootState>()({
@@ -505,9 +507,9 @@ export const listReducer = define.reducer<ListState, ListAction, RootEffect, Roo
     state: { ...state, status: 'loading', rows: [], errors: [] },
     effects: loadEffect(),
   }),
-  QueryChangedAction: ({ state, action }) => ({ state: { ...state, query: action.query } }),
-  LoadedAction: ({ state, action }) => ({ state: { ...state, status: 'ready', rows: action.rows, errors: [] } }),
-  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', rows: [], errors: action.errors } }),
+  QueryChangedAction: ({ state, action }) => ({ state: { ...state, query: action.payload.query } }),
+  LoadedAction: ({ state, action }) => ({ state: { ...state, status: 'ready', rows: action.payload.rows, errors: [] } }),
+  FailedAction: ({ state, action }) => ({ state: { ...state, status: 'error', rows: [], errors: action.payload.errors } }),
 });
 ```
 
@@ -674,9 +676,9 @@ export type RootState = {
   navigation: { page: Page }; preferences: { theme: 'dark' | 'light' };
 };
 export type AppAction =
-  | { type: 'NavigateAction'; to: Page }
-  | { type: 'PageOpenedAction'; page: Page }
-  | { type: 'SetThemeAction'; theme: 'dark' | 'light' };
+  | { type: 'NavigateAction'; payload: { to: Page } }
+  | { type: 'PageOpenedAction'; payload: { page: Page } }
+  | { type: 'SetThemeAction'; payload: { theme: 'dark' | 'light' } };
 export type RootAction = ScopedActions<{ directory: ListAction; registration: CreateAction; app: AppAction }>;
 export type RootApiOperation = typeof listUsers | typeof createUser;
 export type RootEffect = ApiEffect<RootApiOperation, RootAction, RootAction> | NavigateEffect;
@@ -723,7 +725,7 @@ export const createRootEffector = (transport: typeof fetch) => {
   // Synthetic application adapter. This is not a router/reset timing recipe.
   const navigation = define.effector<RootAction, NavigateEffect>({
     NavigateEffect: async ({ effect, dispatch }) => {
-      await dispatch({ scope: 'app', type: 'PageOpenedAction', page: effect.to });
+      await dispatch("app/PageOpenedAction", { page: effect.to });
       await dispatch(effect.to === 'list' ? enterList() : enterCreate());
     },
   });
@@ -746,9 +748,9 @@ import { createReducer } from '../features/users/create/index.ts';
 import type { AppAction, RootAction, RootEffect, RootState } from './contracts.ts';
 
 const appReducer = define.reducer<RootState, AppAction, RootEffect>()({
-  NavigateAction: ({ action }) => ({ effects: { type: 'NavigateEffect', to: action.to } }),
-  PageOpenedAction: ({ state, action }) => ({ state: { ...state, navigation: { page: action.page } } }),
-  SetThemeAction: ({ state, action }) => ({ state: { ...state, preferences: { theme: action.theme } } }),
+  NavigateAction: ({ action }) => ({ effects: { type: 'NavigateEffect', to: action.payload.to } }),
+  PageOpenedAction: ({ state, action }) => ({ state: { ...state, navigation: { page: action.payload.page } } }),
+  SetThemeAction: ({ state, action }) => ({ state: { ...state, preferences: { theme: action.payload.theme } } }),
 });
 export const rootReducer = reducing<RootState, RootAction, RootEffect>({
   directory: scope('users-list', listReducer),
@@ -785,12 +787,12 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const store = createApplicationStore((input, init) => transport(input, init));
   provideStore(store);
   const view = $derived(pagePresenter({ page: store.state.navigation.page }));
-  onMount(() => { void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'list' }); });
+  onMount(() => { void store.dispatch("app/NavigateAction", { to: 'list' }); });
 </script>
 
 <nav aria-label="Users navigation">
-  <button onclick={() => void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'list' })}>User list</button>
-  <button onclick={() => void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'create' })}>Create user</button>
+  <button onclick={() => void store.dispatch("app/NavigateAction", { to: 'list' })}>User list</button>
+  <button onclick={() => void store.dispatch("app/NavigateAction", { to: 'create' })}>Create user</button>
 </nav>
 {#if view.list}<ListPage />{:else if view.create}<CreatePage />{/if}
 ```
@@ -805,14 +807,12 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const view = $derived(createPresenter({ input: store.state['users-create'] }));
   const submit = (event: SubmitEvent) => {
     event.preventDefault();
-    void store.dispatch({ scope: 'registration', type: 'SubmitAction' });
+    void store.dispatch("registration/SubmitAction");
   };
 </script>
 
 <form onsubmit={submit}>
-  <label>Name <input value={view.name} disabled={view.disabled} oninput={(event) => void store.dispatch({
-    scope: 'registration', type: 'NameChangedAction', name: event.currentTarget.value,
-  })} /></label>
+  <label>Name <input value={view.name} disabled={view.disabled} oninput={(event) => void store.dispatch("registration/NameChangedAction", { name: event.currentTarget.value })} /></label>
   <button type="submit" disabled={view.disabled}>{view.button}</button>
 </form>
 {#if view.failed}<p role="alert">{view.error}</p>{/if}
@@ -839,9 +839,7 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const view = $derived(usersPresenter({ input: store.state['users-list'], labels }));
 </script>
 
-<label>Search <input value={view.query} oninput={(event) => void store.dispatch({
-  scope: 'directory', type: 'QueryChangedAction', query: event.currentTarget.value,
-})} /></label>
+<label>Search <input value={view.query} oninput={(event) => void store.dispatch("directory/QueryChangedAction", { query: event.currentTarget.value })} /></label>
 {#if view.loading}<p>{view.message}</p>
 {:else if view.failed}<p role="alert">{view.message}</p>
 {:else if view.empty}<p>{view.message}</p>
@@ -878,11 +876,11 @@ createApiEffect(listUsers, {
   onSuccess: (rows) => {
     // @ts-expect-error mapped domain data does not expose wire fields
     rows[0].user_id;
-    return { type: 'ReceivedAction', rows };
+    return { action: 'root/ReceivedAction', payload: { rows } };
   },
 });
 // @ts-expect-error namespace and action membership are checked
-const invalid: RootAction = { scope: 'directory', type: 'CreatedAction', user: { id: '1', name: 'Ada' } };
+const invalid: RootAction = { scope: 'directory', type: 'CreatedAction', payload: { user: { id: '1', name: 'Ada' } } };
 void invalid;
 ```
 
@@ -992,9 +990,9 @@ test('create maps DTO, navigates through app and list fetches fresh rows', async
     }
     return response([{ user_id: '1', full_name: 'Ada' }]);
   });
-  await app.dispatch({ scope: 'app', type: 'NavigateAction', to: 'create' });
-  await app.dispatch({ scope: 'registration', type: 'NameChangedAction', name: 'Ada' });
-  await app.dispatch({ scope: 'registration', type: 'SubmitAction' });
+  await app.dispatch("app/NavigateAction", { to: 'create' });
+  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
+  await app.dispatch("registration/SubmitAction");
   assert.deepEqual(calls, ['POST', 'GET']);
   assert.equal(app.state.navigation.page, 'list');
   assert.equal(app.state['users-list'].status, 'ready');
@@ -1010,7 +1008,7 @@ for (const sample of [
 ]) {
   test(sample.name + ' becomes error state without success', async () => {
     const app = createApplication(async () => response(sample.body, sample.status));
-    await app.dispatch({ scope: 'directory', type: 'LoadAction' });
+    await app.dispatch("directory/LoadAction");
     assert.equal(app.state['users-list'].status, 'error');
     assert.equal(app.state['users-list'].errors[0].code, sample.code);
     assert.deepEqual(app.state['users-list'].rows, []);
@@ -1020,11 +1018,26 @@ for (const sample of [
 
 test('network failure uses the configured fallback', async () => {
   const app = createApplication(async () => { throw new Error('offline'); });
-  await app.dispatch({ scope: 'registration', type: 'NameChangedAction', name: 'Ada' });
-  await app.dispatch({ scope: 'registration', type: 'SubmitAction' });
+  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
+  await app.dispatch("registration/SubmitAction");
   assert.equal(app.state['users-create'].status, 'error');
   assert.equal(app.state['users-create'].errors[0].code, 'CREATE_FAILED');
   assert.equal(app.state.navigation.page, 'list');
+});
+
+test('both dispatch forms feed payload to reducers and invalid paths report without changing state', async () => {
+  const app = createApplication(async () => response([]));
+  await app.dispatch('directory/QueryChangedAction', { query: 'Ada' });
+  assert.equal(app.state['users-list'].query, 'Ada');
+  await app.dispatch({ action: 'directory/QueryChangedAction', payload: { query: 'Grace' } });
+  assert.equal(app.state['users-list'].query, 'Grace');
+  const before = app.state;
+  // Simulate untyped external input at the runtime boundary, not ordinary application code.
+  await Reflect.apply(app.dispatch, undefined, ['invalid-path']);
+  assert.equal(app.state, before);
+  assert.equal(app.errors.length, 1);
+  assert.ok(typeof app.errors[0] === 'object' && app.errors[0] !== null);
+  assert.ok('kind' in app.errors[0] && app.errors[0].kind === 'dispatch');
 });
 ```
 
@@ -1153,4 +1166,46 @@ test('missing provider reports context failure without constructing a fallback',
   await page.goto('/?missing-provider');
   expect((await error).message).toMatch(/missing_context|Context was not set/);
 });
+```
+
+### `checks/dispatch.types.ts`
+
+```ts
+// Compile-only public dispatch contract; no widening or manual path registry.
+import type { Dispatch, DispatchAction, ScopedActions } from '@gost-kit/common';
+import type { RootAction } from '../src/store/contracts.ts';
+const check = (dispatch: Dispatch<RootAction>) => {
+  void dispatch('directory/QueryChangedAction', { query: 'Ada' });
+  void dispatch({ action: 'registration/NameChangedAction', payload: { name: 'Ada' } });
+  void dispatch('directory/LoadAction');
+  // @ts-expect-error required payload is missing
+  void dispatch('directory/QueryChangedAction');
+  // @ts-expect-error wrong payload for this namespace/action
+  void dispatch('directory/QueryChangedAction', { name: 'Ada' });
+  // @ts-expect-error namespace and action are correlated
+  void dispatch('directory/CreatedAction', { user: { id: '1', name: 'Ada' } });
+  // @ts-expect-error old flattened dispatch is not accepted
+  void dispatch({ scope: 'directory', type: 'LoadAction' });
+  // @ts-expect-error object form also requires the declared payload
+  void dispatch({ action: 'registration/NameChangedAction' });
+};
+type Extra = ScopedActions<{ root:
+  | { type: 'CountAction'; payload: number }
+  | { type: 'RowsAction'; payload: string[] }
+  | { type: 'OptionsAction'; payload: { query?: string } }
+}>;
+const payloadForms = (dispatch: Dispatch<Extra>) => {
+  void dispatch('root/CountAction', 3);
+  void dispatch({ action: 'root/RowsAction', payload: ['one'] });
+  void dispatch('root/OptionsAction');
+  void dispatch({ action: 'root/OptionsAction' });
+  // @ts-expect-error root namespace must be explicit
+  void dispatch('CountAction', 3);
+  // @ts-expect-error primitive payload must retain its type
+  void dispatch('root/CountAction', 'three');
+  // @ts-expect-error array payload cannot be replaced by an object
+  const invalid: DispatchAction<Extra> = { action: 'root/RowsAction', payload: {} };
+  void invalid;
+};
+void check; void payloadForms;
 ```

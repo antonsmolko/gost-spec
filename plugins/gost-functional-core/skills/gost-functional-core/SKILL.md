@@ -11,7 +11,7 @@ descriptions of existing application effects; application-level handlers execute
 them and dispatch the actions returned by callbacks. No UI framework is required.
 
 Read [the public API recipe](references/functional-core.md) before writing
-handlers or changing composition. It records the verified published common 0.3.0
+handlers or changing composition. It records the verified published common 0.4.0
 baseline; compatibility with the consumer's installed version is checked separately.
 
 ## Establish the available contracts
@@ -37,12 +37,17 @@ prerequisites. Limit changes to the requested feature and its root composition.
 - Route feature actions with `ScopedActions`. Local action declarations have
   no `scope`; composition adds it. Action namespace and state property may
   differ. Read root state through handler arguments, without hidden store imports.
+- Put action data in `payload`; reducers read `action.payload`. Prefer
+  `dispatch('namespace/Action', payload)` in application code; use `root/Action`
+  for root actions. API callbacks return `{ action: 'namespace/Action', payload }`,
+  which the application handler dispatches. See the recipe for both call forms
+  and payload omission rules; keep reducer inputs distinct from dispatch inputs.
 - Reuse existing application effect contracts, such as `ApiEffect`, `ModalEffect`,
   `AlertEffect` and `NavigateEffect`. Features do not define effect types or
   effectors. For an existing API effect, its success/error callbacks convert the
   response or API errors into feature result actions; the application handler
   invokes `dispatch` with those actions. In the verified published API,
-  `onSuccess(data)` and `onError(errors, failure)` return actions;
+  `onSuccess(data)` and `onError(errors, failure)` return dispatch inputs;
   `createApiEffect` binds one existing operation to parameters and callbacks;
   `createApiEffector` owns execution, dispatch and the `defaultError` fallback.
   DTO→domain mapping belongs to the operation definition, before `onSuccess`;

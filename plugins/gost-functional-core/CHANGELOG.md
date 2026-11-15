@@ -3,6 +3,10 @@
 Entries describe versioned content. Publication requires an existing approved
 immutable tag selecting a snapshot with this plugin and version.
 
+## 0.3.0 (unreleased)
+
+- Use published common 0.4.0 typed dispatch paths and payload actions; update API callbacks and verified reducer/dispatch examples.
+
 ## 0.2.1
 
 - Clarify release availability and checked snapshot selection in README.
