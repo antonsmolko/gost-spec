@@ -9,13 +9,17 @@ separately. Existing data sources, callbacks and dependencies stay in place.
 
 ## Install a released snapshot
 
-Version 0.1.0 is unreleased. These commands require a separately approved,
-existing release tag:
+Manifests and changelog describe versioned content. Publication requires an
+existing approved immutable tag. Verify that the selected marketplace snapshot
+contains this plugin and the intended manifest version before installing.
+The plugin may be included in another plugin's release snapshot without a
+separate presenter tag; a version string does not establish availability.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-view-presenter-v0.1.0
+: "${GOST_RELEASE_TAG:?Set an existing approved tag containing gost-view-presenter}"
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
 codex plugin add gost-view-presenter@gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-view-presenter-v0.1.0'
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
 claude plugin install gost-view-presenter@gost
 ```
 
