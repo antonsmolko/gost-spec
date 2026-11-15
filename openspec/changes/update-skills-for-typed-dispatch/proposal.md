@@ -3,7 +3,7 @@
 ## Why
 
 [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) updates consumer
-instructions after implemented gost-kit #44/#46 and published common 0.4.0 /
+instructions after implemented gost-kit #44/PR #45 and published common 0.4.0 /
 svelte 0.3.0. Current FC/shell/feature examples use the previous flattened action
 shape and cannot safely guide an application on the new packages.
 

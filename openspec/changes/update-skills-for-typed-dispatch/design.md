@@ -28,8 +28,8 @@ negative namespace/action/payload pairs through public types. Invalid runtime
 paths report through existing onError; awaited effects/nested dispatch still
 complete before the caller resumes. Keep reset/factory/context contracts intact.
 The inspected common 0.4.0 artifact does not export formatStoreError or
-FormattedStoreError. Although #46 is closed, it is not evidence that those
-exports exist in this release. These examples use neither; retain the existing
+FormattedStoreError. Related #46 is closed as not planned; its closure is not
+evidence that those exports exist in this release. These examples use neither; retain the existing
 application reporter and do not invent an import or claim the formatter is
 published. The new kind dispatch branch is handled by its actual path contract.
 Missing/incompatible artifacts fail compatibility readiness rather than silently
@@ -128,3 +128,101 @@ Live #109 checkpoint is updated without reopening #88/#96/#97 or changing their
 acceptance criteria. Complete-result independent review is required before the
 implementation is presented as ready; native candidate verification, if performed,
 is recorded separately from registry consumer behavior and release availability.
+
+### Native candidate delivery
+
+Public source `698e40d` on branch `feature/gost-spec-109-dispatch-compatibility`
+was pushed before installation. In separate fresh Codex 0.169.0 / Claude Code
+2.1.308 profiles, each host registered that public branch, installed all four
+plugins, repeated each installation, listed inventory and checked every installed
+file against git-show at the source commit. All eight complete maps matched;
+Codex fresh app-server discovery returned four unique enabled @gost skills and
+zero errors; Claude details showed Skills (1) for each. Both real selected config
+refs identify the branch and both clone HEADs identify the exact source commit.
+Personal before/after fingerprints match. Every native command exited zero;
+there were no retries in this candidate run.
+
+Exact Codex sequence, with a new CODEX_HOME and CLAUDE_CONFIG_DIR already created:
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref feature/gost-spec-109-dispatch-compatibility --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+done
+codex plugin list --json
+```
+
+A fresh codex app-server used initialize with experimentalApi=true, initialized,
+and skills/list with the empty cwd/forceReload=true. Actual marketplaces.gost.ref,
+clone HEAD and complete installed file maps were verified independently of the
+version strings. Generic personal skill metadata was not counted as @gost.
+
+Exact Claude sequence, in a different fresh profile pair:
+
+```sh
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#feature/gost-spec-109-dispatch-compatibility' --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+claude plugin list --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin details "$plugin_name@gost"
+done
+```
+
+The children used unchanged HOME, empty cwd and temporary HTTP/1.1/low-speed Git
+settings, with HERDR and parent Codex session variables removed. Real personal
+profiles were not installation targets. This is branch-candidate evidence, not a
+released tag or application/model invocation. No new update/rollback/standalone
+claim is made; unchanged packaging mechanisms retain their historical evidence.
+Digest is SHA256 of UTF-8 json.dumps(relative-path to file SHA256,
+sort_keys=True, separators=(',', ':')); all files, not only SKILL.md, are counted.
+
+| Plugin | Version | Files per host | Complete map SHA256 in both hosts |
+| --- | --- | --- | --- |
+| gost-feature | 0.2.0 | 9 | 1c86ffbdde751bf93dd78217ae98245628bf336313ec4e973ed8d34a97318b5e |
+| gost-functional-core | 0.3.0 | 8 | 5a6be27687c539969c47464ab6bcaec47613496a16150ca86f17a231ea5292e2 |
+| gost-svelte-shell | 0.4.0 | 8 | 748088a5161602857f2d7890ab7dca09fcd7dd61db7ab2b36fd7ef9c8f0325f5 |
+| gost-view-presenter | 0.1.1 | 8 | 88e9becde94292712994188b30e1b445fc7e418edbcfaa50a6dc46928fcee2ac |
+
+### Independent review dispositions
+
+Private review input, not a public basis; public actionable basis is [#109](https://github.com/antonsmolko/gost-spec/issues/109) and [gost-kit #46](https://github.com/antonsmolko/gost-kit/issues/46).
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| #109 (private review input, not a public basis) | Link labels name the old package pair although URLs target the new pair | modular-feature recipe | Fixed | Both labels now say common 0.4.0 / svelte 0.3.0; included in native-verified 698e40d |
+| gost-kit #46 / #109 (private review input, not a public basis) | Proposal implied closed formatter task was implemented | proposal/design | Fixed | Proposal references implemented #44/PR #45; design records #46 as closed not planned and confirms no formatter exports in inspected artifact |
+
+### Final verification
+
+Author full root check passed 121/121; strict all passed 16/16. Tracked Markdown
+links/anchors passed 176 files /303 local links /33 fragments /0 errors, with
+clean git diff --check. Complete source/doc/metadata/delta diff against report
+base 4d659b3 was inspected. Repeated listing parity verifies the generated full
+example equals the reviewed fixture; unchanged specs, #109/#44/#46 bodies and
+release/checkpoint wording were searched separately for contract conflicts.
+Packages/catalogs/presenter and old release payloads remain unchanged.
+
+Independent complete-result review PASS, with both dispositions above verified
+closed. Private review input is supplementary, not a public basis. The reviewer
+independently ran the external feature type/Svelte check (zero diagnostics),
+13 integration/import-boundary/listing tests and a stronger invalid-path probe
+checking original path, missing action, TypeError and unchanged state. All eight
+native installed maps were recomputed against source and personal fingerprints
+checked. Actual artifact runtime/declarations, generic distinctions, RED logs,
+FC evaluation, shell/browser and root/strict results were inspected. The final
+ledger/native additions were re-read; no open actionable findings remain.
+Only evidence/status changed after native source 698e40d. This branch is ready
+for its implementation PR; merge and any new release remain unperformed.
+
+### GitHub issue edits
+
+#109's body gains the implementation/native/review checkpoint and immutable
+current ledger link, plus explicit gost-kit-qualified #44/#45/#46 links.
+Its formatter criterion records a checked absence, not a required implementation
+or release claim. The original compatibility outcome and release approval gate
+are unchanged. #106 remains open for its report-delivery follow-up; no completed
+issue is reopened and no criteria are transferred between the two PRs.
