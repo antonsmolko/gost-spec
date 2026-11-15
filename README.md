@@ -38,6 +38,9 @@ guides common code and independent scenarios, mapped API operations, functional
 core, presenters and pages. Its [recipe](plugins/gost-feature/skills/gost-feature/references/modular-feature.md)
 links every rule to a complete synthetic users/list/create example. This new
 plugin is a prepared candidate; existing release snapshots do not contain it.
+The next prepared snapshot combines feature 0.1.0 with documentation patches
+FC 0.2.1, shell 0.3.1 and presenter 0.1.1. Check the
+[release guide](docs/plugin-releases.md) for availability before installation.
 
 Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),

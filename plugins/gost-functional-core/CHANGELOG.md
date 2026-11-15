@@ -3,6 +3,12 @@
 Entries describe prepared version contents. A version is published only when its
 matching immutable release tag is available.
 
+## 0.2.1
+
+- Clarify release availability and checked snapshot selection in README.
+- Use an explicitly selected existing approved tag for installation/update;
+  preserve skill behavior and public recipes.
+
 ## 0.2.0
 
 - Update the API recipe to published common 0.3.0: mapped API operations,
