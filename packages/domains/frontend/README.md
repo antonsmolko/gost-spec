@@ -14,6 +14,7 @@ No particular AI tool, catalog loader or rule-selection configuration is needed.
 
 - [FRONTEND-ARCH-001 — Explicit UI state ownership](architecture/state-ownership.md)
 - [FRONTEND-ARCH-002 — Compose pure presentation calculations](architecture/presenter-composition.md)
+- [FRONTEND-ARCH-003 — Modular features and scenarios](architecture/modular-features.md)
 
 ## Applicability and compatibility
 
@@ -24,6 +25,8 @@ explicitly applying it. Read both complete documents, including the ready-value,
 event, browser-plumbing and validation boundaries and examples. A simple component
 with ready props may need no presenter. Framework or FSD selection alone does
 not adopt the contract; acceptance and applicability still need explicit review.
+FRONTEND-ARCH-003 applies when the project explicitly selects modular features
+with common code and independent scenarios. Its examples do not require FSD.
 This package supplies documents, not a presenter runtime, source checker or skill.
 
 The five packages at 0.1.0 are the currently tested combination. Compatibility

@@ -50,8 +50,9 @@ application alias is implied. The proposed import checker is not implemented.
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Logical state and intent ownership             | [FRONTEND-ARCH-001](../../packages/domains/frontend/architecture/state-ownership.md)       | Projects explicitly applying the FC/presenter contract | Root/feature state owns logical UI data; reducers decide from current state, application handlers execute effects; browser plumbing has a bounded exception |
 | Pure presentation calculations and composition | [FRONTEND-ARCH-002](../../packages/domains/frontend/architecture/presenter-composition.md) | Projects explicitly applying the FC/presenter contract | Ready values/boolean conditions, pure composable presenters and read-only binding; pure tests and reactive/component checks are separate                    |
+| Modular features and scenario boundaries       | [FRONTEND-ARCH-003](../../packages/domains/frontend/architecture/modular-features.md)      | Projects explicitly selecting modular features         | Public scenario APIs, shared-code ownership, mapped API/domain boundaries and separate unit/integration/browser evidence                                    |
 
-Both proposed revisions retain the application validation boundary and explain
+FRONTEND-ARCH-001/002 retain the application validation boundary and explain
 stateless/shared UI and zero-action browser plumbing. SVELTE-STATE-001 clarifies
 compatibility when this contract is also adopted; neither Svelte nor FSD selects
 it implicitly. Compiler success is not proof of this architecture or helper provenance.

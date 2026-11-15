@@ -19,7 +19,7 @@
     "packages/stacks/frontend/svelte-spa"
   ],
   "scripts": {
-    "test": "node --test",
+    "test": "node --test 'tests/**/*.test.*' fixtures/view-presenter/src/catalog.presenter.test.ts",
     "typecheck": "tsc --project tsconfig.tests.json",
     "check": "npm run typecheck && node scripts/check-workspaces.ts && node scripts/check-plugin-distribution.ts && npm test",
     "changeset": "changeset"

@@ -86,8 +86,8 @@ test("native marketplace catalogs select the same plugin directory", async () =>
   const claude = await json(claudePath);
   assert.equal(codex.name, "gost");
   assert.equal(claude.name, codex.name);
-  assert.equal(codex.plugins.length, 3);
-  assert.equal(claude.plugins.length, 3);
+  assert.equal(codex.plugins.length, 4);
+  assert.equal(claude.plugins.length, 4);
   assert.equal(catalogEntry(codex, "gost-svelte-shell").source.path, `./${pluginPath}`);
   assert.equal(catalogEntry(claude, "gost-svelte-shell").source, `./${pluginPath}`);
   assert.equal(catalogEntry(codex, "gost-functional-core").name, "gost-functional-core");
@@ -344,4 +344,58 @@ test("presenter catalog and content failures are diagnosed independently", async
   catalog.plugins.push(catalogEntry(catalog, "gost-view-presenter"));
   await writeFile(catalogPath, JSON.stringify(catalog));
   assert.match((await checkPluginDistribution(root)).join("\n"), /plugin entries must contain exactly one gost-view-presenter/);
+});
+
+test("modular feature delivery is required in both catalogs", async (t) => {
+  const root = await fixture(t);
+  for (const path of [".agents/plugins/marketplace.json", ".claude-plugin/marketplace.json"]) {
+    const catalog = await json(join(root, path));
+    catalog.plugins = catalog.plugins.filter((entry: { name: string }) => entry.name !== "gost-feature");
+    await writeFile(join(root, path), JSON.stringify(catalog));
+  }
+  await rm(join(root, "plugins/gost-feature"), { recursive: true, force: true });
+  const diagnostics = (await checkPluginDistribution(root)).join("\n");
+  assert.match(diagnostics, /gost-feature/, "the missing new delivery must be diagnosed");
+});
+
+for (const catalogPath of [".agents/plugins/marketplace.json", ".claude-plugin/marketplace.json"]) {
+  for (const problem of ["duplicate", "redirect"] as const) {
+    test(`modular feature rejects ${problem} catalog entry in ${catalogPath}`, async (t) => {
+      const root = await fixture(t);
+      const path = join(root, catalogPath);
+      const catalog = await json(path);
+      const entry = catalogEntry(catalog, "gost-feature");
+      if (problem === "duplicate") catalog.plugins.push(entry);
+      else entry.source = catalogEntry(catalog, "gost-functional-core").source;
+      await writeFile(path, JSON.stringify(catalog));
+      assert.match((await checkPluginDistribution(root)).join("\n"), /marketplace.json:.*(entries|source)/);
+    });
+  }
+}
+
+test("modular feature requires its complete example and matching versions", async (t) => {
+  const root = await fixture(t);
+  const directory = "plugins/gost-feature";
+  const codex = await json(join(root, directory, ".codex-plugin/plugin.json"));
+  const manifestPath = join(root, directory, ".claude-plugin/plugin.json");
+  const claude = await json(manifestPath);
+  assert.equal(codex.name, "gost-feature");
+  assert.equal(claude.version, codex.version);
+  assert.deepEqual(await checkPluginDistribution(root), []);
+  claude.version += "-mismatch";
+  await writeFile(manifestPath, JSON.stringify(claude));
+  await rm(join(root, directory, "skills/gost-feature/references/users-example.md"));
+  const errors = (await checkPluginDistribution(root)).join("\n");
+  assert.match(errors, /gost-feature.*versions differ/);
+  assert.match(errors, /gost-feature.*users-example.md/);
+});
+
+test("modular feature preserves external URI support and rejects sibling references", async (t) => {
+  const root = await fixture(t);
+  const path = join(root, "plugins/gost-feature/skills/gost-feature/SKILL.md");
+  const source = await readFile(path, "utf8");
+  await writeFile(path, source + "\n[External](https://example.invalid/guide)\n[Email](mailto:maintainer@example.invalid)\n");
+  assert.deepEqual(await checkPluginDistribution(root), []);
+  await writeFile(path, source + "\n[Sibling](../../../gost-functional-core/README.md)\n");
+  assert.match((await checkPluginDistribution(root)).join("\n"), /gost-feature.*invalid local link/);
 });

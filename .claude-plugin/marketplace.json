@@ -15,6 +15,11 @@
       "name": "gost-view-presenter",
       "source": "./plugins/gost-view-presenter",
       "description": "Prepare view data with pure presentation functions."
+    },
+    {
+      "name": "gost-feature",
+      "source": "./plugins/gost-feature",
+      "description": "Develop modular frontend features with shared common code and independent scenarios."
     }
   ],
   "owner": {

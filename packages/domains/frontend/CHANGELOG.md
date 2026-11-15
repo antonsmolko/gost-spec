@@ -1,5 +1,11 @@
 # Changelog
 
+## Pending version preparation
+
+- Add proposed FRONTEND-ARCH-003 for modular features and scenario boundaries;
+  a minor changeset records the independent frontend release preparation.
+  No content acceptance or publication is implied.
+
 ## 0.1.0 (unreleased)
 
 Initial independently versioned package.

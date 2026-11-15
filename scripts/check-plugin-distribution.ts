@@ -4,21 +4,22 @@ import { fileURLToPath } from "node:url";
 import { marked } from "marked";
 
 const distributions = [
-  { name: "gost-svelte-shell", reference: "foundation.md" },
-  { name: "gost-functional-core", reference: "functional-core.md" },
-  { name: "gost-view-presenter", reference: "view-presenter.md" },
+  { name: "gost-svelte-shell", references: ["foundation.md"] },
+  { name: "gost-functional-core", references: ["functional-core.md"] },
+  { name: "gost-view-presenter", references: ["view-presenter.md"] },
+  { name: "gost-feature", references: ["modular-feature.md", "users-example.md"] },
 ] as const;
 // SemVer 2.0.0: numeric prerelease identifiers may not have leading zeroes.
 const number = "(?:0|[1-9]\\d*)";
 const identifier = `(?:${number}|[\\da-zA-Z-]*[a-zA-Z-][\\da-zA-Z-]*)`;
 const versionPattern = new RegExp(`^${number}\\.${number}\\.${number}(?:-${identifier}(?:\\.${identifier})*)?(?:\\+[\\da-zA-Z-]+(?:\\.[\\da-zA-Z-]+)*)?$`);
 
-async function checkPlugin(root: string, name: string, reference: string): Promise<string[]> {
+async function checkPlugin(root: string, name: string, references: readonly string[]): Promise<string[]> {
   const directory = `plugins/${name}`;
   const files = [
     ".codex-plugin/plugin.json", ".claude-plugin/plugin.json",
     "README.md", "LICENSE", "CHANGELOG.md", "assets/icon.png",
-    `skills/${name}/SKILL.md`, `skills/${name}/references/${reference}`,
+    `skills/${name}/SKILL.md`, ...references.map((reference) => `skills/${name}/references/${reference}`),
   ];
   const diagnostics: string[] = [];
   const report = (path: string, message: string) => diagnostics.push(`${path.startsWith(directory) ? path : `${directory}/${path}`}: ${message}`);
@@ -137,7 +138,7 @@ export async function checkPluginDistribution(root: string): Promise<string[]> {
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") diagnostics.push(`skills: ${(error as Error).message}`);
     }
-    for (const { name, reference } of distributions) diagnostics.push(...await checkPlugin(repository, name, reference));
+    for (const { name, references } of distributions) diagnostics.push(...await checkPlugin(repository, name, references));
   } catch (error) { diagnostics.push(`Plugin distribution check failed: ${(error as Error).message}`); }
   return diagnostics;
 }
