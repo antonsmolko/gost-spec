@@ -555,7 +555,7 @@ proposed-content acceptance or application changed in this documentation outcome
 
 ### Archive GitHub issue edits
 
-The closed #88 checkpoint will record this archive/sync PR and its verification;
+The closed #88 checkpoint records archive/sync PR #105 and its verification;
 implementation criteria, closure reason and previous review dispositions stay
 unchanged. Delivery to main is reported only after separately approved merge.
 Release preparation is the next independent workflow step, including #102.
@@ -585,3 +585,20 @@ strict 14/14, links 166/294/28/0, metadata/distribution and diff checks. The ful
 121/121 author check log was inspected, not independently rerun. All five resolved
 PR #104 threads, ten empty summary reviews, two PR comments and five issue
 comments were reconciled; previous confirmed closures remain closed.
+
+
+### Archive PR checkpoint
+
+[PR #105](https://github.com/antonsmolko/gost-spec/pull/105) presents the verified
+archive/sync outcome; it is not merged. Live #88 retains completed implementation
+closure and unchanged criteria, and records this PR/check counts. Its current
+canonical-ledger URL now targets this archive in the PR branch; historical
+review source links/records stay intact. Queue/handoff link the same PR and name
+release preparation as the next separate step. No release/content approval is
+inferred from this checkpoint update.
+
+
+Independent final bookkeeping rereview PASS: the complete three-file link/status
+diff, live closed #88 with six unchanged checked criteria, open/unmerged PR #105
+and current archive-ledger URL agree. Links 166/294/28/0 and diff check were
+independently rerun; no open findings or spec/payload changes.

@@ -15,7 +15,7 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 Актуальная очередь и статусы — [таблица со статусами](2026-11-07-asc-admin-readiness.md).
 Совместимость #96 доставлена и закрыта; [архив/evidence](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
 Реализация #88 доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104) в main `f45ef7a`, issue закрыта; 7/7 задач и все review findings завершены.
-Change локально синхронизирован и перенесён в [архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), основная [спецификация модульной фичи](../../openspec/specs/modular-feature-development/spec.md) содержит 8 требований / 16 сценариев. Archive/sync готовится отдельным PR и ещё не доставлен в main.
+Change локально синхронизирован и перенесён в [архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), основная [спецификация модульной фичи](../../openspec/specs/modular-feature-development/spec.md) содержит 8 требований / 16 сценариев. Archive/sync представлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105) и ещё не доставлен в main.
 Следующий этап после доставки archive/sync — подготовка выпуска `gost-feature@0.1.0` с учётом #102; новый plugin ещё не опубликован. Content approval и выпуск сохраняют отдельные gates.
 Выпуск #97 завершён через PR #101/main `2923ff0`; [отчёт проверенных тегов](../../openspec/changes/prepare-gost-skills-release/design.md#published-release-verification).
 Датированные записи ниже сохраняют историю предыдущих этапов.
