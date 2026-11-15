@@ -6,7 +6,7 @@ updating this plugin does not run the skill or change an application.
 
 Read [the skill](skills/gost-svelte-shell/SKILL.md) and its
 [Public API recipe](skills/gost-svelte-shell/references/foundation.md).
-The recipe records the verified published package baseline. Plugin version 0.3.0
+The recipe records the verified published package baseline. The plugin version
 does not imply a corresponding gost-kit release or support for arbitrary versions.
 Missing library artifacts must be supplied before applying the skill.
 
@@ -18,9 +18,11 @@ libraries. Both catalogs read the local plugin directory within the selected
 marketplace snapshot. A tag selects the whole marketplace snapshot, rather than
 resolving independent versions of individual catalog entries.
 
-Version 0.3.0 is prepared. The release-tag examples below become usable only
-after that tag is explicitly approved and published. There is no published
-previous release tag to assume when preparing the first release.
+Manifests and changelog describe versioned content. Publication requires an
+existing approved immutable tag. Verify that the selected marketplace snapshot
+contains this plugin and the intended manifest version before installing.
+The plugin may be included in another plugin's release snapshot without a
+separate shell tag; a version string does not establish availability.
 
 ## Install
 
@@ -34,12 +36,14 @@ registered, follow [Update and rollback](#update-and-rollback) to select the
 intended snapshot explicitly before installing.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.3.0
+: "${GOST_RELEASE_TAG:?Set an existing approved tag containing gost-svelte-shell}"
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.3.0'
+: "${GOST_RELEASE_TAG:?Set an existing approved tag containing gost-svelte-shell}"
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
 claude plugin install gost-svelte-shell@gost
 ```
 
@@ -67,16 +71,18 @@ inspect the native result and restore deliberately retained installations.
 These commands intentionally remove the current plugin before re-registration:
 
 ```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved replacement or rollback snapshot}"
 codex plugin remove gost-svelte-shell@gost
 codex plugin marketplace remove gost
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref <selected-release-tag>
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
 codex plugin add gost-svelte-shell@gost
 ```
 
 ```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved replacement or rollback snapshot}"
 claude plugin uninstall gost-svelte-shell@gost
 claude plugin marketplace remove gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#<selected-release-tag>'
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
 claude plugin install gost-svelte-shell@gost
 ```
 

@@ -9,17 +9,21 @@ are self-contained. Installation does not run the skill or change an application
 
 ## Install a released snapshot
 
-Version 0.2.0 is prepared; these commands require a separately approved,
-existing release tag. Do not treat them as evidence of a public release.
+Manifests and changelog describe versioned content. Publication requires an
+existing approved immutable tag. Verify that the selected marketplace snapshot
+contains this plugin and the intended manifest version before installing.
+The plugin may be included in another plugin's release snapshot without a
+separate functional-core tag; a version string does not establish availability.
 
 These commands are for a fresh `gost` registration. If `gost` is already
 registered, follow [Update and rollback](#update-and-rollback) to select the
 intended snapshot explicitly before installing.
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-functional-core-v0.2.0
+: "${GOST_RELEASE_TAG:?Set an existing approved tag containing gost-functional-core}"
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
 codex plugin add gost-functional-core@gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-functional-core-v0.2.0'
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
 claude plugin install gost-functional-core@gost
 ```
 
@@ -32,7 +36,7 @@ marketplace snapshot; installation does not install or upgrade the other.
 
 This plugin has its own SemVer and changelog, independent of the shell plugin,
 the common library and npm standards. A tag `gost-functional-core-v<version>`
-selects the entire repository snapshot containing both local marketplace
+selects the entire repository snapshot containing the local marketplace
 entries; it must match this plugin's two manifests and changelog. Published tags
 are immutable. Prepare changes in a PR, merge normally, then obtain separate
 release approval before tagging the verified final main commit. No split content
@@ -68,16 +72,18 @@ any data/options to preserve: marketplace removal can remove their caches too.
 If this plugin is installed, remove it before changing the source:
 
 ```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved replacement or rollback snapshot}"
 codex plugin remove gost-functional-core@gost
 codex plugin marketplace remove gost
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref <selected-release-tag>
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
 codex plugin add gost-functional-core@gost
 ```
 
 ```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved replacement or rollback snapshot}"
 claude plugin uninstall gost-functional-core@gost
 claude plugin marketplace remove gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#<selected-release-tag>'
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
 claude plugin install gost-functional-core@gost
 ```
 
