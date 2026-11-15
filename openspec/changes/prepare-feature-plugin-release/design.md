@@ -239,13 +239,12 @@ confirmed review closures remain closed, not silently reclassified.
 
 | Source | Finding | Affected files/issues | Disposition | Evidence |
 | --- | --- | --- | --- | --- |
-| <a id="pr108-r1"></a> [PR108-R1 FC](https://github.com/antonsmolko/gost-spec/pull/108#discussion_r4578732350), [shell](https://github.com/antonsmolko/gost-spec/pull/108#discussion_r4578732417), [PR107-R1](https://github.com/antonsmolko/gost-spec/pull/107#discussion_r4578555023) | Release inherits incomplete FC/shell changelog normalization without a disposition | changelogs, prerequisite #102/PR #107 and this ledger | Fixed, fresh native checks pending | Neutral preambles fixed in prerequisite 55a8307 and merged here; versions unchanged; old native receipts explicitly historical |
+| <a id="pr108-r1"></a> [PR108-R1 FC](https://github.com/antonsmolko/gost-spec/pull/108#discussion_r4578732350), [shell](https://github.com/antonsmolko/gost-spec/pull/108#discussion_r4578732417), [PR107-R1](https://github.com/antonsmolko/gost-spec/pull/107#discussion_r4578555023) | Release inherits incomplete FC/shell changelog normalization without a disposition | changelogs, prerequisite #102/PR #107 and this ledger | Fixed; fresh native checks passed | Neutral preambles fixed in prerequisite 55a8307 and merged here; versions unchanged; old native receipts explicitly historical |
 | <a id="pr108-r2"></a> [PR108-R2](https://github.com/antonsmolko/gost-spec/pull/108#issuecomment-6895668571) | Published-pair paragraph was captured inside the four-plugin prepared section | docs/plugin-releases.md | Fixed | Moved it back to the introduction about the existing published pair; one gost registration rule retained |
 | <a id="pr108-r3"></a> [PR108-R3](https://github.com/antonsmolko/gost-spec/pull/108#issuecomment-6895674405) | Interleaved host commands called an exact executable sequence | this design evidence | Fixed | Explicit merged representation of two separate executions; each host ran only its own commands in its own profile; no claim that the combined block ran |
 | <a id="pr108-r4"></a> [PR108-R4](https://github.com/antonsmolko/gost-spec/pull/108#issuecomment-6895675088) | Impact omitted root README | proposal Impact | Fixed | Root README explicitly listed; published instruction scope unchanged |
 | <a id="pr108-r5"></a> [PR108-R5](https://github.com/antonsmolko/gost-spec/pull/108#issuecomment-6895676012) | Duplicate blank lines in release records | design and readiness | Fixed | One blank line between paragraphs/sections |
-| <a id="pr108-i1"></a> [#106 neutral publication contract](https://github.com/antonsmolko/gost-spec/issues/106), PR108-R1 complete-snapshot audit | Feature changelog had the same prepared preamble | feature changelog, proposal/design/#106 scope statements | Fixed | Same neutral preamble across all four candidates; feature SKILL/reference/example unchanged, initial version 0.1.0 retained; full feature distribution bytes now require a new digest |
-
+| <a id="pr108-i1"></a> [#106 neutral publication contract](https://github.com/antonsmolko/gost-spec/issues/106), PR108-R1 complete-snapshot audit | Feature changelog had the same prepared preamble | feature changelog, proposal/design/#106 scope statements | Fixed | Same neutral preamble across all four candidates; feature SKILL/reference/example unchanged, initial version 0.1.0 retained; new complete-feature digest recorded below |
 | [PR107-R1](https://github.com/antonsmolko/gost-spec/pull/107#discussion_r4578555023); independent review private input, not a public basis | I2: current prerequisite pointer and retained-feature scope still described the pre-review snapshot | design opening and task 1 | Fixed | Current prerequisite is 55a8307/documentation-only; retained feature content explicitly means SKILL/recipe/example, with changelog correction declared |
 
 ### Review-round issue edits
@@ -257,3 +256,68 @@ claim is superseded only for that metadata text, not its skill/example content.
 Native/whole-outcome readiness is reopened until new-source checks and review.
 Criteria, independent branch prefixes, release approval and earlier closures stay
 unchanged; neither PR is merged and no tag is created by these fixes.
+
+### Renewed native evidence for PR #107/#108 fixes
+
+The public candidate was committed and pushed as
+`ae26a2e7ededf2dc7ee3941e725934296a0f55ae` before new checks. Both hosts used
+new separate disposable profiles, not the old 338e1dc caches. Codex 0.169.0 and
+Claude 2.1.308 each repeated the per-host sequence above: public old tag baseline
+and full maps, explicit remove/re-registration with empty intermediate inventory,
+then candidate install/repeat, discovery/details, standalone feature, restoration
+and a final full-map/source/ref check. Every native command returned zero.
+Both actual selected refs and clone HEADs identify ae26a2e; inventories and fresh
+Codex discovery show four enabled GOST skills (one when standalone), zero errors;
+Claude details show Skills (1) per entry. Personal fingerprints match before/after.
+
+| Plugin | Version | Files per host | New complete-map SHA256 in both hosts |
+| --- | --- | --- | --- |
+| gost-feature | 0.1.0 | 9 | 1a15e2b4653ebf928244d6685ff2f6084cbed6e9acc480b25c3ac25046af7903 |
+| gost-functional-core | 0.2.1 | 8 | ad9fcbff94228756ae5b8ce0e4dd52b109350c7bb49acd0ad006088052677a6b |
+| gost-svelte-shell | 0.3.1 | 8 | 134f537a4a1fdd16bc4251bb69fd2dadbb903f71014de81ef653c0005fbb4a19 |
+| gost-view-presenter | 0.1.1 | 8 | 88e9becde94292712994188b30e1b445fc7e418edbcfaa50a6dc46928fcee2ac |
+
+Digest derivation remains the complete sorted relative-path/file-hash JSON
+formula above; all installed files were compared to git-show at ae26a2e.
+The three changed maps reflect changelog corrections; presenter map is unchanged
+but was installed and verified again. All four preambles are now identical.
+Feature SKILL/reference/example, all other skills/recipes, fixtures, five npm
+packages/versions and catalogs remain unchanged. No runtime or verification gate
+was added, and existing remote tag objects/peeled commits remain unchanged;
+all four planned names remain absent. Reverse rollback/model/application/final-tag
+checks were not performed; their earlier stated limits remain in force.
+
+This renewed evidence also satisfies #102's installed candidate documentation
+criterion for its prerequisite 55a8307. That ledger retains its pre-native
+review-fix checkpoint; current combined native evidence is here, not a claim that
+338e1dc verified new changelog bytes. Neither issue is closed or PR merged.
+Preparation task 2 is complete again; task 3 waits for final review/replies and
+updated current canonical pointers. Release tasks 4/5 remain pending approval.
+
+### Review-round final verification
+
+Author full checks pass 121/121, strict 15/15, marked 170/298/28/0 and diff check.
+The complete PR107 diff, release-only diff against prerequisite 55a8307 and
+combined diff against main 2ebe704 were inspected, including unchanged specs,
+linked issues/dependencies and all changed publication/snapshot claims.
+No package/fixture/catalog/skill/recipe/runtime or release-gate changes beyond
+the explicitly declared neutral changelog metadata; existing tags are unchanged.
+
+Independent complete-result review PASS: public basis is all linked PR107/108
+findings and #102/#106; the private report is supplementary input, not a public
+basis. Reviewer independently ran 121/121, strict 15/15, links 170/298/28/0,
+shell syntax 18/18, protected-path and whitespace checks, verified existing
+remote tags/absence of future names, all eight fresh installed maps and digests,
+both actual selectors/clone HEADs, native discovery, standalone/restoration and
+personal fingerprints. Minor opening pointer/task-scope findings I2 were fixed;
+new blank-line recurrence is removed as part of R5. No open technical findings.
+
+The prerequisite ledger remains a named pre-native review-fix checkpoint at
+55a8307; final current combined native evidence/dispositions are here. Replies
+for each inline finding use its individual canonical anchor; each PR summary and
+all four PR108 top-level comments are covered by source-linked aggregate replies.
+Current issues/PR bodies point to immutable review/evidence commits, preserve
+independent scopes and release approval, and identify old source as historical.
+Preparation tasks 1-3 are complete again; release tasks 4/5 remain pending.
+Only records/status change after native candidate ae26a2e; all installed plugin
+bytes remain those independently checked against that exact commit.
