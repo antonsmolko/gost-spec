@@ -8,5 +8,6 @@
 
 ## After separate approval
 
-- [ ] 4. After approved integration of both PRs, verify final main/source bytes and obtain explicit release approval for that commit/composition before creating immutable absent tags.
-- [ ] 5. Verify remote final tags and install each in both hosts, preserving personal profiles; record final delivery/asc-admin instructions and close #106 only when all release criteria are met.
+- [x] 4. After approved integration of both PRs, verify final main/source bytes and obtain explicit release approval for that commit/composition before creating immutable absent tags.
+- [x] 5. Verify remote final tags and install each in both hosts, preserving personal profiles; record final delivery/asc-admin instructions.
+- [ ] 6. After separately approved report merge, verify its delivery, update canonical checkpoint links to the delivered SHA and close #106 only when all release criteria are met.

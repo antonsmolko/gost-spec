@@ -1,42 +1,36 @@
 # GOST plugin releases
 
-The published pair is `gost-functional-core@0.2.0` and
-`gost-svelte-shell@0.3.0`. Both tags select checked main commit
-`64714fcc9929ce3eb0ea7676dfabaa883f5069f7`; installation from each tag was verified
-in isolated Codex 0.167.0 and Claude Code 2.1.308 profiles. `gost-view-presenter@0.1.0` is unchanged.
-A manifest/changelog describes versioned content; publication is established by
-an approved immutable tag on the checked final main commit. Confirm the tag exists
-before running installation examples. Missing tags mean the release is unavailable.
+The current release contains four independently versioned plugins. All four
+immutable tags select verified main commit
+`f1c6f936b408f61f063089eded234ad23bf6e076`.
 
-Both native catalogs use plugin folders from one selected repository snapshot.
-For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
-select the same final commit. Register one snapshot, then install either or both
-plugins; do not add two marketplaces with the same name `gost`.
-
-## Prepared feature snapshot
-
-The following candidates are prepared for the next snapshot; their tags have
-not been published. The existing pair above remains the available release.
-
-| Plugin | Candidate | Future tag, unavailable until separately approved publication |
+| Plugin | Version | Published tag |
 | --- | --- | --- |
 | gost-feature | 0.1.0 | gost-feature-v0.1.0 |
 | gost-functional-core | 0.2.1 | gost-functional-core-v0.2.1 |
 | gost-svelte-shell | 0.3.1 | gost-svelte-shell-v0.3.1 |
 | gost-view-presenter | 0.1.1 | gost-view-presenter-v0.1.1 |
 
-Feature is new; the other three receive documentation-only patches for tag
-availability and snapshot selection. Their skills and recipes are unchanged.
-After approval, the four tags select the same verified final main commit.
-The existing released tags are immutable. Five npm package versions do not change.
+Feature is new; the other three receive documentation patches. Their existing
+skills/recipes and npm dependencies are unchanged: this snapshot uses the checked
+common@0.3.0 / svelte@0.2.0 baseline, and does not yet document the newer dispatch
+API. Plugin versions are independent of gost-kit versions and the five normative
+npm packages, which have no published release.
 
-For this new snapshot, select one existing approved tag containing all intended
-plugin versions and use that same tag in both harnesses. The commands are
-conditional: a prepared future tag is not a usable source.
+Both native catalogs use plugin folders from one selected repository snapshot.
+Choose any one of the four tags above and use it consistently in both harnesses;
+do not add two marketplaces with the same name `gost`. Each final tag was checked
+in isolated Codex 0.169.0 and Claude Code 2.1.308 profiles: install/repeat,
+list/discovery/details, selected ref/clone HEAD and every installed file of all
+four plugins. See the [release evidence](../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release).
+These checks do not invoke a model or apply a skill to asc-admin.
+
+## Install the current release
+
+For a fresh registration, the feature tag selects all four plugin versions:
 
 ```sh
-: "${GOST_RELEASE_TAG:?Select an existing approved tag for the feature snapshot}"
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.1.0
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   codex plugin add "$plugin_name@gost"
 done
@@ -44,21 +38,25 @@ codex plugin list --json
 ```
 
 ```sh
-: "${GOST_RELEASE_TAG:?Select an existing approved tag for the feature snapshot}"
-claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.1.0'
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   claude plugin install "$plugin_name@gost"
 done
 claude plugin list --json
 ```
 
-These are fresh registrations. For an existing gost registration, record every
-plugin to retain, uninstall installed copies, remove the marketplace and add
-the selected tag before reinstalling/restoring those plugins. Follow the native
-remove/add procedure below, including feature when it is installed. A pinned
-refresh does not select a different tag. Restart and inspect actual selected
-ref/commit, all versions/files and one enabled skill per installed plugin.
-Installation does not apply a skill or change asc-admin/runtime packages.
+For an existing registration, first follow [Change an existing registration](#change-an-existing-registration).
+Start a new session and verify actual versions and one enabled skill per plugin.
+Installation does not upgrade application runtime dependencies. Check an
+application's actual Node/Svelte/gost-kit versions before applying a skill.
+
+## Previous released pair
+
+The earlier tags `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0`
+remain immutable on `64714fcc9929ce3eb0ea7676dfabaa883f5069f7`. Their installation
+was verified in isolated Codex 0.167.0 and Claude Code 2.1.308 profiles. That snapshot
+also contains presenter 0.1.0, but no feature plugin. The commands in the next
+historical sections select this earlier snapshot intentionally.
 
 ## README status in the existing pair snapshot
 
@@ -104,34 +102,42 @@ Inspect the current marketplace and installed plugins first. A refresh of a
 pinned tag does not choose a newer tag. Record every plugin you need to restore;
 marketplace removal can remove other installations and cached data.
 
-For the pair, remove installed copies, change the registration, and reinstall:
+Record all installed plugins to retain. For the current snapshot, uninstall each
+installed copy, change the registration, then restore the selected plugins:
 
 ```sh
 codex plugin remove gost-functional-core@gost
 codex plugin remove gost-svelte-shell@gost
+codex plugin remove gost-view-presenter@gost
 codex plugin marketplace remove gost
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.3.0
-codex plugin add gost-functional-core@gost
-codex plugin add gost-svelte-shell@gost
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.1.0
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost"
+done
+codex plugin list --json
 ```
 
 ```sh
 claude plugin uninstall gost-functional-core@gost
 claude plugin uninstall gost-svelte-shell@gost
+claude plugin uninstall gost-view-presenter@gost
 claude plugin marketplace remove gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.3.0'
-claude plugin install gost-functional-core@gost
-claude plugin install gost-svelte-shell@gost
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.1.0'
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin install "$plugin_name@gost"
+done
+claude plugin list --json
 ```
 
-Restore presenter or other deliberately retained installations if they were
-previously installed, and verify their identities/content too. If a plugin in
-the pair was absent, skip its removal; installing it is a separate choice.
+Skip removal of absent plugins; if feature is already installed, remove it too
+before removing the marketplace. Restore any other deliberately retained plugins.
+Installing a previously absent plugin is a separate choice. Inspect actual
+selected ref, versions, files and skill discovery after restarting.
 After any failure, report the actual active versions/cache state. An old cache
 is not evidence that the new tag installed successfully.
 
 Rollback follows the same explicit re-registration/reinstallation steps using
-an earlier existing tag. For the prepared feature snapshot, the existing pair is
+an earlier existing tag. For the current feature snapshot, the previous pair is
 an available earlier marketplace snapshot, but contains no feature plugin: a
 rollback there removes feature availability. There is no earlier feature tag
 to assume. For the first published pair, do not invent a still earlier release.
@@ -162,5 +168,5 @@ Use supported native commands, based on [OpenAI packaging documentation](https:/
 and [Claude marketplace documentation](https://code.claude.com/docs/en/plugin-marketplaces).
 Public GitHub candidate-ref checks preceded the published pair release; its
 final-tag checks for both tags and both harnesses passed after approval.
-The prepared feature snapshot still requires its own approved final-tag checks. Neither
+The feature snapshot final-tag checks passed in both hosts. Neither
 local/loopback evidence nor a version string substitutes for those checks.
