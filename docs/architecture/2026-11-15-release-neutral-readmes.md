@@ -14,7 +14,7 @@ select an existing approved marketplace tag containing the intended plugin and
 verify its manifest version. A plugin may be available in another plugin's
 release snapshot without having its own tag. Guard executable examples with
 GOST_RELEASE_TAG; never instruct an unconditional unavailable presenter tag.
-Make the presenter changelog use the same neutral version-entry convention.
+Use the identical neutral version-entry preamble in all three changelogs.
 
 Keep native local-source catalogs and existing commands. Baselines:
 [OpenAI packaging](https://developers.openai.com/plugins/build/plugins),
@@ -33,7 +33,7 @@ installation; an old cached plugin is not proof of the requested update. Update
 and rollback still explicitly change the one marketplace registration, preserve
 the desired plugin inventory and inspect the resulting source/files.
 
-- [x] Update the three READMEs and neutral presenter changelog.
+- [x] Update the three READMEs and neutral preambles of all three changelogs.
 - [x] Verify full check, links, unchanged content, and independent review; open
   this prerequisite PR. Final native README checks belong to #106's candidate.
 
@@ -46,7 +46,8 @@ approval remain separate from documentation verification.
 
 Repository checks: npm check 121/121, strict OpenSpec 14/14, marked tracked-file
 link audit 167 Markdown / 294 local links / 28 fragments / 0 errors; diff clean.
-All ten changed README shell blocks parse with sh -n; no consumer commands run.
+All ten shell blocks in the changed READMEs parse with sh -n; eight were modified
+by this PR. No consumer commands run.
 Independent prerequisite review PASS, no findings: public basis #102/#106;
 private report is supplementary input, not a public basis. Reviewer checked
 complete diff, unchanged representations/tags, shell syntax and check logs;
@@ -60,3 +61,27 @@ and 381952862d1527b73b22181118d9c88c5da0ca84 (shell), both resolving to
 
 Issue edits: #102 records the owner's release-preparation request and its
 independent #106 dependency/prefix; original criteria/closure stay unchanged.
+
+
+## PR #107 review round
+
+Read both inline threads (hasNextPage=false), the complete summary review
+[5910925075](https://github.com/antonsmolko/gost-spec/pull/107#pullrequestreview-5910925075),
+empty PR-comment list and current #102/#106 bodies/comments. The previous PASS
+refers to source 9cb9f49; these new findings are recorded without reopening
+previous confirmed closures. New changelog bytes require refreshed candidate
+native evidence in #106 before claiming complete distribution readiness.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr107-r1"></a> [PR107-R1](https://github.com/antonsmolko/gost-spec/pull/107#discussion_r4578555023) | FC/shell changelog preambles still use prepared wording while presenter uses neutral content wording | three plugin changelogs, #102 plan; inherited by #106 | Fixed | All three now have the identical versioned-content/approved-tag preamble; no manifests or skill/recipe changed here. #106 repeats native checks for its changed candidate |
+| <a id="pr107-r2"></a> [PR107-R2](https://github.com/antonsmolko/gost-spec/pull/107#discussion_r4578555028) | Ten changed shell blocks incorrectly describes the eight modified blocks | this ledger | Fixed | Ten blocks are validated in the changed READMEs; eight were modified (FC 3, shell 4, presenter 1), two legacy uninstall blocks retained |
+
+Issue edits for this round: #102/PR #107 describe all three neutral changelogs;
+#106 retains independent patch assignment and records this prerequisite update.
+Criteria/closure of both issues and previous #88/#97 closures stay unchanged.
+
+PR #107 review-fix checks: full check 121/121, strict 14/14, links
+167/294/28/0 and diff check clean. Ten README shell blocks validated;
+eight modified. The refreshed #106 native snapshot and combined independent
+review are pending; old 338e1dc evidence remains historical for earlier bytes.

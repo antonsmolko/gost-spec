@@ -1,7 +1,7 @@
 # Changelog
 
-Entries describe prepared version contents. A version is published only when its
-matching immutable release tag is available.
+Entries describe versioned content. Publication requires an existing approved
+immutable tag selecting a snapshot with this plugin and version.
 
 ## 0.2.0
 
