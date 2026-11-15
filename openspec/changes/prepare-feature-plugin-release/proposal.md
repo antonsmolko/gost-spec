@@ -25,8 +25,9 @@ requirements apply. skip_specs is true; skill recipes and runtime APIs stay inta
 
 ## Impact
 
-Three plugin manifest pairs/changelogs, release instructions, one existing
-version assertion, queue/handoff and this change. Feature content stays byte
-identical to delivered main. Five normative npm packages, source skills/recipes,
+Three plugin manifest pairs/changelogs, a neutral feature changelog preamble,
+release instructions and root README, one existing version assertion,
+queue/handoff and this change. Feature skill/example content stays byte
+identical to delivered main; its first-release version remains 0.1.0. Five normative npm packages, source skills/recipes,
 fixtures, catalogs and old tags remain unchanged. No asc-admin changes,
 content acceptance or automatic publication.

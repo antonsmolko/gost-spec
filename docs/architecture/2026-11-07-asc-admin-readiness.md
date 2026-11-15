@@ -13,7 +13,7 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | S4 | [gost-spec #97](https://github.com/antonsmolko/gost-spec/issues/97) | Выпуск опубликован и проверен: FC 0.2.0 / shell 0.3.0; [финальный отчёт PR #101](https://github.com/antonsmolko/gost-spec/pull/101) доставлен в main `2923ff0`; issue закрыта | Независимые версии/changelog, native/public-host установка и теги проверены после отдельного approval; далее обновление skills в asc-admin |
 | S5 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | Отложена | После проверки навигации в asc-admin #72 и решения о выносе общего контракта; middleware не предписана |
 | S6 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Реализация доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104), main `f45ef7a`; 7/7, issue закрыта. Archive/sync доставлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105), main `2ebe704`; canonical links закреплены на SHA доставки | [Архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), [основная спецификация](../../openspec/specs/modular-feature-development/spec.md): 8 требований / 16 сценариев; новый gost-feature ещё не выпущен |
-| S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) / [PR #107](https://github.com/antonsmolko/gost-spec/pull/107) | Подготовлен [PR #108](https://github.com/antonsmolko/gost-spec/pull/108), stacked на PR #107; native checks и независимое review прошли; подготовка 3/3, release tasks 4/5 pending; merge/tags не разрешены | feature 0.1.0; documentation patches FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [план](../../openspec/changes/prepare-feature-plugin-release/proposal.md) |
+| S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) / [PR #107](https://github.com/antonsmolko/gost-spec/pull/107) | Подготовлен [PR #108](https://github.com/antonsmolko/gost-spec/pull/108), stacked на PR #107; review-правки changelog требуют нового native snapshot и review; подготовка 1/3, release tasks 4/5 pending; merge/tags не разрешены | feature 0.1.0; documentation patches FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [план](../../openspec/changes/prepare-feature-plugin-release/proposal.md) |
 | K1 | [gost-kit #35](https://github.com/antonsmolko/gost-kit/issues/35) | Реализована и закрыта 2026-11-08; [PR #36](https://github.com/antonsmolko/gost-kit/pull/36) вмержен | API-операция с mapper и доменным типом onSuccess; API включён в common@0.3.0; consumer compatibility проверяется в #96 |
 | K2 | [gost-kit #32](https://github.com/antonsmolko/gost-kit/issues/32) | Реализована и закрыта; reset доступен в npm common@0.3.0/svelte@0.2.0, consumer checks — #96 | Общий reset({ excluded }), без правил навигации |
 | A1 | [asc-admin #72](https://github.com/antonsmolko/asc-admin/issues/72) | В очереди; задача перенесена из gost-kit #33 | Сначала навигация в приложении, затем решение о библиотечном выносе; #89 отложена |
@@ -44,12 +44,11 @@ Skills можно обновить и применять в сессии asc-adm
 
 Archive/sync представлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105): Purpose и все 8 требований / 16 сценариев перенесены в основную спецификацию, change перемещён в архив. Он доставлен в main `2ebe704`; follow-up canonical URLs #88/PR #105 выполнен и проверен на этом SHA. Сейчас готовится #106: новый feature и три documentation patches. Native/полные проверки и review текущего candidate фиксируются отдельно, старое evidence #88 их не заменяет; normative acceptance и публикация требуют своих разрешённых шагов.
 
-
-Подготовка #106: публичный candidate `338e1dc` проверен в чистых Codex/Claude profiles:
+Историческая проверка #106 до review-правок: public candidate `338e1dc` проверен в чистых Codex/Claude profiles:
 переход с существующего тега, повтор, discovery, standalone feature и восстановление
 четырёх plugins; все восемь installed maps совпали с source. Проверка README #102
-выполнена на этих фактических файлах. Feature/skills/recipes/fixtures/npm packages
-и старые теги неизменны; новые теги отсутствуют. Подробные команды, hashes и
+выполнена на этих фактических файлах. Feature SKILL/recipe/example, fixtures/npm packages
+и старые теги неизменны; changelog preambles нормализуются, native evidence обновляется; новые теги отсутствуют. Подробные команды, hashes и
 ограничения — в [release design](../../openspec/changes/prepare-feature-plugin-release/design.md).
 После review/merge PR #107 и #108 отдельно проверить main и получить approval
 конкретного SHA/четырёх tags; текущая подготовка публикацию не разрешает.

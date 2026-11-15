@@ -8,6 +8,11 @@ A manifest/changelog describes versioned content; publication is established by
 an approved immutable tag on the checked final main commit. Confirm the tag exists
 before running installation examples. Missing tags mean the release is unavailable.
 
+Both native catalogs use plugin folders from one selected repository snapshot.
+For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
+select the same final commit. Register one snapshot, then install either or both
+plugins; do not add two marketplaces with the same name `gost`.
+
 ## Prepared feature snapshot
 
 The following candidates are prepared for the next snapshot; their tags have
@@ -54,11 +59,6 @@ remove/add procedure below, including feature when it is installed. A pinned
 refresh does not select a different tag. Restart and inspect actual selected
 ref/commit, all versions/files and one enabled skill per installed plugin.
 Installation does not apply a skill or change asc-admin/runtime packages.
-
-Both native catalogs use plugin folders from one selected repository snapshot.
-For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
-select the same final commit. Register one snapshot, then install either or both
-plugins; do not add two marketplaces with the same name `gost`.
 
 ## README status in the existing pair snapshot
 
