@@ -317,7 +317,7 @@ test("presenter is an independent third plugin with contained references", async
   const codex = await json(join(root, presenter, ".codex-plugin/plugin.json"));
   const claude = await json(join(root, presenter, ".claude-plugin/plugin.json"));
   assert.equal(codex.name, "gost-view-presenter");
-  assert.equal(codex.version, "0.1.0");
+  assert.equal(codex.version, "0.1.1");
   assert.equal(claude.name, codex.name);
   assert.equal(claude.version, codex.version);
   assert.deepEqual(await checkPluginDistribution(root), []);

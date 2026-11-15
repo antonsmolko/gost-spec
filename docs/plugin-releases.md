@@ -13,7 +13,54 @@ For this pair, `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0` must
 select the same final commit. Register one snapshot, then install either or both
 plugins; do not add two marketplaces with the same name `gost`.
 
-## README status in this snapshot
+## Prepared feature snapshot
+
+The following candidates are prepared for the next snapshot; their tags have
+not been published. The existing pair above remains the available release.
+
+| Plugin | Candidate | Future tag, unavailable until separately approved publication |
+| --- | --- | --- |
+| gost-feature | 0.1.0 | gost-feature-v0.1.0 |
+| gost-functional-core | 0.2.1 | gost-functional-core-v0.2.1 |
+| gost-svelte-shell | 0.3.1 | gost-svelte-shell-v0.3.1 |
+| gost-view-presenter | 0.1.1 | gost-view-presenter-v0.1.1 |
+
+Feature is new; the other three receive documentation-only patches for tag
+availability and snapshot selection. Their skills and recipes are unchanged.
+After approval, the four tags select the same verified final main commit.
+The existing released tags are immutable. Five npm package versions do not change.
+
+For this new snapshot, select one existing approved tag containing all intended
+plugin versions and use that same tag in both harnesses. The commands are
+conditional: a prepared future tag is not a usable source.
+
+```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved tag for the feature snapshot}"
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$GOST_RELEASE_TAG"
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost"
+done
+codex plugin list --json
+```
+
+```sh
+: "${GOST_RELEASE_TAG:?Select an existing approved tag for the feature snapshot}"
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$GOST_RELEASE_TAG"
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin install "$plugin_name@gost"
+done
+claude plugin list --json
+```
+
+These are fresh registrations. For an existing gost registration, record every
+plugin to retain, uninstall installed copies, remove the marketplace and add
+the selected tag before reinstalling/restoring those plugins. Follow the native
+remove/add procedure below, including feature when it is installed. A pinned
+refresh does not select a different tag. Restart and inspect actual selected
+ref/commit, all versions/files and one enabled skill per installed plugin.
+Installation does not apply a skill or change asc-admin/runtime packages.
+
+## README status in the existing pair snapshot
 
 The frozen plugin READMEs still describe FC 0.2.0 and shell 0.3.0 as prepared.
 Those statements describe preparation; the two existing tags above establish
@@ -84,23 +131,26 @@ After any failure, report the actual active versions/cache state. An old cache
 is not evidence that the new tag installed successfully.
 
 Rollback follows the same explicit re-registration/reinstallation steps using
-an earlier existing tag. There is currently no previous public GOST release tag
-to assume for this first release; never invent one. Preserve needed local data
-before removal. Native inventory and installed-file checks do not certify model
-invocation or application behavior.
+an earlier existing tag. For the prepared feature snapshot, the existing pair is
+an available earlier marketplace snapshot, but contains no feature plugin: a
+rollback there removes feature availability. There is no earlier feature tag
+to assume. For the first published pair, do not invent a still earlier release.
+Preserve needed local data before removal. Native inventory and installed-file
+checks do not certify model invocation or application behavior.
 
 ## Maintainer release checklist
 
 1. Verify preparation PR checks, both native profiles, actual selected ref/commit
-   and all plugin bytes. Preserve presenter/catalog and npm versions.
+   and all plugin bytes. Check independent candidate versions; preserve catalogs,
+   npm versions and unchanged skill/recipe contents.
 2. Merge normally after approval; verify the resulting main commit and payload.
 3. Present the exact main commit, versions, file identities and install evidence
    to the owner. Obtain explicit release approval for that candidate.
-4. Confirm both tag names are absent, then create and push immutable tags on that
+4. Confirm every approved tag name is absent, then create and push immutable tags on that
    main commit. Never move an existing release tag.
-5. Verify remote tags and install each final tag in a separate fresh profile of
+5. Verify remote tags and install each approved final tag in a separate fresh profile of
    each harness: one `gost` registration per profile. When reusing a profile for
-   the second tag, follow [Change an existing registration](#change-an-existing-registration)
+   another approved tag, follow [Change an existing registration](#change-an-existing-registration)
    first, substituting the other tag for the procedure's example tag, and restore
    deliberately retained plugins. Record actual versions, files,
    repeat/update/coexistence and source.
@@ -110,6 +160,7 @@ invocation or application behavior.
 
 Use supported native commands, based on [OpenAI packaging documentation](https://developers.openai.com/plugins/build/plugins)
 and [Claude marketplace documentation](https://code.claude.com/docs/en/plugin-marketplaces).
-Public GitHub candidate-ref checks preceded this release; the final-tag checks
-for both tags and both harnesses passed after approved publication. Neither
+Public GitHub candidate-ref checks preceded the published pair release; its
+final-tag checks for both tags and both harnesses passed after approval.
+The prepared feature snapshot still requires its own approved final-tag checks. Neither
 local/loopback evidence nor a version string substitutes for those checks.

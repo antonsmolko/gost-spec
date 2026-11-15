@@ -3,6 +3,12 @@
 Entries describe versioned content. Publication requires an existing approved
 immutable tag selecting a snapshot with this plugin and version.
 
+## 0.2.1
+
+- Clarify release availability and checked snapshot selection in README.
+- Use an explicitly selected existing approved tag for installation/update;
+  preserve skill behavior and public recipes.
+
 ## 0.2.0
 
 - Update the API recipe to published common 0.3.0: mapped API operations,
