@@ -98,4 +98,131 @@ checkpoints/dependencies only; #88/#97 criteria and closures are unchanged.
 
 ## Candidate evidence
 
-Pending preparation checks; do not infer completion from the planned commands.
+Public candidate source `338e1dcaccecca3e390807afff1ae756f18f3950` was pushed
+before native checks. Codex 0.169.0 and Claude Code 2.1.308 each used a new,
+separate disposable profile and empty cwd. HOME stayed unchanged; personal
+CODEX_HOME/CLAUDE_CONFIG_DIR profiles were not used or rewritten. No model turn.
+
+Executed baseline: public gost-svelte-shell-v0.3.0 resolved to
+64714fcc9929ce3eb0ea7676dfabaa883f5069f7 in both native clones. Three installed
+plugins and all files matched that commit: FC 0.2.0 / shell 0.3.0 / presenter
+0.1.0, eight files each; feature absent. Baseline native selector and full maps
+were recorded before uninstall/removal. Candidate selection then produced four
+unique enabled plugins, including the new feature. Each install was repeated;
+all file maps, versions, selected native ref and clone HEAD matched 338e1dc.
+
+The exact successful native sequence, run separately per host/profile:
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-svelte-shell-v0.3.0 --json
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-svelte-shell-v0.3.0' --json
+for plugin_name in gost-svelte-shell gost-functional-core gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+codex plugin list --json
+claude plugin list --json
+for plugin_name in gost-svelte-shell gost-functional-core gost-view-presenter; do
+  codex plugin remove "$plugin_name@gost" --json
+  claude plugin uninstall "$plugin_name@gost" --json
+done
+codex plugin marketplace remove gost --json
+claude plugin marketplace remove gost --json
+codex plugin list --json
+claude plugin list --json
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref feature/gost-spec-106-feature-release --json
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#feature/gost-spec-106-feature-release' --json
+for plugin_name in gost-svelte-shell gost-functional-core gost-view-presenter gost-feature; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+codex plugin list --json
+claude plugin list --json
+```
+
+The intermediate inventory was empty in both profiles; baseline cache is not
+candidate evidence. Native selectors were checked in Codex marketplaces.gost.ref
+and Claude known_marketplaces source.ref, not inferred from cache path text.
+Both actual marketplace clones resolved to the exact candidate source above.
+Codex fresh app-server initialize/initialized then skills/list with empty cwd
+and forceReload returned four unique enabled GOST skills and zero errors;
+generic personal skill metadata is outside these GOST counts. Claude plugin
+details for each entry reported Skills (1), matching identity/version.
+
+| Plugin | Candidate | Files per host | Installed full-map SHA256, identical in both hosts |
+| --- | --- | --- | --- |
+| gost-feature | 0.1.0 | 9 | a988c8a4f1ab4b3a6001971ee7c70ad875d7fead0c51bbb13759fa7e61fe9384 |
+| gost-functional-core | 0.2.1 | 8 | bd9b7f8d911eddd5d264dded7bcb202a2baa65b5226111c8dd16407ad8194e65 |
+| gost-svelte-shell | 0.3.1 | 8 | a27b09a938970fabc01b47c13f440b625b3a16b9e6dda2762af74ff91ca60612 |
+| gost-view-presenter | 0.1.1 | 8 | 88e9becde94292712994188b30e1b445fc7e418edbcfaa50a6dc46928fcee2ac |
+
+Each digest uses the full-map derivation above, comparing every installed
+relative path and byte to git-show at 338e1dc. This covers all corrected README
+and changelog bytes as well as manifests/skill/references/license/icon.
+Removing the old three plugins through native commands left one enabled feature
+with working discovery/details and readable references in each host; restoring
+those three returned all four. Full maps/selectors/discovery passed again after
+restoration. Personal fingerprints of Codex config, Claude settings, installed
+inventory and marketplace registry matched before/after. #102's final installed
+README acceptance criterion is evidenced here; its PR/issue is not auto-merged
+or closed by these checks.
+
+All 18 shell blocks in the release guide/four READMEs parse with sh -n. Supported
+native command forms actually ran against the old public tag and candidate ref;
+the README environment guard checks selection, while prose still requires the
+reader to verify tag availability, plugin presence/version. No future tag was
+passed off as released or installed. The documented rollback target is the old
+pair snapshot without feature; update old-to-candidate was executed, a reverse
+rollback was not executed and no earlier feature release is claimed.
+
+Remote matching-refs API confirmed only the two existing annotated tags/objects
+above, unchanged; all four future names are absent. The first matching-refs read
+hit a TLS handshake timeout; a bounded retry succeeded. This was a read-only tag
+query, not a failed native install or evidence of tag publication. Every native
+baseline/candidate/install/repeat/standalone/restoration command returned zero.
+Final-main and final-tag checks remain pending separate approval.
+
+
+## Preparation verification and current issue edits
+
+Author full check passes 121/121 (including packed document consumers), strict
+15/15 and marked audit 170 Markdown / 298 local links / 28 fragments / 0 errors;
+diff check clean. Complete final release-only diff versus #107 and combined
+snapshot versus main were inspected separately from native checks, including
+unchanged distribution/feature specs and live #102/#106 dependencies. No
+skill/recipe, feature payload, fixture, catalog, normative package/version or
+old tag changed. The one presenter version assertion follows the new metadata;
+no runtime behavior or new gate was introduced.
+
+Independent candidate review PASS, no actionable findings: public basis
+#102/#106 and distribution requirements; the separate report is private input,
+not a public basis. Reviewer independently recomputed eight installed full maps
+and digest derivation against git 338e1dc, native selectors/clone HEADs,
+standalone/coexistence/discovery, corrected README shell forms and personal
+fingerprints. Earlier #88/#97 closures remain closed. Final receipt/PR bookkeeping
+is checked separately before reporting preparation complete.
+
+#102 now links its prerequisite PR #107 and records final native README evidence
+from this candidate, while remaining open pending its approved delivery. #106
+links both scoped PRs/prefixes and records prepared versions, checks/limits;
+only completed candidate/version/native criteria are checked. Approval/publication
+criteria and release tasks 4/5 stay pending. No original criteria text or prior
+closure was broadened. Current queue/handoff correct delivered PR #105/main
+2ebe704 and its completed canonical-link follow-up, then point to PR #108.
+
+
+Final independent review of complete receipts/checkpoints PASS, no open findings.
+Both isolated native results and all eight maps/selectors were independently
+audited; all 18 shell blocks parse and fresh root 121/121 plus strict 15/15 logs
+pass. Public #102/#106 requirements are the basis; the private review report is
+supplementary, not a public basis. Updated issues/PRs preserve distinct scopes
+and approval gates. No historical confirmed finding is reopened.
+
+Preparation tasks 1-3 are complete; release tasks 4-5 remain pending explicit
+merge/release approval and final-tag checks. PR #108 is ready for review, stacked
+on prerequisite PR #107. Canonical evidence links use an immutable receipt
+commit; after approved merge replace current pointers with the verified delivered
+main SHA in the same merge session. Only receipts/status changed after native
+source 338e1dc; plugin payloads remain byte-identical to that checked candidate.
