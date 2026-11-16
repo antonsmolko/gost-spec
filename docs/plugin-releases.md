@@ -22,7 +22,7 @@ Choose any one of the four tags above and use it consistently in both harnesses;
 do not add two marketplaces with the same name `gost`. Each final tag was checked
 in isolated Codex 0.169.0 and Claude Code 2.1.308 profiles: install/repeat,
 list/discovery/details, selected ref/clone HEAD and every installed file of all
-four plugins. See the [release evidence](../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release).
+four plugins. See the [release evidence](../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release).
 These checks do not invoke a model or apply a skill to asc-admin.
 
 Source candidates FC 0.3.0 / shell 0.4.0 / feature 0.2.0 update compatibility to

@@ -99,6 +99,12 @@ Skill SHALL поставлять код с путями файлов для ка
 - **THEN** полученная фича проходит заданные проверки и сохраняет соседние модули
 - **AND** повтор не дублирует slices, публичные exports, handlers или providers; отсутствие основы даёт incomplete
 
+#### Scenario: Verify payload actions across a complete scenario
+- **WHEN** the complete example uses the published typed dispatch API
+- **THEN** UI intent calls use namespace/action paths and separate payloads, API callbacks return typed dispatch objects, and reducers read action.payload
+- **AND** direct reducer cases use factory-built states and internal scope/type/payload actions while integration separately executes callbacks and awaited nested dispatch
+- **AND** public type checks reject mismatched namespace/action/payload pairs and the full listing matches the checked consumer
+
 ### Requirement: Independent self-contained plugin delivery
 Skill `gost-feature` SHALL поставляться по-английски отдельным независимо версионируемым plugin общего marketplace для Codex и Claude. References MUST читаться внутри plugin root без исходного checkout или обязательной установки соседних skills. Поставка SHALL сохранять текущие plugin payload, версии npm и неизменяемые release tags; merge/release approval остаётся отдельным.
 
