@@ -17,9 +17,9 @@ test('create maps DTO, navigates through app and list fetches fresh rows', async
     }
     return response([{ user_id: '1', full_name: 'Ada' }]);
   });
-  await app.dispatch("app/NavigateAction", { to: 'create' });
-  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
-  await app.dispatch("registration/SubmitAction");
+  await app.dispatch('app/NavigateAction', { to: 'create' });
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.deepEqual(calls, ['POST', 'GET']);
   assert.equal(app.state.navigation.page, 'list');
   assert.equal(app.state['users-list'].status, 'ready');
@@ -35,7 +35,7 @@ for (const sample of [
 ]) {
   test(sample.name + ' becomes error state without success', async () => {
     const app = createApplication(async () => response(sample.body, sample.status));
-    await app.dispatch("directory/LoadAction");
+    await app.dispatch('directory/LoadAction');
     assert.equal(app.state['users-list'].status, 'error');
     assert.equal(app.state['users-list'].errors[0].code, sample.code);
     assert.deepEqual(app.state['users-list'].rows, []);
@@ -45,8 +45,8 @@ for (const sample of [
 
 test('network failure uses the configured fallback', async () => {
   const app = createApplication(async () => { throw new Error('offline'); });
-  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
-  await app.dispatch("registration/SubmitAction");
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.equal(app.state['users-create'].status, 'error');
   assert.equal(app.state['users-create'].errors[0].code, 'CREATE_FAILED');
   assert.equal(app.state.navigation.page, 'list');

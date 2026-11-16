@@ -90,8 +90,8 @@ replacement transport/dispatcher is used.
   must blindly follow an incompatible baseline is made.
 - Shell recipe: reconstructed the empty connection in an external existing SPA,
   then replaced it with the disposable two-root probe. Both type/Svelte checks
-  and builds passed; original greeting 1/1 and full probe 7/7 Chromium checks
-  passed. Legacy source bytes are unchanged. Factory/reset/exclusions/errors,
+  and builds passed; original greeting 1/1 and six probe cases passed: the probe run totals
+  7/7 Chromium checks because it also includes checks/legacy.pw.ts. Legacy source bytes are unchanged. Factory/reset/exclusions/errors,
   nested path dispatch, shared context, root isolation and missing-provider case
   are exercised; the expected context failure belongs only to its negative case.
 - Feature fixture: actual registry lockfile updated to common 0.4/shell 0.3.
@@ -214,9 +214,11 @@ checking original path, missing action, TypeError and unchanged state. All eight
 native installed maps were recomputed against source and personal fingerprints
 checked. Actual artifact runtime/declarations, generic distinctions, RED logs,
 FC evaluation, shell/browser and root/strict results were inspected. The final
-ledger/native additions were re-read; no open actionable findings remain.
-Only evidence/status changed after native source 698e40d. This branch is ready
-for its implementation PR; merge and any new release remain unperformed.
+ledger/native additions were re-read; no open actionable findings remained at
+that pre-public-review checkpoint. Native source 698e40d is historical evidence
+for that payload. Implementation is now in open stacked PR #111, based on report
+PR #110; merge and any new release remain unperformed. Published review fixes
+and renewed evidence follow below.
 
 ### GitHub issue edits
 
@@ -226,3 +228,37 @@ Its formatter criterion records a checked absence, not a required implementation
 or release claim. The original compatibility outcome and release approval gate
 are unchanged. #106 remains open for its report-delivery follow-up; no completed
 issue is reopened and no criteria are transferred between the two PRs.
+
+## PR 111 published review response
+
+Read all seven inline threads (one complete page, no next cursor), seven submitted
+reviews and the [summary](https://github.com/antonsmolko/gost-spec/pull/111#issuecomment-6927289560)
+on f27164a, plus all PR #110 sources and current #106/#109 bodies/comment lists.
+Prior verified closures remain closed; the previous PASS is a named pre-public-review
+checkpoint, not a disposition of these later published findings.
+
+The standalone factory infers a broad dispatch object; a positive callback that
+is not already constrained by a typed RootEffect must also satisfy
+DispatchAction<RootAction>. This checks the path/payload against declared actions
+without a separate registry. The check now returns directory/LoadedAction.
+The old root/ReceivedAction is well-formed syntax but absent from the composed
+union. A direct runtime replay on common 0.4.0 returned no error and unchanged
+state for that unknown namespace; it did not produce kind dispatch. That error
+kind belongs to malformed paths. The invalid positive example is fixed regardless
+of this narrower correction to the review's runtime explanation.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr111-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590657183) | Base PR #110 update instructions remain unresolved in the stack | release guide, both ledgers | Fixed in base, incorporated here | PR #110 commit 63d3271 fixes its R1/R2; merge d8f1246 includes those changes; [base dispositions](../prepare-feature-plugin-release/design.md#pr-110-published-review-response) |
+| <a id="pr111-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590657605) | Base private-approval attribution missing in handoff/readiness | handoff/readiness, ledgers | Fixed in base, incorporated here | Base R3 labels private input and links public scope/evidence; merge preserves the current-work wording |
+| <a id="pr111-r3"></a>[R3](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590658020) | Positive callback uses an undeclared action path | contracts.types.ts, complete listing | Fixed; runtime explanation corrected | Adding satisfies first reproduced RED TS2322; directory/LoadedAction passes; broad factory inference no longer hides this mismatch |
+| <a id="pr111-r4"></a>[R4](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590661789) | Probe-only and full shell-run counts are conflated | evidence, PR/issue checkpoint | Clarified | Six foundation.pw.ts cases plus legacy.pw.ts = seven tests in the probe run; the earlier empty-connection legacy run is a separate run, not an eighth distinct case |
+| <a id="pr111-r5"></a>[R5](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590662234) | Handoff/ledger retain pre-PR wording | handoff, design | Fixed | Both identify open PR #111 stacked on #110 and retarget/CI sequence; no merge/publication implied |
+| <a id="pr111-r6"></a>[R6](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590662610) | Migrated call-site quote style differs from guidance | fixtures, complete listing, shell recipe | Fixed | Dispatch paths consistently use single quotes; source/listing parity and Svelte checks rerun |
+| <a id="pr111-r7"></a>[R7](https://github.com/antonsmolko/gost-spec/pull/111#discussion_r4590663005) | Impact omits consumer release documentation | proposal | Fixed | Root README and consumer release guide explicitly included |
+
+The bodyless submitted reviews are covered by their corresponding inline entries;
+the summary is covered by all seven entries. #109's live checkpoint/PR description
+will use the clarified counts and latest immutable ledger/source, preserving
+criteria and independent release approval. #106 links its own base response;
+its closure still waits for approved report delivery. No issue is closed here.

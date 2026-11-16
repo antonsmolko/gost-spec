@@ -294,7 +294,7 @@ export const rootReducer: Reducer<RootState, RootAction, RootEffect> = reducing(
 });
 const handlers = define.effector<RootAction, RootEffect>({
   ProbeEffect: async ({ dispatch }) => {
-    await dispatch("completion/ProbeCompletedAction");
+    await dispatch('completion/ProbeCompletedAction');
   },
 });
 export const rootEffector: Effector<RootAction, RootEffect> = effecting(handlers);
@@ -313,11 +313,11 @@ The consumer reads both slices through the public accessor:
 
 <span data-testid="count">{count}</span>
 <span data-testid="completed">{String(completed)}</span>
-<button onclick={() => store.dispatch("counter/IncrementAction")}>Increment</button>
-<button onclick={() => store.dispatch("completion/RunProbeAction")}>Run effect</button>
+<button onclick={() => store.dispatch('counter/IncrementAction')}>Increment</button>
+<button onclick={() => store.dispatch('completion/RunProbeAction')}>Run effect</button>
 <button onclick={() => store.reset()}>Reset all</button>
 <button onclick={() => store.reset({ excluded: ['counter'] })}>Keep counter</button>
-<button onclick={() => store.dispatch("counter/FailAction")}>Fail dispatch</button>
+<button onclick={() => store.dispatch('counter/FailAction')}>Fail dispatch</button>
 ```
 
 Each probe root provides once and renders two consumers. The following

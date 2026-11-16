@@ -24,5 +24,5 @@ five normative package versions stay unchanged. Publish no new tag in this task.
 ## Impact
 
 Three plugin trees and external evaluation fixtures, affected specs, readiness,
-handoff and compatibility checks. No new library API, installer, router, persistence
+handoff, root README, consumer release guide and compatibility checks. No new library API, installer, router, persistence
 or asc-admin migration. Published #106 tags remain immutable.

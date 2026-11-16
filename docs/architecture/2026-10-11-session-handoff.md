@@ -317,3 +317,5 @@ review без открытых findings. P9007936 и catalog Ce781b2e сохра
 ## Совместимость typed dispatch — #109
 
 [Короткий план](../../openspec/changes/update-skills-for-typed-dispatch/design.md) обновляет три skills и реальные внешние consumers на common@0.4.0 / svelte@0.3.0. Новые версии candidates: FC 0.3.0 / shell 0.4.0 / feature 0.2.0; presenter и пять нормативных npm versions сохраняются. Реализация не публикует теги; текущий выпуск #106 остаётся неизменным.
+
+Реализация #109 представлена в открытом [PR #111](https://github.com/antonsmolko/gost-spec/pull/111), stacked на [отчёт PR #110](https://github.com/antonsmolko/gost-spec/pull/110). Сначала отдельно одобренный merge #110, затем retarget #111 в main и проверка обеих Verify jobs перед его merge. Review-правки и итоговое evidence — в design #109; новые версии не выпущены.

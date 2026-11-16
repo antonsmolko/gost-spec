@@ -1,4 +1,4 @@
-import { createApiEffect } from '@gost-kit/common';
+import { createApiEffect, type DispatchAction } from '@gost-kit/common';
 import { listUsers } from '../src/features/users/list/index.ts';
 import { createUser } from '../src/features/users/create/index.ts';
 import type { RootAction } from '../src/store/contracts.ts';
@@ -13,7 +13,7 @@ createApiEffect(listUsers, {
   onSuccess: (rows) => {
     // @ts-expect-error mapped domain data does not expose wire fields
     rows[0].user_id;
-    return { action: 'root/ReceivedAction', payload: { rows } };
+    return { action: 'directory/LoadedAction', payload: { rows } } satisfies DispatchAction<RootAction>;
   },
 });
 // @ts-expect-error namespace and action membership are checked

@@ -725,7 +725,7 @@ export const createRootEffector = (transport: typeof fetch) => {
   // Synthetic application adapter. This is not a router/reset timing recipe.
   const navigation = define.effector<RootAction, NavigateEffect>({
     NavigateEffect: async ({ effect, dispatch }) => {
-      await dispatch("app/PageOpenedAction", { page: effect.to });
+      await dispatch('app/PageOpenedAction', { page: effect.to });
       await dispatch(effect.to === 'list' ? enterList() : enterCreate());
     },
   });
@@ -787,12 +787,12 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const store = createApplicationStore((input, init) => transport(input, init));
   provideStore(store);
   const view = $derived(pagePresenter({ page: store.state.navigation.page }));
-  onMount(() => { void store.dispatch("app/NavigateAction", { to: 'list' }); });
+  onMount(() => { void store.dispatch('app/NavigateAction', { to: 'list' }); });
 </script>
 
 <nav aria-label="Users navigation">
-  <button onclick={() => void store.dispatch("app/NavigateAction", { to: 'list' })}>User list</button>
-  <button onclick={() => void store.dispatch("app/NavigateAction", { to: 'create' })}>Create user</button>
+  <button onclick={() => void store.dispatch('app/NavigateAction', { to: 'list' })}>User list</button>
+  <button onclick={() => void store.dispatch('app/NavigateAction', { to: 'create' })}>Create user</button>
 </nav>
 {#if view.list}<ListPage />{:else if view.create}<CreatePage />{/if}
 ```
@@ -807,12 +807,12 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const view = $derived(createPresenter({ input: store.state['users-create'] }));
   const submit = (event: SubmitEvent) => {
     event.preventDefault();
-    void store.dispatch("registration/SubmitAction");
+    void store.dispatch('registration/SubmitAction');
   };
 </script>
 
 <form onsubmit={submit}>
-  <label>Name <input value={view.name} disabled={view.disabled} oninput={(event) => void store.dispatch("registration/NameChangedAction", { name: event.currentTarget.value })} /></label>
+  <label>Name <input value={view.name} disabled={view.disabled} oninput={(event) => void store.dispatch('registration/NameChangedAction', { name: event.currentTarget.value })} /></label>
   <button type="submit" disabled={view.disabled}>{view.button}</button>
 </form>
 {#if view.failed}<p role="alert">{view.error}</p>{/if}
@@ -839,7 +839,7 @@ export const rootState = define.state<RootState>((options = {}) => ({
   const view = $derived(usersPresenter({ input: store.state['users-list'], labels }));
 </script>
 
-<label>Search <input value={view.query} oninput={(event) => void store.dispatch("directory/QueryChangedAction", { query: event.currentTarget.value })} /></label>
+<label>Search <input value={view.query} oninput={(event) => void store.dispatch('directory/QueryChangedAction', { query: event.currentTarget.value })} /></label>
 {#if view.loading}<p>{view.message}</p>
 {:else if view.failed}<p role="alert">{view.message}</p>
 {:else if view.empty}<p>{view.message}</p>
@@ -861,7 +861,7 @@ export const rootState = define.state<RootState>((options = {}) => ({
 ### `checks/contracts.types.ts`
 
 ```ts
-import { createApiEffect } from '@gost-kit/common';
+import { createApiEffect, type DispatchAction } from '@gost-kit/common';
 import { listUsers } from '../src/features/users/list/index.ts';
 import { createUser } from '../src/features/users/create/index.ts';
 import type { RootAction } from '../src/store/contracts.ts';
@@ -876,7 +876,7 @@ createApiEffect(listUsers, {
   onSuccess: (rows) => {
     // @ts-expect-error mapped domain data does not expose wire fields
     rows[0].user_id;
-    return { action: 'root/ReceivedAction', payload: { rows } };
+    return { action: 'directory/LoadedAction', payload: { rows } } satisfies DispatchAction<RootAction>;
   },
 });
 // @ts-expect-error namespace and action membership are checked
@@ -990,9 +990,9 @@ test('create maps DTO, navigates through app and list fetches fresh rows', async
     }
     return response([{ user_id: '1', full_name: 'Ada' }]);
   });
-  await app.dispatch("app/NavigateAction", { to: 'create' });
-  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
-  await app.dispatch("registration/SubmitAction");
+  await app.dispatch('app/NavigateAction', { to: 'create' });
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.deepEqual(calls, ['POST', 'GET']);
   assert.equal(app.state.navigation.page, 'list');
   assert.equal(app.state['users-list'].status, 'ready');
@@ -1008,7 +1008,7 @@ for (const sample of [
 ]) {
   test(sample.name + ' becomes error state without success', async () => {
     const app = createApplication(async () => response(sample.body, sample.status));
-    await app.dispatch("directory/LoadAction");
+    await app.dispatch('directory/LoadAction');
     assert.equal(app.state['users-list'].status, 'error');
     assert.equal(app.state['users-list'].errors[0].code, sample.code);
     assert.deepEqual(app.state['users-list'].rows, []);
@@ -1018,8 +1018,8 @@ for (const sample of [
 
 test('network failure uses the configured fallback', async () => {
   const app = createApplication(async () => { throw new Error('offline'); });
-  await app.dispatch("registration/NameChangedAction", { name: 'Ada' });
-  await app.dispatch("registration/SubmitAction");
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.equal(app.state['users-create'].status, 'error');
   assert.equal(app.state['users-create'].errors[0].code, 'CREATE_FAILED');
   assert.equal(app.state.navigation.page, 'list');
