@@ -262,3 +262,45 @@ the summary is covered by all seven entries. #109's live checkpoint/PR descripti
 will use the clarified counts and latest immutable ledger/source, preserving
 criteria and independent release approval. #106 links its own base response;
 its closure still waits for approved report delivery. No issue is closed here.
+
+### Review-round verification and renewed native source
+
+External source/listing checks passed on npm common 0.4.0 / shell 0.3.0:
+Svelte/tsc zero diagnostics, feature 19 unit /13 integration /4 browser and build;
+shell type/build and exactly six foundation + one legacy browser cases (7 total).
+The satisfies regression was first RED on the old root/ReceivedAction, then GREEN
+on directory/LoadedAction. Autofixer reported no issues/suggestions for all three
+changed feature components and the extracted shell consumer. Root 121/121, strict
+16/16 and Markdown 176/306/36/0 passed; base PR #110 separately has root121/121,
+strict15/15 and Markdown170/303/35/0. Whitespace checks are clean.
+
+Because quotes and the complete listing changed installed content, earlier
+698e40d native evidence was not reused as evidence for the new bytes. Fresh
+isolated Codex 0.169.0 / Claude 2.1.308 profiles selected the public branch at
+**b09bfab4bce1685d762c1f18f199a289a922e2a9**, using the exact per-host commands
+and environment procedure above. All install/repeat/list/details commands
+exited zero without retries. Actual selectors/clone HEADs and all eight complete
+installed maps matched that source; fresh Codex discovery found four enabled
+unique GOST skills, zero errors; Claude showed Skills (1) per plugin. Personal
+protected fingerprints matched before/after. No model/app invocation or tags.
+The same sorted relative-path/file-hash JSON digest formula applies:
+
+| Plugin | Version | Files per host | Complete map SHA256 in both hosts |
+| --- | --- | --- | --- |
+| gost-feature | 0.2.0 | 9 | 4c7df3f93d6ec561b24c4537042099583eef18f86e28e4934f556f4a11697b6b |
+| gost-functional-core | 0.3.0 | 8 | 5a6be27687c539969c47464ab6bcaec47613496a16150ca86f17a231ea5292e2 |
+| gost-svelte-shell | 0.4.0 | 8 | 741c5fc51cbea9a619a05151a71ff5bdc5fb347ffe3f8175a44b428a4f2f9db4 |
+| gost-view-presenter | 0.1.1 | 8 | 88e9becde94292712994188b30e1b445fc7e418edbcfaa50a6dc46928fcee2ac |
+
+Independent whole-result review PASS: all published sources/complete diffs of
+PR #110/#111, relevant unchanged specs/gates/dependencies and live issue bodies
+were inspected separately from runtime tests. Private review input, not a public
+basis; public actionable basis is the ten inline sources and two summaries linked
+above. Reviewer independently reran root121, strict16 and external type/Svelte
+checks/integration13, checked the other logs and RED, then recomputed all eight
+installed maps (66 files), source selectors/HEADs, discovery/details and personal
+fingerprints. All ten dispositions are verified; old closures remain closed.
+Only ledger/checkpoint text changes after b09bfab; refreshed payloads remain
+identical. Thread/summary replies link these immutable ledger entries; current
+PR/issue links are updated after this receipt commit, with no criteria expansion
+or issue closure. Both PRs remain unmerged and no new release is authorized.
