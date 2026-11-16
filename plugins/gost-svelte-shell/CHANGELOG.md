@@ -3,6 +3,10 @@
 Entries describe versioned content. Publication requires an existing approved
 immutable tag selecting a snapshot with this plugin and version.
 
+## 0.4.0 (unreleased)
+
+- Use published common 0.4.0 / svelte 0.3.0, typed dispatch and invalid-path StoreError reporting; retain factory/reset/context contracts.
+
 ## 0.3.1
 
 - Clarify release availability and checked snapshot selection in README.

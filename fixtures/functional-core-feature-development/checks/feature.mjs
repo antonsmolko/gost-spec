@@ -33,15 +33,11 @@ assert.equal(commit.effects[0].type, 'ApiEffect', 'feature must reuse the applic
 assert.equal(commit.effects[0].method, 'get');
 assert.equal(commit.effects[0].url, '/staff');
 assert.equal(commit.effects[0].operation, loadStaff, 'effect must reference the existing typed operation');
-assert.deepEqual(commit.effects[0].onSuccess(rows), {
-  scope: 'directory', type: 'StaffLoadedAction', rows,
-});
+assert.deepEqual(commit.effects[0].onSuccess(rows), { action: 'directory/StaffLoadedAction', payload: { rows } });
 const apiErrors = [{ code: 'OFFLINE', message: 'offline', path: ['staff'] }];
-assert.deepEqual(commit.effects[0].onError(apiErrors, { kind: 'http', status: 422, errors: apiErrors }), {
-  scope: 'directory', type: 'StaffFailedAction', errors: apiErrors,
-});
+assert.deepEqual(commit.effects[0].onError(apiErrors, { kind: 'http', status: 422, errors: apiErrors }), { action: 'directory/StaffFailedAction', payload: { errors: apiErrors } });
 assert.equal(before.staff.status, 'idle');
-const pending = app.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
+const pending = app.dispatch('directory/LoadStaffAction');
 assert.equal(app.readState().staff.status, 'loading');
 assert.equal(calls, 1);
 resolveLoad(Response.json(wireRows));
@@ -49,12 +45,12 @@ await pending;
 assert.equal(app.readState().staff.status, 'ready');
 assert.deepEqual(app.readState().staff.rows, rows);
 assert.deepEqual(app.errors, []);
-await app.dispatch({ type: 'SetThemeAction', theme: 'light' });
+await app.dispatch('root/SetThemeAction', { theme: 'light' });
 assert.equal(app.readState().preferences.theme, 'light');
 assert.deepEqual(app.readState().staff.rows, rows);
 assert.deepEqual(app.readState().audit, { marker: 'keep' });
 const failed = createApplication({ fetch: async () => Response.json({ errors: apiErrors }, { status: 422 }) });
-await failed.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
+await failed.dispatch('directory/LoadStaffAction');
 assert.equal(failed.readState().staff.status, 'error');
 assert.deepEqual(failed.readState().staff.errors, apiErrors);
 assert.deepEqual(failed.alerts, ['offline']);
@@ -67,7 +63,7 @@ for (const fetch of [
   async () => Response.json(null), // mapper rejects invalid collection; contract failure
 ]) {
   const fallback = createApplication({ fetch });
-  await fallback.dispatch({ scope: 'directory', type: 'LoadStaffAction' });
+  await fallback.dispatch('directory/LoadStaffAction');
   assert.equal(fallback.readState().staff.status, 'error');
   assert.deepEqual(fallback.readState().staff.errors, [commit.effects[0].defaultError]);
   assert.deepEqual(fallback.alerts, [commit.effects[0].defaultError.message]);

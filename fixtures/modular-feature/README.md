@@ -5,7 +5,7 @@ packages and plugins. Copy this directory to a disposable directory before
 installing dependencies or running checks; do not use a gost-kit workspace source.
 All user data and the injected demo transport are synthetic.
 
-Use Node 26.11.1 (packages require ^26.0.0), common 0.3.0, shell 0.2.0 and
+Use Node 26.11.1 (packages require ^26.0.0), common 0.4.0, shell 0.3.0 and
 Svelte 5.57.2, pinned by this fixture's lockfile. Inspect actual installed metadata,
 public exports and registry integrity when evaluating another artifact.
 

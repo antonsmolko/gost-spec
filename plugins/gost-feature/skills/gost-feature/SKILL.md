@@ -15,7 +15,9 @@ before changing composition; it links each rule to a complete tested users examp
 Read project instructions, the requested behavior, existing feature modules and
 public entrypoints. Inspect the installed gost-kit artifacts/exports, root
 composition, application effects/handlers, store/context and test commands.
-The recipe checks common 0.3.0 / shell 0.2.0; verify actual consumer compatibility.
+The recipe checks common 0.4.0 / shell 0.3.0; verify actual consumer compatibility.
+Use `dispatch('namespace/Action', payload)` for intents, `action.payload` inside
+reducers and `{ action: 'namespace/Action', payload }` in API callbacks.
 Preserve compatible structure and unrelated features. Apply only the requested
 scenario work; a framework or FSD selection does not itself adopt this layout.
 

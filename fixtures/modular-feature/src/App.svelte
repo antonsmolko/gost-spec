@@ -9,11 +9,11 @@
   const store = createApplicationStore((input, init) => transport(input, init));
   provideStore(store);
   const view = $derived(pagePresenter({ page: store.state.navigation.page }));
-  onMount(() => { void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'list' }); });
+  onMount(() => { void store.dispatch('app/NavigateAction', { to: 'list' }); });
 </script>
 
 <nav aria-label="Users navigation">
-  <button onclick={() => void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'list' })}>User list</button>
-  <button onclick={() => void store.dispatch({ scope: 'app', type: 'NavigateAction', to: 'create' })}>Create user</button>
+  <button onclick={() => void store.dispatch('app/NavigateAction', { to: 'list' })}>User list</button>
+  <button onclick={() => void store.dispatch('app/NavigateAction', { to: 'create' })}>Create user</button>
 </nav>
 {#if view.list}<ListPage />{:else if view.create}<CreatePage />{/if}

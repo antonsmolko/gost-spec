@@ -17,9 +17,9 @@ test('create maps DTO, navigates through app and list fetches fresh rows', async
     }
     return response([{ user_id: '1', full_name: 'Ada' }]);
   });
-  await app.dispatch({ scope: 'app', type: 'NavigateAction', to: 'create' });
-  await app.dispatch({ scope: 'registration', type: 'NameChangedAction', name: 'Ada' });
-  await app.dispatch({ scope: 'registration', type: 'SubmitAction' });
+  await app.dispatch('app/NavigateAction', { to: 'create' });
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.deepEqual(calls, ['POST', 'GET']);
   assert.equal(app.state.navigation.page, 'list');
   assert.equal(app.state['users-list'].status, 'ready');
@@ -35,7 +35,7 @@ for (const sample of [
 ]) {
   test(sample.name + ' becomes error state without success', async () => {
     const app = createApplication(async () => response(sample.body, sample.status));
-    await app.dispatch({ scope: 'directory', type: 'LoadAction' });
+    await app.dispatch('directory/LoadAction');
     assert.equal(app.state['users-list'].status, 'error');
     assert.equal(app.state['users-list'].errors[0].code, sample.code);
     assert.deepEqual(app.state['users-list'].rows, []);
@@ -45,9 +45,24 @@ for (const sample of [
 
 test('network failure uses the configured fallback', async () => {
   const app = createApplication(async () => { throw new Error('offline'); });
-  await app.dispatch({ scope: 'registration', type: 'NameChangedAction', name: 'Ada' });
-  await app.dispatch({ scope: 'registration', type: 'SubmitAction' });
+  await app.dispatch('registration/NameChangedAction', { name: 'Ada' });
+  await app.dispatch('registration/SubmitAction');
   assert.equal(app.state['users-create'].status, 'error');
   assert.equal(app.state['users-create'].errors[0].code, 'CREATE_FAILED');
   assert.equal(app.state.navigation.page, 'list');
+});
+
+test('both dispatch forms feed payload to reducers and invalid paths report without changing state', async () => {
+  const app = createApplication(async () => response([]));
+  await app.dispatch('directory/QueryChangedAction', { query: 'Ada' });
+  assert.equal(app.state['users-list'].query, 'Ada');
+  await app.dispatch({ action: 'directory/QueryChangedAction', payload: { query: 'Grace' } });
+  assert.equal(app.state['users-list'].query, 'Grace');
+  const before = app.state;
+  // Simulate untyped external input at the runtime boundary, not ordinary application code.
+  await Reflect.apply(app.dispatch, undefined, ['invalid-path']);
+  assert.equal(app.state, before);
+  assert.equal(app.errors.length, 1);
+  assert.ok(typeof app.errors[0] === 'object' && app.errors[0] !== null);
+  assert.ok('kind' in app.errors[0] && app.errors[0].kind === 'dispatch');
 });

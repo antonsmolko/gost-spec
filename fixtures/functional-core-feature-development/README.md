@@ -20,7 +20,7 @@ with an action and assert returned state/effect descriptions. Keep dispatch and
 effect execution in the separate `checks/feature.mjs` integration probe.
 
 Copy this directory to a disposable directory and install a real
-`@gost-kit/common@0.3.0` registry package (or a separately verified tarball)
+`@gost-kit/common@0.4.0` registry package (or a separately verified tarball)
 there, then install TypeScript 5.9.3. Record Node/engines compatibility; the
 published baseline requires Node ^26.0.0. Do not install or
 build in the source fixture. Record artifact revision/version/hash and inspect

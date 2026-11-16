@@ -45,6 +45,9 @@ For an empty foundation use empty state and `never` actions/effects, as in the
 recipe. Preserve reducers as pure immutable transitions; they describe effects,
 while application effect handlers execute side effects. Svelte reactivity stays
 at the shell/UI boundary. Keep the store object when reading its reactive state.
+Use typed `dispatch('namespace/Action', payload)` calls; root actions use
+`root/Action`. Reducers read data from `action.payload`; API callbacks return
+`{ action: 'namespace/Action', payload }` for the application handler to dispatch.
 Pass a fresh zero-argument factory as `initState`. Use explicit `reset()` or
 `reset({ excluded: [...] })` with root keys, never automatic navigation resets
 or shell-stored exclusion settings. Follow the recipe for fixed-root type

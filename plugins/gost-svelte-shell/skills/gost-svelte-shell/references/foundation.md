@@ -2,14 +2,14 @@
 
 ## Verified published baseline
 
-Checked with registry-installed `@gost-kit/common@0.3.0` and
-`@gost-kit/svelte@0.2.0`, using their public package roots. Both packages declare
-Node `^26.0.0`; the shell depends on common `^0.3.0` and peers on Svelte `^5.57.2`.
+Checked with registry-installed `@gost-kit/common@0.4.0` and
+`@gost-kit/svelte@0.3.0`, using their public package roots. Both packages declare
+Node `^26.0.0`; the shell depends on common `^0.4.0` and peers on Svelte `^5.57.2`.
 The checked consumer used Node `26.11.1`, Svelte `5.57.2`, TypeScript `5.9.3`,
 Vite `8.3.5` and `@sveltejs/vite-plugin-svelte@7.3.1`.
 
 ```sh
-npm install --save-exact @gost-kit/common@0.3.0 @gost-kit/svelte@0.2.0
+npm install --save-exact @gost-kit/common@0.4.0 @gost-kit/svelte@0.3.0
 ```
 
 Use the consumer's package manager. Confirm installed versions, public exports,
@@ -19,8 +19,8 @@ the mismatch instead of silently upgrading the environment. Supplied development
 tarballs remain valid inputs when their actual metadata and compatibility are
 checked; development version numbers alone do not identify published releases.
 
-[Published common](https://www.npmjs.com/package/@gost-kit/common/v/0.3.0) and
-[published shell](https://www.npmjs.com/package/@gost-kit/svelte/v/0.2.0) identify
+[Published common](https://www.npmjs.com/package/@gost-kit/common/v/0.4.0) and
+[published shell](https://www.npmjs.com/package/@gost-kit/svelte/v/0.3.0) identify
 the baseline. Other versions require their own verification. Do not use
 workspace/source imports as evidence of external consumption.
 
@@ -55,6 +55,8 @@ import { rootState, rootReducer, rootEffector } from './core';
 export const reportStoreError = (failure: StoreError<RootAction, RootEffect>): void => {
   if (failure.kind === 'reset') {
     console.error('Store reset failed', failure.error);
+  } else if (failure.kind === 'dispatch') {
+    console.error('Invalid dispatch path', failure.path, failure.error);
   } else {
     console.error('Store dispatch failed', failure.kind, failure.action, failure.error);
   }
@@ -145,6 +147,24 @@ client smoke test. Context access happens during component initialization, not
 inside arbitrary effect handlers or router callbacks. Pass store explicitly to
 such infrastructure. This recipe covers client SPAs, not SSR lifecycle design.
 
+## Typed dispatch
+
+Declare action data as `payload`; `ScopedActions` derives each namespace/action
+path from the composed action union. Prefer `store.dispatch('counter/IncrementAction')`
+for a no-data action and `store.dispatch('users/LoadedAction', { rows })` for an
+action declaring `payload: { rows: User[] }`. Root actions use `root/Action`.
+The equivalent API callback returns `{ action: 'users/LoadedAction', payload: { rows } }`;
+the existing application ApiEffector dispatches it. These illustrative users names
+are not an extra module to add to the empty connection.
+
+The reducer receives normalized scope/type/payload and reads `action.payload`.
+Required payloads cannot be omitted; no-data and all-optional object payloads may
+omit the argument. Handle undefined payload for the latter. Keep primitive/array
+payload types intact and use public Dispatch/DispatchAction types rather than a
+manual path registry. The disposable probe below exercises path calls and awaited
+nested dispatch through the same store; consumer integration must also check its
+actual action payloads and API result callbacks.
+
 ## Factories, explicit reset and errors
 
 Pass the zero-argument synchronous factory itself as `initState`, not its result.
@@ -169,8 +189,9 @@ identities stay the same. Both descendants must observe the replacement through
 the same store; keep reactive access rather than destructuring a snapshot.
 
 Configure the shared synchronous `onError` reporter at store creation. Its
-`StoreError` discriminant `kind: 'reset'` has no action; dispatch failures carry
-an action and kinds such as `reducer` or `effect`. This infrastructure reporter
+`StoreError` kinds `reset` and `dispatch` have no action. Invalid-path `dispatch`
+failures carry the original `path`; execution failures such as `reducer` or
+`effect` carry the normalized internal action. This infrastructure reporter
 is different from an API effect's `onError` callback, which maps an API failure
 to an ordinary action. Do not make the reporter an asynchronous recovery flow.
 
@@ -273,7 +294,7 @@ export const rootReducer: Reducer<RootState, RootAction, RootEffect> = reducing(
 });
 const handlers = define.effector<RootAction, RootEffect>({
   ProbeEffect: async ({ dispatch }) => {
-    await dispatch({ scope: 'completion', type: 'ProbeCompletedAction' });
+    await dispatch('completion/ProbeCompletedAction');
   },
 });
 export const rootEffector: Effector<RootAction, RootEffect> = effecting(handlers);
@@ -292,11 +313,11 @@ The consumer reads both slices through the public accessor:
 
 <span data-testid="count">{count}</span>
 <span data-testid="completed">{String(completed)}</span>
-<button onclick={() => store.dispatch({ scope: 'counter', type: 'IncrementAction' })}>Increment</button>
-<button onclick={() => store.dispatch({ scope: 'completion', type: 'RunProbeAction' })}>Run effect</button>
+<button onclick={() => store.dispatch('counter/IncrementAction')}>Increment</button>
+<button onclick={() => store.dispatch('completion/RunProbeAction')}>Run effect</button>
 <button onclick={() => store.reset()}>Reset all</button>
 <button onclick={() => store.reset({ excluded: ['counter'] })}>Keep counter</button>
-<button onclick={() => store.dispatch({ scope: 'counter', type: 'FailAction' })}>Fail dispatch</button>
+<button onclick={() => store.dispatch('counter/FailAction')}>Fail dispatch</button>
 ```
 
 Each probe root provides once and renders two consumers. The following
