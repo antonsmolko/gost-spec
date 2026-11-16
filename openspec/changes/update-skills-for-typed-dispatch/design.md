@@ -304,3 +304,14 @@ Only ledger/checkpoint text changes after b09bfab; refreshed payloads remain
 identical. Thread/summary replies link these immutable ledger entries; current
 PR/issue links are updated after this receipt commit, with no criteria expansion
 or issue closure. Both PRs remain unmerged and no new release is authorized.
+
+## Integration session
+
+Prerequisite report PR #110 delivered main3b200af, verified equal to its reviewed
+tree; #106 completed and current canonical links point to the delivered SHA.
+PR #111 retargeted to main; integration includes that main ancestry. Only delivery
+bookkeeping changes after reviewed/native source b09bfab. Plugin/package/fixture
+bytes remain identical; the full compatibility diff is unchanged. Both Verify
+jobs must pass on the actual retargeted head before merge. This owner-authorized
+merge does not authorize new release tags. Actual #111 delivery and canonical
+pointers are recorded in live issue/PR after resulting main is verified.
