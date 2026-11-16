@@ -456,3 +456,20 @@ verification/recording; unchecked task 6 explicitly retains approved report
 merge, delivery verification, canonical-link follow-up and issue closure.
 Final independent reinspection confirmed no open actionable findings. This report
 is ready for review; its merge is not inferred from the earlier tag approval.
+
+## PR 110 published review response
+
+Read all three inline threads (one complete page, no next cursor), three submitted
+reviews and the [summary](https://github.com/antonsmolko/gost-spec/pull/110#issuecomment-6926660879)
+on 4d659b3. Earlier verified closures remain closed. This is an editorial correction
+of release instructions/status, without new runtime, packaging or release gates.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr110-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590373129) | Historical-source wording over-includes the current change procedure | release guide | Fixed | Pair-install commands are distinguished explicitly from re-registration to the current release |
+| <a id="pr110-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590375860) | Remove/add plugin sets differ in copied commands | release guide | Fixed | Both host blocks remove all four listed plugins; absent-plugin exception retained |
+| <a id="pr110-r3"></a>[R3](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590377790) | Private approval attribution omitted in secondary views | handoff/readiness | Fixed | Both label private input and link public #106 and canonical publication evidence |
+
+The summary and its three bodyless submitted reviews are covered by these
+individual source-linked dispositions. #106/#109 checkpoints/PR descriptions
+will link this response on an immutable commit; no issue criteria/closures change.

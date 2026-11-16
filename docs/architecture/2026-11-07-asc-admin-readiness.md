@@ -24,7 +24,8 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 
 #102 завершена через PR #107/main `7ee001d`. Подготовка #106 доставлена PR #108
 в main `f1c6f936b408f61f063089eded234ad23bf6e076`. Владелец отдельно разрешил
-публикацию этого SHA и состава: feature 0.1.0 / FC 0.2.1 / shell 0.3.1 /
+публикацию этого SHA и состава (private input, not a public basis; публичный scope —
+[#106](https://github.com/antonsmolko/gost-spec/issues/106), [evidence](../../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release)): feature 0.1.0 / FC 0.2.1 / shell 0.3.1 /
 presenter 0.1.1. Четыре тега опубликованы и проверены по remote objects/peeled SHA.
 Каждый тег проверен в Codex и Claude с установкой/повтором всех четырёх plugins,
 полными картами файлов, выбранным ref/commit и discovery/details. Семь профилей

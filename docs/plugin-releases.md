@@ -55,8 +55,9 @@ application's actual Node/Svelte/gost-kit versions before applying a skill.
 The earlier tags `gost-functional-core-v0.2.0` and `gost-svelte-shell-v0.3.0`
 remain immutable on `64714fcc9929ce3eb0ea7676dfabaa883f5069f7`. Their installation
 was verified in isolated Codex 0.167.0 and Claude Code 2.1.308 profiles. That snapshot
-also contains presenter 0.1.0, but no feature plugin. The commands in the next
-historical sections select this earlier snapshot intentionally.
+also contains presenter 0.1.0, but no feature plugin. The pair-install commands
+below intentionally select that earlier snapshot. The change-registration
+procedure switches to the current release.
 
 ## README status in the existing pair snapshot
 
@@ -106,6 +107,7 @@ Record all installed plugins to retain. For the current snapshot, uninstall each
 installed copy, change the registration, then restore the selected plugins:
 
 ```sh
+codex plugin remove gost-feature@gost
 codex plugin remove gost-functional-core@gost
 codex plugin remove gost-svelte-shell@gost
 codex plugin remove gost-view-presenter@gost
@@ -118,6 +120,7 @@ codex plugin list --json
 ```
 
 ```sh
+claude plugin uninstall gost-feature@gost
 claude plugin uninstall gost-functional-core@gost
 claude plugin uninstall gost-svelte-shell@gost
 claude plugin uninstall gost-view-presenter@gost
@@ -129,8 +132,7 @@ done
 claude plugin list --json
 ```
 
-Skip removal of absent plugins; if feature is already installed, remove it too
-before removing the marketplace. Restore any other deliberately retained plugins.
+Skip removal of absent plugins. Restore any other deliberately retained plugins.
 Installing a previously absent plugin is a separate choice. Inspect actual
 selected ref, versions, files and skill discovery after restarting.
 After any failure, report the actual active versions/cache state. An old cache
