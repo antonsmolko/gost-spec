@@ -321,3 +321,155 @@ independent scopes and release approval, and identify old source as historical.
 Preparation tasks 1-3 are complete again; release tasks 4/5 remain pending.
 Only records/status change after native candidate ae26a2e; all installed plugin
 bytes remain those independently checked against that exact commit.
+
+## Published feature release
+
+This section supersedes the preparation checkpoints above. Prerequisite PR #107
+merged as `7ee001dd555bfcc380bd42e2db00310ae6853494`; #102 is completed. PR #108
+was retargeted to main, both Node 26.0.0/26.11.1 Verify jobs passed on synchronized
+head f35dc7d, and it merged as **f1c6f936b408f61f063089eded234ad23bf6e076**.
+Its tree equals reviewed c2db83a; all 33 plugin files equal native-verified ae26a2e.
+Post-merge and pre-publication checks passed 121/121; main CI passed both Node jobs.
+The owner then explicitly authorized these four tags on that exact commit
+(private input, not a public basis). Public actionable scope/evidence is
+[#106](https://github.com/antonsmolko/gost-spec/issues/106) and
+[merged PR #108](https://github.com/antonsmolko/gost-spec/pull/108).
+
+### Immutable remote tags
+
+A fresh remote read confirmed all four names absent before creation. Annotated
+local tags were created on F1, then pushed atomically. The first push exceeded a
+40-second deadline; subsequent remote reads confirmed none had appeared. A retry
+using the existing local objects and a temporary gh credential helper succeeded.
+No credential/configuration change was saved to a personal profile. Every remote
+annotated object and peeled commit was then checked; no tag was moved/deleted.
+The two previous tag objects and their 64714fc target remain unchanged.
+
+| Tag | Annotated object | Peeled commit |
+| --- | --- | --- |
+| gost-feature-v0.1.0 | 78d052b30cdb0dc52b1296e8f02d9f7f61dd74fc | f1c6f936b408f61f063089eded234ad23bf6e076 |
+| gost-functional-core-v0.2.1 | d1bfedf4e3a17ef9206867cf023da929f881ab0f | f1c6f936b408f61f063089eded234ad23bf6e076 |
+| gost-svelte-shell-v0.3.1 | 383862825ba2a7b8e49c12b7ca86574995945190 | f1c6f936b408f61f063089eded234ad23bf6e076 |
+| gost-view-presenter-v0.1.1 | 860fe4f1b4c009afebcb629ef9334fed413f3858 | f1c6f936b408f61f063089eded234ad23bf6e076 |
+
+### Final-tag native verification
+
+Codex 0.169.0 and Claude Code 2.1.308 each installed **each of the four final tags**
+in a fresh isolated profile: eight successful host/tag combinations. Each
+profile installed all four plugins, repeated each installation, inspected native
+inventory/discovery/details, and compared every installed file to git-show F1.
+There are 32 complete installed maps; versions, file counts and map digests are
+identical to the four rows under Renewed native evidence above. No source files
+changed between candidate proof, F1 and published tag delivery.
+
+The exact per-profile command sequence is below; TAG was assigned each of the
+four literal names in the table, with new CODEX_HOME and CLAUDE_CONFIG_DIR
+folders for every run. Those folders existed before invoking the native CLI;
+HOME stayed unchanged. The working directory was empty. HERDR variables,
+CODEX_THREAD_ID and CODEX_INTERNAL_ORIGINATOR_OVERRIDE were removed from child
+environments; temporary GIT_CONFIG_COUNT selected HTTP/1.1 and low-speed timeouts.
+These commands are separate host sequences, not a combined personal-profile script.
+
+Codex sequence, once for each tag in a fresh profile:
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$TAG" --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+done
+codex plugin list --json
+```
+
+A fresh `codex app-server` then received initialize with experimentalApi enabled,
+initialized, and skills/list with the empty cwd and forceReload=true. Each result
+had no errors and exactly four unique enabled @gost plugin skills. Generic
+personal skill metadata, if returned, was excluded from that count. The actual
+marketplaces.gost.ref in that disposable config and the clone HEAD were checked
+against TAG/F1; a native inventory version alone was not accepted as proof.
+
+Claude sequence, once for each tag in a fresh profile:
+
+```sh
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$TAG" --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+claude plugin list --json
+for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
+  claude plugin details "$plugin_name@gost"
+done
+```
+
+Each details result showed Skills (1); actual known_marketplaces source.ref,
+clone HEAD and all enabled versions matched TAG/F1. Every final successful native
+command exited zero. Seven combinations succeeded on the first attempt; the
+Codex/shell combination twice hit the 50-second marketplace-add deadline with
+empty stdout/stderr and no completed clone. A third fresh profile succeeded with
+the same command/environment. Failed profiles were retained separately, not
+counted as successes or reused as source evidence. The scratch retry helper's
+final generic message mentions eight/32 even for its single-profile run; the
+verified aggregate separately joins seven first-run summaries with that one
+retry summary and checks all eight distinct host/tag pairs and 32 actual maps.
+
+Receipts are private local diagnostics, not a public acceptance basis; this
+committed summary retains commands, versions, selectors, objects, digest formula,
+results and failures. Personal config/settings/marketplace/installed-plugin
+fingerprints matched before/after the complete run. No model turn, asc-admin edit,
+npm publication, content acceptance or new dispatch migration occurred. The
+candidate update/standalone proof remains the earlier ae26a2e evidence; final-tag
+checks do not relabel it as a new application/rollback test. The runbook now
+selects an actual published tag, including the earlier-pair rollback limitation.
+
+### Release-session ledger and issue edits
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#106](https://github.com/antonsmolko/gost-spec/issues/106), [PR #108](https://github.com/antonsmolko/gost-spec/pull/108) | Complete the separately authorized final publication and delivery checks | Runbook, README, queue/handoff, tasks, #106 | Completed technical publication; report review/merge remains pending | Four remote objects/peeled F1 and eight native combinations above; no tag rewrite |
+| [gost-kit #44](https://github.com/antonsmolko/gost-kit/issues/44), [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Consumer skills need migration to newer published dispatch | Queue/handoff, #109 | Separate issue and implementation outcome | #106 retains common 0.3.0 / svelte 0.2.0 baseline; no unrelated skill/runtime edits |
+
+Live #106 records actual tag publication/final verification and retains its
+criteria; closure waits for this report's delivery. #102/#88/#96/#97 remain
+completed, with no scope expansion. #109 records the new owner-requested consumer
+migration with its own prefix, independent of #106. No release approval for that
+future composition is inferred from this publication.
+
+### Final report verification and independent review
+
+Author full check passed 121/121, strict all 15/15, tracked Markdown audit
+170 files /301 local links /33 fragments /0 errors, and git diff --check.
+The complete report diff and relevant unchanged specs/README/checkpoint documents
+were inspected separately from runtime tests. No plugin/package/fixture/catalog
+or skill files changed from F1; main spec contracts and prior R1-R5/I1/I2 closures
+are retained. Live #106/#109 scope/dependencies were checked for conflicts.
+
+Independent complete-result review PASS. Private review input, not a public
+basis; public basis is #106's actual open/report-pending checkpoint and merged
+PR #108. The reviewer independently read the complete diff, verified all four
+remote objects/peeled commits plus old refs, recomputed all 32 installed maps
+(264 actual files), checked eight selectors/clone HEADs, fresh native discovery
+and Claude details, and compared personal before/after fingerprints. Reviewer
+strict 15/15, links 170/301/33/0 and whitespace audit also passed.
+A task-status clarification was fixed: completed task 5 covers technical final-tag
+verification/recording; unchecked task 6 explicitly retains approved report
+merge, delivery verification, canonical-link follow-up and issue closure.
+Final independent reinspection confirmed no open actionable findings. This report
+is ready for review; its merge is not inferred from the earlier tag approval.
+
+## PR 110 published review response
+
+Read all three inline threads (one complete page, no next cursor), three submitted
+reviews and the [summary](https://github.com/antonsmolko/gost-spec/pull/110#issuecomment-6926660879)
+on 4d659b3. Earlier verified closures remain closed. This is an editorial correction
+of release instructions/status, without new runtime, packaging or release gates.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr110-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590373129) | Historical-source wording over-includes the current change procedure | release guide | Fixed | Pair-install commands are distinguished explicitly from re-registration to the current release |
+| <a id="pr110-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590375860) | Remove/add plugin sets differ in copied commands | release guide | Fixed | Both host blocks remove all four listed plugins; absent-plugin exception retained |
+| <a id="pr110-r3"></a>[R3](https://github.com/antonsmolko/gost-spec/pull/110#discussion_r4590377790) | Private approval attribution omitted in secondary views | handoff/readiness | Fixed | Both label private input and link public #106 and canonical publication evidence |
+
+The summary and its three bodyless submitted reviews are covered by these
+individual source-linked dispositions. #106/#109 checkpoints/PR descriptions
+will link this response on an immutable commit; no issue criteria/closures change.
