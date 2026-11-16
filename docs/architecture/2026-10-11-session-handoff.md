@@ -321,3 +321,5 @@ review без открытых findings. P9007936 и catalog Ce781b2e сохра
 Реализация #109 доставлена [PR #111](https://github.com/antonsmolko/gost-spec/pull/111), ранее stacked на [отчёт PR #110](https://github.com/antonsmolko/gost-spec/pull/110). #110 доставлен как `3b200af`; #111 переключён на main и вмержен как `3a4ec55` после обеих Verify jobs; post-merge root121/strict16/links176/306/36/0 прошли. Review-правки и итоговое evidence — в design #109; новые версии не выпущены.
 
 Archive/sync #106/#109 подготовлен в отдельной ветке; [отчёт](2026-11-16-archive-typed-dispatch.md). Следующая работа — release preparation #112. До доставки архивного PR actual canonical URLs #106/#109 остаются закреплёнными на проверенных SHA main.
+
+Подготовка #112 — [план](../../openspec/changes/prepare-typed-dispatch-release/design.md), FC0.3.0 / shell0.4.0 / feature0.2.0, presenter0.1.1 неизменён. Сначала review/merge архивного PR #113; release preparation — отдельный PR, теги ещё не доступны.

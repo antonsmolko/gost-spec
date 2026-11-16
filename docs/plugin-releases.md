@@ -25,10 +25,26 @@ list/discovery/details, selected ref/clone HEAD and every installed file of all
 four plugins. See the [release evidence](../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release).
 These checks do not invoke a model or apply a skill to asc-admin.
 
-Source candidates FC 0.3.0 / shell 0.4.0 / feature 0.2.0 update compatibility to
-common 0.4.0 / svelte 0.3.0. They are not published. Their source recipes must not
-be attributed to the immutable release listed above; upgrading marketplace
-registration to a nonexistent future tag is not an installation path.
+## Prepared typed dispatch snapshot
+
+These candidates target common 0.4.0 / svelte 0.3.0 and are not published:
+
+| Plugin | Candidate | Future tag, currently unavailable |
+| --- | --- | --- |
+| gost-functional-core | 0.3.0 | gost-functional-core-v0.3.0 |
+| gost-svelte-shell | 0.4.0 | gost-svelte-shell-v0.4.0 |
+| gost-feature | 0.2.0 | gost-feature-v0.2.0 |
+
+Presenter 0.1.1 is unchanged and included in that prepared snapshot. After
+separately approved integration, all three future tags require explicit release
+approval on one verified final main commit. The current commands below still
+select the existing released snapshot; its recipes target common 0.3.0 / shell
+0.2.0. A future tag is not a usable installation source. After the next release,
+select one of its actual tags consistently in both hosts and follow the same
+remove/re-register/reinstall procedure; do not refresh an old pin and expect
+new content. Rollback can select the earlier existing feature snapshot, provided
+the application still uses runtime packages compatible with those older recipes.
+Marketplace rollback changes skill content, not application dependencies.
 
 ## Install the current release
 
