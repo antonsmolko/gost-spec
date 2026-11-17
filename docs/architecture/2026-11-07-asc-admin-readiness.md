@@ -63,9 +63,12 @@ Archive/sync #106/#109 доставлен PR #113/main `4cfe0ee`: оба change 
 PR #114 доставлен в main `2dee4ab890de24aaea71c85aca966c3f77dbf0c1` после
 обеих CI jobs. По отдельному разрешению владельца (private input, not a public
 basis; публичный scope — [#112](https://github.com/antonsmolko/gost-spec/issues/112),
-[evidence](../../openspec/changes/prepare-typed-dispatch-release/design.md#published-typed-dispatch-release))
+[evidence](../../openspec/changes/archive/2026-11-17-prepare-typed-dispatch-release/design.md#published-typed-dispatch-release))
 три immutable tags опубликованы на этом SHA. Каждый установлен в Codex и Claude:
 6 успешных профилей, 24 полные карты / 198 файлов, actual ref/HEAD и discovery
 совпали; personal fingerprints сохранены. [Установка](../plugin-releases.md).
-Отчёт PR #115 ожидает review/merge и проверки доставки; до этого #112 open.
+Отчёт [PR #115](https://github.com/antonsmolko/gost-spec/pull/115) доставлен
+в main `d445549`: дерево и якоря проверены, canonical links обновлены, #112 закрыта.
+Release change подготовлен к архивированию (4/4 задач, дельт спецификаций нет);
+перенос ожидает отдельного merge архивного PR.
 Применение к asc-admin выполняется в его сессии.

@@ -23,7 +23,7 @@ marketplace named gost. Each of the three final tags was checked in a separate
 fresh profile of Codex and Claude: installs/repeats of all four plugins
 (twice each), inventory/discovery/details, actual selected ref/clone HEAD and
 complete installed file maps.
-See the [release evidence](../openspec/changes/prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
+See the [release evidence](../openspec/changes/archive/2026-11-17-prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
 Installation does not invoke a model, upgrade runtime packages or change asc-admin.
 
 ## Install the current release

@@ -326,9 +326,11 @@ Archive/sync #106/#109 доставлен PR #113/main `4cfe0ee`; [отчёт](2
 [PR #114](https://github.com/antonsmolko/gost-spec/pull/114) доставлен после обеих
 Verify jobs; три immutable tags опубликованы на
 `2dee4ab890de24aaea71c85aca966c3f77dbf0c1` и каждый проверен в обоих hosts.
-[Инструкция](../plugin-releases.md), [evidence](../../openspec/changes/prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
+[Инструкция](../plugin-releases.md), [evidence](../../openspec/changes/archive/2026-11-17-prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
 
 Отдельное разрешение владельца на эти теги — private input, not a public basis;
 публичный scope — [#112](https://github.com/antonsmolko/gost-spec/issues/112).
-Отчёт PR #115 ожидает review/merge; проверка его доставки и закрытие #112
-остаются pending. Применение к asc-admin — в его сессии.
+Отчёт [PR #115](https://github.com/antonsmolko/gost-spec/pull/115) доставлен
+в main `d445549`; дерево и якоря проверены, canonical links обновлены, #112 закрыта.
+Release change подготовлен к архивированию: 4/4 задач, без дельт спецификаций;
+перенос ожидает отдельного merge архивного PR. Применение к asc-admin — в его сессии.
