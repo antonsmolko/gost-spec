@@ -1,59 +1,37 @@
 # GOST plugin releases
 
-The current release contains four independently versioned plugins. All four
-immutable tags select verified main commit
-`f1c6f936b408f61f063089eded234ad23bf6e076`.
+The current typed dispatch release selects verified main commit
+`2dee4ab890de24aaea71c85aca966c3f77dbf0c1`. Three immutable tags identify the
+same repository snapshot with four independently versioned plugins:
 
-| Plugin | Version | Published tag |
-| --- | --- | --- |
-| gost-feature | 0.1.0 | gost-feature-v0.1.0 |
-| gost-functional-core | 0.2.1 | gost-functional-core-v0.2.1 |
-| gost-svelte-shell | 0.3.1 | gost-svelte-shell-v0.3.1 |
-| gost-view-presenter | 0.1.1 | gost-view-presenter-v0.1.1 |
-
-Feature is new; the other three receive documentation patches. Their existing
-skills/recipes and npm dependencies are unchanged: this snapshot uses the checked
-common@0.3.0 / svelte@0.2.0 baseline, and does not yet document the newer dispatch
-API. Plugin versions are independent of gost-kit versions and the five normative
-npm packages, which have no published release.
-
-Both native catalogs use plugin folders from one selected repository snapshot.
-Choose any one of the four tags above and use it consistently in both harnesses;
-do not add two marketplaces with the same name `gost`. Each final tag was checked
-in isolated Codex 0.169.0 and Claude Code 2.1.308 profiles: install/repeat,
-list/discovery/details, selected ref/clone HEAD and every installed file of all
-four plugins. See the [release evidence](../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release).
-These checks do not invoke a model or apply a skill to asc-admin.
-
-## Prepared typed dispatch snapshot
-
-These candidates target common 0.4.0 / svelte 0.3.0 and are not published:
-
-| Plugin | Candidate | Future tag, currently unavailable |
+| Plugin | Version | Current snapshot selection |
 | --- | --- | --- |
 | gost-functional-core | 0.3.0 | gost-functional-core-v0.3.0 |
 | gost-svelte-shell | 0.4.0 | gost-svelte-shell-v0.4.0 |
 | gost-feature | 0.2.0 | gost-feature-v0.2.0 |
+| gost-view-presenter | 0.1.1 | Included in any of the three tags above |
 
-Presenter 0.1.1 is unchanged and included in that prepared snapshot. After
-separately approved integration, all three future tags require explicit release
-approval on one verified final main commit. The current commands below still
-select the existing released snapshot; its recipes target
-@gost-kit/common@0.3.0 / @gost-kit/svelte@0.2.0.
+These recipes are checked on @gost-kit/common@0.4.0 / @gost-kit/svelte@0.3.0.
+Presenter content is unchanged; its older v0.1.1 tag still selects the earlier
+snapshot, so use one of the three current tags for this composition. Five
+normative npm packages remain independently versioned and unpublished. Plugin
+versions above are independent of gost-kit package versions.
 
-A future tag is not a usable installation source. After the next release,
-select one of its actual tags consistently in both hosts and follow the same
-remove/re-register/reinstall procedure; do not refresh an old pin and expect
-new content. Rollback can select the earlier existing feature snapshot, provided
-the application still uses runtime packages compatible with those older recipes.
-Marketplace rollback changes skill content, not application dependencies.
+Both catalogs use local plugin folders from the selected repository snapshot.
+Choose one current tag and use it consistently in both harnesses; register one
+marketplace named gost. Each of the three final tags was checked in a separate
+fresh profile of Codex and Claude: installs/repeats of all four plugins
+(twice each), inventory/discovery/details, actual selected ref/clone HEAD and
+complete installed file maps.
+See the [release evidence](../openspec/changes/prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
+Installation does not invoke a model, upgrade runtime packages or change asc-admin.
 
 ## Install the current release
 
 For a fresh registration, the feature tag selects all four plugin versions:
 
 ```sh
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.1.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.2.0
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   codex plugin add "$plugin_name@gost"
 done
@@ -61,7 +39,7 @@ codex plugin list --json
 ```
 
 ```sh
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.1.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.2.0'
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   claude plugin install "$plugin_name@gost"
 done
@@ -72,6 +50,14 @@ For an existing registration, first follow [Change an existing registration](#ch
 Start a new session and verify actual versions and one enabled skill per plugin.
 Installation does not upgrade application runtime dependencies. Check an
 application's actual Node/Svelte/gost-kit versions before applying a skill.
+
+## Previous feature snapshot
+
+The four earlier tags gost-feature-v0.1.0, gost-functional-core-v0.2.1,
+gost-svelte-shell-v0.3.1 and gost-view-presenter-v0.1.1 remain immutable on
+`f1c6f936b408f61f063089eded234ad23bf6e076`. They contain the earlier checked
+common 0.3.0 / svelte 0.2.0 recipes, including feature, and were verified in both
+hosts. [Historical release evidence](../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release).
 
 ## Previous released pair
 
@@ -135,7 +121,7 @@ codex plugin remove gost-functional-core@gost
 codex plugin remove gost-svelte-shell@gost
 codex plugin remove gost-view-presenter@gost
 codex plugin marketplace remove gost
-codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.1.0
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref gost-feature-v0.2.0
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   codex plugin add "$plugin_name@gost"
 done
@@ -148,7 +134,7 @@ claude plugin uninstall gost-functional-core@gost
 claude plugin uninstall gost-svelte-shell@gost
 claude plugin uninstall gost-view-presenter@gost
 claude plugin marketplace remove gost
-claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.1.0'
+claude plugin marketplace add 'https://github.com/antonsmolko/gost-spec.git#gost-feature-v0.2.0'
 for plugin_name in gost-feature gost-functional-core gost-svelte-shell gost-view-presenter; do
   claude plugin install "$plugin_name@gost"
 done
@@ -161,13 +147,14 @@ selected ref, versions, files and skill discovery after restarting.
 After any failure, report the actual active versions/cache state. An old cache
 is not evidence that the new tag installed successfully.
 
-Rollback follows the same explicit re-registration/reinstallation steps using
-an earlier existing tag. For the current feature snapshot, the previous pair is
-an available earlier marketplace snapshot, but contains no feature plugin: a
-rollback there removes feature availability. There is no earlier feature tag
-to assume. For the first published pair, do not invent a still earlier release.
-Preserve needed local data before removal. Native inventory and installed-file
-checks do not certify model invocation or application behavior.
+Rollback uses the same explicit remove/re-register/reinstall procedure with an
+earlier existing tag. The previous feature snapshot includes all four plugins,
+but its recipes require a compatible older application runtime baseline.
+Marketplace rollback changes skill content, not application dependencies.
+The still earlier pair snapshot has no feature plugin; selecting it removes
+feature availability. Do not invent an earlier release for the first pair.
+Preserve needed local data before removal. Native inventory/file checks do not
+certify model invocation or application behavior.
 
 ## Maintainer release checklist
 
@@ -193,5 +180,6 @@ Use supported native commands, based on [OpenAI packaging documentation](https:/
 and [Claude marketplace documentation](https://code.claude.com/docs/en/plugin-marketplaces).
 Public GitHub candidate-ref checks preceded the published pair release; its
 final-tag checks for both tags and both harnesses passed after approval.
-The feature snapshot final-tag checks passed in both hosts. Neither
-local/loopback evidence nor a version string substitutes for those checks.
+The feature and typed dispatch snapshots passed their own final-tag checks in
+both hosts. Neither local/loopback evidence nor a version string substitutes
+for those checks.

@@ -36,13 +36,10 @@ shows the original component, presenter, unit tests and reactive Svelte 5 bindin
 [Develop modular features](plugins/gost-feature/skills/gost-feature/SKILL.md)
 guides common code and independent scenarios, mapped API operations, functional
 core, presenters and pages. Its [recipe](plugins/gost-feature/skills/gost-feature/references/modular-feature.md)
-links every rule to a complete synthetic users/list/create example. This new
-plugin is published as 0.1.0 alongside documentation patches FC 0.2.1,
-shell 0.3.1 and presenter 0.1.1 on the same immutable snapshot. See the
-[release guide](docs/plugin-releases.md) for availability before installation.
-The current source candidates update typed dispatch compatibility on
-common 0.4.0 / svelte 0.3.0: feature 0.2.0, FC 0.3.0 and shell 0.4.0.
-They are not yet released; the published tags above retain their original recipes.
+links every rule to a complete synthetic users/list/create example.
+The current released snapshot includes feature 0.2.0, FC 0.3.0, shell 0.4.0
+and unchanged presenter 0.1.1, with checked common 0.4.0 / svelte 0.3.0 recipes.
+See the [release guide](docs/plugin-releases.md) for installation and updates.
 
 Skill sources are separate from the five document workspaces. The
 [shell](plugins/gost-svelte-shell/README.md),
