@@ -38,8 +38,10 @@ These candidates target common 0.4.0 / svelte 0.3.0 and are not published:
 Presenter 0.1.1 is unchanged and included in that prepared snapshot. After
 separately approved integration, all three future tags require explicit release
 approval on one verified final main commit. The current commands below still
-select the existing released snapshot; its recipes target @gost-kit/common@0.3.0 /
-@gost-kit/svelte@0.2.0. A future tag is not a usable installation source. After the next release,
+select the existing released snapshot; its recipes target
+@gost-kit/common@0.3.0 / @gost-kit/svelte@0.2.0.
+
+A future tag is not a usable installation source. After the next release,
 select one of its actual tags consistently in both hosts and follow the same
 remove/re-register/reinstall procedure; do not refresh an old pin and expect
 new content. Rollback can select the earlier existing feature snapshot, provided
