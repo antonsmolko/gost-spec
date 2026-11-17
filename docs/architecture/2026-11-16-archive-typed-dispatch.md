@@ -93,3 +93,13 @@ Review-round checks: full check 121/121, strict 14/14 and the marked audit
 177 files / 307 local links / 36 fragments / 0 errors passed; whitespace checks
 are clean. The complete final PR diff and unchanged spec/archive/payload paths
 were checked separately from tests. Only the three editorial documents changed.
+
+## Delivered archive
+
+PR #113 merged as 4cfe0ee38f6545484fb960dc0d3b3a7b4a166b77. Actual main tree
+matches reviewed 9006d10; post-merge check 121/121, strict 14/14 and marked audit
+177/307/36/0 pass. Archive files/anchors were verified and current canonical
+URLs #106/#109 updated to that delivered SHA in the same merge session, retaining
+historical immutable links and original closed criteria. Earlier pending
+checkpoints above are historical. This editorial receipt accompanies the
+already-approved #114 integration; no plugin/runtime/tag content changes.

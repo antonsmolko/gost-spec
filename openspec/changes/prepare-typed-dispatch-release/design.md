@@ -189,3 +189,15 @@ passed. The complete final diff and relevant unchanged contracts were inspected.
 Protected plugin/package/fixture/catalog and archived requirement bytes are
 unchanged from the reviewed preparation source. A fresh check-runs read confirms
 zero jobs for the still-stacked PR; no CI success is inferred from local checks.
+
+## Integration checkpoint
+
+Archive PR #113 delivered main 4cfe0ee, verified tree-identical to reviewed
+9006d10. Archive canonical-link follow-up completed in the merging session.
+PR #114 retargeted to main immediately; the branch includes delivered main
+ancestry. Only delivery/status bookkeeping changes after reviewed 93d9d7a;
+all plugin bytes still equal native-verified a38fd24. Both Verify jobs must pass
+on this final head before its owner-authorized merge. This authorizes no tags;
+after merge the actual main/payload will be verified and exact SHA/three tags
+presented for separate release approval. Task 3 remains incomplete until final
+publication, final-tag native checks and delivery evidence are complete.
