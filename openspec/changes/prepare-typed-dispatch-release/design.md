@@ -201,3 +201,127 @@ on this final head before its owner-authorized merge. This authorizes no tags;
 after merge the actual main/payload will be verified and exact SHA/three tags
 presented for separate release approval. Task 3 remains incomplete until final
 publication, final-tag native checks and delivery evidence are complete.
+
+## Published typed dispatch release
+
+This section supersedes the preparation checkpoints above. PR #114 delivered
+main **2dee4ab890de24aaea71c85aca966c3f77dbf0c1** after both Verify jobs passed
+on final head 3e008b1. Actual main tree equals that head and all 33 plugin files
+match native-verified a38fd24. The owner explicitly approved the exact three
+tags on that main commit (private input, not a public basis); public actionable
+scope is [#112](https://github.com/antonsmolko/gost-spec/issues/112) and
+[merged PR #114](https://github.com/antonsmolko/gost-spec/pull/114).
+
+### Immutable tags and source
+
+A fresh remote preflight confirmed the approved main SHA, manifests/changelog
+versions and absence of all three names. Full pre-publication check passed
+121/121. Annotated tags were created and pushed atomically in one successful
+attempt; remote objects and peeled commits were then verified. All previous
+remote tag refs/objects/targets stayed identical. No tag was moved or deleted.
+
+| Tag | Annotated object | Peeled commit |
+| --- | --- | --- |
+| gost-functional-core-v0.3.0 | 698ca3416dfc6ca8fe484bae7c6d9741688955d8 | 2dee4ab890de24aaea71c85aca966c3f77dbf0c1 |
+| gost-svelte-shell-v0.4.0 | 7767aa62eeb0039796e55d93e7ae61872652431f | 2dee4ab890de24aaea71c85aca966c3f77dbf0c1 |
+| gost-feature-v0.2.0 | b4de8a498ea78ee5e40ea24598cc2be1907a557d | 2dee4ab890de24aaea71c85aca966c3f77dbf0c1 |
+
+### Each final tag in both hosts
+
+Each of the three tags was installed independently in Codex 0.169.0 and Claude
+Code 2.1.308: six fresh host/tag profiles, each with all four plugins installed
+twice. Inventory, actual config selector, clone HEAD, all installed files and
+fresh discovery/details were verified. All six source HEADs equal the approved
+main; all 24 complete installed maps (198 files) equal git-show at that commit.
+Versions, file counts and all four map digests are identical to the table in
+Native preparation evidence. The same sorted relative-path/file-hash JSON
+SHA256 formula applies; corrected changelogs and every reference/icon/manifest
+are included. Every native command exited zero; there were no failed attempts
+or retries in this publication/final-tag verification run.
+
+For each TAG below, new CODEX_HOME and CLAUDE_CONFIG_DIR directories were created
+before commands. HOME stayed unchanged; empty cwd, removed parent HERDR/Codex
+session variables and temporary HTTP/1.1/low-speed Git settings follow the earlier
+procedure. Personal config/settings/installed-plugins/marketplaces fingerprints
+match before/after the whole run. Ambient non-plugin skill metadata can still
+be discovered; only unique enabled @gost plugin entries count as GOST discovery.
+
+Codex sequence, repeated in a fresh profile for each of the three literal tags:
+
+```sh
+codex plugin marketplace add https://github.com/antonsmolko/gost-spec.git --ref "$TAG" --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-feature gost-view-presenter; do
+  codex plugin add "$plugin_name@gost" --json
+  codex plugin add "$plugin_name@gost" --json
+done
+codex plugin list --json
+```
+
+A fresh app-server then received initialize(experimentalApi=true), initialized,
+and skills/list(empty cwd, forceReload=true). Each result contained four unique
+enabled @gost skills and zero errors. The actual marketplaces.gost.ref and clone
+HEAD, not a version string alone, were checked against TAG/approved main.
+
+Claude sequence, separately for each tag in its own fresh profile:
+
+```sh
+claude plugin marketplace add "https://github.com/antonsmolko/gost-spec.git#$TAG" --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-feature gost-view-presenter; do
+  claude plugin install "$plugin_name@gost" --json
+  claude plugin install "$plugin_name@gost" --json
+done
+claude plugin list --json
+for plugin_name in gost-functional-core gost-svelte-shell gost-feature gost-view-presenter; do
+  claude plugin details "$plugin_name@gost"
+done
+```
+
+Each details result showed Skills (1). Actual known_marketplaces.source.ref,
+clone HEAD and enabled inventory versions matched TAG/main. This proves native
+final-tag delivery/read/repeat/coexistence; it does not certify a model turn,
+asc-admin change, real application navigation or a new update/rollback test.
+Earlier runtime evidence remains #109's verified npm consumer behavior; no
+npm publication or normative content acceptance was performed.
+
+### Release-session ledger and issue edits
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#112](https://github.com/antonsmolko/gost-spec/issues/112), [PR #114](https://github.com/antonsmolko/gost-spec/pull/114) | Complete explicitly approved publication and final delivery proof | Runbook, README, handoff/readiness, tasks, #112 | Technical release complete; report delivery pending | Three verified remote objects/peeled main, six final-tag profiles, 24 exact maps and unchanged personal fingerprints |
+| [#112](https://github.com/antonsmolko/gost-spec/issues/112) | Preserve the original final-delivery/closure gate | Task tracking and report | Split bookkeeping, no scope change | Task 3 records successful publication/verification; unchecked task 4 retains separately approved report merge, canonical delivery verification and closure |
+
+#112's current checkpoint/PR links will point to this immutable report commit;
+the issue stays open until final report delivery. Existing #106/#109 closures
+and criteria stay intact. Current runbook selects a real new tag, distinguishes
+presenter's unchanged content from its old snapshot tag, and preserves earlier
+snapshot/rollback compatibility limits. This report changes only root docs and
+bookkeeping, never approved plugin/tag payloads. After approved report merge,
+the merging agent verifies resulting main and updates current canonical URLs to
+that verified delivered SHA in the same session before closing #112.
+
+### Final report verification and independent review
+
+Full check 121/121, strict 15/15, marked audit 180 tracked Markdown files /
+312 local links / 39 fragments / 0 errors and git diff --check pass. The audit
+uses the heading/slug/explicit-id method documented above. Complete final diff,
+relevant unchanged distribution/FC/shell/modular contracts and issue/dependency
+claims were inspected separately from runtime tests. No plugin/package/fixture/
+catalog or tag payload changes occur in this report.
+
+Independent whole-result review PASS: private review input, not a public basis;
+public actionable scope remains #112/merged PR #114. Reviewer independently
+verified all remote objects/peeled targets and retained old refs, all six actual
+config selectors/clone HEADs, inventories/discovery/details, all 48 successful
+install/repeat receipts, recomputed 24 maps (198 files) against approved source
+and compared before/after/current protected fingerprints. Every digest/count
+matches this evidence. Complete diff and unchanged contracts have no technical
+findings; task 4/report-delivery gate remains pending.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#112](https://github.com/antonsmolko/gost-spec/issues/112), private review input, not a public basis | Old issue footer's no-tags/pending wording can read as current | Live #112 | Fixed | Footer explicitly marked Historical review follow-up before merge/publication; current published checkpoint stays at top; new word/number compression corrected |
+
+That issue-only clarification does not alter criteria or closure. Final report
+is ready for review; publication approval does not imply approval to merge this
+new report PR. After approved delivery, current canonical URLs switch to verified
+main in the same session and #112 closes only when its final criteria are met.
