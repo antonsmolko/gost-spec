@@ -14,13 +14,15 @@ same repository snapshot with four independently versioned plugins:
 These recipes are checked on @gost-kit/common@0.4.0 / @gost-kit/svelte@0.3.0.
 Presenter content is unchanged; its older v0.1.1 tag still selects the earlier
 snapshot, so use one of the three current tags for this composition. Five
-normative npm packages remain independently versioned and unpublished.
+normative npm packages remain independently versioned and unpublished. Plugin
+versions above are independent of gost-kit package versions.
 
 Both catalogs use local plugin folders from the selected repository snapshot.
 Choose one current tag and use it consistently in both harnesses; register one
 marketplace named gost. Each of the three final tags was checked in a separate
-fresh profile of Codex and Claude: four installs/repeats, inventory/discovery/
-details, actual selected ref/clone HEAD and complete installed file maps.
+fresh profile of Codex and Claude: installs/repeats of all four plugins
+(twice each), inventory/discovery/details, actual selected ref/clone HEAD and
+complete installed file maps.
 See the [release evidence](../openspec/changes/prepare-typed-dispatch-release/design.md#published-typed-dispatch-release).
 Installation does not invoke a model, upgrade runtime packages or change asc-admin.
 

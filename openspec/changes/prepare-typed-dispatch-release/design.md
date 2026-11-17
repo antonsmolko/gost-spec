@@ -325,3 +325,36 @@ That issue-only clarification does not alter criteria or closure. Final report
 is ready for review; publication approval does not imply approval to merge this
 new report PR. After approved delivery, current canonical URLs switch to verified
 main in the same session and #112 closes only when its final criteria are met.
+
+## PR 115 published review response
+
+Read all six inline threads (one complete page, no next cursor), the submitted
+[review](https://github.com/antonsmolko/gost-spec/pull/115#pullrequestreview-5945736893)
+and empty PR-comment list. The review independently confirms the publication,
+source, counts and live-state facts; earlier verified closures remain closed.
+This round only clarifies consumer wording and consolidates status references.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr115-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116689) | Independent plugin/gost-kit version statement was dropped | Release guide | Fixed | Explicit independence restored beside npm version context |
+| <a id="pr115-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116698) | Handoff calls published versions candidates | Handoff | Fixed | Uses versions of this delivery and refers to the release section for current status |
+| <a id="pr115-r3"></a>[R3](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116710) | Handoff repeats publication/pending status | Handoff | Fixed | Archive paragraph contains archive facts only; release paragraph records publication once, following paragraph retains one report-delivery/closure status |
+| <a id="pr115-r4"></a>[R4](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116718) | Readiness duplicates changing release status | Readiness | Fixed | S9 and earlier context sections link to one current release section; compatibility section carries implementation facts only |
+| <a id="pr115-r5"></a>[R5](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116728) | Four installs/repeats is numerically ambiguous | Release guide | Fixed | All four plugins installed twice each: eight receipts per profile, 48 overall, matching existing native evidence |
+| <a id="pr115-r6"></a>[R6](https://github.com/antonsmolko/gost-spec/pull/115#discussion_r4605116741) | Compatibility paragraph became one long prose line | Readiness | Fixed | Paragraph rewritten/wrapped with a reference to the sole current release status |
+
+The complete submitted review is covered by these entries and individual replies.
+No runtime, version, requirement, tag or approval gate changes. Under AGENTS.md
+rule 6's wording/link-only exception, this editorial correction requires no new
+independent review; original complete native/result review remains in force.
+The full final diff, relevant unchanged contracts and issue/status claims are
+checked separately from tests. #112 stays open until approved report delivery;
+current issue/PR response links update to this immutable receipt. Published tags
+retain their approved SHA, and this round makes no new installation/model claim.
+
+Review-round checks pass: full check 121/121, strict 15/15, marked audit
+180 tracked files / 316 local links / 43 fragments / 0 errors and clean
+whitespace. The increased local-link counts are status-section references,
+resolved with the documented marked/slug/explicit-id method. Complete final PR
+diff and relevant unchanged spec/archive/payload/issue contracts were inspected
+separately from tests; only four editorial documents change in this round.

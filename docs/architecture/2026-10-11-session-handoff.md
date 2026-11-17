@@ -316,11 +316,11 @@ review без открытых findings. P9007936 и catalog Ce781b2e сохра
 
 ## Совместимость typed dispatch — #109
 
-[Короткий план](../../openspec/changes/archive/2026-11-16-update-skills-for-typed-dispatch/design.md) обновляет три skills и реальные внешние consumers на common@0.4.0 / svelte@0.3.0. Новые версии candidates: FC 0.3.0 / shell 0.4.0 / feature 0.2.0; presenter и пять нормативных npm versions сохраняются. Ранее выпущенный snapshot #106 остаётся неизменным; новая поставка — [#112](https://github.com/antonsmolko/gost-spec/issues/112).
+[Короткий план](../../openspec/changes/archive/2026-11-16-update-skills-for-typed-dispatch/design.md) обновляет три skills и реальные внешние consumers на common@0.4.0 / svelte@0.3.0. Версии этой поставки: FC 0.3.0 / shell 0.4.0 / feature 0.2.0; presenter и пять нормативных npm versions сохраняются. Ранее выпущенный snapshot #106 остаётся неизменным; состав и статус выпуска — ниже.
 
-Реализация #109 доставлена [PR #111](https://github.com/antonsmolko/gost-spec/pull/111), ранее stacked на [отчёт PR #110](https://github.com/antonsmolko/gost-spec/pull/110). #110 доставлен как `3b200af`; #111 переключён на main и вмержен как `3a4ec55` после обеих Verify jobs; post-merge root 121/121, strict 16/16 и links 176/306/36/0 прошли; #109 закрыта. Review-правки и итоговое evidence — в design #109; их выпуск выполнен отдельно в #112.
+Реализация #109 доставлена [PR #111](https://github.com/antonsmolko/gost-spec/pull/111), ранее stacked на [отчёт PR #110](https://github.com/antonsmolko/gost-spec/pull/110). #110 доставлен как `3b200af`; #111 переключён на main и вмержен как `3a4ec55` после обеих Verify jobs; post-merge root 121/121, strict 16/16 и links 176/306/36/0 прошли; #109 закрыта. Review-правки и итоговое evidence — в design #109.
 
-Archive/sync #106/#109 доставлен PR #113/main `4cfe0ee`; [отчёт](2026-11-16-archive-typed-dispatch.md). Проверены дерево и archive anchors; current canonical URLs #106/#109 обновлены на фактический SHA доставки. Выпуск #112 опубликован; итоговый отчёт ожидает review/merge.
+Archive/sync #106/#109 доставлен PR #113/main `4cfe0ee`; [отчёт](2026-11-16-archive-typed-dispatch.md). Проверены дерево и archive anchors; current canonical URLs #106/#109 обновлены на фактический SHA доставки.
 
 Выпуск #112: FC 0.3.0 / shell 0.4.0 / feature 0.2.0 / presenter 0.1.1.
 [PR #114](https://github.com/antonsmolko/gost-spec/pull/114) доставлен после обеих
@@ -330,5 +330,5 @@ Verify jobs; три immutable tags опубликованы на
 
 Отдельное разрешение владельца на эти теги — private input, not a public basis;
 публичный scope — [#112](https://github.com/antonsmolko/gost-spec/issues/112).
-Техническая публикация завершена; report review/merge, проверка доставки отчёта
-и закрытие #112 остаются pending. Применение к asc-admin — в его сессии.
+Отчёт PR #115 ожидает review/merge; проверка его доставки и закрытие #112
+остаются pending. Применение к asc-admin — в его сессии.

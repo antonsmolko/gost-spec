@@ -14,14 +14,14 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | S5 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | Отложена | После проверки навигации в asc-admin #72 и решения о выносе общего контракта; middleware не предписана |
 | S6 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Реализация доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104), main `f45ef7a`; 7/7, issue закрыта. Archive/sync доставлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105), main `2ebe704`; canonical links закреплены на SHA доставки | [Архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), [основная спецификация](../../openspec/specs/modular-feature-development/spec.md): 8 требований / 16 сценариев; gost-feature 0.1.0 опубликован в #106 |
 | S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) | PR #107/#108 вмержены; четыре тега опубликованы на `f1c6f93`, все проверены в обоих hosts; итоговый отчёт PR #110 доставлен в main `3b200af`, #106 закрыта | feature 0.1.0 / FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [evidence](../../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release) |
-| S8 | [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Доставлена PR #111/main `3a4ec55`; issue закрыта, archive/sync доставлен PR #113/main `4cfe0ee` | Новый dispatch из gost-kit #44; npm common@0.4.0 / svelte@0.3.0; опубликован в #112, старые теги #106 сохранены |
-| S9 | [gost-spec #112](https://github.com/antonsmolko/gost-spec/issues/112) | Выпуск опубликован на `2dee4ab`; каждый из 3 тегов проверен в обоих hosts; итоговый отчёт ожидает review/merge | FC 0.3.0 / shell 0.4.0 / feature 0.2.0 на common 0.4.0 / svelte 0.3.0; три тега опубликованы; отчёт о доставке pending |
+| S8 | [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Доставлена PR #111/main `3a4ec55`; issue закрыта, archive/sync доставлен PR #113/main `4cfe0ee` | Новый dispatch из gost-kit #44; npm common@0.4.0 / svelte@0.3.0; [текущая поставка](#выпуск-112) |
+| S9 | [gost-spec #112](https://github.com/antonsmolko/gost-spec/issues/112) | [Текущий статус выпуска](#выпуск-112) | FC 0.3.0 / shell 0.4.0 / feature 0.2.0 на common 0.4.0 / svelte 0.3.0 |
 | K1 | [gost-kit #35](https://github.com/antonsmolko/gost-kit/issues/35) | Реализована и закрыта 2026-11-08; [PR #36](https://github.com/antonsmolko/gost-kit/pull/36) вмержен | API-операция с mapper и доменным типом onSuccess; API включён в common@0.3.0; consumer compatibility проверяется в #96 |
 | K2 | [gost-kit #32](https://github.com/antonsmolko/gost-kit/issues/32) | Реализована и закрыта; reset доступен в npm common@0.3.0/svelte@0.2.0, consumer checks — #96 | Общий reset({ excluded }), без правил навигации |
 | A1 | [asc-admin #72](https://github.com/antonsmolko/asc-admin/issues/72) | В очереди; задача перенесена из gost-kit #33 | Сначала навигация в приложении, затем решение о библиотечном выносе; #89 отложена |
 | Позже | [gost-kit #34](https://github.com/antonsmolko/gost-kit/issues/34) | Отложена | Persisted state, версии/миграции и storage adapters; текущую очередь не блокирует |
 
-## Текущий checkpoint — выпуск #112 и финальный отчёт
+## Предыдущая поставка #106
 
 #102 завершена через PR #107/main `7ee001d`. Подготовка #106 доставлена PR #108
 в main `f1c6f936b408f61f063089eded234ad23bf6e076`. Владелец отдельно разрешил
@@ -37,7 +37,8 @@ presenter 0.1.1. Четыре тега опубликованы и провер�
 [Установку и обновление](../plugin-releases.md) можно выполнять в сессии asc-admin.
 Этот snapshot проверен на common@0.3.0 / svelte@0.2.0; обновление runtime приложения
 не входит в установку plugins. Новый dispatch опубликован в common@0.4.0 /
-svelte@0.3.0; обновление skills [#109](https://github.com/antonsmolko/gost-spec/issues/109) доставлено PR #111/main `3a4ec55`, issue закрыта. FC 0.3.0 / shell 0.4.0 / feature 0.2.0 опубликованы в #112; presenter 0.1.1 сохраняется.
+svelte@0.3.0; связанная совместимость описана в #109, а текущая поставка —
+в разделе [«Выпуск #112»](#выпуск-112).
 Прежние #88/#96/#97 завершены; #89 и persisted state отложены, навигация — asc-admin #72.
 
 Проверки runtime/браузера #88/#96 остаются свидетельствами своих поставок;
@@ -45,11 +46,13 @@ svelte@0.3.0; обновление skills [#109](https://github.com/antonsmolko/
 а не запуск модели или изменение asc-admin. Версии пяти нормативных npm-пакетов
 не менялись. Состояние review/публикации #109 отражается отдельно от #106.
 
-## Работа #109 — typed dispatch
+## Совместимость #109 — typed dispatch
 
-FC/shell/feature skills и fixtures обновлены на npm common@0.4.0 / svelte@0.3.0; реализация доставлена PR #111/main `3a4ec55`.
-Кандидаты независимых plugins: FC 0.3.0 / shell 0.4.0 / feature 0.2.0; presenter
-0.1.1 не меняется. Новые версии опубликованы в #112; snapshot #106 сохраняет прежние recipes, его теги не перемещаются. [План и evidence](../../openspec/changes/archive/2026-11-16-update-skills-for-typed-dispatch/design.md).
+FC/shell/feature skills и fixtures обновлены на npm common@0.4.0 / svelte@0.3.0;
+реализация доставлена PR #111/main `3a4ec55`. Presenter и пять нормативных
+npm packages сохранены; snapshot #106 и его теги не изменены.
+[План и evidence](../../openspec/changes/archive/2026-11-16-update-skills-for-typed-dispatch/design.md).
+Состав и текущий статус поставки — в разделе [«Выпуск #112»](#выпуск-112).
 
 Archive/sync #106/#109 доставлен PR #113/main `4cfe0ee`: оба change перенесены в архив, три основные спецификации синхронизированы. FC: 9 требований / 25 сценариев; shell: 10 / 19; feature: 8 / 17. Дерево доставки, archive anchors и post-merge проверки подтверждены; current canonical URLs обновлены.
 
@@ -64,5 +67,5 @@ basis; публичный scope — [#112](https://github.com/antonsmolko/gost-s
 три immutable tags опубликованы на этом SHA. Каждый установлен в Codex и Claude:
 6 успешных профилей, 24 полные карты / 198 файлов, actual ref/HEAD и discovery
 совпали; personal fingerprints сохранены. [Установка](../plugin-releases.md).
-Техническая публикация завершена; report review/merge и проверка доставки отчёта
-остаются pending, #112 open. Применение к asc-admin выполняется в его сессии.
+Отчёт PR #115 ожидает review/merge и проверки доставки; до этого #112 open.
+Применение к asc-admin выполняется в его сессии.
