@@ -1,6 +1,6 @@
 # Очередь подготовки skills для asc-admin
 
-Обновлено 2026-11-15. Статусы отражают проверенные checkpoint, а не только
+Обновлено 2026-11-17. Статусы отражают проверенные checkpoint, а не только
 open/closed в GitHub. Учёт общий для двух сессий: изменения gost-kit выполняются
 в его сессии. Источник требований фичи — [#88](https://github.com/antonsmolko/gost-spec/issues/88).
 Таблица обновляется при начале работы, создании PR, review, merge и проверке поставки.
@@ -13,30 +13,31 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | S4 | [gost-spec #97](https://github.com/antonsmolko/gost-spec/issues/97) | Выпуск опубликован и проверен: FC 0.2.0 / shell 0.3.0; [финальный отчёт PR #101](https://github.com/antonsmolko/gost-spec/pull/101) доставлен в main `2923ff0`; issue закрыта | Независимые версии/changelog, native/public-host установка и теги проверены после отдельного approval; далее обновление skills в asc-admin |
 | S5 | [gost-spec #89](https://github.com/antonsmolko/gost-spec/issues/89) | Отложена | После проверки навигации в asc-admin #72 и решения о выносе общего контракта; middleware не предписана |
 | S6 | [gost-spec #88](https://github.com/antonsmolko/gost-spec/issues/88) | Реализация доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104), main `f45ef7a`; 7/7, issue закрыта. Archive/sync доставлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105), main `2ebe704`; canonical links закреплены на SHA доставки | [Архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), [основная спецификация](../../openspec/specs/modular-feature-development/spec.md): 8 требований / 16 сценариев; gost-feature 0.1.0 опубликован в #106 |
-| S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) | PR #107/#108 вмержены; четыре тега опубликованы на `f1c6f93`, все проверены в обоих hosts; итоговый отчёт PR #110 доставлен в main `3b200af`, #106 закрыта | feature 0.1.0 / FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [evidence](../../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release) |
-| S8 | [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Реализация и проверки завершены; independent review PASS; PR на review | Новый dispatch из gost-kit #44; npm common@0.4.0 / svelte@0.3.0; отдельная совместимость, без изменения тегов #106 |
+| S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) | PR #107/#108 вмержены; четыре тега опубликованы на `f1c6f93`, все проверены в обоих hosts; итоговый отчёт PR #110 доставлен в main `3b200af`, #106 закрыта | feature 0.1.0 / FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [evidence](../../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release) |
+| S8 | [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Доставлена PR #111/main `3a4ec55`; issue закрыта, archive/sync подготовлен в текущем PR | Новый dispatch из gost-kit #44; npm common@0.4.0 / svelte@0.3.0; отдельная совместимость, без изменения тегов #106 |
+| S9 | [gost-spec #112](https://github.com/antonsmolko/gost-spec/issues/112) | В работе: подготовка следующего выпуска | FC 0.3.0 / shell 0.4.0 / feature 0.2.0 на common 0.4.0 / svelte 0.3.0; новые теги требуют отдельного approval |
 | K1 | [gost-kit #35](https://github.com/antonsmolko/gost-kit/issues/35) | Реализована и закрыта 2026-11-08; [PR #36](https://github.com/antonsmolko/gost-kit/pull/36) вмержен | API-операция с mapper и доменным типом onSuccess; API включён в common@0.3.0; consumer compatibility проверяется в #96 |
 | K2 | [gost-kit #32](https://github.com/antonsmolko/gost-kit/issues/32) | Реализована и закрыта; reset доступен в npm common@0.3.0/svelte@0.2.0, consumer checks — #96 | Общий reset({ excluded }), без правил навигации |
 | A1 | [asc-admin #72](https://github.com/antonsmolko/asc-admin/issues/72) | В очереди; задача перенесена из gost-kit #33 | Сначала навигация в приложении, затем решение о библиотечном выносе; #89 отложена |
 | Позже | [gost-kit #34](https://github.com/antonsmolko/gost-kit/issues/34) | Отложена | Persisted state, версии/миграции и storage adapters; текущую очередь не блокирует |
 
-## Текущий checkpoint — выпуск #106 и совместимость #109
+## Текущий checkpoint — archive/sync и подготовка #112
 
 #102 завершена через PR #107/main `7ee001d`. Подготовка #106 доставлена PR #108
 в main `f1c6f936b408f61f063089eded234ad23bf6e076`. Владелец отдельно разрешил
 публикацию этого SHA и состава (private input, not a public basis; публичный scope —
-[#106](https://github.com/antonsmolko/gost-spec/issues/106), [evidence](../../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release)): feature 0.1.0 / FC 0.2.1 / shell 0.3.1 /
+[#106](https://github.com/antonsmolko/gost-spec/issues/106), [evidence](../../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release)): feature 0.1.0 / FC 0.2.1 / shell 0.3.1 /
 presenter 0.1.1. Четыре тега опубликованы и проверены по remote objects/peeled SHA.
 Каждый тег проверен в Codex и Claude с установкой/повтором всех четырёх plugins,
 полными картами файлов, выбранным ref/commit и discovery/details. Семь профилей
 прошли с первого раза; Codex/shell прошёл в новом профиле после двух сетевых
-таймаутов. Старые теги и личные профили сохранены. [Команды и evidence](../../openspec/changes/prepare-feature-plugin-release/design.md#published-feature-release).
+таймаутов. Старые теги и личные профили сохранены. [Команды и evidence](../../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release).
 Итоговый отчёт PR #110 доставлен в main `3b200af`; дерево совпало с review, post-merge проверки прошли; canonical links обновлены, #106 закрыта.
 
 [Установку и обновление](../plugin-releases.md) можно выполнять в сессии asc-admin.
 Этот snapshot проверен на common@0.3.0 / svelte@0.2.0; обновление runtime приложения
 не входит в установку plugins. Новый dispatch опубликован в common@0.4.0 /
-svelte@0.3.0 и требует отдельного обновления skills — [#109](https://github.com/antonsmolko/gost-spec/issues/109), взята в работу.
+svelte@0.3.0; обновление skills [#109](https://github.com/antonsmolko/gost-spec/issues/109) доставлено PR #111/main `3a4ec55`, issue закрыта. Его новые plugin versions ещё не опубликованы.
 Прежние #88/#96/#97 завершены; #89 и persisted state отложены, навигация — asc-admin #72.
 
 Проверки runtime/браузера #88/#96 остаются свидетельствами своих поставок;
@@ -46,7 +47,9 @@ svelte@0.3.0 и требует отдельного обновления skills 
 
 ## Работа #109 — typed dispatch
 
-Обновляются FC/shell/feature skills и fixtures на npm common@0.4.0 / svelte@0.3.0.
+FC/shell/feature skills и fixtures обновлены на npm common@0.4.0 / svelte@0.3.0; реализация доставлена PR #111/main `3a4ec55`.
 Кандидаты независимых plugins: FC 0.3.0 / shell 0.4.0 / feature 0.2.0; presenter
 0.1.1 не меняется. Эти новые версии ещё не опубликованы. Доступный snapshot #106
-сохраняет прежние recipes; его теги не перемещаются. [План и evidence](../../openspec/changes/update-skills-for-typed-dispatch/design.md).
+сохраняет прежние recipes; его теги не перемещаются. [План и evidence](../../openspec/changes/archive/2026-11-16-update-skills-for-typed-dispatch/design.md).
+
+Archive/sync #106/#109 подготовлен отдельным PR: оба change перенесены в архив, три основные спецификации синхронизированы. FC: 9 требований / 25 сценариев; shell: 10 / 19; feature: 8 / 17. До merge архивного PR это состояние его ветки, а не утверждение о доставке archive в main.

@@ -53,6 +53,12 @@ Skill SHALL проверять фактические версии, публич
 - **THEN** skill сообщает конкретную несовместимость и оставляет зависимое подключение incomplete
 - **AND** не обновляет среду потребителя молча
 
+#### Scenario: Verify the published typed dispatch pair
+- **WHEN** the recipe targets common 0.4.0 and svelte 0.3.0
+- **THEN** external npm consumers verify typed namespace/action dispatch with separate payloads, reactive UI and awaited result dispatch
+- **AND** invalid-path reporting distinguishes its original path from execution errors carrying normalized actions
+- **AND** factory/reset/context behavior and existing application behavior remain verified
+
 ### Requirement: Observable verification
 Результат подключения SHALL проверяться на независимом существующем SPA через цепочку UI → action → reducer → реактивное обновление UI и применимые проверки потребителя. Проверки MUST подтверждать сохранение существующего поведения и границу отсутствия миграции.
 
