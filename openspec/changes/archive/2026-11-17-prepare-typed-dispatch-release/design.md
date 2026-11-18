@@ -358,3 +358,76 @@ whitespace. The increased local-link counts are status-section references,
 resolved with the documented marked/slug/explicit-id method. Complete final PR
 diff and relevant unchanged spec/archive/payload/issue contracts were inspected
 separately from tests; only four editorial documents change in this round.
+
+## Final delivery and archive checkpoint
+
+This checkpoint supersedes earlier pending report/closure statements, which are
+retained as historical evidence. [PR #115](https://github.com/antonsmolko/gost-spec/pull/115)
+was [reviewed without factual objections](https://github.com/antonsmolko/gost-spec/pull/115#pullrequestreview-5945736893)
+and merged to main `d44554906488f57edca179513571e46a7685b8b5`.
+Its tree exactly equals reviewed head `1321d727f508a99cb637a97434113a3c1a3658e4`;
+both Verify jobs passed. Report sections and all six response anchors exist.
+Current canonical links in #112/PR #115 were updated to that verified main in
+the merging session; [#112](https://github.com/antonsmolko/gost-spec/issues/112)
+is closed as completed. Task 4 is now checked using that recorded completion.
+
+Archive scope: move this release-only change, retain its metadata/evidence and
+update inbound relative links and current handoff/readiness. No delta specs exist
+(`skip_specs: true`), so main specifications remain unchanged. Earlier native
+proof and publication receipts retain their original source SHA and limits;
+published tags, plugin payload, packages and fixtures are unchanged.
+The archive is prepared for a separately approved PR merge.
+
+### GitHub issue edits
+
+No release criteria or closure states are changed for this archive. #112's
+archive-preparation comment and the archive PR link identify this follow-up;
+its current canonical evidence remains delivered main d445549 until archive
+merge. After separately approved archive merge, verify the resulting archive
+and anchors and update current issue/PR canonical pointers to that delivered
+archive SHA in the same session. Historical immutable evidence links stay valid.
+
+### Archive verification
+
+Full check passes 121/121; strict validation passes 14/14 active changes/main
+specs (one fewer active change after this archive). The marked local-link audit
+passes: 180 tracked Markdown files, 316 local links, 43 fragments, zero errors;
+heading/slug/explicit-id rules are documented above. Dependency README links
+that target `node_modules/` are outside the tracked repository link count.
+Whitespace checks pass.
+Complete staged diff and relevant unchanged contracts were inspected separately
+from tests. Proposal/metadata are byte-identical; the old design is preserved
+verbatim with this final checkpoint appended, and tasks differ only by the
+verified fourth completion. Main specs, plugins, packages, fixtures and catalogs
+are unchanged. No new native installation or runtime evidence is claimed.
+
+Independent complete-result review PASS, no actionable findings. Separate agent
+received repository artifacts and requirements without the author's working
+conversation and independently verified the full staged diff, exact evidence
+preservation, protected trees, live PR #115 merge/tree/checks, #112 closure and
+canonical links, all review replies, and the 180/316/43/0 link audit. This is
+private input, not a public basis; public actionable scope remains #112 and its
+[archive follow-up](https://github.com/antonsmolko/gost-spec/issues/112#issuecomment-6960057189).
+No new native/runtime claim or release approval is inferred from this review.
+
+## PR 116 published review response
+
+Read all five inline threads and their five submitted reviews, the
+[summary](https://github.com/antonsmolko/gost-spec/pull/116#issuecomment-6988427560),
+and both comments on #112. Prior #115 dispositions are preserved.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr116-r1"></a>[Handoff thread](https://github.com/antonsmolko/gost-spec/pull/116#discussion_r4619203521) | Pending archive PR has no link | Handoff | Fixed | Links directly to PR #116 |
+| <a id="pr116-r2"></a>[Readiness thread](https://github.com/antonsmolko/gost-spec/pull/116#discussion_r4619208280) | Same omission in readiness | Readiness | Fixed | Links directly to PR #116 |
+| <a id="pr116-r3"></a>[Pointer thread](https://github.com/antonsmolko/gost-spec/pull/116#discussion_r4619210947) | Verified main can be read as the earlier report commit | PR #116 and issue #112 comment | Fixed | Both specify the SHA that delivers the archive after PR #116 merges |
+| <a id="pr116-r4"></a>[Merge wording thread](https://github.com/antonsmolko/gost-spec/pull/116#discussion_r4619213919) | Approved can imply a GitHub review state | Archive checkpoint | Fixed | Links the factual review and states the verified merge separately |
+| <a id="pr116-r5"></a>[Spacing thread](https://github.com/antonsmolko/gost-spec/pull/116#discussion_r4619216307) | Consecutive blank lines before archive verification | Archive checkpoint | Fixed | One separator |
+| <a id="pr116-r6"></a>[Summary](https://github.com/antonsmolko/gost-spec/pull/116#issuecomment-6988427560) | Historical count compared across different trees | Handoff | Clarified | git ls-tree counts 176 Markdown paths at #109 delivery 3a4ec55 and 177 at #113 delivery 4cfe0ee and head 9006d10 |
+| <a id="pr116-r7"></a>[Summary](https://github.com/antonsmolko/gost-spec/pull/116#issuecomment-6988427560) | Local-link counting scope could be clearer | Archive verification | Clarified | Dependency README targets excluded from repository count |
+
+### GitHub issue edits
+
+The archive follow-up comment on #112 and PR #116 use the delivered archive SHA
+as the post-merge target. The issue remains closed with its existing criteria and
+canonical report links. The wording and link exception in AGENTS.md rule 6 applies.
