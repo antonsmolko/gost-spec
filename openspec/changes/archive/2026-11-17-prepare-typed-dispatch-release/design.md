@@ -410,7 +410,6 @@ private input, not a public basis; public actionable scope remains #112 and its
 [archive follow-up](https://github.com/antonsmolko/gost-spec/issues/112#issuecomment-6960057189).
 No new native/runtime claim or release approval is inferred from this review.
 
-
 ## PR 116 published review response
 
 Read all five inline threads and their five submitted reviews, the
