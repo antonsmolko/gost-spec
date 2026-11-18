@@ -70,5 +70,5 @@ basis; публичный scope — [#112](https://github.com/antonsmolko/gost-s
 Отчёт [PR #115](https://github.com/antonsmolko/gost-spec/pull/115) доставлен
 в main `d445549`: дерево и якоря проверены, canonical links обновлены, #112 закрыта.
 Release change подготовлен к архивированию (4/4 задач, дельт спецификаций нет);
-перенос ожидает отдельного merge архивного PR.
+перенос ожидает merge [архивного PR #116](https://github.com/antonsmolko/gost-spec/pull/116).
 Применение к asc-admin выполняется в его сессии.
