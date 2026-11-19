@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { describe, test } from 'node:test';
 import { pagePresenter } from './page.presenter.ts';
 
-test('page presenter selects independent ready flags', () => {
-  assert.deepEqual(pagePresenter({ page: 'list' }), { list: true, create: false });
-  assert.deepEqual(pagePresenter({ page: 'create' }), { list: false, create: true });
+describe('pagePresenter', () => {
+  for (const [page, expected] of [
+    ['list', { list: true, create: false }],
+    ['create', { list: false, create: true }],
+  ] as const) {
+    test(`selects only the ${page} page`, () => {
+      assert.deepEqual(pagePresenter({ page }), expected);
+    });
+  }
 });
