@@ -13,6 +13,8 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 ## Откуда продолжать
 
 Актуальная очередь и статусы — [таблица со статусами](2026-11-07-asc-admin-readiness.md).
+Тесты presenter по полям результата — [#117](https://github.com/antonsmolko/gost-spec/issues/117),
+правки по ревью в [PR #118](https://github.com/antonsmolko/gost-spec/pull/118).
 Совместимость #96 доставлена и закрыта; [архив/evidence](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
 Реализация #88 доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104) в main `f45ef7a`, issue закрыта; 7/7 задач и все review findings завершены.
 Archive/sync #88 доставлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105) в main `2ebe704`: [архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), [основная спецификация](../../openspec/specs/modular-feature-development/spec.md), 8 требований / 16 сценариев. Post-merge canonical-link follow-up завершён: ссылки #88/PR #105 закреплены на проверенном SHA доставки, файл/фрагменты проверены.
@@ -332,5 +334,5 @@ Verify jobs; три immutable tags опубликованы на
 публичный scope — [#112](https://github.com/antonsmolko/gost-spec/issues/112).
 Отчёт [PR #115](https://github.com/antonsmolko/gost-spec/pull/115) доставлен
 в main `d445549`; дерево и якоря проверены, canonical links обновлены, #112 закрыта.
-Release change подготовлен к архивированию: 4/4 задач, без дельт спецификаций;
-перенос ожидает merge [архивного PR #116](https://github.com/antonsmolko/gost-spec/pull/116). Применение к asc-admin — в его сессии.
+Release change архивирован через [PR #116](https://github.com/antonsmolko/gost-spec/pull/116)
+в main `2067c2e`. Все четыре задачи завершены. Применение к asc-admin — в его сессии.

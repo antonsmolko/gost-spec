@@ -109,12 +109,33 @@ export default defineConfig({
 
 ```ts
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { describe, test } from 'node:test';
 import { pagePresenter } from './page.presenter.ts';
 
-test('page presenter selects independent ready flags', () => {
-  assert.deepEqual(pagePresenter({ page: 'list' }), { list: true, create: false });
-  assert.deepEqual(pagePresenter({ page: 'create' }), { list: false, create: true });
+describe('pagePresenter', () => {
+  describe('list', () => {
+    test('selects the list page when it is current', () => {
+      const { list } = pagePresenter({ page: 'list' });
+      assert.equal(list, true);
+    });
+
+    test('clears the list flag when the create page is current', () => {
+      const { list } = pagePresenter({ page: 'create' });
+      assert.equal(list, false);
+    });
+  });
+
+  describe('create', () => {
+    test('selects the create page when it is current', () => {
+      const { create } = pagePresenter({ page: 'create' });
+      assert.equal(create, true);
+    });
+
+    test('clears the create flag when the list page is current', () => {
+      const { create } = pagePresenter({ page: 'list' });
+      assert.equal(create, false);
+    });
+  });
 });
 ```
 
@@ -350,18 +371,60 @@ export { enterCreate } from './app/routing/enter.ts';
 
 ```ts
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { describe, test } from 'node:test';
 import { createState } from '../../domain/fc/state.ts';
 import { createPresenter } from './create.presenter.ts';
 
-test('create presenter produces full form data without changing state', () => {
-  const input = createState({ name: ' Ada ', status: 'loading' });
-  assert.deepEqual(createPresenter({ input }), { name: ' Ada ', disabled: true, failed: false, error: '', button: 'Saving' });
-  assert.equal(input.name, ' Ada ');
-});
-test('create presenter exposes errors and editable input', () => {
-  const input = createState({ status: 'error', errors: [{ code: 'E', message: 'Invalid name', path: ['name'] }] });
-  assert.deepEqual(createPresenter({ input }), { name: '', disabled: false, failed: true, error: 'Invalid name', button: 'Save user' });
+describe('createPresenter', () => {
+  describe('button', () => {
+    test('shows the saving label while loading', () => {
+      const { button } = createPresenter({ input: createState({ status: 'loading' }) });
+
+      assert.equal(button, 'Saving');
+    });
+
+    test('shows the save label after an error', () => {
+      const { button } = createPresenter({ input: createState({ status: 'error' }) });
+
+      assert.equal(button, 'Save user');
+    });
+  });
+
+  describe('name', () => {
+    test('keeps the default empty name after an error', () => {
+      const { name } = createPresenter({ input: createState({ status: 'error' }) });
+
+      assert.equal(name, '');
+    });
+  });
+
+  describe('error', () => {
+    test('shows the message from a failed request', () => {
+      const input = createState({
+        status: 'error', errors: [{ code: 'E', message: 'Invalid name', path: ['name'] }],
+      });
+      const { error } = createPresenter({ input });
+
+      assert.equal(error, 'Invalid name');
+    });
+  });
+
+  test('returns the complete loading view and preserves its input', () => {
+    const input = createState({ name: ' Ada ', status: 'loading' });
+    const before = structuredClone(input);
+
+    assert.deepEqual(createPresenter({ input }), {
+      name: ' Ada ', disabled: true, failed: false, error: '', button: 'Saving',
+    });
+    assert.deepEqual(input, before);
+  });
+
+  test('marks the form as failed and editable after an error', () => {
+    const { failed, disabled } = createPresenter({ input: createState({ status: 'error' }) });
+
+    assert.equal(failed, true);
+    assert.equal(disabled, false);
+  });
 });
 ```
 
@@ -542,29 +605,41 @@ export { enterList } from './app/routing/enter.ts';
 
 ```ts
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { describe, test } from 'node:test';
 import { listState } from '../../domain/fc/state.ts';
 import { user } from '../../../common/index.ts';
 import { usersPresenter } from './users.presenter.ts';
 const labels = { loading: 'Loading users', empty: 'No users' };
 
-test('list presenter produces complete ready data and preserves its inputs', () => {
-  const input = listState({ status: 'ready', query: 'GR', rows: [user(), user({ id: '2', name: 'Grace' })] });
-  const before = structuredClone(input);
-  assert.deepEqual(usersPresenter({ input, labels }), {
-    query: 'GR', loading: false, empty: false, failed: false, message: '',
-    rows: [{ key: '2', label: 'Grace' }],
+describe('usersPresenter', () => {
+  describe('display flags', () => {
+    for (const [status, expected] of [
+      ['idle', { loading: true, empty: false, failed: false }],
+      ['loading', { loading: true, empty: false, failed: false }],
+      ['ready', { loading: false, empty: true, failed: false }],
+      ['error', { loading: false, empty: false, failed: true }],
+    ] as const) {
+      test(`selects the display state for ${status}`, () => {
+        const { loading, empty, failed } = usersPresenter({
+          input: listState({ status, errors: [{ code: 'E', message: 'Failed', path: [] }] }),
+          labels,
+        });
+
+        assert.deepEqual({ loading, empty, failed }, expected);
+      });
+    }
   });
-  assert.deepEqual(input, before);
+
+  test('returns the complete ready view and preserves its input', () => {
+    const input = listState({ status: 'ready', query: 'GR', rows: [user(), user({ id: '2', name: 'Grace' })] });
+    const before = structuredClone(input);
+    assert.deepEqual(usersPresenter({ input, labels }), {
+      query: 'GR', loading: false, empty: false, failed: false, message: '',
+      rows: [{ key: '2', label: 'Grace' }],
+    });
+    assert.deepEqual(input, before);
+  });
 });
-for (const status of ['idle', 'loading', 'ready', 'error'] as const) {
-  test('list presenter handles ' + status, () => {
-    const result = usersPresenter({ input: listState({ status, errors: [{ code: 'E', message: 'Failed', path: [] }] }), labels });
-    assert.equal(result.loading, status === 'idle' || status === 'loading');
-    assert.equal(result.empty, status === 'ready');
-    assert.equal(result.failed, status === 'error');
-  });
-}
 ```
 
 ### `src/features/users/list/ui/components/users.presenter.ts`

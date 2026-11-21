@@ -101,8 +101,12 @@ export const catalogPresenter = ({ input, labels }: Params): ViewState => ({
 ## Colocated unit tests
 
 Run these tests with Node 26 using `node --test src/catalog.presenter.test.ts`,
-or adapt to the project's existing runner. They call functions directly and
-check a static table of expected flags, explicit context and frozen inputs.
+or adapt them to the project's existing runner. Put each independent field in
+a nested `describe`. Name the cases by behavior and keep the input, call and
+expected field together inside each test. A table works well for variants of
+the same rule. This example checks the display flags together because they
+select a single view branch. A separate test checks the complete result and
+preserves frozen inputs.
 
 ### catalog.presenter.test.ts
 
@@ -117,39 +121,69 @@ const input = (overrides: Partial<CatalogInput> = {}): CatalogInput => ({
   status: 'idle', items: [], error: null, ...overrides,
 });
 
-describe('catalog presenter', () => {
-  for (const [status, items, flags] of [
-    ['idle', [], [false, false, false, false]],
-    ['loading', [], [true, false, false, false]],
-    ['loading', [{ id: 'a', title: ' Old ' }], [true, false, false, false]],
-    ['ready', [], [false, false, true, false]],
-    ['ready', [{ id: 'a', title: ' New ' }], [false, false, false, true]],
-    ['error', [], [false, true, false, false]],
-    ['error', [{ id: 'a', title: ' Old ' }], [false, true, false, false]],
-  ] as const) {
-    test(`${status}, ${items.length} rows: ready display flags`, () => {
-      const result = catalogPresenter({ input: input({ status, items }), labels });
-      assert.deepEqual([result.isLoading, result.isError, result.isEmpty, result.isLoaded], flags);
+describe('catalogPresenter', () => {
+  describe('display flags', () => {
+    for (const [status, items, flags] of [
+      ['idle', [], [false, false, false, false]],
+      ['loading', [], [true, false, false, false]],
+      ['loading', [{ id: 'a', title: ' Old ' }], [true, false, false, false]],
+      ['ready', [], [false, false, true, false]],
+      ['ready', [{ id: 'a', title: ' New ' }], [false, false, false, true]],
+      ['error', [], [false, true, false, false]],
+      ['error', [{ id: 'a', title: ' Old ' }], [false, true, false, false]],
+    ] as const) {
+      test(`${status}, ${items.length} rows: ready display flags`, () => {
+        const result = catalogPresenter({ input: input({ status, items }), labels });
+        assert.deepEqual([result.isLoading, result.isError, result.isEmpty, result.isLoaded], flags);
+      });
+    }
+  });
+  describe('rows', () => {
+    test('trims titles and uses the caller label for null and blank titles', () => {
+      const { rows } = catalogPresenter({
+        input: input({ items: [
+          { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
+        ] }),
+        labels: { ...labels, untitled: 'Unnamed' },
+      });
+
+      assert.deepEqual(rows, [
+        { id: 'a', title: 'Alpha' }, { id: 'b', title: 'Unnamed' }, { id: 'c', title: 'Unnamed' },
+      ]);
     });
-  }
-  test('prepares rows with supplied nullable/blank fallback', () => {
-    assert.deepEqual(catalogPresenter({ input: input({ status: 'ready', items: [
-      { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
-    ] }), labels }).rows, [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }]);
   });
-  test('uses explicit context and error text', () => {
-    assert.equal(catalogPresenter({ input: input({ status: 'error', error: ' Offline ' }), labels }).errorMessage, 'Offline');
-    assert.equal(catalogPresenter({ input: input({ status: 'error' }), labels: { ...labels, errorFallback: 'Try again' } }).errorMessage, 'Try again');
-    assert.equal(catalogPresenter({ input: input({ items: [{ id: 'a', title: null }] }), labels: { ...labels, untitled: 'Unnamed' } }).rows[0].title, 'Unnamed');
+
+  describe('errorMessage', () => {
+    test('trims the supplied message', () => {
+      const { errorMessage } = catalogPresenter({
+        input: input({ status: 'error', error: ' Offline ' }), labels,
+      });
+
+      assert.equal(errorMessage, 'Offline');
+    });
+
+    test('uses the supplied fallback when the message is absent', () => {
+      const { errorMessage } = catalogPresenter({
+        input: input({ status: 'error' }), labels: { ...labels, errorFallback: 'Try again' },
+      });
+
+      assert.equal(errorMessage, 'Try again');
+    });
   });
+
   test('returns the complete view state and preserves frozen inputs', () => {
     const before = Object.freeze(input({ status: 'ready', items: Object.freeze([
       Object.freeze({ id: 'a', title: ' Alpha ' }),
+      Object.freeze({ id: 'b', title: null }),
+      Object.freeze({ id: 'c', title: ' ' }),
     ]) }));
     const context = Object.freeze({ ...labels });
     const result = catalogPresenter({ input: before, labels: context });
-    assert.deepEqual(result, { isLoading: false, isError: false, isEmpty: false, isLoaded: true, errorMessage: 'Please retry', rows: [{ id: 'a', title: 'Alpha' }] });
-    assert.deepEqual(result.rows, [{ id: 'a', title: 'Alpha' }]);
+    assert.deepEqual(result, {
+      isLoading: false, isError: false, isEmpty: false, isLoaded: true,
+      errorMessage: 'Please retry',
+      rows: [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }],
+    });
     assert.equal(before.items[0].title, ' Alpha ');
     assert.deepEqual(catalogPresenter({ input: before, labels: context }), result);
     assert.notEqual(result.rows, before.items);

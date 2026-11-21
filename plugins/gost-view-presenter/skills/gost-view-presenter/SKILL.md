@@ -46,8 +46,11 @@ and do not hide missing required data with assertions or guessed defaults.
 
 ## Verify and report
 
-Colocate ordinary function tests using the project's runner. Cover outputs,
-explicit context, documented variants, the complete view result and input preservation.
+Colocate pure-function tests using the project's runner. Group independent
+checks by presenter and output field. Name each case after the behavior, call
+the presenter inside the test and assert the field in question. Check coupled
+fields together when they express one rule. Use a separate full-result check
+for the view contract and cover explicit context, variants and input preservation.
 Separately check reactive changes in displayed text/branches/rows and existing
 callbacks in the client runtime. Run applicable type/Svelte checks, build and
 existing approved lint commands. Manually trace calculation sources and explain

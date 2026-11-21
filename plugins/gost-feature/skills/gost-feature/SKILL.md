@@ -63,8 +63,9 @@ router ordering, flicker prevention, stale-response protection or persistence.
 Use existing root/feature state factories with scenario overrides in colocated
 `reducer.test.ts`. Group cases by action/scenario; call the pure reducer, inspect
 returned state and effect parameters, and supply result actions directly.
-Keep dispatch/request/handler integration checks separate. Test pure presenters
-and browser reactivity/events separately too.
+Keep dispatch/request/handler integration checks separate. In pure presenter
+tests, group independent scenarios by output field. Check browser reactivity
+and events separately.
 
 Check actual imports, public boundaries and runtime cycles, not only directory
 names. Exercise API mapping/errors, preserved neighbours and creation → navigation
