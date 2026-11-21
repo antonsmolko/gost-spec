@@ -141,7 +141,7 @@ describe('catalogPresenter', () => {
   describe('rows', () => {
     test('trims titles and uses the caller label for null and blank titles', () => {
       const { rows } = catalogPresenter({
-        input: input({ status: 'ready', items: [
+        input: input({ items: [
           { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
         ] }),
         labels: { ...labels, untitled: 'Unnamed' },
