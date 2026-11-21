@@ -26,16 +26,16 @@ describe('catalogPresenter', () => {
     }
   });
   describe('rows', () => {
-    test('trims titles and uses the supplied fallback for null and blank titles', () => {
+    test('trims titles and uses the caller label for null and blank titles', () => {
       const { rows } = catalogPresenter({
         input: input({ status: 'ready', items: [
           { id: 'a', title: '  Alpha  ' }, { id: 'b', title: null }, { id: 'c', title: ' ' },
         ] }),
-        labels,
+        labels: { ...labels, untitled: 'Unnamed' },
       });
 
       assert.deepEqual(rows, [
-        { id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' },
+        { id: 'a', title: 'Alpha' }, { id: 'b', title: 'Unnamed' }, { id: 'c', title: 'Unnamed' },
       ]);
     });
   });
@@ -62,10 +62,15 @@ describe('catalogPresenter', () => {
     const before = Object.freeze(input({ status: 'ready', items: Object.freeze([
       Object.freeze({ id: 'a', title: ' Alpha ' }),
       Object.freeze({ id: 'b', title: null }),
+      Object.freeze({ id: 'c', title: ' ' }),
     ]) }));
-    const context = Object.freeze({ ...labels, untitled: 'Unnamed' });
+    const context = Object.freeze({ ...labels });
     const result = catalogPresenter({ input: before, labels: context });
-    assert.deepEqual(result, { isLoading: false, isError: false, isEmpty: false, isLoaded: true, errorMessage: 'Please retry', rows: [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Unnamed' }] });
+    assert.deepEqual(result, {
+      isLoading: false, isError: false, isEmpty: false, isLoaded: true,
+      errorMessage: 'Please retry',
+      rows: [{ id: 'a', title: 'Alpha' }, { id: 'b', title: 'Untitled' }, { id: 'c', title: 'Untitled' }],
+    });
     assert.equal(before.items[0].title, ' Alpha ');
     assert.deepEqual(catalogPresenter({ input: before, labels: context }), result);
     assert.notEqual(result.rows, before.items);

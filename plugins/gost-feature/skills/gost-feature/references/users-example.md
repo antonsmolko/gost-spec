@@ -113,14 +113,29 @@ import { describe, test } from 'node:test';
 import { pagePresenter } from './page.presenter.ts';
 
 describe('pagePresenter', () => {
-  for (const [page, expected] of [
-    ['list', { list: true, create: false }],
-    ['create', { list: false, create: true }],
-  ] as const) {
-    test(`selects only the ${page} page`, () => {
-      assert.deepEqual(pagePresenter({ page }), expected);
+  describe('list', () => {
+    test('selects the list page when it is current', () => {
+      const { list } = pagePresenter({ page: 'list' });
+      assert.equal(list, true);
     });
-  }
+
+    test('clears the list flag when the create page is current', () => {
+      const { list } = pagePresenter({ page: 'create' });
+      assert.equal(list, false);
+    });
+  });
+
+  describe('create', () => {
+    test('selects the create page when it is current', () => {
+      const { create } = pagePresenter({ page: 'create' });
+      assert.equal(create, true);
+    });
+
+    test('clears the create flag when the list page is current', () => {
+      const { create } = pagePresenter({ page: 'list' });
+      assert.equal(create, false);
+    });
+  });
 });
 ```
 
