@@ -21,7 +21,8 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 Перенос тестов #63 остаётся отдельным шагом. Реализация #62: 5/5,
 [PR #120](https://github.com/antonsmolko/gost-spec/pull/120) доставлен в main `e400dbc`;
 дерево проверено, #62 закрыта. Оба Node проходят 129/129. Change перенесён
-в архив на отдельной ветке; archive PR ожидает review и отдельного merge.
+в архив на отдельной ветке; [archive PR #121](https://github.com/antonsmolko/gost-spec/pull/121)
+ожидает review и отдельного merge.
 Совместимость #96 доставлена и закрыта; [архив/evidence](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
 Реализация #88 доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104) в main `f45ef7a`, issue закрыта; 7/7 задач и все review findings завершены.
 Archive/sync #88 доставлен [PR #105](https://github.com/antonsmolko/gost-spec/pull/105) в main `2ebe704`: [архив](../../openspec/changes/archive/2026-11-15-add-modular-feature-skill/proposal.md), [основная спецификация](../../openspec/specs/modular-feature-development/spec.md), 8 требований / 16 сценариев. Post-merge canonical-link follow-up завершён: ссылки #88/PR #105 закреплены на проверенном SHA доставки, файл/фрагменты проверены.

@@ -321,3 +321,23 @@ on e400dbc until separately approved archive merge. After that merge, verify the
 actual delivered archive SHA and anchors, then update current #62/PR canonical
 pointers to that verified archive SHA in the same session. Historical immutable
 links keep their original revision. This archive does not authorize its own merge.
+
+### Archive verification
+
+[Archive PR #121](https://github.com/antonsmolko/gost-spec/pull/121) carries this
+bookkeeping-only outcome. npm run check passes 129/129 on Node 26.11.1, strict
+OpenSpec 14/14 (one completed change removed from active inventory), and the
+recorded marked/slug/explicit-id audit passes 183 tracked Markdown files /
+319 local links /43 fragments /0 errors. Whitespace is clean. Complete final
+diff and relevant unchanged contracts were inspected separately from tests.
+The prior design is preserved as an exact byte prefix; proposal/tasks/metadata
+are byte-identical and all protected runtime/distribution trees are unchanged.
+No new second-Node or native installation execution is claimed for this archive.
+
+Independent complete archive review: PASS, no actionable findings. A separate
+agent received artifacts/requirements without the author's working conversation;
+reviewed the complete diff and live GitHub states, independently checked strict
+14/14, links 183/319/43/0, whitespace and byte/tree preservation. Reviewer read
+the author's 129/129 log, without rerunning full runtime/second-Node/native suites.
+This is private input, not a public basis; public actionable scope is #62 and
+[archive follow-up](https://github.com/antonsmolko/gost-spec/issues/62#issuecomment-7081189795).
