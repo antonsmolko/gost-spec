@@ -296,3 +296,28 @@ Review-round checks: npm run check 129/129 on Node 26.11.1, strict OpenSpec
 and clean whitespace. The final PR diff and relevant unchanged status/contracts
 were inspected separately from tests; runtime/assertion/payload trees are exactly
 those reviewed at f14c0db. No new native or second-Node local run is claimed.
+
+## Archive checkpoint
+
+[PR #120](https://github.com/antonsmolko/gost-spec/pull/120) delivered implementation
+to main `e400dbc4106f7a8fe1332af33b199ff40e9b5bee`, tree-identical to reviewed
+head `55ec594918643d82cf5c4c6af796a1c511b45d09`. Both Verify jobs passed;
+[#62](https://github.com/antonsmolko/gost-spec/issues/62) is closed completed,
+with unchanged acceptance criteria. All five tracked tasks are complete.
+This checkpoint supersedes prior pending-delivery statements, which remain
+historical evidence. The public implementation review/closures remain intact.
+
+The release-free refactor declares skip_specs: true and has no delta spec files;
+no sync is required. This archive moves the four artifacts, preserving metadata,
+proposal, tasks and the complete prior design verbatim; this checkpoint is appended.
+Only inbound links and current handoff/readiness statuses change alongside it.
+Scripts, tests, plugins, packages, catalogs, fixtures and main specs stay unchanged.
+
+### GitHub issue edits
+
+#62 stays completed; #63 remains separate. The archive PR is linked in a comment
+without changing issue criteria. Canonical delivered implementation evidence stays
+on e400dbc until separately approved archive merge. After that merge, verify the
+actual delivered archive SHA and anchors, then update current #62/PR canonical
+pointers to that verified archive SHA in the same session. Historical immutable
+links keep their original revision. This archive does not authorize its own merge.
