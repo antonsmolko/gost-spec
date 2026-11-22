@@ -67,3 +67,33 @@ test("synthetic documents diagnose broken links and forbidden files with package
   await writeFile(join(root, "docs-review/private.md"), "Test-only forbidden path\n");
   assert.ok((await checkDocuments(root, "@test/documents")).some((line) => line.includes("@test/documents") && line.includes("docs-review/private.md") && line.includes("forbidden")));
 });
+
+test("document diagnostics retain forbidden, required, link and index phases without writes", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "standards-phases-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(join(root, "tests"));
+  const files = { "README.md": "# Example\n\n[Missing](missing.md)\n", "CHANGELOG.md": "# Changes\n", "orphan.md": "# Orphan\n", "tests/private.txt": "private" };
+  for (const [file, text] of Object.entries(files)) await writeFile(join(root, file), text);
+  assert.deepEqual(await checkDocuments(root, "@test/phases"), [
+    "@test/phases: tests/private.txt: forbidden packaged file.",
+    "@test/phases: LICENSE: required document missing or unreadable.",
+    "@test/phases: README.md: invalid local link missing.md.",
+    "@test/phases: orphan.md: document not indexed by README.md.",
+  ]);
+  for (const [file, text] of Object.entries(files)) assert.equal(await readFile(join(root, file), "utf8"), text);
+  await assert.rejects(readFile(join(root, "LICENSE")), { code: "ENOENT" });
+  await assert.rejects(checkDocuments(join(root, "missing"), "@test/phases"), { code: "ENOENT" });
+});
+
+test("document link diagnostics are returned beyond the function argument limit", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "standards-many-links-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const count = 160000;
+  await writeFile(join(root, "README.md"), "# Links\n\n" + "[x](%ZZ)\n\n".repeat(count));
+  await writeFile(join(root, "LICENSE"), "MIT\n");
+  await writeFile(join(root, "CHANGELOG.md"), "# Changes\n");
+  const diagnostics = await checkDocuments(root, "@test/many-links");
+  assert.equal(diagnostics.length, count);
+  assert.equal(diagnostics[0], "@test/many-links: README.md: invalid local link %ZZ.");
+  assert.equal(diagnostics.at(-1), diagnostics[0]);
+});

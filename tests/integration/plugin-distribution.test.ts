@@ -8,7 +8,8 @@ import test, { type TestContext } from "node:test";
 import { checkPluginDistribution } from "../../scripts/check-plugin-distribution.ts";
 
 const repository = resolve(import.meta.dirname, "../..");
-const pluginPath = "plugins/gost-svelte-shell";
+const shellName = "gost-svelte-shell";
+const pluginPath = `plugins/${shellName}`;
 const json = async (path: string) => JSON.parse(await readFile(path, "utf8"));
 
 const catalogEntry = (catalog: Awaited<ReturnType<typeof json>>, name: string) => {
@@ -33,7 +34,7 @@ test("draft distribution accepts a local snapshot without Git metadata or a rele
   assert.equal(existsSync(join(root, ".git")), false, "file-only fixture must not contain Git metadata");
   const path = join(root, ".claude-plugin/marketplace.json");
   const catalog = await json(path);
-  catalogEntry(catalog, "gost-svelte-shell").source = "./plugins/gost-svelte-shell";
+  catalogEntry(catalog, shellName).source = "./plugins/gost-svelte-shell";
   await writeFile(path, JSON.stringify(catalog));
   assert.deepEqual(await checkPluginDistribution(root), []);
   const result = spawnSync(process.execPath, [join(repository, "scripts/check-plugin-distribution.ts"), root], {
@@ -46,15 +47,15 @@ test("draft distribution refuses legacy Git sources and local sources with a sec
   const root = await fixture(t);
   const claudePath = join(root, ".claude-plugin/marketplace.json");
   const legacy = await json(claudePath);
-  catalogEntry(legacy, "gost-svelte-shell").source = { source: "git-subdir", url: "https://github.com/antonsmolko/gost-spec.git", path: pluginPath, sha: "f".repeat(40) };
+  catalogEntry(legacy, shellName).source = { source: "git-subdir", url: "https://github.com/antonsmolko/gost-spec.git", path: pluginPath, sha: "f".repeat(40) };
   await writeFile(claudePath, JSON.stringify(legacy));
   assert.match((await checkPluginDistribution(root)).join("\n"), /marketplace.json:.*source/);
   const claude = await json(claudePath);
-  catalogEntry(claude, "gost-svelte-shell").source = "./plugins/gost-svelte-shell";
+  catalogEntry(claude, shellName).source = "./plugins/gost-svelte-shell";
   await writeFile(claudePath, JSON.stringify(claude));
   const codexPath = join(root, ".agents/plugins/marketplace.json");
   const codex = await json(codexPath);
-  catalogEntry(codex, "gost-svelte-shell").source.ref = "main";
+  catalogEntry(codex, shellName).source.ref = "main";
   await writeFile(codexPath, JSON.stringify(codex));
   assert.match((await checkPluginDistribution(root)).join("\n"), /\.agents\/plugins\/marketplace.json:.*source/);
 });
@@ -88,8 +89,8 @@ test("native marketplace catalogs select the same plugin directory", async () =>
   assert.equal(claude.name, codex.name);
   assert.equal(codex.plugins.length, 4);
   assert.equal(claude.plugins.length, 4);
-  assert.equal(catalogEntry(codex, "gost-svelte-shell").source.path, `./${pluginPath}`);
-  assert.equal(catalogEntry(claude, "gost-svelte-shell").source, `./${pluginPath}`);
+  assert.equal(catalogEntry(codex, shellName).source.path, `./${pluginPath}`);
+  assert.equal(catalogEntry(claude, shellName).source, `./${pluginPath}`);
   assert.equal(catalogEntry(codex, "gost-functional-core").name, "gost-functional-core");
   assert.equal(catalogEntry(claude, "gost-functional-core").name, "gost-functional-core");
   assert.equal(catalogEntry(codex, "gost-functional-core").source.path, "./plugins/gost-functional-core");
@@ -102,7 +103,7 @@ test("catalog validation accepts both independent entries in either order", asyn
     const catalog = await json(join(root, path));
     catalog.plugins.reverse();
     await writeFile(join(root, path), JSON.stringify(catalog));
-    assert.equal(catalogEntry(catalog, "gost-svelte-shell").name, "gost-svelte-shell");
+    assert.equal(catalogEntry(catalog, shellName).name, "gost-svelte-shell");
     assert.equal(catalogEntry(catalog, "gost-functional-core").name, "gost-functional-core");
   }
   assert.deepEqual(await checkPluginDistribution(root), []);
@@ -139,7 +140,7 @@ for (const catalogPath of [".agents/plugins/marketplace.json", ".claude-plugin/m
       if (problem === "missing") catalog.plugins = catalog.plugins.filter((entry: { name: string }) => entry !== core);
       if (problem === "duplicate") catalog.plugins.push(core);
       if (problem === "unknown") core.name = "unknown-plugin";
-      if (problem === "redirect") core.source = catalogEntry(catalog, "gost-svelte-shell").source;
+      if (problem === "redirect") core.source = catalogEntry(catalog, shellName).source;
       await writeFile(path, JSON.stringify(catalog));
       assert.match((await checkPluginDistribution(root)).join("\n"), /marketplace.json:.*(identity|entries|source)/);
     });
@@ -203,11 +204,11 @@ for (const [label, path, contents, expected] of broken) {
 test("distribution validation rejects catalog redirection and symlinked references", async (t) => {
   const root = await fixture(t);
   const catalog = await json(join(root, ".claude-plugin/marketplace.json"));
-  const original = catalogEntry(catalog, "gost-svelte-shell").source;
-  catalogEntry(catalog, "gost-svelte-shell").source = "./other-plugin";
+  const original = catalogEntry(catalog, shellName).source;
+  catalogEntry(catalog, shellName).source = "./other-plugin";
   await writeFile(join(root, ".claude-plugin/marketplace.json"), JSON.stringify(catalog));
   assert.match((await checkPluginDistribution(root)).join("\n"), /source/);
-  catalogEntry(catalog, "gost-svelte-shell").source = original;
+  catalogEntry(catalog, shellName).source = original;
   await writeFile(join(root, ".claude-plugin/marketplace.json"), JSON.stringify(catalog));
   const recipe = join(root, pluginPath, "skills/gost-svelte-shell/references/foundation.md");
   await rm(recipe);
@@ -274,7 +275,7 @@ for (const [label, source, reason] of [
     assert.deepEqual(await checkPluginDistribution(root), []);
     const path = join(root, ".claude-plugin/marketplace.json");
     const catalog = await json(path);
-    catalogEntry(catalog, "gost-svelte-shell").source = source;
+    catalogEntry(catalog, shellName).source = source;
     await writeFile(path, JSON.stringify(catalog));
     const diagnostics = (await checkPluginDistribution(root)).join("\n");
     assert.match(diagnostics, /\.claude-plugin\/marketplace.json:/);
@@ -303,7 +304,7 @@ for (const [label, source] of [
     assert.deepEqual(await checkPluginDistribution(root), []);
     const path = join(root, ".agents/plugins/marketplace.json");
     const catalog = await json(path);
-    catalogEntry(catalog, "gost-svelte-shell").source = source;
+    catalogEntry(catalog, shellName).source = source;
     await writeFile(path, JSON.stringify(catalog));
     const diagnostics = (await checkPluginDistribution(root)).join("\n");
     assert.match(diagnostics, /\.agents\/plugins\/marketplace.json:.*source/);
@@ -398,4 +399,46 @@ test("modular feature preserves external URI support and rejects sibling referen
   assert.deepEqual(await checkPluginDistribution(root), []);
   await writeFile(path, source + "\n[Sibling](../../../gost-functional-core/README.md)\n");
   assert.match((await checkPluginDistribution(root)).join("\n"), /gost-feature.*invalid local link/);
+});
+
+test("catalog failures retain their order and do not stop the other catalog", async (t) => {
+  const root = await fixture(t);
+  const codexPath = ".agents/plugins/marketplace.json";
+  const claudePath = ".claude-plugin/marketplace.json";
+  await writeFile(join(root, codexPath), "null");
+  const catalog = await json(join(root, claudePath));
+  catalog.plugins = catalog.plugins.filter((entry: { name: string }) => entry.name !== "gost-functional-core");
+  const contents = JSON.stringify(catalog);
+  await writeFile(join(root, claudePath), contents);
+  assert.deepEqual(await checkPluginDistribution(root), [
+    `${codexPath}: metadata must be a JSON object`,
+    `${claudePath}: catalog identity or plugin entries differ`,
+    `${claudePath}: plugin entries must contain exactly one gost-functional-core`,
+  ]);
+  assert.equal(await readFile(join(root, codexPath), "utf8"), "null");
+  assert.equal(await readFile(join(root, claudePath), "utf8"), contents);
+});
+
+test("invalid manifest objects retain fallback diagnostics and later checks", async (t) => {
+  const root = await fixture(t);
+  const manifest = join(root, pluginPath, ".codex-plugin/plugin.json");
+  await writeFile(manifest, "[]");
+  assert.deepEqual(await checkPluginDistribution(root), [
+    `${pluginPath}/.codex-plugin/plugin.json: metadata must be a JSON object`,
+    `${pluginPath}/.codex-plugin/plugin.json: plugin name differs from distribution identity`,
+    `${pluginPath}/.codex-plugin/plugin.json: invalid SemVer version`,
+    `${pluginPath}: harness versions differ`,
+    `${pluginPath}/.codex-plugin/plugin.json: skills source must select the shared skills directory`,
+    `${pluginPath}/CHANGELOG.md: current version entry missing`,
+  ]);
+  assert.equal(await readFile(manifest, "utf8"), "[]");
+});
+
+test("plugin CLI rejects extra roots before inspecting either tree", () => {
+  const result = spawnSync(process.execPath, [join(repository, "scripts/check-plugin-distribution.ts"), "/missing-one", "/missing-two"], {
+    encoding: "utf8", timeout: 10000,
+  });
+  assert.equal(result.status, 2);
+  assert.equal(result.stdout, "");
+  assert.equal(result.stderr, "Usage: node scripts/check-plugin-distribution.ts [repository-root]\n");
 });

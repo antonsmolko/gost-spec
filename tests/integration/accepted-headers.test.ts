@@ -69,3 +69,17 @@ test("installed headers require accepted IDs from each required package without 
     assert.equal((await checkAcceptedHeaders(roots)).ready, false);
   });
 });
+
+test("header check reads metadata of non-required roots before skipping their documents", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "standards-header-metadata-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const metadata = join(root, "package.json");
+  await writeFile(metadata, JSON.stringify({ name: "@test/not-required" }));
+  assert.deepEqual(await checkAcceptedHeaders([root]), {
+    ready: false,
+    diagnostics: names.map((name) => `${name}: missing accepted ID in installed document headers.`),
+  });
+  await writeFile(metadata, "{");
+  await assert.rejects(checkAcceptedHeaders([root]), SyntaxError);
+  assert.equal(await readFile(metadata, "utf8"), "{");
+});

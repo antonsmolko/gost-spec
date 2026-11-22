@@ -104,3 +104,21 @@ for (const stage of ["typecheck", "metadata"]) {
     if (stage === "metadata") assert.match(result.stderr, /lock.*missing/i);
   });
 }
+
+test("workspace read failure retains earlier diagnostics and stops later workspaces", async (t) => {
+  const root = await fixture(t);
+  const { checkWorkspaces } = await import("../../scripts/check-workspaces.ts");
+  const metadata = await readJson(join(root, "package.json"));
+  const [first, second, third] = metadata.workspaces;
+  const lock = await readJson(join(root, "package-lock.json"));
+  delete lock.packages[first];
+  delete lock.packages[third];
+  await save(join(root, "package-lock.json"), lock);
+  await writeFile(join(root, second, "package.json"), "{");
+  const before = await snapshot(root);
+  const diagnostics = await checkWorkspaces(root);
+  assert.equal(diagnostics.length, 2);
+  assert.equal(diagnostics[0], `${first}: workspace lock entry missing.`);
+  assert.ok(diagnostics[1].startsWith(`Workspace check failed: ${second}/package.json: `));
+  assert.deepEqual(await snapshot(root), before);
+});
