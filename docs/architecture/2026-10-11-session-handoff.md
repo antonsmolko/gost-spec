@@ -16,7 +16,8 @@ Change `rename-svelte-shell-plugin`, #64, завершён и архивиров
 Тесты presenter по полям результата — [#117](https://github.com/antonsmolko/gost-spec/issues/117),
 доставлены [PR #118](https://github.com/antonsmolko/gost-spec/pull/118) в main `15c783a`; issue закрыта.
 Текущая работа — [#62](https://github.com/antonsmolko/gost-spec/issues/62):
-[краткий план рефакторинга scripts и tests/helpers](../../openspec/changes/refactor-repository-scripts/design.md).
+[краткий план рефакторинга scripts и tests/helpers](../../openspec/changes/refactor-repository-scripts/design.md),
+правки по ревью в [PR #119](https://github.com/antonsmolko/gost-spec/pull/119).
 Перенос тестов #63 остаётся отдельным шагом; реализация #62 ещё не начата.
 Совместимость #96 доставлена и закрыта; [архив/evidence](../../openspec/changes/archive/2026-11-09-update-skills-for-published-kit-v3/design.md).
 Реализация #88 доставлена [PR #104](https://github.com/antonsmolko/gost-spec/pull/104) в main `f45ef7a`, issue закрыта; 7/7 задач и все review findings завершены.
