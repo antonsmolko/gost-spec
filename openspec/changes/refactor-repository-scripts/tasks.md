@@ -12,7 +12,7 @@
 
 ## 3. Интеграция
 
-- [ ] 3.1 Пройти npm run check на Node 26.0.0 и 26.11.1, strict OpenSpec, links/diff и независимое ревью полного результата; представить implementation PR с evidence, сохранив package/plugin bytes и расположение tests.
+- [x] 3.1 Пройти npm run check на Node 26.0.0 и 26.11.1, strict OpenSpec, links/diff и независимое ревью полного результата; представить implementation PR с evidence, сохранив package/plugin bytes и расположение tests.
 
 ## Workflow follow-up
 

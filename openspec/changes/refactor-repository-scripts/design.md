@@ -260,3 +260,8 @@ and independently reran the large-document regression (all 160000 diagnostics),
 then inspected both final 129/129 logs and complete result. Its only independent
 execution was the differential/targeted regression; full suites were run by the
 author. No findings were silently deferred or scope/gate exceptions accepted.
+
+Task 3.1 complete: [implementation PR #120](https://github.com/antonsmolko/gost-spec/pull/120)
+presents the verified result, all five tracked tasks complete. Runtime source
+96c906b passed the checks above; this follow-up only records PR/task status.
+#62 remains open pending separately approved delivery; no merge/publication.
