@@ -341,3 +341,35 @@ reviewed the complete diff and live GitHub states, independently checked strict
 the author's 129/129 log, without rerunning full runtime/second-Node/native suites.
 This is private input, not a public basis; public actionable scope is #62 and
 [archive follow-up](https://github.com/antonsmolko/gost-spec/issues/62#issuecomment-7081189795).
+
+## PR 121 published review response
+
+Read both inline threads (one complete page, no next cursor), the full submitted
+[review](https://github.com/antonsmolko/gost-spec/pull/121#pullrequestreview-6013023099)
+and empty PR-comment list. Reviewer independently confirms archive preservation,
+strict 14/14, link integrity, completed #62 and retained earlier dispositions.
+Those reviewer-confirmed closures remain intact.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr121-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/121#discussion_r4658720740) | Post-merge canonical-pointer follow-up absent from current status views | Readiness S11, handoff | Fixed | Both views repeat the existing requirement: verify delivered archive SHA/anchors, update #62/PR pointers in the same session after merge |
+| <a id="pr121-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/121#discussion_r4658720746) | Short-plan label points to the full archive ledger | Handoff | Fixed | Label now explicitly identifies the plan and ledger as archived |
+
+This wording/link-only correction qualifies for AGENTS.md rule 6's exception;
+no new independent review is required. The merge approval and post-merge gates
+already recorded above remain unchanged. Archive payload, task completion and
+all runtime/distribution trees stay intact; no new outcomes are introduced.
+
+### GitHub issue edits
+
+#62 remains completed with unchanged criteria. Its follow-up comment and the
+PR description receive this immutable response URL; individual thread and full
+review replies link to the corresponding dispositions. Current delivered-main
+canonical evidence stays on e400dbc until approved archive delivery.
+
+Review-round checks pass: npm run check 129/129 (Node 26.11.1), strict 14/14,
+local audit 183/319/43/0 using the recorded marked/slug/id method, whitespace
+clean. Full final diff and relevant unchanged contracts/status views were
+inspected separately from runtime tests. Metadata/proposal/tasks remain identical
+to delivered main, the complete prior design remains an exact byte prefix,
+and all protected runtime/test/distribution trees are unchanged.
