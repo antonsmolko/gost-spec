@@ -1,0 +1,175 @@
+# Рефакторинг скриптов #62
+
+## Context
+
+Основание — [#62](https://github.com/antonsmolko/gost-spec/issues/62), включая
+расширение на все `scripts/` и `tests/helpers/`. Мотивация — [proposal](proposal.md).
+Аудит выполнен на main `15c783a` после PR #118: два скрипта и три helpers,
+326 строк. Используются существующие Node fs/path/child_process и marked;
+новая инфраструктура и зависимости не нужны.
+
+## Goals / Non-Goals
+
+Точки входа показывают последовательность предметных проверок. Существующие
+экспорты и наблюдаемое поведение сохраняются. #63 отвечает за размещение тестов;
+JS→TS, plugin content/versions, package content и release gates не входят в работу.
+
+## Decisions
+
+| Файл | Наблюдение и решение |
+| --- | --- |
+| `scripts/check-plugin-distribution.ts` (156 строк) | Выделить проверки каталогов/source, корневого skills, manifests, обязательных/лишних файлов, changelog и Markdown links. Оставить последовательную оркестрацию и существующие границы catch; объединить одинаковый object-guard, сохранив обе identity-диагностики |
+| `scripts/check-workspaces.ts` (36) | Отделить проверку workspace lock entry от загрузки metadata; сохранить текущий последовательный цикл и CLI |
+| `tests/helpers/check-documents.ts` (53) | Именовать шаги поиска forbidden files, required documents, local links/README index и unindexed documents; containment остаётся локальным контекстом пакета |
+| `tests/helpers/check-accepted-headers.ts` (32) | Выделить чистое распознавание header metadata; обход и required-package порядок оставить явными |
+| `tests/helpers/install-offline.ts` (49) | Существующий один вызов npm и один перевод ошибки уже читаемы; сохранить без искусственного дробления, подтвердить аудит и тесты |
+
+Helpers остаются приватными в соответствующем модуле; отдельные файлы/общая
+библиотека для единообразия не нужны. Императивные детали изолируются настолько,
+чтобы вызовы шагов читались последовательно, без нового validation framework.
+
+### Сохраняемые границы
+
+- Metadata берутся из переданного root. Workspace metadata считаются
+  maintainer-controlled; не добавлять новую валидацию типов. Первый read/parse
+  failure останавливает workspace обход, сохраняя ранее собранные diagnostics.
+- Plugin JSON должен быть объектом: ошибка manifest даёт diagnostic и `{}`;
+  дальнейшие проверки продолжаются. Каталоги проверяются независимо; затем
+  root skills и все четыре plugin в прежнем порядке. Локальные и `file:` ссылки
+  ограничены plugin root, остальные поддерживаемые URI пропускаются как прежде.
+  Symlinks, лишние/пустые файлы и malformed metadata сохраняют прежние ошибки.
+- Document helper сначала проверяет forbidden, затем required, links/index и
+  unindexed. Начальный realpath/readdir reject остаётся reject. Для required и
+  Markdown файлов сохраняются текущие локальные catch и порядок диагностики.
+  Не объединять политики URI/links с plugin checker: их поведение различается.
+- Header helper читает package.json каждого переданного root; Markdown обходит
+  только для обязательных package names и проверяет начальные plain paragraphs
+  после H1. Даже нецелевой root с malformed metadata сохраняет reject.
+  README/CHANGELOG, inline/fenced examples не дают accepted ID.
+  I/O/JSON ошибки остаются rejected Promise; missing accepted даёт прежний
+  `{ ready, diagnostics }` в фиксированном required-package порядке.
+- Все validator helpers read-only. `installOffline` сохраняет npm flags, cache,
+  cwd, timeout 120000, stdout и точное ENOTCACHED→OFFLINE_CACHE_MISSING сообщение;
+  остальные ошибки пробрасываются без замены.
+- CLI workspace использует cwd; plugin принимает необязательный root, при лишних
+  аргументах usage/exit 2; diagnostic failure exit 1, success exit 0. Тексты,
+  порядок, продолжение/остановка и filesystem/process эффекты неизменны.
+
+Повторы identity в `plugin-distribution.test.ts` оценить по конкретным сценариям:
+локальные тестовые constants допустимы для fixtures, но ожидания не импортируют
+production distributions и продолжают ловить неверную production identity.
+Не менять остальные тесты ради унификации и не переносить их.
+
+### Накопленные замечания: решения для #62
+
+- Cleanup из [PR #77](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466507363)
+  рассмотрен в рамках 1.2: одинаковую проверку JSON object выделить в один приватный
+  parser/guard внутри plugin checker. Call sites сохраняют разные catch: manifest
+  сообщает ошибку и возвращает `{}`, catalog прекращает свой разбор и переходит
+  к следующему каталогу. Убирать одну из identity-диагностик отказано: общий
+  catalog diagnostic и `exactly one` частично перекрываются, но их удаление меняет
+  обещанный output/order. Characterization проверяет обе строки в прежнем порядке.
+- Parity gate модульной фикстуры действительно не запускается корневым check/CI;
+  это подтверждено [публичным review #118](https://github.com/antonsmolko/gost-spec/pull/118#issuecomment-7022099465).
+  Его подключение к root test discovery/CI отклонено для #62: задача сохраняет
+  команды package.json и роли fixtures, а добавление gate — самостоятельное
+  изменение охвата проверки. Здесь wiring не меняется, этот пробел не объявляется
+  исправленным. Прежние отдельные запуски fixture integration не становятся
+  доказательством root/CI покрытия. Дополнительная задача без решения владельца
+  не создаётся; это rationale исключения из текущего scope, не обещанный follow-up.
+- В 2.2 отдельно оценены version literals: presenter `0.1.1` в
+  `tests/integration/plugin-distribution.test.ts` и package `0.1.0` в
+  `tests/integration/layout.test.js`. Удаление/динамическая подстановка отклонены
+  для #62: существующие assertions фиксируют конкретный snapshot, а чтение
+  expected из тех же manifests ослабляет независимую проверку. Литералы и
+  assertions сохраняются; ручной bump при будущем выпуске остаётся прежней
+  обязанностью подготовки выпуска. Identity-повторы оцениваются отдельно.
+
+## Risks / Trade-offs
+
+Перенос catch меняет количество/очерёдность ошибок → до runtime edits проверить
+characterization cases для нескольких одновременных повреждений, отсутствующих
+файлов, symlinks, URI и ошибок чтения; сравнить точные diagnostics и отсутствие
+записей до/после. Нужные regression checks написать до рефакторинга; их способность
+падать подтвердить контролируемой мутацией disposable-копии, не меняя контракт
+ради нового RED-теста. Уже существующие проверки не удалять и не ослаблять.
+
+Увеличение числа функций → оставлять короткие читаемые участки без изменений.
+Полный scope аудируется, но это не требует менять каждый файл.
+
+## Migration Plan
+
+Baseline — текущий полный suite, а не исторические 24 plugin-сценария из #62.
+Зафиксировать актуальные counts и результаты до edits; после них выполнить все
+существующие tests на Node 26.0.0 и 26.11.1, typecheck, реальные packed/offline
+consumers и негативные CLI/metadata/links случаи. CI запускает оба Node.
+Проверить полный diff, ссылки, неизменённые контракты и независимое review.
+Один implementation PR содержит только рефакторинг с сохранением поведения.
+Откат — revert implementation commit, без миграции данных, тегов или пакетов.
+
+## GitHub issue edits
+
+#62 сохраняет критерии и остаётся open. Planning PR связывается с issue;
+#63 остаётся отдельным outcome. Статусы #116/#118 сверены с GitHub: оба merged,
+#112/#117 completed. Обновление очереди отражает эти факты и начало #62.
+Merge плана не разрешает автоматически merge реализации или публикацию.
+
+## Planning verification
+
+План проверен на исходном main `15c783a`: npm run check — 122/122 на Node
+26.11.1, включая существующие packed/offline consumers. Runtime не менялся.
+Strict OpenSpec — 15/15; Markdown audit — 183 tracked files /319 local links /
+43 fragments /0 errors. Подсчёт: marked tokens, heading slug без punctuation,
+Unicode lowercase, whitespace→hyphen, duplicate suffixes и explicit HTML ids;
+URI и dependency targets в node_modules исключены. Полный planning diff и
+сохраняемые API/CLI/catch boundaries сверены отдельно от тестов. Проверки на
+обоих Node для будущей реализации остаются обязательными, не объявляются пройденными.
+
+## Review ledger
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#62](https://github.com/antonsmolko/gost-spec/issues/62); private input, not a public basis | Описание header helper могло подразумевать пропуск metadata нецелевого root | design.md, checkAcceptedHeaders contract | Fixed | Явно сохранено чтение package.json каждого root и reject при его ошибке; фильтр package names применяется только к Markdown traversal, как в исходном коде |
+
+Независимое ревью полного плана — PASS; замечание выше исправлено и повторно
+проверено, открытых findings нет. Отдельный агент без рабочего диалога автора
+прочитал все пять модулей, тесты, полное изменение плана, #62/#63 и неизменённые
+CI/distribution contracts. Это private input, not a public basis; публичное
+основание работы — #62. Runtime-тесты независимым reviewer не перезапускались.
+
+## PR 119 published review response
+
+Прочитаны все пять inline threads (одна страница, hasNextPage=false), пять
+submitted COMMENTED reviews, [полная сводка](https://github.com/antonsmolko/gost-spec/pull/119#issuecomment-7078014773)
+и комментарий #62. Прежнее reviewer-confirmed закрытие header metadata сохранено.
+Проверены исходный ledger PR #77, текущий checker/tests, root test glob,
+fixture integration entrypoint и verify.yml. Это уточнение существующего scope
+и учёта findings; новые runtime outcomes или release gates не добавляются.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr119-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/119#discussion_r4657762136), [PR #77](https://github.com/antonsmolko/gost-spec/pull/77#discussion_r4466507363) | Cleanup JSON guard и identity diagnostics не получил решения | design Decisions, task 1.2 | Fixed planning omission; guard included, diagnostic removal declined | Приватный object-guard допускается при сохранении caller catch/fallback; обе существующие diagnostics и их порядок сохраняются |
+| <a id="pr119-r2"></a>[R2](https://github.com/antonsmolko/gost-spec/pull/119#discussion_r4657762208), [review #118](https://github.com/antonsmolko/gost-spec/pull/118#issuecomment-7022099465) | Отсутствует disposition для parity вне check/CI | design, proposal Impact | Fixed planning omission; wiring declined in #62 | package.json root glob не включает fixture/checks; CI вызывает root check; scope #62 сохраняет команды и роли fixtures. Пробел не объявляется устранённым |
+| <a id="pr119-r3"></a>[R3](https://github.com/antonsmolko/gost-spec/pull/119#discussion_r4657762273) | Version literals не оценены рядом с identity-повторами | design, task 2.2 | Fixed planning omission; literal removal declined | Presenter 0.1.1 и packages 0.1.0 — независимые ожидания текущего snapshot; assertions не ослабляются и не подменяются production values |
+| <a id="pr119-r4"></a>[R4](https://github.com/antonsmolko/gost-spec/pull/119#discussion_r4657762315) | Нет ссылки на planning PR в S11 | Readiness, handoff | Fixed | Оба текущих указателя связывают #62 с PR #119; реализация остаётся 0/5 |
+| <a id="pr119-r5"></a>[R5](https://github.com/antonsmolko/gost-spec/pull/119#discussion_r4657762377) | «Все два» | proposal | Fixed | «Оба скрипта» |
+
+### GitHub issue edits
+
+#62 остаётся open, критерии и 0/5 не меняются. В issue добавляется ссылка на
+этот immutable response; PR description отражает решения и текущий ledger.
+Новых задач, scope additions, merge или публикации этот круг не создаёт.
+
+Проверки этого круга: npm run check 122/122 на Node 26.11.1; strict OpenSpec
+15/15; аудит по описанному выше marked/slug/id методу — 183 tracked Markdown
+files /319 local links /43 fragments /0 errors; whitespace clean. Полный final
+PR diff и связанные неизменённые scripts/tests/package.json/verify.yml,
+основные specs и issue criteria проверены отдельно от runtime suite.
+Runtime, test assertions, fixtures, plugin/package bytes и main specs не менялись.
+
+Независимое ревью полного исправленного результата — PASS, открытых findings нет.
+Отдельному агенту переданы артефакты и требования без рабочего диалога автора;
+он сверил публичные review sources, #62/#63, весь diff и неизменённые контракты.
+Прежнее закрытие header metadata подтверждено; runtime suite независимо не
+перезапускался. Это private input, not a public basis; публичная основа —
+источники R1–R5 выше. Ответы GitHub ссылаются на эти индивидуальные записи.
