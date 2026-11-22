@@ -265,3 +265,34 @@ Task 3.1 complete: [implementation PR #120](https://github.com/antonsmolko/gost-
 presents the verified result, all five tracked tasks complete. Runtime source
 96c906b passed the checks above; this follow-up only records PR/task status.
 #62 remains open pending separately approved delivery; no merge/publication.
+
+## PR 120 published review response
+
+Read the complete inline thread (one page, no next cursor), submitted COMMENTED
+[review](https://github.com/antonsmolko/gost-spec/pull/120#pullrequestreview-6011954947)
+and full [summary](https://github.com/antonsmolko/gost-spec/pull/120#issuecomment-7078375845).
+The public reviewer independently reports baseline 122/122, final 129/129,
+92 old/new differential probes with no output/exit differences, and RED/GREEN
+large-document verification. These are reviewer-reported evidence, distinct
+from the author's executions above. All prior confirmed closures are retained.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| <a id="pr120-r1"></a>[R1](https://github.com/antonsmolko/gost-spec/pull/120#discussion_r4657869228) | S11 replaced explicit planning PR URL with plain text | Readiness | Fixed | Restored Markdown link to PR #119, retaining implementation PR #120, delivered SHA and 5/5 status |
+
+This round changes only the link and this response. Under AGENTS.md rule 6's
+wording/link-only exception no new independent review is required. No code,
+assertions, requirements, approval gates or task statuses change. #62 remains
+open until separately approved implementation delivery; #63 stays separate.
+
+### GitHub issue edits
+
+The issue receives the response URL without changing criteria or state; the
+PR's current ledger pointer updates to the immutable correction receipt.
+Individual thread and full summary replies point to this committed disposition.
+
+Review-round checks: npm run check 129/129 on Node 26.11.1, strict OpenSpec
+15/15, local Markdown audit 183/319/43/0 under the recorded marked/slug/id method,
+and clean whitespace. The final PR diff and relevant unchanged status/contracts
+were inspected separately from tests; runtime/assertion/payload trees are exactly
+those reviewed at f14c0db. No new native or second-Node local run is claimed.
