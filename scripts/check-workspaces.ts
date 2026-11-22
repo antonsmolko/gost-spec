@@ -10,6 +10,12 @@ async function readJson<T>(root: string, path: string): Promise<T> {
   }
 }
 
+function checkLockEntry(path: string, pkg: { version: string }, entry: { version?: string } | undefined): string[] {
+  if (!entry) return [`${path}: workspace lock entry missing.`];
+  if (entry.version !== pkg.version) return [`${path}: workspace lock version differs from package.json.`];
+  return [];
+}
+
 export async function checkWorkspaces(root: string): Promise<string[]> {
   const diagnostics: string[] = [];
   try {
@@ -18,8 +24,7 @@ export async function checkWorkspaces(root: string): Promise<string[]> {
     for (const path of workspaces) {
       const pkg = await readJson<{ version: string }>(root, `${path}/package.json`);
       const entry = lock.packages[path];
-      if (!entry) diagnostics.push(`${path}: workspace lock entry missing.`);
-      else if (entry.version !== pkg.version) diagnostics.push(`${path}: workspace lock version differs from package.json.`);
+      diagnostics.push(...checkLockEntry(path, pkg, entry));
     }
   } catch (error) {
     diagnostics.push(`Workspace check failed: ${(error as Error).message}`);

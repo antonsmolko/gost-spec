@@ -173,3 +173,90 @@ Runtime, test assertions, fixtures, plugin/package bytes и main specs не ме
 Прежнее закрытие header metadata подтверждено; runtime suite независимо не
 перезапускался. Это private input, not a public basis; публичная основа —
 источники R1–R5 выше. Ответы GitHub ссылаются на эти индивидуальные записи.
+
+
+## Implementation evidence
+
+PR #119 delivered the plan as main 771c739, tree-identical to reviewed 1d69390;
+both Verify jobs passed. Existing planning/review snapshots above are historical.
+Task 1.1: baseline npm run check 122/122. Six new characterization tests passed
+on original code (focused suites 107/107) before any runtime edit. Disposable
+mutations of catalog diagnostics, manifest fallback, CLI arity, workspace
+continuation, document phase order and header metadata reads each produced the
+expected assertion failure. An initial name-only fallback mutation was equivalent
+for these diagnostics and stayed green; corrected version-bearing fallback
+mutation failed as intended. No mutation touched production files.
+
+
+Task 1.2: plugin entry points now name catalog/root-skills/plugin phases; each
+plugin names manifests/required files/unexpected files/changelog/links. One
+private readJsonObject serves catalog and manifest callers with their original
+catch/fallback. Workspace lock-entry comparison is private; package.version is
+still read only after an entry exists. Focused suites pass 89/89, typecheck passes.
+The first typecheck caught a moved directory variable; fixed before verification.
+Disposable mutation scaffolding initially omitted lock/workspaces; that harness
+error was corrected and all six RED assertion receipts were obtained before edits.
+
+
+Task 2.1: document helper names forbidden/required/link/index phases; initial
+root read still rejects, per-document checks still collect diagnostics.
+Header parsing is private and pure; every root metadata read and full traversal
+are unchanged. installOffline is byte-identical: npm flags, timeout/cache,
+ENOTCACHED translation and other-error rethrow remain in the existing one-call
+implementation. Focused helpers/artifact suites pass 20/20, including actual
+packed/offline consumer installs and empty-cache failure; typecheck passes.
+
+
+Task 2.2: fixture selection and synthetic catalog edits share a local shellName;
+production identity assertions remain independent literal expectations. No
+production constants are imported into tests. Presenter/package version literals
+and all original assertions stay intact; no files move. Focused plugin suite
+passes 66/66 (baseline 63 plus three new boundary tests). Other identity literals
+remain where they express independent expected identities or malformed input.
+
+### Implementation review response
+
+Independent whole-result review inspected the complete diff, requirements,
+unchanged contracts and both 128/128 logs without the author's working dialog.
+One preservation defect was found: spreading unbounded document-phase diagnostics
+into push exceeded the function argument limit. Reviewer differential execution
+confirmed baseline returns 160000 malformed-link diagnostics while the first
+refactor threw RangeError. A regression test reproduced that RED; concat now
+joins the phase arrays without argument expansion and retains their order.
+This is private input, not a public basis; public actionable scope is
+[#62](https://github.com/antonsmolko/gost-spec/issues/62)'s behavior-preservation
+criterion. No other findings or declined-to-judge items were reported.
+
+| Source | Finding | Affected files/issues | Disposition | Evidence |
+| --- | --- | --- | --- | --- |
+| [#62](https://github.com/antonsmolko/gost-spec/issues/62); private input, not a public basis | Array spread adds a RangeError for large diagnostic collections | checkDocuments, document-artifacts test | Fixed | 160000 malformed links reproduced baseline success/refactor failure; regression RED→GREEN uses concat without unbounded function arguments |
+
+### Final implementation verification
+
+Full npm run check passes 129/129 on actual Node 26.0.0 and 26.11.1 after the
+large-document regression fix, including packed/offline consumers. Baseline was
+122/122; all existing tests remain and seven boundary tests are added. Node 26.0.0
+was obtained from official nodejs.org/dist and verified against SHASUMS256.txt:
+node-v26.0.0-darwin-arm64.tar.xz SHA256
+880cf6f35eb9dea84b2373adba13b6023b50cc0decbad47b57824d146373265a.
+An older local Python tar API rejected its filter argument; the verified official
+archive was then extracted with tar. No repository/toolchain configuration changed.
+Strict OpenSpec 15/15, local Markdown audit 183/319/43/0 under the recorded method
+and diff --check pass. Complete diff, relevant unchanged contracts and issue
+criteria were inspected separately from tests. Plugin/package/catalog/fixture
+bytes, main specs, root test wiring and installOffline remain unchanged.
+Test file locations stay intact. The already recorded parity/diagnostic/version
+literal dispositions are retained; no release or normative approval is implied.
+
+### Implementation GitHub updates
+
+#62 receives plan-delivery and implementation evidence; criteria stay unchanged
+and the issue stays open until separately approved implementation delivery.
+The table/handoff distinguish delivered plan #119 from implementation review.
+#63 remains separate. Future merge and archive require separate owner requests.
+
+Final independent review: PASS, no open findings. Reviewer confirmed the fix
+and independently reran the large-document regression (all 160000 diagnostics),
+then inspected both final 129/129 logs and complete result. Its only independent
+execution was the differential/targeted regression; full suites were run by the
+author. No findings were silently deferred or scope/gate exceptions accepted.
