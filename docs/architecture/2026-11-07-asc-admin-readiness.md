@@ -1,6 +1,6 @@
 # Очередь подготовки skills для asc-admin
 
-Обновлено 2026-11-21. Статусы отражают проверенные checkpoint, а не только
+Обновлено 2026-11-22. Статусы отражают проверенные checkpoint, а не только
 open/closed в GitHub. Учёт общий для двух сессий: изменения gost-kit выполняются
 в его сессии. Источник требований фичи — [#88](https://github.com/antonsmolko/gost-spec/issues/88).
 Таблица обновляется при начале работы, создании PR, review, merge и проверке поставки.
@@ -16,7 +16,8 @@ open/closed в GitHub. Учёт общий для двух сессий: изм�
 | S7 | [gost-spec #106](https://github.com/antonsmolko/gost-spec/issues/106), prerequisite [#102](https://github.com/antonsmolko/gost-spec/issues/102) | PR #107/#108 вмержены; четыре тега опубликованы на `f1c6f93`, все проверены в обоих hosts; итоговый отчёт PR #110 доставлен в main `3b200af`, #106 закрыта | feature 0.1.0 / FC 0.2.1 / shell 0.3.1 / presenter 0.1.1; [evidence](../../openspec/changes/archive/2026-11-16-prepare-feature-plugin-release/design.md#published-feature-release) |
 | S8 | [gost-spec #109](https://github.com/antonsmolko/gost-spec/issues/109) | Доставлена PR #111/main `3a4ec55`; issue закрыта, archive/sync доставлен PR #113/main `4cfe0ee` | Новый dispatch из gost-kit #44; npm common@0.4.0 / svelte@0.3.0; [текущая поставка](#выпуск-112) |
 | S9 | [gost-spec #112](https://github.com/antonsmolko/gost-spec/issues/112) | [Текущий статус выпуска](#выпуск-112) | FC 0.3.0 / shell 0.4.0 / feature 0.2.0 на common 0.4.0 / svelte 0.3.0 |
-| S10 | [gost-spec #117](https://github.com/antonsmolko/gost-spec/issues/117) | Правки по ревью [PR #118](https://github.com/antonsmolko/gost-spec/pull/118) | Примеры тестов по полям результата в gost-view-presenter и gost-feature |
+| S10 | [gost-spec #117](https://github.com/antonsmolko/gost-spec/issues/117) | Доставлена [PR #118](https://github.com/antonsmolko/gost-spec/pull/118), main `15c783a`; issue закрыта | Примеры тестов по полям результата в gost-view-presenter и gost-feature |
+| S11 | [gost-spec #62](https://github.com/antonsmolko/gost-spec/issues/62) | Подготовлен короткий план; реализация 0/5 | [scripts и tests/helpers](../../openspec/changes/refactor-repository-scripts/design.md); размещение тестов #63 отдельно |
 | K1 | [gost-kit #35](https://github.com/antonsmolko/gost-kit/issues/35) | Реализована и закрыта 2026-11-08; [PR #36](https://github.com/antonsmolko/gost-kit/pull/36) вмержен | API-операция с mapper и доменным типом onSuccess; API включён в common@0.3.0; consumer compatibility проверяется в #96 |
 | K2 | [gost-kit #32](https://github.com/antonsmolko/gost-kit/issues/32) | Реализована и закрыта; reset доступен в npm common@0.3.0/svelte@0.2.0, consumer checks — #96 | Общий reset({ excluded }), без правил навигации |
 | A1 | [asc-admin #72](https://github.com/antonsmolko/asc-admin/issues/72) | В очереди; задача перенесена из gost-kit #33 | Сначала навигация в приложении, затем решение о библиотечном выносе; #89 отложена |
